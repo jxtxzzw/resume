@@ -22,6 +22,11 @@
     margin-right: 20px;
   }
 </style>
+<style>
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+  }
+</style>
 <template lang="pug">
   div(class="layout")
     Layout(:style="{minHeight: '-webkit-fill-available'}")
@@ -39,7 +44,7 @@
               Icon(type="ios-analytics")
               | 代码仓库
       Layout
-        Sider(hide-trigger, :style="{background: '#fff', margin: '0 0 0 0'}")
+        Sider(hide-trigger, :style="{background: '#fff'}")
           Menu(accordion, active-name="1-2", theme="light", width="auto", :open-names="['1']", @on-select="changeMenu")
             Submenu(name="experience")
               template(slot="title")
@@ -70,11 +75,20 @@
               MenuItem(name="video") 影视
         Layout(:style="{padding: '24px 24px 24px'}")
           Content(:style="{padding: '24px', background: '#fff'}")
-            OJ
-            Movie
-            Projects
-            StudyTimeline
+            div(v-if="currentItem===''")
+              | 随便点开一个看看吧
+            div(v-else-if="currentItem==='oj'")
+              OJ
+            div(v-else-if="currentItem==='study'")
+              StudyTimeline
+            div(v-else-if="currentItem==='project'")
+              Projects
+            div(v-else-if="currentItem==='video'")
+              Movie
+            div(v-else)
+              | 这个页面还在施工中……
 </template>
+
 <script>
 import OJ from './OJ'
 import Movie from './Movie'
@@ -83,16 +97,53 @@ import StudyTimeline from './StudyTimeline'
 export default {
   name: 'ResumeLayout',
   components: {OJ, Movie, Projects, StudyTimeline},
+  data () {
+    return {
+      currentItem: ''
+    }
+  },
   methods: {
     changeMenu (name) {
-      console.log(name)
+      this.currentItem = name
+      console.log(this.currentItem)
     },
     toMySites (name) {
-      console.log(name)
+      switch (name) {
+        case 'blog':
+          window.open('https://www.jxtxzzw.com', 'blog')
+          break
+        case 'resume':
+          location.reload()
+          break
+        case 'gitlab':
+          window.open('https://gitlab.jxtxzzw.com', 'gitlab')
+          break
+      }
+    },
+    init () {
+      this.$Spin.show({
+        render: (h) => {
+          return h('div', [
+            h('Icon', {
+              'class': 'demo-spin-icon-load',
+              props: {
+                type: 'ios-loading',
+                size: 58
+              }
+            }),
+            h('div', '加载中……')
+          ])
+        }
+      })
+      // 这里开始请求数据，存放路 ResumeLayoutData 中
+      // TODO
+      setTimeout(() => {
+        this.$Spin.hide()
+      }, 1000)
     }
   },
   mounted () {
-    // this.changeMenu()
+    this.init()
   }
 }
 </script>
