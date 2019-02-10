@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table :data="tableData1" :columns="tableColumns1" stripe></Table>
+    <Table :data="tableData1" :columns="tableColumns1" index stripe></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
         <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -15,17 +15,14 @@
       return {
         tableData1: this.mockTableData1(),
         tableColumns1: [
+          {type: 'index'},
           {
-            title: 'Name',
-            key: 'name'
-          },
-          {
-            title: 'Status',
+            title: '状态',
             key: 'status',
             render: (h, params) => {
               const row = params.row;
               const color = row.status === 1 ? 'primary' : row.status === 2 ? 'success' : 'error';
-              const text = row.status === 1 ? 'Working' : row.status === 2 ? 'Success' : 'Fail';
+              const text = row.status === 1 ? 'TODO' : row.status === 2 ? 'Accepted' : 'Failed';
               
               return h('Tag', {
                 props: {
@@ -36,13 +33,25 @@
             }
           },
           {
-            title: 'Portrayal',
-            key: 'portrayal',
+            title: 'OJ名称',
+            key: 'oj'
+          },
+          {
+            title: '题目编号',
+            key: 'problem'
+          },
+          {
+            title: '题目名称',
+            key: 'name'
+          },
+          {
+            title: '数据结构',
+            key: 'database',
             render: (h, params) => {
               return h('Poptip', {
                 props: {
                   trigger: 'hover',
-                  title: params.row.portrayal.length + 'portrayals',
+                  title: '用到了 ' + params.row.portrayal.length + ' 个典型的数据结构',
                   placement: 'bottom'
                 }
               }, [
@@ -63,13 +72,13 @@
             }
           },
           {
-            title: 'People',
-            key: 'people',
+            title: '算法',
+            key: 'args',
             render: (h, params) => {
               return h('Poptip', {
                 props: {
                   trigger: 'hover',
-                  title: params.row.people.length + 'customers',
+                  title: '用到了 ' + params.row.portrayal.length + ' 个典型的算法',
                   placement: 'bottom'
                 }
               }, [
@@ -83,24 +92,10 @@
                         textAlign: 'center',
                         padding: '4px'
                       }
-                    }, item.n + '：' + item.c + 'People')
+                    }, item)
                   }))
                 ])
               ]);
-            }
-          },
-          {
-            title: 'Sampling Time',
-            key: 'time',
-            render: (h, params) => {
-              return h('div', 'Almost' + params.row.time + 'days');
-            }
-          },
-          {
-            title: 'Updated Time',
-            key: 'update',
-            render: (h, params) => {
-              return h('div', this.formatDate(this.tableData1[params.index].update));
             }
           }
         ]
@@ -111,25 +106,12 @@
         let data = [];
         for (let i = 0; i < 10; i++) {
           data.push({
-            name: 'Business' + Math.floor(Math.random () * 100 + 1),
+            oj: 'EOJ',
+            problem: Math.floor(Math.random()*3000+1),
+            name: 'A+B Problem',
             status: Math.floor(Math.random () * 3 + 1),
-            portrayal: ['City', 'People', 'Cost', 'Life', 'Entertainment'],
-            people: [
-              {
-                n: 'People' + Math.floor(Math.random () * 100 + 1),
-                c: Math.floor(Math.random () * 1000000 + 100000)
-              },
-              {
-                n: 'People' + Math.floor(Math.random () * 100 + 1),
-                c: Math.floor(Math.random () * 1000000 + 100000)
-              },
-              {
-                n: 'People' + Math.floor(Math.random () * 100 + 1),
-                c: Math.floor(Math.random () * 1000000 + 100000)
-              }
-            ],
-            time: Math.floor(Math.random () * 7 + 1),
-            update: new Date()
+            portrayal: ['并查集'],
+            people: ['深度搜索']
           })
         }
         return data;

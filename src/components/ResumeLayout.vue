@@ -29,61 +29,69 @@
         <Menu mode="horizontal" theme="dark" active-name="1" @on-select="changeMenu">
           <div class="layout-logo"></div>
           <div class="layout-nav">
-            <MenuItem name="1">
+            <MenuItem name="blog">
               <Icon type="ios-navigate"></Icon>
-              Item 1
+              个人博客
             </MenuItem>
-            <MenuItem name="2">
+            <MenuItem name="resume">
               <Icon type="ios-keypad"></Icon>
-              Item 2
+              个人主页
             </MenuItem>
-            <MenuItem name="3">
+            <MenuItem name="gitlab">
               <Icon type="ios-analytics"></Icon>
-              Item 3
+              代码仓库
             </MenuItem>
-            <MenuItem name="4">
-              <Icon type="ios-paper"></Icon>
-              Item 4
-            </MenuItem>
+            <!--<MenuItem name="4">-->
+              <!--<Icon type="ios-paper"></Icon>-->
+              <!--Item 4-->
+            <!--</MenuItem>-->
           </div>
         </Menu>
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="changeMenu">
+          <Menu accordion active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="changeMenu">
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
-                Item 1
+                个人经历
               </template>
-              <MenuItem name="1-1">
-                Option 1
-              </MenuItem>
-              <MenuItem name="1-2">Option 2</MenuItem>
-              <MenuItem name="1-3">Option 3</MenuItem>
+              <MenuItem name="introduction">个人简介</MenuItem>
+              <MenuItem name="study">学习经历</MenuItem>
+              <MenuItem name="work">工作经历</MenuItem>
+              <MenuItem name="honor">获奖情况</MenuItem>
+              <MenuItem name="contact">联系方式</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
                 <Icon type="ios-keypad"></Icon>
-                Item 2
+                专业技能
               </template>
-              <MenuItem name="2-1">Option 1</MenuItem>
-              <MenuItem name="2-2">Option 2</MenuItem>
+              <MenuItem name="oj">OJ做题记录</MenuItem>
+              <MenuItem name="project">参与的项目</MenuItem>
+              <MenuItem name="mooc">学习的MOOC</MenuItem>
+              <MenuItem name="readPaper">读过的论文</MenuItem>
+              <MenuItem name="readBook">读过的书籍</MenuItem>
+              <MenuItem name="publishedPaper">发表的论文</MenuItem>
+              <MenuItem name="publishedBook">出版的书籍</MenuItem>
             </Submenu>
             <Submenu name="3">
               <template slot="title">
                 <Icon type="ios-analytics"></Icon>
-                Item 3
+                兴趣娱乐
               </template>
-              <MenuItem name="3-1">Option 1</MenuItem>
-              <MenuItem name="3-2">Option 2</MenuItem>
+              <MenuItem name="fiction">小说</MenuItem>
+              <MenuItem name="game">游戏</MenuItem>
+              <MenuItem name="video">影视</MenuItem>
             </Submenu>
           </Menu>
         </Sider>
         <Layout :style="{padding: '24px 24px 24px'}">
           <Content :style="{padding: '24px', minHeight: '680px', background: '#fff'}">
-            <!--<OJTable/>-->
+            <!--<OJ/>-->
             <!--<Movie/>-->
+            <!--<Projects/>-->
+            <StudyTimeline/>
           </Content>
         </Layout>
       </Layout>
@@ -91,11 +99,13 @@
   </div>
 </template>
 <script>
-import OJTable from './OJ'
+import OJ from './OJ'
 import Movie from './Movie'
+import Projects from './Projects'
+import StudyTimeline from './StudyTimeline'
 export default {
   name: 'ResumeLayout',
-  components: {OJTable, Movie},
+  components: {OJ, Movie, Projects, StudyTimeline},
   methods: {
     changeMenu (name) {
       console.log(name)
