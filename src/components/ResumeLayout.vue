@@ -24,7 +24,7 @@
 </style>
 <template lang="pug">
   div(class="layout")
-    Layout
+    Layout(:style="{minHeight: '-webkit-fill-available'}")
       Header
         Menu(mode="horizontal", theme="dark", active-name="1", @on-select="toMySites")
           div(class="layout-logo")
