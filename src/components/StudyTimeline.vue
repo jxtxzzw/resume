@@ -1,15 +1,13 @@
-<template>
-  <Timeline pending>
-    <TimelineItem>发布1.0版本</TimelineItem>
-    <TimelineItem>发布2.0版本</TimelineItem>
-    <TimelineItem>发布3.0版本</TimelineItem>
-    <TimelineItem>未完待续</TimelineItem>
-  </Timeline>
+<template lang="pug">
+  Timeline(pending)
+    TimelineItem 上海田家炳中学
+    TimelineItem 上海市市北中学
+    TimelineItem 华东师范大学计算机科学与技术系
+    TimelineItem
 </template>
 
 <script>
-  export default {
-    name: 'StudyTimeline'
-    
-  }
+export default {
+  name: 'StudyTimeline'
+}
 </script>

@@ -1,26 +1,22 @@
-<template>
-  <Carousel autoplay v-model="value2" loop>
-    <CarouselItem>
-      <div class="demo-carousel">1</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div class="demo-carousel">2</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div class="demo-carousel">3</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div class="demo-carousel">4</div>
-    </CarouselItem>
-  </Carousel>
+<template lang="pug">
+  Carousel(autoplay, v-model="value2", loop)
+    CarouselItem
+      div
+      | 1
+    CarouselItem
+      div
+      | 2
+    CarouselItem
+      div
+      | 3
 </template>
 <script>
-  export default {
-    name: 'Projects',
-    data () {
-      return {
-        value2: 0
-      }
+export default {
+  name: 'Projects',
+  data () {
+    return {
+      value2: 0
     }
   }
+}
 </script>
