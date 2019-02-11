@@ -3,7 +3,7 @@ div
   Table(:data="tableData1", :columns="tableColumns1", index, stripe, show-header)
   div(:style="{margin: '10px', overflow: 'hidden'}")
     div(:style="{float: 'right'}")
-      Page(:total="100", :current="1", @on-change="changePage")
+      Page(:total="33", :current="1", @on-change="changePage")
 </template>
 <script>
 import {getOJData} from '../data/ResumeData'
@@ -24,7 +24,7 @@ export default {
           render: (h, params) => {
             const row = params.row
             const color = row.status === 'TODO' ? 'primary' : row.status === 'Accepted' ? 'success' : 'error'
-            const text = row.status === 'TODO' ? 'TODO' : row.status === 'Accepted' ? 'Accepted' : 'Failed'
+            const text = row.status === 'TODO' ? 'TODO' : row.status === 'Accepted' ? 'Accepted' : 'Attempted'
 
             return h('Tag', {
               props: {
