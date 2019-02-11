@@ -94,6 +94,7 @@ import OJ from './OJ'
 import Movie from './Movie'
 import Projects from './Projects'
 import StudyTimeline from './StudyTimeline'
+
 export default {
   name: 'ResumeLayout',
   components: {OJ, Movie, Projects, StudyTimeline},
@@ -105,7 +106,6 @@ export default {
   methods: {
     changeMenu (name) {
       this.currentItem = name
-      console.log(this.currentItem)
     },
     toMySites (name) {
       switch (name) {
@@ -120,7 +120,7 @@ export default {
           break
       }
     },
-    init () {
+    init: async function () {
       this.$Spin.show({
         render: (h) => {
           return h('div', [
@@ -135,8 +135,6 @@ export default {
           ])
         }
       })
-      // 这里开始请求数据，存放路 ResumeLayoutData 中
-      // TODO
       setTimeout(() => {
         this.$Spin.hide()
       }, 1000)

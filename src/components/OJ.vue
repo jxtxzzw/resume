@@ -6,10 +6,13 @@ div
       Page(:total="100", :current="1", @on-change="changePage")
 </template>
 <script>
+import {getOJData} from '../data/ResumeData'
+
 export default {
   name: 'OJ',
   data () {
     return {
+      OJData: [],
       tableData1: this.mockTableData1(),
       tableColumns1: [
         {
@@ -20,8 +23,8 @@ export default {
           key: 'status',
           render: (h, params) => {
             const row = params.row
-            const color = row.status === 1 ? 'primary' : row.status === 2 ? 'success' : 'error'
-            const text = row.status === 1 ? 'TODO' : row.status === 2 ? 'Accepted' : 'Failed'
+            const color = row.status === 'TODO' ? 'primary' : row.status === 'Accepted' ? 'success' : 'error'
+            const text = row.status === 'TODO' ? 'TODO' : row.status === 'Accepted' ? 'Accepted' : 'Failed'
 
             return h('Tag', {
               props: {
@@ -50,15 +53,15 @@ export default {
             return h('Poptip', {
               props: {
                 trigger: 'hover',
-                title: '用到了 ' + params.row.portrayal.length + ' 个典型的数据结构',
+                title: '用到了 ' + params.row.ds.length + ' 个典型的数据结构',
                 placement: 'bottom'
               }
             }, [
-              h('Tag', params.row.portrayal.length),
+              h('Tag', params.row.ds.length),
               h('div', {
                 slot: 'content'
               }, [
-                h('ul', this.tableData1[params.index].portrayal.map(item => {
+                h('ul', this.tableData1[params.index].ds.map(item => {
                   return h('li', {
                     style: {
                       textAlign: 'center',
@@ -77,15 +80,15 @@ export default {
             return h('Poptip', {
               props: {
                 trigger: 'hover',
-                title: '用到了 ' + params.row.portrayal.length + ' 个典型的算法',
+                title: '用到了 ' + params.row.args.length + ' 个典型的算法',
                 placement: 'bottom'
               }
             }, [
-              h('Tag', params.row.people.length),
+              h('Tag', params.row.args.length),
               h('div', {
                 slot: 'content'
               }, [
-                h('ul', this.tableData1[params.index].people.map(item => {
+                h('ul', this.tableData1[params.index].args.map(item => {
                   return h('li', {
                     style: {
                       textAlign: 'center',
@@ -103,14 +106,16 @@ export default {
   methods: {
     mockTableData1 () {
       let data = []
-      for (let i = 0; i < 10; i++) {
+      let arr = this.OJData
+      for (const index in arr) {
+        const row = arr[index]
         data.push({
-          oj: 'EOJ',
-          problem: Math.floor(Math.random() * 3000 + 1),
-          name: 'A+B Problem',
-          status: Math.floor(Math.random() * 3 + 1),
-          portrayal: ['并查集'],
-          people: ['深度搜索']
+          oj: row['oj'],
+          problem: row['problem'],
+          name: row['name'],
+          status: row['status'],
+          ds: row['ds'],
+          args: row['args']
         })
       }
       return data
@@ -119,6 +124,12 @@ export default {
       // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
       this.tableData1 = this.mockTableData1()
     }
+  },
+  async mounted () {
+    await getOJData().then((response) => {
+      this.OJData = response
+      this.tableData1 = this.mockTableData1()
+    })
   }
 }
 </script>
