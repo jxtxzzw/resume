@@ -54,6 +54,7 @@
               MenuItem(name="study") 学习经历
               MenuItem(name="work") 工作经历
               MenuItem(name="honor") 获奖情况
+              MenuItem(name="exam") 成绩证明
               MenuItem(name="contact") 联系方式
             Submenu(name="skill")
               template(slot="title")
@@ -85,6 +86,8 @@
               Projects
             div(v-else-if="currentItem==='video'")
               Movie
+            div(v-else-if="currentItem==='exam'")
+              ExamCertification
             div(v-else)
               | 这个页面还在施工中……
 </template>
@@ -94,10 +97,11 @@ import OJ from './OJ'
 import Movie from './Movie'
 import Projects from './Projects'
 import StudyTimeline from './StudyTimeline'
+import ExamCertification from './ExamCertification'
 
 export default {
   name: 'ResumeLayout',
-  components: {OJ, Movie, Projects, StudyTimeline},
+  components: {ExamCertification, OJ, Movie, Projects, StudyTimeline},
   data () {
     return {
       currentItem: ''
