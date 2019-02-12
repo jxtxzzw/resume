@@ -6,8 +6,7 @@ const PARAMS_OJ = 'oj'
 
 export async function getOJInfo () {
   const res = await axios
-    // .get(QUERY_URL, { params: { item: PARAMS_OJ } })
-    .get(QUERY_URL)
+    .get(QUERY_URL, { params: { item: PARAMS_OJ } })
     .then((response) => response.data)['catch']((error) => {
       alert(error)
     })
