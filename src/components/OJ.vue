@@ -81,7 +81,7 @@ export default {
           title: '算法',
           key: 'args',
           render: (h, params) => {
-            if (params.row.args.length > 0){
+            if (params.row.args.length > 0) {
               return h('Poptip', {
                 props: {
                   trigger: 'hover',

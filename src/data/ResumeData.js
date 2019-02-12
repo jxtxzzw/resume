@@ -1,5 +1,5 @@
 import {getInfo} from '../util/getInfo'
-import {QUERY_ITEM_DB_NAME_OJ} from './Constant'
+import {QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ} from './Constant'
 
 export async function getOJData () {
   let ret = []
@@ -24,6 +24,22 @@ export async function getOJData () {
         rec['args'].push(x)
       }
     }
+    ret.push(rec)
+  }
+  return ret
+}
+
+export async function getMovieData () {
+  let ret = []
+  let res = await getInfo(QUERY_ITEM_DB_NAME_MOVIE)
+  for (let row of res) {
+    let rec = []
+    rec['name'] = row['name']
+    rec['rate'] = row['rate']
+    rec['type'] = row['type']
+    rec['date'] = row['date']
+    rec['status'] = row['status']
+    rec['comment'] = row['comment']
     ret.push(rec)
   }
   return ret
