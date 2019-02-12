@@ -10,7 +10,7 @@ export async function getOJInfo () {
     .then((response) => response.data)['catch']((error) => {
       alert(error)
     })
-  return res
+  return res.reverse()
 }
 
 export async function getInfo (item) {
