@@ -17,14 +17,14 @@
       p(slot="content") 112223333
 </template>
 <script>
-  export default {
-    name: 'Game',
-    data () {
-      return {
-        value2: '1',
-        valueDisabled: 5,
-        valueDisabled1: 1
-      }
+export default {
+  name: 'Game',
+  data () {
+    return {
+      value2: '1',
+      valueDisabled: 5,
+      valueDisabled1: 1
     }
   }
+}
 </script>

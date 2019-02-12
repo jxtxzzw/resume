@@ -35,20 +35,20 @@
           div(class="layout-logo")
           div(class="layout-nav")
             MenuItem(name="blog")
-              Icon(type="ios-navigate")
+              Icon(type="logo-wordpress")
               | 个人博客
             MenuItem(name="resume")
-              Icon(type="ios-keypad")
+              Icon(type="md-person")
               | 个人主页
             MenuItem(name="gitlab")
-              Icon(type="ios-analytics")
+              Icon(type="md-git-branch")
               | 代码仓库
       Layout
         Sider(hide-trigger, :style="{background: '#fff'}")
           Menu(accordion, active-name="1-2", theme="light", width="auto", :open-names="['1']", @on-select="changeMenu")
             Submenu(name="experience")
               template(slot="title")
-                Icon(type="ios-navigate")
+                Icon(type="md-person")
                 | 个人经历
               MenuItem(name="introduction") 个人简介
               MenuItem(name="StudyTimeline") 学习经历
@@ -58,7 +58,7 @@
               MenuItem(name="contact") 联系方式
             Submenu(name="skill")
               template(slot="title")
-                Icon(type="ios-keypad")
+                Icon(type="md-school")
                 | 专业技能
               MenuItem(name="oj") OJ做题记录
               MenuItem(name="project") 参与的项目
@@ -69,7 +69,7 @@
               MenuItem(name="publishedBook") 出版的书籍
             Submenu(name="entertainment")
               template(slot="title")
-                Icon(type="ios-analytics")
+                Icon(type="md-laptop")
                 | 兴趣娱乐
               MenuItem(name="Fiction") 小说
               MenuItem(name="Game") 游戏
