@@ -52,54 +52,58 @@ export default {
           title: '数据结构',
           key: 'ds',
           render: (h, params) => {
-            return h('Poptip', {
-              props: {
-                trigger: 'hover',
-                title: '用到了 ' + params.row.ds.length + ' 个典型的数据结构',
-                placement: 'bottom'
-              }
-            }, [
-              h('Tag', params.row.ds.length),
-              h('div', {
-                slot: 'content'
+            if (params.row.ds.length > 0) {
+              return h('Poptip', {
+                props: {
+                  trigger: 'hover',
+                  title: '用到了 ' + params.row.ds.length + ' 个典型的数据结构',
+                  placement: 'bottom'
+                }
               }, [
-                h('ul', this.tableData[params.index].ds.map(item => {
-                  return h('li', {
-                    style: {
-                      textAlign: 'center',
-                      padding: '4px'
-                    }
-                  }, item)
-                }))
+                h('Tag', params.row.ds.length),
+                h('div', {
+                  slot: 'content'
+                }, [
+                  h('ul', this.tableData[params.index].ds.map(item => {
+                    return h('li', {
+                      style: {
+                        textAlign: 'center',
+                        padding: '4px'
+                      }
+                    }, item)
+                  }))
+                ])
               ])
-            ])
+            }
           }
         },
         {
           title: '算法',
           key: 'args',
           render: (h, params) => {
-            return h('Poptip', {
-              props: {
-                trigger: 'hover',
-                title: '用到了 ' + params.row.args.length + ' 个典型的算法',
-                placement: 'bottom'
-              }
-            }, [
-              h('Tag', params.row.args.length),
-              h('div', {
-                slot: 'content'
+            if (params.row.args.length > 0){
+              return h('Poptip', {
+                props: {
+                  trigger: 'hover',
+                  title: '用到了 ' + params.row.args.length + ' 个典型的算法',
+                  placement: 'bottom'
+                }
               }, [
-                h('ul', this.tableData[params.index].args.map(item => {
-                  return h('li', {
-                    style: {
-                      textAlign: 'center',
-                      padding: '4px'
-                    }
-                  }, item)
-                }))
+                h('Tag', params.row.args.length),
+                h('div', {
+                  slot: 'content'
+                }, [
+                  h('ul', this.tableData[params.index].args.map(item => {
+                    return h('li', {
+                      style: {
+                        textAlign: 'center',
+                        padding: '4px'
+                      }
+                    }, item)
+                  }))
+                ])
               ])
-            ])
+            }
           }
         }
       ]
