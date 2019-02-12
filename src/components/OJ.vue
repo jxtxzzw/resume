@@ -3,17 +3,19 @@ div
   Table(:data="tableData1", :columns="tableColumns1", index, stripe, show-header)
   div(:style="{margin: '10px', overflow: 'hidden'}")
     div(:style="{float: 'right'}")
-      Page(:total="33", :current="1", @on-change="changePage")
+      Page(:total="OJData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize")
 </template>
 <script>
 import {getOJData} from '../data/ResumeData'
+import {OJ_TABLE_PAGE_SIZE} from '../data/Constant'
 
 export default {
   name: 'OJ',
   data () {
     return {
+      pageSize: OJ_TABLE_PAGE_SIZE,
       OJData: [],
-      tableData1: this.mockTableData1(),
+      tableData1: [],
       tableColumns1: [
         {
           type: 'index'
@@ -104,10 +106,13 @@ export default {
     }
   },
   methods: {
-    mockTableData1 () {
+    generatePagedTableData (pageNumber) {
       let data = []
       let arr = this.OJData
-      for (const index in arr) {
+      for (let index = (pageNumber - 1) * this.pageSize; index < pageNumber * this.pageSize; index++) {
+        if (index === this.OJData.length) {
+          break
+        }
         const row = arr[index]
         data.push({
           oj: row['oj'],
@@ -120,15 +125,14 @@ export default {
       }
       return data
     },
-    changePage () {
-      // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
-      this.tableData1 = this.mockTableData1()
+    changePage (pageNumber) {
+      this.tableData1 = this.generatePagedTableData(pageNumber)
     }
   },
   async mounted () {
     await getOJData().then((response) => {
       this.OJData = response
-      this.tableData1 = this.mockTableData1()
+      this.tableData1 = this.generatePagedTableData(1)
     })
   }
 }
