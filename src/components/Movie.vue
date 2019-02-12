@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    Collapse(v-model="value2", accordion, v-for="item in CollapsePanelData")
-      Panel(:name="item.name")
+    Collapse(accordion)
+      Panel( v-for="item in CollapsePanelData", :name="item.name")
         Rate(disabled, v-model="item.rate")
         | {{ item.name }}
         p(slot="content") {{ item.comment }}
@@ -10,16 +10,14 @@
         Page(:total="MovieData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize")
 </template>
 <script>
+import {MOVIE_COLLAPSE_PANEL_PAGE_SIZE} from '../data/Constant'
 export default {
   name: 'Movie',
   data () {
     return {
-      pageSize: 1,
+      pageSize: MOVIE_COLLAPSE_PANEL_PAGE_SIZE,
       MovieData: [{name: '123', rate: 4, comment: 'comment'}, {name: '456', rate: 3, comment: 'comment22222222'}],
       CollapsePanelData: [],
-      value2: '1',
-      valueDisabled: 5,
-      valueDisabled1: 1
     }
   },
   methods: {
@@ -44,7 +42,7 @@ export default {
     }
   },
   mounted () {
-    
+    // TODO
     this.changePage(1)
   }
 }

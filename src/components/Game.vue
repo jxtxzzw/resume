@@ -1,5 +1,5 @@
 <template lang="pug">
-  Collapse(v-model="value2", accordion)
+  Collapse(accordion)
     Panel(name="1")
       Rate(disabled, v-model="valueDisabled")
       | 古剑奇谭三：梦付千秋星垂野
