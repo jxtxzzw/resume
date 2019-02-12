@@ -132,7 +132,7 @@ export default {
   async mounted () {
     await getOJData().then((response) => {
       this.OJData = response
-      this.tableData = this.generatePagedTableData(1)
+      this.changePage(1)
     })
   }
 }

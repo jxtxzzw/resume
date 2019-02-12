@@ -1,23 +1,51 @@
 <template lang="pug">
-  Collapse(v-model="value2", accordion)
-    Panel(name="1")
-      Rate(disabled, v-model="valueDisabled")
-      | 流浪地球
-      p(slot="content") 史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。
-    Panel(name="2")
-      Rate(disabled, v-model="valueDisabled1")
-      | 喜羊羊
-      p(slot="content") 111223334545678
+  div
+    Collapse(v-model="value2", accordion, v-for="item in CollapsePanelData")
+      Panel(:name="item.name")
+        Rate(disabled, v-model="item.rate")
+        | {{ item.name }}
+        p(slot="content") {{ item.comment }}
+    div(:style="{margin: '10px', overflow: 'hidden'}")
+      div(:style="{float: 'right'}")
+        Page(:total="MovieData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize")
 </template>
 <script>
 export default {
   name: 'Movie',
   data () {
     return {
+      pageSize: 1,
+      MovieData: [{name: '123', rate: 4, comment: 'comment'}, {name: '456', rate: 3, comment: 'comment22222222'}],
+      CollapsePanelData: [],
       value2: '1',
       valueDisabled: 5,
       valueDisabled1: 1
     }
+  },
+  methods: {
+    changePage (pageNumber) {
+      this.CollapsePanelData = this.generatePagedCollapsePanelData(pageNumber)
+    },
+    generatePagedCollapsePanelData (pageNumber) {
+      let data = []
+      let arr = this.MovieData
+      for (let index = (pageNumber - 1) * this.pageSize; index < pageNumber * this.pageSize; index++) {
+        if (index === this.MovieData.length) {
+          break
+        }
+        const row = arr[index]
+        data.push({
+          name: row['name'],
+          rate: row['rate'],
+          comment: row['comment']
+        })
+      }
+      return data
+    }
+  },
+  mounted () {
+    
+    this.changePage(1)
   }
 }
 </script>
