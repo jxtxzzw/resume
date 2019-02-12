@@ -1,8 +1,9 @@
-import {getOJInfo} from './getInfo'
+import {getInfo} from '../util/getInfo'
+import {QUERY_ITEM_DB_NAME_OJ} from './Constant'
 
 export async function getOJData () {
   let ret = []
-  let res = await getOJInfo()
+  let res = await getInfo(QUERY_ITEM_DB_NAME_OJ)
   for (let row of res) {
     let rec = []
     rec['oj'] = row['oj']
