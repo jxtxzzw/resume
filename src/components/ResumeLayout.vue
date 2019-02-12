@@ -71,7 +71,7 @@
               template(slot="title")
                 Icon(type="ios-analytics")
                 | 兴趣娱乐
-              MenuItem(name="fiction") 小说
+              MenuItem(name="Fiction") 小说
               MenuItem(name="Game") 游戏
               MenuItem(name="video") 影视
         Layout(:style="{padding: '24px 24px 24px'}")
@@ -92,6 +92,8 @@
               ExamCertification
             div(v-else-if="currentItem==='Game'")
               Game
+            div(v-else-if="currentItem==='Fiction'")
+              Fiction
             div(v-else)
               | 这个页面还在施工中……
 </template>
@@ -104,11 +106,12 @@ import StudyTimeline from './StudyTimeline'
 import CareerTimeline from './CareerTimeline'
 import ExamCertification from './ExamCertification'
 import Game from './Game'
+import Fiction from './Fiction'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 
 export default {
   name: 'ResumeLayout',
-  components: {ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game},
+  components: {ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
