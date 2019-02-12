@@ -1,5 +1,5 @@
 import {getInfo} from '../util/getInfo'
-import {QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ} from './Constant'
+import {QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ} from './Constant'
 
 export async function getOJData () {
   let ret = []
@@ -40,6 +40,30 @@ export async function getMovieData () {
     rec['date'] = row['date']
     rec['status'] = row['status']
     rec['comment'] = row['comment']
+    ret.push(rec)
+  }
+  return ret
+}
+
+export async function getGameData () {
+  let ret = []
+  let res = await getInfo(QUERY_ITEM_DB_NAME_GAME)
+  for (let row of res) {
+    let rec = []
+    rec['name'] = row['name']
+    rec['cloud'] = row['cloud'] === '1'
+    rec['play'] = row['play'] === '1'
+    rec['date'] = row['date']
+    rec['status'] = row['status']
+    rec['rate'] = row['rate']
+    rec['comment'] = row['comment']
+    rec['label'] = []
+    const ds = row['label'].split(',')
+    for (const x of ds) {
+      if (x.length > 0) {
+        rec['label'].push(x)
+      }
+    }
     ret.push(rec)
   }
   return ret
