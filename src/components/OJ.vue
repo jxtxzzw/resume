@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  Table(:data="tableData1", :columns="tableColumns1", index, stripe, show-header)
+  Table(:data="tableData", :columns="tableColumns", index, stripe, show-header)
   div(:style="{margin: '10px', overflow: 'hidden'}")
     div(:style="{float: 'right'}")
       Page(:total="OJData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize")
@@ -15,8 +15,8 @@ export default {
     return {
       pageSize: OJ_TABLE_PAGE_SIZE,
       OJData: [],
-      tableData1: [],
-      tableColumns1: [
+      tableData: [],
+      tableColumns: [
         {
           type: 'index'
         },
@@ -50,7 +50,7 @@ export default {
         },
         {
           title: '数据结构',
-          key: 'database',
+          key: 'ds',
           render: (h, params) => {
             return h('Poptip', {
               props: {
@@ -63,7 +63,7 @@ export default {
               h('div', {
                 slot: 'content'
               }, [
-                h('ul', this.tableData1[params.index].ds.map(item => {
+                h('ul', this.tableData[params.index].ds.map(item => {
                   return h('li', {
                     style: {
                       textAlign: 'center',
@@ -90,7 +90,7 @@ export default {
               h('div', {
                 slot: 'content'
               }, [
-                h('ul', this.tableData1[params.index].args.map(item => {
+                h('ul', this.tableData[params.index].args.map(item => {
                   return h('li', {
                     style: {
                       textAlign: 'center',
@@ -126,13 +126,13 @@ export default {
       return data
     },
     changePage (pageNumber) {
-      this.tableData1 = this.generatePagedTableData(pageNumber)
+      this.tableData = this.generatePagedTableData(pageNumber)
     }
   },
   async mounted () {
     await getOJData().then((response) => {
       this.OJData = response
-      this.tableData1 = this.generatePagedTableData(1)
+      this.tableData = this.generatePagedTableData(1)
     })
   }
 }

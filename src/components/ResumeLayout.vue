@@ -51,8 +51,8 @@
                 Icon(type="ios-navigate")
                 | 个人经历
               MenuItem(name="introduction") 个人简介
-              MenuItem(name="study") 学习经历
-              MenuItem(name="work") 工作经历
+              MenuItem(name="StudyTimeline") 学习经历
+              MenuItem(name="CareerTimeline") 工作经历
               MenuItem(name="honor") 获奖情况
               MenuItem(name="exam") 成绩证明
               MenuItem(name="contact") 联系方式
@@ -80,8 +80,10 @@
               | 随便点开一个看看吧
             div(v-else-if="currentItem==='oj'")
               OJ
-            div(v-else-if="currentItem==='study'")
+            div(v-else-if="currentItem==='StudyTimeline'")
               StudyTimeline
+            div(v-else-if="currentItem==='CareerTimeline'")
+              CareerTimeline
             div(v-else-if="currentItem==='project'")
               Projects
             div(v-else-if="currentItem==='video'")
@@ -97,11 +99,13 @@ import OJ from './OJ'
 import Movie from './Movie'
 import Projects from './Projects'
 import StudyTimeline from './StudyTimeline'
+import CareerTimeline from './CareerTimeline'
 import ExamCertification from './ExamCertification'
+import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 
 export default {
   name: 'ResumeLayout',
-  components: {ExamCertification, OJ, Movie, Projects, StudyTimeline},
+  components: {ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline},
   data () {
     return {
       currentItem: ''
@@ -109,18 +113,19 @@ export default {
   },
   methods: {
     changeMenu (name) {
+      console.log(name)
       this.currentItem = name
     },
     toMySites (name) {
       switch (name) {
         case 'blog':
-          window.open('https://www.jxtxzzw.com', 'blog')
+          window.open(BLOG_URL, 'blog')
           break
         case 'resume':
           location.reload()
           break
         case 'gitlab':
-          window.open('https://gitlab.jxtxzzw.com', 'gitlab')
+          window.open(GITLAB_URL, 'gitlab')
           break
       }
     },

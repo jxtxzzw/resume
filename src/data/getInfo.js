@@ -11,8 +11,6 @@ export async function getOJInfo () {
     .then((response) => response.data)['catch']((error) => {
       alert(error)
     })
-  // TODO data structure
-  // console.log(res)
   return res
 }
 
