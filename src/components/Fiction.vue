@@ -41,14 +41,15 @@ export default {
           break
         }
         const row = arr[index]
-        data.push({
-          title: row['title'],
-          rate: row['rate'],
-          status: row['status'],
-          date: row['date'],
-          label: row['label'],
-          comment: row['comment']
-        })
+        data.push(row)
+        // data.push({
+        //   title: row['title'],
+        //   rate: row['rate'],
+        //   status: row['status'],
+        //   date: row['date'],
+        //   label: row['label'],
+        //   comment: row['comment']
+        // })
       }
       return data
     },
