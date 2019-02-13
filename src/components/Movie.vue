@@ -7,9 +7,9 @@
         Tag(v-if="item.status==='done'", color='success', :style="{margin: '0 10px 0 10px'}")
           | {{ item.date === null ? '已观看' : '已于' + item.date + '观看' }}
         Tag(v-if="item.status==='doing'", color='primary', :style="{margin: '0 10px 0 10px'}")
-          | 观看中……
+          | 观看中
         Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
-          | 待观看
+          | 计划中
         Tag(:color='getTagColor(item.type)', :style="{margin: '0 10px 0 10px'}") {{item.type}}
         p(slot="content") {{ item.comment }}
     div(:style="{margin: '10px', overflow: 'hidden'}")

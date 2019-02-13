@@ -11,9 +11,9 @@
         Tag(v-if="item.status==='done'", color='success', :style="{margin: '0 10px 0 10px'}")
           | {{ item.date === null ? '已通关' : '已于' + item.date + '通关' }}
         Tag(v-if="item.status==='doing'", color='primary', :style="{margin: '0 10px 0 10px'}")
-          | 游戏中……
+          | 游戏中
         Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
-          | 待玩
+          | 计划中
         Tag(v-for="leb in item.label", :color='randomColor()') {{leb}}
         p(slot="content") {{ item.comment }}
     div(:style="{margin: '10px', overflow: 'hidden'}")

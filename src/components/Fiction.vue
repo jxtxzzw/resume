@@ -1,17 +1,66 @@
 <template lang="pug">
-  Collapse(accordion)
-    Panel(name="1")
-      Rate(disabled, v-model="valueDisabled")
-      | 神渊古纪：烽烟绘卷
-      p(slot="content") 111222
+  div
+    Collapse(accordion)
+      Panel(v-for="item in CollapsePanelData", :name="item.title")
+        Rate(disabled, v-model="item.rate")
+        | {{ item.title }}
+        Tag(v-if="item.status==='done'", color='success', :style="{margin: '0 10px 0 10px'}")
+          | {{ item.date === null ? '已阅读' : '已于' + item.date + '阅读' }}
+        Tag(v-if="item.status==='doing'", color='primary', :style="{margin: '0 10px 0 10px'}")
+          | 阅读中
+        Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
+          | 计划中
+        Tag(v-for="leb in item.label", :color='randomColor()') {{leb}}
+        p(slot="content") {{ item.comment }}
+    div(:style="{margin: '10px', overflow: 'hidden'}")
+      div(:style="{float: 'right'}")
+        Page(:total="FictionData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize")
 </template>
 <script>
+import {getFictionData} from '../data/ResumeData'
+import {FICTION_COLLAPSE_PANEL_PAGE_SIZE} from '../data/Constant'
+
 export default {
   name: 'Fiction',
   data () {
     return {
-      valueDisabled: 5,
+      pageSize: FICTION_COLLAPSE_PANEL_PAGE_SIZE,
+      FictionData: [],
+      CollapsePanelData: []
     }
+  },
+  methods: {
+    changePage (pageNumber) {
+      this.CollapsePanelData = this.generatePagedCollapsePanelData(pageNumber)
+    },
+    generatePagedCollapsePanelData (pageNumber) {
+      let data = []
+      let arr = this.FictionData
+      for (let index = (pageNumber - 1) * this.pageSize; index < pageNumber * this.pageSize; index++) {
+        if (index === this.FictionData.length) {
+          break
+        }
+        const row = arr[index]
+        data.push({
+          title: row['title'],
+          rate: row['rate'],
+          status: row['status'],
+          date: row['date'],
+          label: row['label'],
+          comment: row['comment']
+        })
+      }
+      return data
+    },
+    randomColor () {
+      const color = ['magenta', 'blue', 'volcano', 'orange', 'gold', 'yellow', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple']
+      const r = Math.floor(Math.random() * color.length)
+      return color[r]
+    }
+  },
+  async mounted () {
+    this.FictionData = await getFictionData()
+    this.changePage(1)
   }
 }
 </script>
