@@ -62,7 +62,6 @@
                 | 专业技能
               MenuItem(name="oj") OJ做题记录
               MenuItem(name="project") 参与的项目
-              MenuItem(name="mooc") 学习的MOOC
               MenuItem(name="readPaper") 读过的论文
               MenuItem(name="readBook") 读过的书籍
               MenuItem(name="publishedPaper") 发表的论文
@@ -125,7 +124,6 @@ export default {
   },
   methods: {
     changeMenu (name) {
-      console.log(name)
       this.currentItem = name
     },
     toMySites (name) {
