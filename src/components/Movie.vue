@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     Collapse(accordion)
-      Panel( v-for="item in CollapsePanelData", :name="item.name")
+      Panel( v-for="item in CollapsePanelData",:key="item.id", :name="item.name")
         Rate(disabled, v-model="item.rate")
         | {{ item.name }}
         Tag(v-if="item.status==='done'", color='success', :style="{margin: '0 10px 0 10px'}")

@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     Collapse(accordion)
-      Panel( v-for="item in CollapsePanelData", :name="item.name")
+      Panel( v-for="item in CollapsePanelData",:key="item.id", :name="item.name")
         Rate(disabled, v-model="item.rate")
         | {{ item.name }}
         Tooltip(v-if="item.play === true", content="已通关")
@@ -14,7 +14,7 @@
           | 游戏中
         Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
           | 计划中
-        Tag(v-for="leb in item.label", :color='randomColor()') {{leb}}
+        Tag(v-for="leb in item.label", :key="leb.id", :color='randomColor()') {{leb}}
         p(slot="content") {{ item.comment }}
     div(:style="{margin: '10px', overflow: 'hidden'}")
       div(:style="{float: 'right'}")
