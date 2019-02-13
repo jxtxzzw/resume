@@ -13,7 +13,10 @@
 </style>
 
 <template lang="pug">
-  p(class="keyPoint") 还在学习，没有工作（和实习）经历
+  Alert(show-icon)
+    | 还没有工作经历
+    template(slot="desc")
+      | 目前在华东师范大学就读，没有工作（和实习）经历
 </template>
 
 <script>

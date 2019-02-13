@@ -77,7 +77,10 @@
         Layout(:style="{padding: '24px 24px 24px'}")
           Content(:style="{padding: '24px', background: '#fff'}")
             div(v-if="currentItem===''")
-              | 随便点开一个看看吧
+              Alert(show-icon)
+                | 随便点开一个看看吧
+                template(slot="desc")
+                  | 在左边的导航菜单中可以看到我的个人简历，以及专业技能的掌握情况，甚至包括看过的小说和电影、玩过的游戏
             div(v-else-if="currentItem==='oj'")
               OJ
             div(v-else-if="currentItem==='StudyTimeline'")
@@ -95,7 +98,10 @@
             div(v-else-if="currentItem==='Fiction'")
               Fiction
             div(v-else)
-              | 这个页面还在施工中……
+              Alert(type="error", show-icon)
+                | 这个页面还在施工中
+                template(slot="desc")
+                  | 这个页面还在施工中，过段时间再来访问吧
 </template>
 
 <script>
