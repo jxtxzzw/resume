@@ -35,7 +35,7 @@ export async function getMovieData () {
   for (let row of res) {
     let rec = []
     rec['name'] = row['name']
-    rec['rate'] = row['rate']
+    rec['rate'] = parseInt(row['rate'])
     rec['type'] = row['type']
     rec['date'] = row['date']
     rec['status'] = row['status']
@@ -55,7 +55,7 @@ export async function getGameData () {
     rec['play'] = row['play'] === '1'
     rec['date'] = row['date']
     rec['status'] = row['status']
-    rec['rate'] = row['rate']
+    rec['rate'] = parseInt(row['rate'])
     rec['comment'] = row['comment']
     rec['label'] = []
     const ds = row['label'].split(',')
@@ -77,7 +77,7 @@ export async function getFictionData () {
     rec['title'] = row['title']
     rec['date'] = row['date']
     rec['status'] = row['status']
-    rec['rate'] = row['rate']
+    rec['rate'] = parseInt(row['rate'])
     rec['comment'] = row['comment']
     rec['label'] = []
     const ds = row['label'].split(',')
