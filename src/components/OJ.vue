@@ -3,7 +3,7 @@ div
   Table(:data="tableData", :columns="tableColumns", index, stripe, show-header)
   div(:style="{margin: '10px', overflow: 'hidden'}")
     div(:style="{float: 'right'}")
-      Page(:total="OJData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize")
+      Page(:total="OJData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize", show-sizer, :page-size-opts="sizer", @on-page-size-change="pageSizeChange")
 </template>
 <script>
 import {getOJData} from '../data/ResumeData'
@@ -13,6 +13,7 @@ export default {
   name: 'OJ',
   data () {
     return {
+      sizer: [10],
       pageSize: OJ_TABLE_PAGE_SIZE,
       OJData: [],
       tableData: [],
@@ -151,13 +152,20 @@ export default {
     },
     changePage (pageNumber) {
       this.tableData = this.generatePagedTableData(pageNumber)
+    },
+    pageSizeChange (pageSize) {
+      this.pageSize = pageSize
+      this.changePage(1)
     }
   },
   async mounted () {
-    await getOJData().then((response) => {
-      this.OJData = response
-      this.changePage(1)
-    })
+    this.OJData = await getOJData()
+    // await getOJData().then((response) => {
+    //   this.OJData = response
+    //   this.changePage(1)
+    // })
+    this.sizer.push(this.OJData.length)
+    this.changePage(1)
   }
 }
 </script>
