@@ -1,6 +1,6 @@
 <style scoped>
   .keyPoint{
-    color: #5cb85c;
+    color: #2d8cf0;
     font-size: 16px;
     font-weight: bold;
   }
