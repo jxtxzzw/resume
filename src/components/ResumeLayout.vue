@@ -76,10 +76,14 @@
         Layout(:style="{padding: '24px 24px 24px'}")
           Content(:style="{padding: '24px', background: '#fff'}" id="wfapp")
             div(v-if="currentItem===''")
+              Alert(type="success", show-icon)
+                | 欢迎访问我的个人主页
+                template(slot="desc")
+                  | 在左边的导航菜单中可以看到我的个人简历，以及专业技能的掌握情况，甚至包括看过的小说和电影、玩过的游戏
               Alert(show-icon)
                 | 随便点开一个看看吧
                 template(slot="desc")
-                  | 在左边的导航菜单中可以看到我的个人简历，以及专业技能的掌握情况，甚至包括看过的小说和电影、玩过的游戏
+                  | <br/>
             div(v-else-if="currentItem==='oj'")
               OJ
             div(v-else-if="currentItem==='StudyTimeline'")
