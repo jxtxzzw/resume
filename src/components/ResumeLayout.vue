@@ -96,6 +96,8 @@
               Game
             div(v-else-if="currentItem==='Fiction'")
               Fiction
+            div(v-else-if="currentItem==='honor'")
+              Waterfall
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -112,11 +114,12 @@ import CareerTimeline from './CareerTimeline'
 import ExamCertification from './ExamCertification'
 import Game from './Game'
 import Fiction from './Fiction'
+import Waterfall from './Waterfall'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 
 export default {
   name: 'ResumeLayout',
-  components: {ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+  components: {Waterfall, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
