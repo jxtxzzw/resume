@@ -65,6 +65,12 @@ export default {
         case '动漫':
           color = 'pink'
           break
+        case '音乐':
+          color = 'volcano'
+          break
+        default:
+          color = 'purple'
+          break
       }
       return color
     }
