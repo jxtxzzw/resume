@@ -132,6 +132,7 @@ export default {
     generatePagedTableData (pageNumber) {
       let data = []
       let arr = this.OJData
+      // for (let index = 0; index < this.OJData.length; index++) {
       for (let index = (pageNumber - 1) * this.pageSize; index < pageNumber * this.pageSize; index++) {
         if (index === this.OJData.length) {
           break

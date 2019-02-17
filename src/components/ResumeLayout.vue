@@ -74,7 +74,7 @@
               MenuItem(name="Game") 游戏
               MenuItem(name="video") 影视
         Layout(:style="{padding: '24px 24px 24px'}")
-          Content(:style="{padding: '24px', background: '#fff'}")
+          Content(:style="{padding: '24px', background: '#fff'}" id="wfapp")
             div(v-if="currentItem===''")
               Alert(show-icon)
                 | 随便点开一个看看吧
@@ -96,8 +96,8 @@
               Game
             div(v-else-if="currentItem==='Fiction'")
               Fiction
-            div(v-else-if="currentItem==='honor'")
-              Waterfall
+            div(v-else-if="currentItem==='honor'", id="wfcontent")
+              wf
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -114,12 +114,12 @@ import CareerTimeline from './CareerTimeline'
 import ExamCertification from './ExamCertification'
 import Game from './Game'
 import Fiction from './Fiction'
-import Waterfall from './Waterfall'
+import wf from './Waterfall'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 
 export default {
   name: 'ResumeLayout',
-  components: {Waterfall, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+  components: {wf, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
@@ -167,3 +167,52 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  * {
+  margin: 0;
+  padding: 0;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+    &:active {
+      color: #000;
+    }
+  }
+  html,
+  body,
+  #wfapp {
+    height: 100%;
+  }
+  #wfapp {
+    position: relative;
+    #header {
+      display: block;
+      text-align: center;
+      background: #000;
+      color: #cccccc;
+      line-height: 32px;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      position: fixed;
+      /*z-index: 999;*/
+      width: 100%;
+    }
+    #wfcontent {
+      position: absolute;
+      top: 32px;
+      bottom: 32px;
+      width: 95%;
+    }
+  }
+  #wfapp {
+    overflow: auto;
+    position: relative;
+    .some-info {
+      line-height: 1.6;
+      text-align: center;
+    }
+  }
+</style>
