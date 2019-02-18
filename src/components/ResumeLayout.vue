@@ -60,7 +60,7 @@
               template(slot="title")
                 Icon(type="md-school")
                 | 专业技能
-              MenuItem(name="oj") OJ做题记录
+              MenuItem(name="OJ") OJ做题记录
               MenuItem(name="project") 参与的项目
               <!--MenuItem(name="readPaper") 读过的论文-->
               <!--MenuItem(name="readBook") 读过的书籍-->
@@ -74,7 +74,7 @@
               MenuItem(name="Game") 游戏
               MenuItem(name="video") 影视
         Layout(:style="{padding: '24px 24px 24px'}")
-          Content(:style="{padding: '24px', background: '#fff'}" id="wfapp")
+          Content(:style="{padding: '24px', background: '#fff'}" id="waterfallwrapper")
             div(v-if="currentItem===''")
               Alert(type="success", show-icon)
                 | 欢迎访问我的个人主页
@@ -84,7 +84,7 @@
                 | 随便点开一个看看吧
                 template(slot="desc")
                   | <br/>
-            div(v-else-if="currentItem==='oj'")
+            div(v-else-if="currentItem==='OJ'")
               OJ
             div(v-else-if="currentItem==='StudyTimeline'")
               StudyTimeline
@@ -100,7 +100,7 @@
               Game
             div(v-else-if="currentItem==='Fiction'")
               Fiction
-            div(v-else-if="currentItem==='honor'", id="wfcontent")
+            div(v-else-if="currentItem==='honor'", id="honor")
               wf
             div(v-else)
               Alert(type="error", show-icon)
@@ -118,7 +118,7 @@ import CareerTimeline from './CareerTimeline'
 import ExamCertification from './ExamCertification'
 import Game from './Game'
 import Fiction from './Fiction'
-import wf from './Waterfall'
+import wf from './Honor'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 
 export default {
@@ -126,7 +126,8 @@ export default {
   components: {wf, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
-      currentItem: ''
+      currentItem: '',
+      itemList: [{name: 'oj'}, {name: 'StudyTimeline'}]
     }
   },
   methods: {
@@ -186,10 +187,10 @@ export default {
   }
   html,
   body,
-  #wfapp {
+  #waterfallwrapper {
     height: 100%;
   }
-  #wfapp {
+  #waterfallwrapper {
     position: relative;
     #header {
       display: block;
@@ -204,14 +205,14 @@ export default {
       /*z-index: 999;*/
       width: 100%;
     }
-    #wfcontent {
+    #honor {
       position: absolute;
       top: 32px;
       bottom: 32px;
       width: 95%;
     }
   }
-  #wfapp {
+  #waterfallwrapper {
     overflow: auto;
     position: relative;
     .some-info {

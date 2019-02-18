@@ -1,17 +1,3 @@
-<style scoped>
-  .keyPoint{
-    color: #5cb85c;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  .title{
-    font-weight: bold;
-  }
-  .content{
-    padding-left: 7px;
-  }
-</style>
-
 <template lang="pug">
   Alert(type="warning", show-icon)
     | 还没有工作经历

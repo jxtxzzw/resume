@@ -42,14 +42,6 @@ export default {
         }
         const row = arr[index]
         data.push(row)
-        // data.push({
-        //   name: row['name'],
-        //   rate: row['rate'],
-        //   status: row['status'],
-        //   date: row['date'],
-        //   type: row['type'],
-        //   comment: row['comment']
-        // })
       }
       return data
     },
