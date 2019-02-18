@@ -1,5 +1,5 @@
 import {getInfo} from '../util/getInfo'
-import {QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ} from './Constant'
+import {QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ} from './Constant'
 
 export async function getOJData () {
   let ret = []
@@ -86,6 +86,19 @@ export async function getFictionData () {
         rec['label'].push(x)
       }
     }
+    ret.push(rec)
+  }
+  return ret
+}
+
+export async function getHonorData () {
+  let ret = []
+  let res = await getInfo(QUERY_ITEM_DB_NAME_HONOR)
+  for (let row of res) {
+    let rec = []
+    rec['src'] = row['src']
+    rec['href'] = row['href']
+    rec['info'] = row['info']
     ret.push(rec)
   }
   return ret
