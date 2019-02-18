@@ -215,7 +215,8 @@ export default {
     overflow: auto;
     position: relative;
     .some-info {
-      line-height: 1.6;
+      line-height: 2 ;
+      /*font-size: 14px;*/
       text-align: center;
     }
   }
