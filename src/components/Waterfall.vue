@@ -1,7 +1,7 @@
 <template lang="pug">
   vue-waterfall-easy(ref="waterfall", :imgsArr="imgsArr", @scrollReachBottom="frozeWaterfall", @click="clickFn", @imgError="imgErrorFn")
     .img-info(slot-scope="props")
-      p.some-info 第{{props.index+1}}张图片
+      <!--p.some-info 第{{props.index+1}}张图片-->
       p.some-info {{props.value.info}}
 </template>
 
