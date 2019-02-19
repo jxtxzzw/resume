@@ -52,6 +52,7 @@ export default {
     }
   },
   async mounted () {
+    this.$Message.info('这个页面记录2019年往后的阅读记录，2019年之前的数据只保留最重要的部分')
     this.FictionData = await getFictionData()
     this.changePage(1)
   }

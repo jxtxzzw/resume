@@ -165,6 +165,7 @@ export default {
     }
   },
   async mounted () {
+    this.$Message.info('这个页面记录Online Judge的刷题记录，从大学开始，包括各大主流OJ和MOOC平台，不含各种程序设计竞赛的题')
     this.OJData = await getOJData()
     // await getOJData().then((response) => {
     //   this.OJData = response

@@ -60,6 +60,7 @@ export default {
     }
   },
   async mounted () {
+    this.$Message.info('这个页面记录2018年11月往后的游戏记录，2018年11月之前的数据只系列游戏中经典的部分')
     this.GameData = await getGameData()
     this.changePage(1)
   }
