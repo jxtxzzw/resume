@@ -1,14 +1,107 @@
+<style scoped>
+  .demo-carousel{
+    /*height: 400px;*/
+    /*line-height:400px;*/
+    text-align:center;
+    color:#fff;
+    font-size:20px;
+    /*background:#506b9e;*/
+  }
+  .cycle-gallery {
+    position: relative;
+    text-align: center;
+    padding: 40px 200px 33px;
+    margin: 0 0 60px;
+    line-height: 1.6; }
+  .cycle-gallery p {
+    color : #515a6e;
+  }
+  .cycle-gallery .img-box {
+    display: block;
+    line-height: 1.5;
+    padding: 0 0 40px; }
+  .cycle-gallery .img-box .img-holder {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 22px 0 0;
+    overflow: hidden; }
+  .cycle-gallery .img-box .img-holder img {
+    width: 100px;
+    border-radius: 50%; }
+  .cycle-gallery .img-box .text-holder {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left; }
+  .cycle-gallery .img-box h3 {
+    margin: 0;
+    line-height: 1.33333;
+    color: #635C73; }
+  .cycle-gallery .img-box a {
+    font-weight: bold; }
+  .cycle-gallery:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 180px;
+    right: 180px;
+    height: 1px;
+    background: #f4f4f4;
+  }
+  .cycle-gallery .date {
+    display: block;
+    font-style: normal;
+    line-height: 1.5;
+    font-weight: normal;
+    color: #848e97; }
+</style>
 <template lang="pug">
-  Carousel(autoplay, v-model="value2", loop)
-    CarouselItem
-      div
-      | 1
-    CarouselItem
-      div
-      | 2
-    CarouselItem
-      div
-      | 3
+  div
+    Carousel(autoplay, v-model="value2", loop)
+      CarouselItem
+        div(class="demo-carousel")
+          div(class="main")
+            div(class="container")
+              div(class="block-holder")
+                div(class="block-frame")
+                  div(class="cycle-gallery")
+                    div(class="img-box")
+                      div(class="img-holder")
+                        img(src="https://i.loli.net/2017/08/21/599a521472424.jpg")
+                      div(class="text-holder")
+                        h3 知识图谱
+                        a(href="#") 查看Demo
+                    p 一个简单的知识图谱平台
+                    em(class="date") 最后更新 2019-01-08
+      CarouselItem
+        div(class="demo-carousel")
+          div(class="main")
+            div(class="container")
+              div(class="block-holder")
+                div(class="block-frame")
+                  div(class="cycle-gallery")
+                    div(class="img-box")
+                      div(class="img-holder")
+                        img(src="https://i.loli.net/2017/08/21/599a521472424.jpg")
+                      div(class="text-holder")
+                        h3 知识图谱
+                        a(href="#") 查看Demo
+                    p 一个简单的知识图谱平台
+                    em(class="date") 最后更新 2019-01-08
+      CarouselItem
+        div(class="demo-carousel")
+          div(class="main")
+            div(class="container")
+              div(class="block-holder")
+                div(class="block-frame")
+                  div(class="cycle-gallery")
+                    div(class="img-box")
+                      div(class="img-holder")
+                        img(src="https://i.loli.net/2017/08/21/599a521472424.jpg")
+                      div(class="text-holder")
+                        h3 知识图谱
+                        a(href="#") 查看Demo
+                    p 一个简单的知识图谱平台
+                    em(class="date") 最后更新 2019-01-08
 </template>
 <script>
 export default {
