@@ -13,13 +13,18 @@ export default {
   name: 'OJ',
   data () {
     return {
+      pageNumber: 1,
       sizer: [10],
       pageSize: OJ_TABLE_PAGE_SIZE,
       OJData: [],
       tableData: [],
       tableColumns: [
         {
-          type: 'index'
+          title: '#',
+          key: 'idx',
+          render: (h, params) => {
+            return h('span', params.index + 1 + (this.pageNumber - 1) * this.pageSize)
+          }
         },
         {
           title: '状态',
@@ -151,11 +156,12 @@ export default {
       return data
     },
     changePage (pageNumber) {
-      this.tableData = this.generatePagedTableData(pageNumber)
+      this.pageNumber = pageNumber
+      this.tableData = this.generatePagedTableData(this.pageNumber)
     },
     pageSizeChange (pageSize) {
       this.pageSize = pageSize
-      this.changePage(1)
+      this.changePage(this.pageNumber)
     }
   },
   async mounted () {
@@ -166,7 +172,7 @@ export default {
     // })
     this.sizer.push(this.OJData.length)
     // this.pageSize = this.OJData.length
-    this.changePage(1)
+    this.changePage(this.pageNumber)
   }
 }
 </script>
