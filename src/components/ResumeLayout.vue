@@ -126,7 +126,7 @@ export default {
   components: {Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
-      currentItem: '',
+      currentItem: ''
     }
   },
   methods: {

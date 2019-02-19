@@ -29,25 +29,25 @@ export default {
         {
           title: '状态',
           key: 'status',
-          filters: [
-            {
-              label: 'Accepted',
-              value: 'Accepted'
-            },
-            {
-              label: 'Attempted',
-              value: 'Attempted'
-            },
-            {
-              label: 'TODO',
-              value: 'TODO'
-            }
-          ],
-          filterMultiple: false,
-          filterMethod (value, row) {
-            console.log(row.status)
-            return row.status === value
-          },
+          // filters: [
+          //   {
+          //     label: 'Accepted',
+          //     value: 'Accepted'
+          //   },
+          //   {
+          //     label: 'Attempted',
+          //     value: 'Attempted'
+          //   },
+          //   {
+          //     label: 'TODO',
+          //     value: 'TODO'
+          //   }
+          // ],
+          // filterMultiple: false,
+          // filterMethod (value, row) {
+          //   console.log(row.status)
+          //   return row.status === value
+          // },
           render: (h, params) => {
             const row = params.row
             const color = row.status === 'TODO' ? 'primary' : row.status === 'Accepted' ? 'success' : 'error'
