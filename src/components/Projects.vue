@@ -56,23 +56,18 @@
     color: #848e97; }
 </style>
 <template lang="pug">
-  div
-    Carousel(autoplay, loop)
-      CarouselItem(v-for="project in projectData",:key="project.id")
-        div(class="demo-carousel")
-          div(class="main")
-            div(class="container")
-              div(class="block-holder")
-                div(class="block-frame")
-                  div(class="cycle-gallery")
-                    div(class="img-box")
-                      div(class="img-holder")
-                        img(:src="project.logo")
-                      div(class="text-holder")
-                        h3 {{project.title}}
-                        a(v-for="hr in project.href", :key="hr.id", :href="hr.link") {{hr.prompt}}
-                    p {{project.description}}
-                    em(class="date") 最后更新 {{project.date}}
+  Carousel(autoplay, loop)
+    CarouselItem(v-for="project in projectData",:key="project.id")
+      div(class="demo-carousel")
+        div(class="cycle-gallery")
+          div(class="img-box")
+            div(class="img-holder")
+              img(:src="project.logo")
+            div(class="text-holder")
+              h3 {{project.title}}
+              a(v-for="hr in project.href", :key="hr.id", :href="hr.link") {{hr.prompt}}
+          p {{project.description}}
+          em(class="date") 最后更新 {{project.date}}
 </template>
 <script>
 import axios from 'axios'
@@ -83,8 +78,8 @@ export default {
       projectData: []
     }
   },
-  mounted () {
-    axios.get('./static/projectInfo.json')
+  async mounted () {
+    await axios.get('./static/projectInfo.json')
       .then(res => {
         this.projectData = res.data
       })
