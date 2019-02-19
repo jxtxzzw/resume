@@ -53,15 +53,15 @@
               MenuItem(name="introduction") 个人简介
               MenuItem(name="StudyTimeline") 学习经历
               MenuItem(name="CareerTimeline") 工作经历
-              MenuItem(name="honor") 获奖情况
-              MenuItem(name="exam") 成绩证明
+              MenuItem(name="Honor") 获奖情况
+              MenuItem(name="ExamCertification") 成绩证明
               MenuItem(name="contact") 联系方式
             Submenu(name="skill")
               template(slot="title")
                 Icon(type="md-school")
                 | 专业技能
               MenuItem(name="OJ") OJ做题记录
-              MenuItem(name="project") 参与的项目
+              MenuItem(name="Projects") 参与的项目
               <!--MenuItem(name="readPaper") 读过的论文-->
               <!--MenuItem(name="readBook") 读过的书籍-->
               <!--MenuItem(name="publishedPaper") 发表的论文-->
@@ -72,35 +72,35 @@
                 | 兴趣娱乐
               MenuItem(name="Fiction") 小说
               MenuItem(name="Game") 游戏
-              MenuItem(name="video") 影视
+              MenuItem(name="Movie") 影视
         Layout(:style="{padding: '24px 24px 24px'}")
           Content(:style="{padding: '24px', background: '#fff'}" id="waterfallwrapper")
             div(v-if="currentItem===''")
               Alert(type="success", show-icon)
                 | 欢迎访问我的个人主页
                 template(slot="desc")
-                  | 在左边的导航菜单中可以看到我的个人简历，以及专业技能的掌握情况，甚至包括看过的小说和电影、玩过的游戏
+                  | 这里是我的个人主页，包括一些个人信息、经历、兴趣爱好的展示，你也可以从上侧导航栏访问到我的博客、代码仓库等
               Alert(show-icon)
                 | 随便点开一个看看吧
                 template(slot="desc")
-                  | <br/>
+                  | 在左边的导航菜单中可以看到我的个人简历、专业技能的掌握情况，以及看过的小说和电影、玩过的游戏
             div(v-else-if="currentItem==='OJ'")
               OJ
             div(v-else-if="currentItem==='StudyTimeline'")
               StudyTimeline
             div(v-else-if="currentItem==='CareerTimeline'")
               CareerTimeline
-            div(v-else-if="currentItem==='project'")
+            div(v-else-if="currentItem==='Projects'")
               Projects
-            div(v-else-if="currentItem==='video'")
+            div(v-else-if="currentItem==='Movie'")
               Movie
-            div(v-else-if="currentItem==='exam'")
+            div(v-else-if="currentItem==='ExamCertification'")
               ExamCertification
             div(v-else-if="currentItem==='Game'")
               Game
             div(v-else-if="currentItem==='Fiction'")
               Fiction
-            div(v-else-if="currentItem==='honor'", id="honor")
+            div(v-else-if="currentItem==='Honor'", id="honor")
               Honor
             div(v-else)
               Alert(type="error", show-icon)
@@ -127,7 +127,6 @@ export default {
   data () {
     return {
       currentItem: '',
-      itemList: [{name: 'oj'}, {name: 'StudyTimeline'}]
     }
   },
   methods: {
@@ -155,7 +154,7 @@ export default {
               'class': 'demo-spin-icon-load',
               props: {
                 type: 'ios-loading',
-                size: 58
+                size: 200
               }
             }),
             h('div', '加载中……')
