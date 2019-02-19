@@ -3,7 +3,7 @@ div
   Table(:data="tableData", :columns="tableColumns", index, stripe, show-header)
   div(:style="{margin: '10px', overflow: 'hidden'}")
     div(:style="{float: 'right'}")
-      Page(:total="OJData.length", :current="1", @on-change="changePage", show-total, :page-size="pageSize", show-sizer, :page-size-opts="sizer", @on-page-size-change="pageSizeChange")
+      Page(:total="OJData.length", :current="1", @on-change="changePage", show-total, show-sizer, :page-size="pageSize", :page-size-opts="sizer", @on-page-size-change="pageSizeChange")
 </template>
 <script>
 import {getOJData} from '../data/ResumeData'
@@ -165,6 +165,7 @@ export default {
     //   this.changePage(1)
     // })
     this.sizer.push(this.OJData.length)
+    // this.pageSize = this.OJData.length
     this.changePage(1)
   }
 }

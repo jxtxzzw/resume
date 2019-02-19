@@ -33,12 +33,7 @@
 </template>
 
 <script>
-import CET4 from '../data/CET4'
-import CET6 from '../data/CET6'
-import CEE from '../data/CEE'
-
 export default {
-  name: 'StudyTimeline',
-  components: {CET4, CET6, CEE}
+  name: 'StudyTimeline'
 }
 </script>

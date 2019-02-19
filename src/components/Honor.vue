@@ -9,7 +9,7 @@ import vueWaterfallEasy from 'vue-waterfall-easy'
 import {getHonorData} from '../data/ResumeData'
 
 export default {
-  name: 'wfapp',
+  name: 'Honor',
   data () {
     return {
       imgsArr: [],
