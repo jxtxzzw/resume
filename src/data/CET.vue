@@ -34,33 +34,30 @@
 </style>
 <template lang="pug">
   div
-    i-circle(:percent="100", stroke-color="#5cb85c" )
+    i-circle(:percent="listening/248.5*100", dashboard )
       div(class="demo-Circle-custom")
-        h1(:style="{color: '#5cb85c'}") 六级
-    i-circle(:percent="74", dashboard )
-      div(class="demo-Circle-custom")
-        h1 184
-        p 听力
+       h1 {{listening}}
+       p 听力
       span
         | 满分
         i 248.5
-    i-circle(:percent="86", dashboard )
+    i-circle(:percent="reading/248.5*100", dashboard )
       div(class="demo-Circle-custom")
-        h1 215
+        h1 {{reading}}
         p 阅读
       span
         | 满分
         i 248.5
-    i-circle(:percent="80", dashboard )
+    i-circle(:percent="writingAndTranslation/213*100", dashboard )
       div(class="demo-Circle-custom")
-        h1 170
+        h1 {{writingAndTranslation}}
         p 写作和翻译
       span
         | 满分
         i 213
-    i-circle(:percent="80", dashboard, stroke-color="#5cb85c" )
+    i-circle(:percent="(parseInt(listening)+parseInt(reading)+parseInt(writingAndTranslation))/710*100", dashboard, stroke-color="#5cb85c" )
       div(class="demo-Circle-custom")
-        h1 569
+        h1 {{parseInt(listening)+parseInt(reading)+parseInt(writingAndTranslation)}}
         p 总分
       span
         | 满分
@@ -68,6 +65,7 @@
 </template>
 <script>
 export default {
-  name: 'CET6'
+  name: 'CET',
+  props: ['listening', 'reading', 'writingAndTranslation']
 }
 </script>

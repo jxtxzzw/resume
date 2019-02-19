@@ -34,9 +34,6 @@
 </style>
 <template lang="pug">
   div
-    i-circle(:percent="100", stroke-color="#5cb85c" )
-      div(class="demo-Circle-custom")
-        h1(:style="{color: '#5cb85c'}") 高考
     i-circle(:percent="69", dashboard )
       div(class="demo-Circle-custom")
         h1 104
