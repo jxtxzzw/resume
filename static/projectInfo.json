@@ -1,0 +1,50 @@
+[
+  {
+    "title": "知识图谱",
+    "logo": "https://dev.jxtxzzw.com/images/knowledgegraph.jpg",
+    "href": [
+      {
+        "prompt": "查看Demo",
+        "link": "https://dev.jxtxzzw.com/knowledge_graph/"
+      }
+    ],
+    "description": "一个简单的知识图谱平台。",
+    "date": "2019-01-28"
+  },
+  {
+    "title": "壁画拯救",
+    "logo": "https://dev.jxtxzzw.com/images/fresco.jpg",
+    "href": [
+      {
+        "prompt": "专题页建设中……",
+        "link": "#"
+      }
+    ],
+    "description": "一个关于壁画拯救的项目。将拍摄的二维的图像展开到三维拼合，生成点云，最后还原到二维保存。",
+    "date": "2018-11-09"
+  },
+  {
+    "title": "ECNU Online Judge APP",
+    "logo": "https://dev.jxtxzzw.com/images/acm-desktopcta.png",
+    "href": [
+      {
+        "prompt": "查看Demo",
+        "link": "https://dev.jxtxzzw.com/eoj_app/"
+      }
+    ],
+    "description": "本项目意在根据学生做题的通过率等信息，智能推荐一条适合每位同学的个性化学习路径。2019年9月份计算机系同学上机时候就要APP、配套教材、OJ系统一起使用了，所以是必须完成的，不过现在什么都没有开始。",
+    "date": "2019-01-25"
+  },
+  {
+    "title": "Death of Deadline",
+    "logo": "https://dev.jxtxzzw.com/images/deadline.jpg",
+    "href": [
+      {
+        "prompt": "专题页建设中……",
+        "link": "#"
+      }
+    ],
+    "description": "自娱自乐的项目。为了方便在各个寝室之间互相提醒Deadline以及发布作业答案的共享……主要还是为了学习一个新的框架方便以后做事。",
+    "date": "2018-12-01"
+  }
+]

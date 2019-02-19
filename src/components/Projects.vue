@@ -27,6 +27,7 @@
     overflow: hidden; }
   .cycle-gallery .img-box .img-holder img {
     width: 100px;
+    height: 100px;
     border-radius: 50%; }
   .cycle-gallery .img-box .text-holder {
     display: inline-block;
@@ -56,8 +57,8 @@
 </style>
 <template lang="pug">
   div
-    Carousel(autoplay, v-model="value2", loop)
-      CarouselItem
+    Carousel(autoplay, loop)
+      CarouselItem(v-for="project in projectData",:key="project.id")
         div(class="demo-carousel")
           div(class="main")
             div(class="container")
@@ -66,50 +67,27 @@
                   div(class="cycle-gallery")
                     div(class="img-box")
                       div(class="img-holder")
-                        img(src="https://i.loli.net/2017/08/21/599a521472424.jpg")
+                        img(:src="project.logo")
                       div(class="text-holder")
-                        h3 知识图谱
-                        a(href="#") 查看Demo
-                    p 一个简单的知识图谱平台
-                    em(class="date") 最后更新 2019-01-08
-      CarouselItem
-        div(class="demo-carousel")
-          div(class="main")
-            div(class="container")
-              div(class="block-holder")
-                div(class="block-frame")
-                  div(class="cycle-gallery")
-                    div(class="img-box")
-                      div(class="img-holder")
-                        img(src="https://i.loli.net/2017/08/21/599a521472424.jpg")
-                      div(class="text-holder")
-                        h3 知识图谱
-                        a(href="#") 查看Demo
-                    p 一个简单的知识图谱平台
-                    em(class="date") 最后更新 2019-01-08
-      CarouselItem
-        div(class="demo-carousel")
-          div(class="main")
-            div(class="container")
-              div(class="block-holder")
-                div(class="block-frame")
-                  div(class="cycle-gallery")
-                    div(class="img-box")
-                      div(class="img-holder")
-                        img(src="https://i.loli.net/2017/08/21/599a521472424.jpg")
-                      div(class="text-holder")
-                        h3 知识图谱
-                        a(href="#") 查看Demo
-                    p 一个简单的知识图谱平台
-                    em(class="date") 最后更新 2019-01-08
+                        h3 {{project.title}}
+                        a(v-for="hr in project.href", :key="hr.id", :href="hr.link") {{hr.prompt}}
+                    p {{project.description}}
+                    em(class="date") 最后更新 {{project.date}}
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'Projects',
   data () {
     return {
-      value2: 0
+      projectData: []
     }
+  },
+  mounted () {
+    axios.get('./static/projectInfo.json')
+      .then(res => {
+        this.projectData = res.data
+      })
   }
 }
 </script>
