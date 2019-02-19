@@ -1,20 +1,54 @@
+<style scoped lang="less">
+  .demo-Circle-custom{
+    & h1{
+      color: #5cb85c;
+      font-size: 40px;
+      font-weight: normal;
+    }
+  }
+</style>
 <template lang="pug">
   div
-    CET6
-    CET4
-    CEE
+    Row
+      Col(span="4", v-for="item in ECNUGPA", :key="item.id")
+        Card
+          p(slot="title") {{item.course}}
+          i-circle(:percent="item.grade/4*100", stroke-color="#5cb85c")
+            div(class="demo-Circle-custom")
+              h1 {{item.rank}}
+    Row
+      Col(span="12")
+        Card
+          p(slot="title") CET6
+          CET(:listening="184", :reading="215", :writingAndTranslation="170")
+      Col(span="12")
+        Card
+          p(slot="title") CET4
+          CET(:listening="225", :reading="206", :writingAndTranslation="183")
+    Row
+      Col(span="24")
+        Card
+          p(slot="title") 高考
+          CEE
 </template>
 
 <script>
-import CET4 from '../data/CET4'
+import CET from '../data/CET'
 import CEE from '../data/CEE'
-import CET6 from '../data/CET6'
+import axios from 'axios'
 export default {
   name: 'ExamCertification',
-  components: {CET6, CEE, CET4}
+  components: {CET, CEE},
+  data () {
+    return {
+      ECNUGPA: []
+    }
+  },
+  async mounted () {
+    await axios.get('./static/GPA.json')
+      .then(res => {
+        this.ECNUGPA = res.data
+      })
+  }
 }
 </script>
-
-<style scoped>
-
-</style>

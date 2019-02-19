@@ -1,0 +1,132 @@
+[
+  {
+    "course": "数据库系统原理",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "操作系统实践",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "信息系统安全概论",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "嵌入式系统原理与实践",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "面向对象程序设计(基于Java)",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "计算机组成与结构实践",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "操作系统",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "并行计算",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "计算机组成与结构",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "数据结构",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "计算机网络",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "数字逻辑及实验",
+    "grade": "3.2",
+    "rank": "B"
+  },
+  {
+    "course": "信号与系统",
+    "grade": "3.9",
+    "rank": "A-"
+  },
+  {
+    "course": "计算机导论实验",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "数字图像处理",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "算法分析与设计",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "问题求解与程序设计",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "程序设计能力实训",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "面向对象程序设计实践（基于Java）",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "程序设计基础实践",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "程序设计基础",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "电子技术及实验",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "知识分析与应用基础",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "数据结构实践",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "人工智能",
+    "grade": "4",
+    "rank": "A"
+  },
+  {
+    "course": "Word、latex论文排版",
+    "grade": "4",
+    "rank": "A"
+  }
+]
