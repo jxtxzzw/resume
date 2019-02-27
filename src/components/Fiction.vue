@@ -52,7 +52,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('这个页面记录2019年往后的阅读记录，2019年之前的数据只保留最重要的部分')
+    this.$Message.info('记录2019年起的书籍阅读情况，2019年之前的数据为开发时测试数据，只选取了印象深刻的部分书籍')
     this.FictionData = await getFictionData()
     this.changePage(1)
   }

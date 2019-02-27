@@ -34,9 +34,6 @@
 
 <script>
 export default {
-  name: 'StudyTimeline',
-  mounted () {
-    this.$Message.info('这个页面记录从初中开始的重要节点信息')
-  }
+  name: 'StudyTimeline'
 }
 </script>

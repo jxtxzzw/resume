@@ -45,7 +45,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('这个页面只记录中高考成绩、大学及以后的专业课成绩、资质考试成绩')
+    this.$Message.info('包括中考、高考成绩，大学本科及以后的专业课成绩，各种资质考试成绩')
     await axios.get('./static/GPA.json')
       .then(res => {
         this.ECNUGPA = res.data

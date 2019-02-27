@@ -60,7 +60,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('这个页面记录2018年11月往后的游戏记录，2018年11月之前的数据只系列游戏中经典的部分')
+    this.$Message.info('记录2018年11月年起我玩过的游戏，该日期之前的数据为开发时测试数据，只选取了印象深刻的部分游戏')
     this.GameData = await getGameData()
     this.changePage(1)
   }

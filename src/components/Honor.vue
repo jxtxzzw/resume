@@ -62,7 +62,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('这个页面记录高中及以后的获奖情况')
+    this.$Message.info('记录高中开始的重大获奖情况')
     this.imgsArr = this.imgsArr.concat(await getHonorData())
   }
 }
