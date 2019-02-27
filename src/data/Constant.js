@@ -1,6 +1,7 @@
 export const QUERY_URL = 'https://www.jxtxzzw.com/resume/getInfo.php'
 export const BLOG_URL = 'https://www.jxtxzzw.com'
 export const GITLAB_URL = 'https://gitlab.jxtxzzw.com/jxtxzzw'
+export const ACCEPTED_CODING_DIR = 'https://dl.jxtxzzw.com/dl/coding/'
 
 export const OJ_TABLE_PAGE_SIZE = 10
 export const MOVIE_COLLAPSE_PANEL_PAGE_SIZE = 15

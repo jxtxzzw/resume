@@ -7,7 +7,7 @@ div
 </template>
 <script>
 import {getOJData} from '../data/ResumeData'
-import {OJ_TABLE_PAGE_SIZE} from '../data/Constant'
+import {OJ_TABLE_PAGE_SIZE, ACCEPTED_CODING_DIR} from '../data/Constant'
 
 export default {
   name: 'OJ',
@@ -52,13 +52,42 @@ export default {
             const row = params.row
             const color = row.status === 'TODO' ? 'primary' : row.status === 'Accepted' ? 'success' : 'error'
             const text = row.status === 'TODO' ? 'TODO' : row.status === 'Accepted' ? 'Accepted' : 'Attempted'
+            const hyperlink = ACCEPTED_CODING_DIR + params.row.oj + '-' + params.row.name + '.svg'
 
-            return h('Tag', {
+            return h('Poptip', {
               props: {
-                type: 'dot',
-                color: color
+                trigger: 'hover',
+                title: params.row.oj + '-' + params.row.name,
+                placement: 'bottom'
               }
-            }, text)
+            }, [
+              h('Tag', {
+                props: {
+                  type: 'dot',
+                  color: color
+                }
+              }, text),
+              h('div', {
+                slot: 'content'
+              },
+              [
+                h('a', {
+                  domProps: {
+                    href: hyperlink,
+                    target: 'blank'
+                  }
+                }, [
+                  h('img', {
+                    domProps: {
+                      src: hyperlink,
+                      width: '400',
+                      height: '400',
+                    }
+                  })
+                ])
+              ]
+              )
+            ])
           }
         },
         {
