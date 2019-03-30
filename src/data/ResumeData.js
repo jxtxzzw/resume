@@ -1,5 +1,5 @@
 import {getInfo} from '../util/getInfo'
-import {QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ} from './Constant'
+import {QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ, QUERY_ITEM_DB_NAME_PROFESSIONALBOOK} from './Constant'
 
 export async function getOJData () {
   let ret = []
@@ -99,6 +99,22 @@ export async function getHonorData () {
     rec['src'] = row['src']
     rec['href'] = row['href']
     rec['info'] = row['info']
+    ret.push(rec)
+  }
+  return ret
+}
+
+
+export async function getProfessionalBookData () {
+  let ret = []
+  let res = await getInfo(QUERY_ITEM_DB_NAME_PROFESSIONALBOOK)
+  for (let row of res) {
+    let rec = []
+    rec['title'] = row['title']
+    rec['version'] = row['version']
+    rec['author'] = row['author']
+    rec['status'] = row['status']
+    rec['publisher'] = row['publisher']
     ret.push(rec)
   }
   return ret

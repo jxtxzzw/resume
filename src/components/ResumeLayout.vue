@@ -63,7 +63,7 @@
               MenuItem(name="OJ") OJ做题记录
               MenuItem(name="Projects") 参与的项目
               <!--MenuItem(name="readPaper") 读过的论文-->
-              <!--MenuItem(name="readBook") 读过的书籍-->
+              MenuItem(name="ProfessionalBook") 读过的专业书籍
               <!--MenuItem(name="publishedPaper") 发表的论文-->
               <!--MenuItem(name="publishedBook") 出版的书籍-->
             Submenu(name="entertainment")
@@ -106,6 +106,8 @@
               Fiction
             div(v-else-if="currentItem==='Honor'", id="honor")
               Honor
+            div(v-else-if="currentItem==='ProfessionalBook'")
+              ProfessionalBook
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -124,10 +126,10 @@ import Game from './Game'
 import Fiction from './Fiction'
 import Honor from './Honor'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
-
+import ProfessionalBook from './ProfessionalBook'
 export default {
   name: 'ResumeLayout',
-  components: {Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+  components: {ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
