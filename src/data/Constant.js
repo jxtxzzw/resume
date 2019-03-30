@@ -15,3 +15,6 @@ export const QUERY_ITEM_DB_NAME_GAME = 'game'
 export const QUERY_ITEM_DB_NAME_FICTION = 'fiction'
 export const QUERY_ITEM_DB_NAME_HONOR = 'honor'
 export const QUERY_ITEM_DB_NAME_PROFESSIONALBOOK = 'professionalbook'
+export const QUERY_ITEM_DB_NAME_ONLINECOURSE = 'onlinecourse'
+
+

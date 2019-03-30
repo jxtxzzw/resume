@@ -61,9 +61,9 @@
                 Icon(type="md-school")
                 | 专业技能
               MenuItem(name="OJ") OJ做题记录
-              MenuItem(name="Projects") 参与的项目
-              <!--MenuItem(name="readPaper") 读过的论文-->
-              MenuItem(name="ProfessionalBook") 读过的专业书籍
+              MenuItem(name="OnlineCourse") 网络课程
+              MenuItem(name="ProfessionalBook") 专业书籍
+              MenuItem(name="Projects") 项目
               <!--MenuItem(name="publishedPaper") 发表的论文-->
               <!--MenuItem(name="publishedBook") 出版的书籍-->
             Submenu(name="entertainment")
@@ -108,6 +108,8 @@
               Honor
             div(v-else-if="currentItem==='ProfessionalBook'")
               ProfessionalBook
+            div(v-else-if="currentItem==='OnlineCourse'")
+              OnlineCourse
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -127,9 +129,10 @@ import Fiction from './Fiction'
 import Honor from './Honor'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 import ProfessionalBook from './ProfessionalBook'
+import OnlineCourse from './OnlineCourse'
 export default {
   name: 'ResumeLayout',
-  components: {ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+  components: {OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
