@@ -53,8 +53,7 @@ export default {
             const row = params.row
             const color = row.status === 'TODO' ? 'primary' : row.status === 'Accepted' ? 'success' : 'error'
             const text = row.status === 'TODO' ? 'TODO' : row.status === 'Accepted' ? 'Accepted' : 'Attempted'
-            const hyperlink = 'https://www.jxtxzzw.com/resume/data/code/' + params.row.oj + '-' + params.row.name + '.svg'
-            
+            const hyperlink = 'https://www.jxtxzzw.com/resume/data/code/' + params.row.oj + '-' + params.row.problem + '.svg'
             return h('Poptip', {
               props: {
                 trigger: 'hover',
@@ -68,26 +67,28 @@ export default {
                   color: color
                 }
               }, text),
-              // h('div', {
-              //     slot: 'content'
-              //   },
-              //   [
-              //     h('a', {
-              //       domProps: {
-              //         href: hyperlink,
-              //         target: 'blank'
-              //       }
-              //     }, [
-              //       h('img', {
-              //         domProps: {
-              //           src: hyperlink,
-              //           width: '400',
-              //           height: '400',
-              //         }
-              //       })
-              //     ])
-              //   ]
-              // )
+              h('div', {
+                slot: 'content'
+              },
+              [
+                h('a', {
+                  domProps: {
+                    href: hyperlink,
+                    target: 'blank'
+                  }
+                }
+                  , [
+                  h('img', {
+                    domProps: {
+                      src: hyperlink,
+                      width: '400',
+                      height: '400'
+                    }
+                  })
+                ]
+                )
+              ]
+              )
             ])
           }
         },
