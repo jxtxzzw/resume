@@ -104,7 +104,6 @@ export async function getHonorData () {
   return ret
 }
 
-
 export async function getProfessionalBookData () {
   let ret = []
   let res = await getInfo(QUERY_ITEM_DB_NAME_PROFESSIONALBOOK)

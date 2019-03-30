@@ -8,7 +8,6 @@ div
 <script>
 import {getOJData} from '../data/ResumeData'
 import {OJ_TABLE_PAGE_SIZE} from '../data/Constant'
-import {getCode} from '../util/getInfo'
 
 export default {
   name: 'OJ',
