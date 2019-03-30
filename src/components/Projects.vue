@@ -80,7 +80,7 @@ export default {
     }
   },
   async mounted () {
-    await axios.get('./static/projectInfo.json')
+    await axios.get('https://www.jxtxzzw.com/resume/data/static/projectInfo.json')
       .then(res => {
         this.projectData = res.data
       })
