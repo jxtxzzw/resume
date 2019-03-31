@@ -60,7 +60,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('记录2018年11月年起我玩过的游戏，该日期之前的数据为开发时测试数据，只选取了印象深刻的部分游戏')
+    this.$Message.info('记录 2018 年 11 月年起我玩过的游戏，评分和评价仅代表个人意见')
     this.GameData = await getGameData()
     this.changePage(1)
   }

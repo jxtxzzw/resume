@@ -96,9 +96,9 @@ export async function getHonorData () {
   let res = await getInfo(QUERY_ITEM_DB_NAME_HONOR)
   for (let row of res) {
     let rec = []
-    rec['src'] = row['src']
-    rec['href'] = row['href']
-    rec['info'] = row['info']
+    rec['src'] = row['dir'] + row['filename']
+    rec['href'] = rec['src']
+    rec['info'] = row['showname']
     ret.push(rec)
   }
   return ret

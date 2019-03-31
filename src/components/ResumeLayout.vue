@@ -54,7 +54,7 @@
               MenuItem(name="StudyTimeline") 学习经历
               MenuItem(name="CareerTimeline") 工作经历
               MenuItem(name="Honor") 获奖情况
-              MenuItem(name="ExamCertification") 成绩证明
+              MenuItem(name="ExamCertification") 成绩记录
               MenuItem(name="contact") 联系方式
             Submenu(name="skill")
               template(slot="title")

@@ -68,7 +68,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('记录2019年起的电影、电视剧、动漫观看情况，2019年之前的数据为开发时测试数据，只选取了尚存电影票票根的数据')
+    this.$Message.info('记录 2019 年起的电影、电视剧、动漫观看情况，评分和评价仅代表个人意见')
     this.MovieData = await getMovieData()
     this.changePage(1)
   }

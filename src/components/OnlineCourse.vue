@@ -121,7 +121,7 @@ export default {
     }
   },
   async mounted () {
-    // this.$Message.info('')
+    this.$Message.info('记录从 2019 年开始的计算机专业相关学习情况')
     this.gotData = await getOnlineCourseData()
     this.sizer.push(this.gotData.length)
     this.changePage(this.pageNumber)

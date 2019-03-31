@@ -89,7 +89,7 @@ export default {
     }
   },
   async mounted () {
-    this.$Message.info('')
+    this.$Message.info('记录从 2019 年起我读过的计算机专业技能相关的书籍')
     this.ProfessionalBookData = await getProfessionalBookData()
     this.sizer.push(this.ProfessionalBookData.length)
     this.changePage(this.pageNumber)

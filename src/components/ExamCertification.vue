@@ -30,22 +30,28 @@
         Card
           p(slot="title") 高考
           CEE
+    Row
+      Col(span="24")
+        Card
+          p(slot="title") 中考
+          HEE
 </template>
 
 <script>
 import CET from '../data/CET'
 import CEE from '../data/CEE'
+import HEE from '../data/HEE'
 import axios from 'axios'
 export default {
   name: 'ExamCertification',
-  components: {CET, CEE},
+  components: {CET, CEE, HEE},
   data () {
     return {
       ECNUGPA: []
     }
   },
   async mounted () {
-    this.$Message.info('包括中考、高考成绩，大学本科及以后的专业课成绩，各种资质考试成绩')
+    this.$Message.info('包括中考、高考成绩，大学本科及以后的专业课成绩，和各种资质考试成绩')
     await axios.get('https://www.jxtxzzw.com/resume/data/static/GPA.json')
       .then(res => {
         this.ECNUGPA = res.data
