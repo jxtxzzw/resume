@@ -12,6 +12,8 @@
         <!--Tooltip(v-if="item.cloud !== true", content="不曾观看过通关视频")-->
           <!--Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-cloud-done", size="30", color="#e9e9e9")-->
         | {{ item.name }}
+        Tooltip(v-if="item.achievement === true", content="全成就达成")
+          Icon(:style="{margin: ' 0 10px 0 10px'}", type="md-trophy", size="30", color="#F5A623")
         Tag(v-if="item.status==='done'", color='success', :style="{margin: '0 10px 0 10px'}")
           | {{ item.date === null ? '已通关' : '已于' + item.date + '通关' }}
         Tag(v-if="item.status==='doing'", color='primary', :style="{margin: '0 10px 0 10px'}")
