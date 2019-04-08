@@ -43,6 +43,35 @@ export default {
           key: 'university'
         },
         {
+          title: '内容',
+          key: 'content',
+          render: (h, params) => {
+            if (params.row.content.length > 0) {
+              return h('Poptip', {
+                props: {
+                  trigger: 'hover',
+                  title: '课程涵盖了 ' + params.row.content.length + ' 个主要内容',
+                  placement: 'bottom'
+                }
+              }, [
+                h('Tag', params.row.content.length),
+                h('div', {
+                  slot: 'content'
+                }, [
+                  h('ul', this.tableData[params.index].content.map(item => {
+                    return h('li', {
+                      style: {
+                        textAlign: 'center',
+                        padding: '4px'
+                      }
+                    }, item)
+                  }))
+                ])
+              ])
+            }
+          }
+        },
+        {
           title: '视频',
           key: 'video',
           render: (h, params) => {
@@ -106,7 +135,8 @@ export default {
           university: row['university'],
           video: row['video'],
           homework: row['homework'],
-          lecture: row['lecture']
+          lecture: row['lecture'],
+          content: row['content']
         })
       }
       return data

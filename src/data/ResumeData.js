@@ -132,6 +132,13 @@ export async function getOnlineCourseData () {
     rec['homework'] = row['homework']
     rec['video'] = row['video']
     rec['lecture'] = row['lecture']
+    rec['content'] = []
+    const content = row['content'].split(',')
+    for (const x of content) {
+      if (x.length > 0) {
+        rec['content'].push(x)
+      }
+    }
     ret.push(rec)
   }
   return ret
