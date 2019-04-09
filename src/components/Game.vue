@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     Collapse(accordion)
-      Panel( v-for="item in CollapsePanelData",:key="item.id", :name="item.name")
+      Panel( v-for="item in CollapsePanelData", :key="item.id", :name="item.name")
         Rate(disabled, v-model="item.rate")
         Tooltip(v-if="item.play === true", content="已通关")
           Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-game-controller-b", size="30", color="#5cb85c")
@@ -63,6 +63,7 @@ export default {
   },
   async mounted () {
     this.$Message.info('记录 2018 年 11 月年起我玩过的游戏，评分和评价仅代表个人意见')
+    this.$Message.error({content: '本页面可能包含剧透内容，请小心阅读', duration: 60, closable: true})
     this.GameData = await getGameData()
     this.changePage(1)
   }
