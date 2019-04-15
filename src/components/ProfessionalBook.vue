@@ -56,6 +56,24 @@ export default {
         {
           title: '出版社',
           key: 'publisher'
+        },
+        {
+          title: '标签',
+          key: 'label',
+          render: (h, params) => {
+            const label = params.row.label
+            const ret = []
+            for (const x of label) {
+              const color = this.randomColor()
+              ret.push(h('Tag', {
+                props: {
+                  type: 'border',
+                  color: color
+                }
+              }, x))
+            }
+            return ret
+          }
         }
       ]
     }
@@ -74,7 +92,8 @@ export default {
           version: row['version'],
           author: row['author'],
           status: row['status'],
-          publisher: row['publisher']
+          publisher: row['publisher'],
+          label: row['label']
         })
       }
       return data
@@ -86,6 +105,11 @@ export default {
     pageSizeChange (pageSize) {
       this.pageSize = pageSize
       this.changePage(this.pageNumber)
+    },
+    randomColor () {
+      const color = ['magenta', 'blue', 'volcano', 'orange', 'gold', 'yellow', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple']
+      const r = Math.floor(Math.random() * color.length)
+      return color[r]
     }
   },
   async mounted () {

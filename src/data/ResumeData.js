@@ -115,6 +115,13 @@ export async function getProfessionalBookData () {
     rec['author'] = row['author']
     rec['status'] = row['status']
     rec['publisher'] = row['publisher']
+    rec['label'] = []
+    const ds = row['label'].split(',')
+    for (const x of ds) {
+      if (x.length > 0) {
+        rec['label'].push(x)
+      }
+    }
     ret.push(rec)
   }
   return ret
