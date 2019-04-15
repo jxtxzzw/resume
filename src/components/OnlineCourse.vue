@@ -92,7 +92,7 @@ export default {
           render: (h, params) => {
             const row = params.row
             const color = row.lecture === 'todo' ? 'warning' : row.lecture === 'done' ? 'success' : row.lecture === 'aborted' ? 'error' : row.lecture === 'doing' ? 'primary' : 'disabled'
-            const text = row.lecture === 'todo' ? '计划中' : row.lecture === 'done' ? '已完成学习' : row.lecture === 'aborted' ? '已放弃学习' : row.lecture === 'doing' ? '学习中' : '不适用'
+            const text = row.lecture === 'todo' ? '计划中' : row.lecture === 'done' ? '已完成' : row.lecture === 'aborted' ? '已放弃' : row.lecture === 'doing' ? '学习中' : '不适用'
             return h('Tag', {
               props: {
                 type: 'dot',
@@ -107,7 +107,7 @@ export default {
           render: (h, params) => {
             const row = params.row
             const color = row.homework === 'todo' ? 'warning' : row.homework === 'done' ? 'success' : row.homework === 'aborted' ? 'error' : row.homework === 'doing' ? 'primary' : 'disabled'
-            const text = row.homework === 'todo' ? '计划中' : row.homework === 'done' ? '已完成学习' : row.homework === 'aborted' ? '已放弃学习' : row.homework === 'doing' ? '学习中' : '不适用'
+            const text = row.homework === 'todo' ? '计划中' : row.homework === 'done' ? '已完成' : row.homework === 'aborted' ? '已放弃' : row.homework === 'doing' ? '学习中' : '不适用'
             return h('Tag', {
               props: {
                 type: 'dot',

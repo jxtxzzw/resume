@@ -53,7 +53,7 @@ export default {
   },
   async mounted () {
     this.$Message.info('记录 2019 年起我读过的书籍，评分和评价仅代表个人意见')
-    this.$Message.error({content: '本页面可能包含剧透内容，请小心阅读', duration: 60, closable: true})
+    this.$Message.error({content: '本页面可能包含剧透内容，请小心阅读', duration: 5, closable: true})
     this.FictionData = await getFictionData()
     this.changePage(1)
   }
