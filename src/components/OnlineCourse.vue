@@ -77,7 +77,7 @@ export default {
           render: (h, params) => {
             const row = params.row
             const color = row.video === 'todo' ? 'warning' : row.video === 'done' ? 'success' : row.video === 'aborted' ? 'error' : row.video === 'doing' ? 'primary' : 'disabled'
-            const text = row.video === 'todo' ? '计划中' : row.video === 'done' ? '已完成学习' : row.video === 'aborted' ? '已放弃学习' : row.video === 'doing' ? '学习中' : '不适用'
+            const text = row.video === 'todo' ? '计划中' : row.video === 'done' ? '已完成' : row.video === 'aborted' ? '已放弃' : row.video === 'doing' ? '学习中' : '不适用'
             return h('Tag', {
               props: {
                 type: 'dot',
