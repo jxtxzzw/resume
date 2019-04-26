@@ -7,7 +7,7 @@
           Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-game-controller-b", size="30", color="#5cb85c")
         <!--Tooltip(v-if="item.play !== true", content="未通关")-->
           <!--Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-game-controller-b", size="30", color="#e9e9e9")-->
-        Tooltip(v-if="item.cloud === true", content="云通关（观看通关视频）")
+        Tooltip(v-if="item.cloud === true", content="云通关")
           Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-cloud-done", size="30", color="#2d8cf0")
         <!--Tooltip(v-if="item.cloud !== true", content="不曾观看过通关视频")-->
           <!--Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-cloud-done", size="30", color="#e9e9e9")-->
@@ -20,6 +20,7 @@
           | 游戏中
         Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
           | 计划中
+        Tag(v-if="item.status"==='disabled', color='disabled', :style="{margin: '0 10px 0 10px'}")
         Tag(v-for="leb in item.label", :key="leb.id", :color='randomColor()') {{leb}}
         p(slot="content") {{ item.comment }}
     div(:style="{margin: '10px', overflow: 'hidden'}")
