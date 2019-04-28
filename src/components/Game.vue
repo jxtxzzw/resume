@@ -20,7 +20,8 @@
           | 游戏中
         Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
           | 计划中
-        Tag(v-if="item.status"==='disabled', color='disabled', :style="{margin: '0 10px 0 10px'}")
+        Tag(v-if="item.status==='disabled'", color='disabled', :style="{margin: '0 10px 0 10px'}")
+          | 无限通关（沙盒、对战等）
         Tag(v-for="leb in item.label", :key="leb.id", :color='randomColor()') {{leb}}
         p(slot="content") {{ item.comment }}
     div(:style="{margin: '10px', overflow: 'hidden'}")
