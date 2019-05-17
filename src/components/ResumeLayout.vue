@@ -73,6 +73,7 @@
               MenuItem(name="Fiction") 小说
               MenuItem(name="Game") 游戏
               MenuItem(name="Movie") 影视
+              MenuItem(name="FootPrint") 足迹
         Layout(:style="{padding: '24px 24px 24px'}")
           Content(:style="{padding: '24px', background: '#fff'}" id="waterfallwrapper")
             div(v-if="currentItem===''")
@@ -110,6 +111,8 @@
               ProfessionalBook
             div(v-else-if="currentItem==='OnlineCourse'")
               OnlineCourse
+            div(v-else-if="currentItem==='FootPrint'")
+              FootPrint
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -130,9 +133,10 @@ import Honor from './Honor'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 import ProfessionalBook from './ProfessionalBook'
 import OnlineCourse from './OnlineCourse'
+import FootPrint from './FootPrint'
 export default {
   name: 'ResumeLayout',
-  components: {OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+  components: {FootPrint, OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
