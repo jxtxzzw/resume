@@ -1,8 +1,10 @@
-export const QUERY_URL = 'https://www.jxtxzzw.com/resume/api/getInfo.php'
 export const BLOG_URL = 'https://www.jxtxzzw.com'
 export const GITLAB_URL = 'https://gitlab.jxtxzzw.com/jxtxzzw'
 
-export const API_CODE = 'https://www.jxtxzzw.com/resume/api/getCode.php'
+export const ROOT_URL = BLOG_URL + '/resume'
+export const QUERY_URL = ROOT_URL + '/api/getInfo.php'
+export const API_CODE = ROOT_URL + '/api/getCode.php'
+export const FOOT_PRINT_URL = ROOT_URL + '/api/Footprint'
 
 export const OJ_TABLE_PAGE_SIZE = 10
 export const MOVIE_COLLAPSE_PANEL_PAGE_SIZE = 15
