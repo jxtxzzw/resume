@@ -2,7 +2,7 @@
 <div>
   <Alert>
     当前正在查看的是
-    <i-switch size="large" v-model="map" false-value="" true-value="cn_merc_en">
+    <i-switch size="large" v-model="map" false-value="" true-value="china_ch">
       <span slot="open">中国</span>
       <span slot="close">世界</span>
     </i-switch>
@@ -26,7 +26,7 @@ export default {
   name: 'FootPrint',
   data () {
     return {
-      map: 'cn_merc_en',
+      map: 'china_ch',
       BASE_URL: FOOT_PRINT_URL
     }
   },
