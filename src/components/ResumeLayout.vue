@@ -64,6 +64,7 @@
               MenuItem(name="OnlineCourse") 网络课程
               MenuItem(name="ProfessionalBook") 专业书籍
               MenuItem(name="Projects") 项目
+              MenuItem(name="TStack") 技术栈
               <!--MenuItem(name="publishedPaper") 发表的论文-->
               <!--MenuItem(name="publishedBook") 出版的书籍-->
             Submenu(name="entertainment")
@@ -113,6 +114,8 @@
               OnlineCourse
             div(v-else-if="currentItem==='FootPrint'")
               FootPrint
+            div(v-else-if="currentItem==='TStack'")
+              TStack
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -134,9 +137,11 @@ import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 import ProfessionalBook from './ProfessionalBook'
 import OnlineCourse from './OnlineCourse'
 import FootPrint from './FootPrint'
+import TStack from './TStack'
+
 export default {
   name: 'ResumeLayout',
-  components: {FootPrint, OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+  components: {TStack, FootPrint, OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
