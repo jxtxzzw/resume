@@ -1,8 +1,26 @@
+<style scoped>
+  .keyPoint{
+    color: #2d8cf0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .title{
+    color: #2db7f5;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .content{
+    padding-left: 12px;
+  }
+</style>
+
 <template lang="pug">
-  Alert(type="warning", show-icon)
-    | 还没有工作经历
-    template(slot="desc")
-      | 目前在华东师范大学就读，没有工作（和实习）经历
+  div
+    Timeline(pending)
+      TimelineItem
+        p(class="keyPoint") 微软
+        p(class="title") C+AI Summer Intern 于上海紫竹高新技术开发区
+        p(class="content") 自 2019 年 07 月 01 日至 2019 年 09 月 30 日
 </template>
 
 <script>

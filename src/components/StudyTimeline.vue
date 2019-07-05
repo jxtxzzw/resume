@@ -5,10 +5,12 @@
     font-weight: bold;
   }
   .title{
+    color: #2db7f5;
+    font-size: 16px;
     font-weight: bold;
   }
   .content{
-    padding-left: 7px;
+    padding-left: 12px;
   }
 </style>
 
