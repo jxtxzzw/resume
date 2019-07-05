@@ -32,7 +32,7 @@ export default {
           render: (h, params) => {
             const row = params.row
             const color = row.status === 'todo' ? 'warning' : row.status === 'done' ? 'success' : row.status === 'aborted' ? 'error' : 'primary'
-            const text = row.status === 'todo' ? '计划中' : row.status === 'done' ? '已阅读' : row.status === 'aborted' ? '已放弃' : '阅读中'
+            const text = row.status === 'todo' ? '计划中' : row.status === 'done' ? '已阅读' : row.status === 'aborted' ? '已终止' : '阅读中'
             return h('Tag', {
               props: {
                 type: 'dot',
