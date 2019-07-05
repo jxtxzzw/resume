@@ -29,35 +29,16 @@ export default {
         {
           title: '状态',
           key: 'status',
-          // filters: [
-          //   {
-          //     label: 'Accepted',
-          //     value: 'Accepted'
-          //   },
-          //   {
-          //     label: 'Attempted',
-          //     value: 'Attempted'
-          //   },
-          //   {
-          //     label: 'TODO',
-          //     value: 'TODO'
-          //   }
-          // ],
-          // filterMultiple: false,
-          // filterMethod (value, row) {
-          //   console.log(row.status)
-          //   return row.status === value
-          // },
           render: (h, params) => {
             const row = params.row
             const color = row.status === 'TODO' ? 'primary' : row.status === 'Accepted' ? 'success' : 'error'
             const text = row.status === 'TODO' ? 'TODO' : row.status === 'Accepted' ? 'Accepted' : 'Attempted'
-            const hyperlink = 'https://www.jxtxzzw.com/resume/data/code/' + params.row.oj + '-' + params.row.problem + '.svg'
+            const hyperlink = 'https://www.jxtxzzw.com/resume/api/getCode.php?oj=' + params.row.oj + '&problem=' + params.row.problem
             return h('Poptip', {
               props: {
                 trigger: 'hover',
                 title: params.row.oj + '-' + params.row.name,
-                placement: 'bottom'
+                placement: 'bottom-right'
               }
             }, [
               h('Tag', {
@@ -67,21 +48,25 @@ export default {
                 }
               }, text),
               h('div', {
-                slot: 'content'
+                slot: 'content',
+                style: {
+                  width: '800px'
+                }
               },
               [
                 h('a', {
                   domProps: {
-                    href: hyperlink,
+                    href: row.status === 'Accepted' ? hyperlink : '#',
                     target: 'blank'
                   }
                 }
                   , [
-                  h('img', {
+                  h('iframe', {
                     domProps: {
                       src: hyperlink,
-                      width: '400',
-                      height: '400'
+                      style: 'border: none; display: block; margin: 0 auto;',
+                      width: '100%',
+                      height: '800px'
                     }
                   })
                 ]
@@ -201,7 +186,7 @@ export default {
     //   this.OJData = response
     //   this.changePage(1)
     // })
-    this.sizer.push(this.OJData.length)
+    // this.sizer.push(this.OJData.length)
     // this.pageSize = this.OJData.length
     this.changePage(this.pageNumber)
   }
