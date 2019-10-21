@@ -50,98 +50,40 @@
               template(slot="title")
                 Icon(type="md-person")
                 | 个人经历
-              MenuItem(name="introduction") 个人简介
-              MenuItem(name="StudyTimeline") 学习经历
-              MenuItem(name="CareerTimeline") 工作经历
-              MenuItem(name="Honor") 获奖情况
-              MenuItem(name="ExamCertification") 成绩记录
-              MenuItem(name="contact") 联系方式
+              MenuItem(name="introduction" to="/Reserved") 个人简介
+              MenuItem(name="StudyTimeline" to="/StudyTimeline") 学习经历
+              MenuItem(name="CareerTimeline" to="/CareerTimeline") 工作经历
+              MenuItem(name="Honor" to="/Honor") 获奖情况
+              MenuItem(name="ExamCertification" to="/ExamCertification") 成绩记录
+              MenuItem(name="contact" to="/Reserved") 联系方式
             Submenu(name="skill")
               template(slot="title")
                 Icon(type="md-school")
                 | 专业技能
-              MenuItem(name="OJ") OJ做题记录
-              MenuItem(name="OnlineCourse") 网络课程
-              MenuItem(name="ProfessionalBook") 专业书籍
-              MenuItem(name="Projects") 项目
-              MenuItem(name="TStack") 技术栈
+              MenuItem(name="OJ" to="/OJ") OJ做题记录
+              MenuItem(name="OnlineCourse" to="/OnlineCourse") 网络课程
+              MenuItem(name="ProfessionalBook" to="/ProfessionalBook") 专业书籍
+              MenuItem(name="Projects" to="/Projects") 项目
+              MenuItem(name="TStack" to="/TStack") 技术栈
               <!--MenuItem(name="publishedPaper") 发表的论文-->
               <!--MenuItem(name="publishedBook") 出版的书籍-->
             Submenu(name="entertainment")
               template(slot="title")
                 Icon(type="md-laptop")
                 | 兴趣娱乐
-              MenuItem(name="Fiction") 小说
-              MenuItem(name="Game") 游戏
-              MenuItem(name="Movie") 影视
-              MenuItem(name="FootPrint") 足迹
+              MenuItem(name="Fiction" to="/Fiction") 小说
+              MenuItem(name="Game" to="/Game") 游戏
+              MenuItem(name="Movie" to="/Movie") 影视
+              MenuItem(name="FootPrint" to="/FootPrint") 足迹
         Layout(:style="{padding: '24px 24px 24px'}")
-          Content(:style="{padding: '24px', background: '#fff'}" id="waterfallwrapper")
-            div(v-if="currentItem===''")
-              Alert(type="success", show-icon)
-                | 欢迎访问我的个人主页
-                template(slot="desc")
-                  | 门面总还是要有的，这是一个基于Vue的前端页面，包括了更详细的个人简历、学习经历、获奖情况，以及包括专业课成绩和OJ做题记录，甚至包括了我读过的小说、玩过的游戏、看过的电影以及我个人对他们的评价
-              Alert(show-icon)
-                | 随便点开一个看看吧
-                template(slot="desc")
-                  | 在左边的导航菜单中可以看到我的个人简历、专业技能的掌握情况，以及看过的小说和电影、玩过的游戏
-              Alert(type="success", show-icon)
-                | 还可以在上侧导航栏中访问我的其他站点
-                template(slot="desc")
-                  | 个人博客，基于WordPress，里面有我的学习笔记、专业课作业、游记和见闻；代码仓库，基于GitLab，有些不想放到GitHub上的东西，或者暂时需要保密的代码，就放在自己的私有代码仓库
-            div(v-else-if="currentItem==='OJ'")
-              OJ
-            div(v-else-if="currentItem==='StudyTimeline'")
-              StudyTimeline
-            div(v-else-if="currentItem==='CareerTimeline'")
-              CareerTimeline
-            div(v-else-if="currentItem==='Projects'")
-              Projects
-            div(v-else-if="currentItem==='Movie'")
-              Movie
-            div(v-else-if="currentItem==='ExamCertification'")
-              ExamCertification
-            div(v-else-if="currentItem==='Game'")
-              Game
-            div(v-else-if="currentItem==='Fiction'")
-              Fiction
-            div(v-else-if="currentItem==='Honor'", id="honor")
-              Honor
-            div(v-else-if="currentItem==='ProfessionalBook'")
-              ProfessionalBook
-            div(v-else-if="currentItem==='OnlineCourse'")
-              OnlineCourse
-            div(v-else-if="currentItem==='FootPrint'")
-              FootPrint
-            div(v-else-if="currentItem==='TStack'")
-              TStack
-            div(v-else)
-              Alert(type="error", show-icon)
-                | 这个页面还在施工中
-                template(slot="desc")
-                  | 这个页面还在施工中，过段时间再来访问吧
+          router-view
 </template>
 
 <script>
-import OJ from './OJ'
-import Movie from './Movie'
-import Projects from './Projects'
-import StudyTimeline from './StudyTimeline'
-import CareerTimeline from './CareerTimeline'
-import ExamCertification from './ExamCertification'
-import Game from './Game'
-import Fiction from './Fiction'
-import Honor from './Honor'
 import {BLOG_URL, GITLAB_URL} from '../data/Constant'
-import ProfessionalBook from './ProfessionalBook'
-import OnlineCourse from './OnlineCourse'
-import FootPrint from './FootPrint'
-import TStack from './TStack'
 
 export default {
   name: 'ResumeLayout',
-  components: {TStack, FootPrint, OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
   data () {
     return {
       currentItem: ''
@@ -163,29 +105,7 @@ export default {
           window.open(GITLAB_URL, 'gitlab')
           break
       }
-    },
-    init: async function () {
-      this.$Spin.show({
-        render: (h) => {
-          return h('div', [
-            h('Icon', {
-              'class': 'demo-spin-icon-load',
-              props: {
-                type: 'ios-loading',
-                size: 200
-              }
-            }),
-            h('div', '加载中……')
-          ])
-        }
-      })
-      setTimeout(() => {
-        this.$Spin.hide()
-      }, 1000)
     }
-  },
-  mounted () {
-    this.init()
   }
 }
 </script>
