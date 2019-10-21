@@ -18,6 +18,7 @@
     "iview": "^3.2.2",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "prerender-spa-plugin": "^3.4.0",
     "pug": "^2.0.3",
     "style-loader": "^0.23.1",
     "vue": "^2.5.2",
