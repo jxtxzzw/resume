@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ResumeLayout from './ResumeLayout'
+import ResumeLayout from '../components/ResumeLayout'
 export default {
   components: {
     ResumeLayout,
