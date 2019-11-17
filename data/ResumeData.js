@@ -12,13 +12,13 @@ export async function getOJData () {
     rec['status'] = row['status']
     rec['ds'] = []
     rec['args'] = []
-    const ds = row['ds'].split(',')
+    const ds = row['ds'] == null ? [] : row['ds'].split(',')
     for (const x of ds) {
       if (x.length > 0) {
         rec['ds'].push(x)
       }
     }
-    const args = row['args'].split(',')
+    const args = row['args'] == null ? [] : row['args'].split(',')
     for (const x of args) {
       if (x.length > 0) {
         rec['args'].push(x)
@@ -39,7 +39,7 @@ export async function getMovieData () {
     rec['type'] = row['type']
     rec['date'] = row['date']
     rec['status'] = row['status']
-    rec['comment'] = row['comment']
+    rec['comment'] = row['comment'] == null ? '' : row['comment']
     ret.push(rec)
   }
   return ret
@@ -57,9 +57,9 @@ export async function getGameData () {
     rec['date'] = row['date']
     rec['status'] = row['status']
     rec['rate'] = parseInt(row['rate'])
-    rec['comment'] = row['comment']
+    rec['comment'] = row['comment'] == null ? '' : row['comment']
     rec['label'] = []
-    const ds = row['label'].split(',')
+    const ds = row['label'] == null ? [] : row['label'].split(',')
     for (const x of ds) {
       if (x.length > 0) {
         rec['label'].push(x)
@@ -79,9 +79,9 @@ export async function getFictionData () {
     rec['date'] = row['date']
     rec['status'] = row['status']
     rec['rate'] = parseInt(row['rate'])
-    rec['comment'] = row['comment']
+    rec['comment'] = row['comment'] == null ? '' : row['comment']
     rec['label'] = []
-    const ds = row['label'].split(',')
+    const ds = row['label'] == null ? [] : row['label'].split(',')
     for (const x of ds) {
       if (x.length > 0) {
         rec['label'].push(x)
@@ -116,7 +116,7 @@ export async function getProfessionalBookData () {
     rec['status'] = row['status']
     rec['publisher'] = row['publisher']
     rec['label'] = []
-    const ds = row['label'].split(',')
+    const ds = row['label'] == null ? [] : row['label'].split(',')
     for (const x of ds) {
       if (x.length > 0) {
         rec['label'].push(x)
@@ -140,7 +140,7 @@ export async function getOnlineCourseData () {
     rec['video'] = row['video']
     rec['lecture'] = row['lecture']
     rec['content'] = []
-    const content = row['content'].split(',')
+    const content = row['content'] == null ? [] : row['content'].split(',')
     for (const x of content) {
       if (x.length > 0) {
         rec['content'].push(x)
