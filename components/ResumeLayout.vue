@@ -56,6 +56,7 @@
               MenuItem(name="Honor") 获奖情况
               MenuItem(name="ExamCertification") 成绩记录
               MenuItem(name="contact") 联系方式
+              MenuItem(name="Milestone") 里程碑
             Submenu(name="skill")
               template(slot="title")
                 Icon(type="md-school")
@@ -116,6 +117,8 @@
               FootPrint
             div(v-else-if="currentItem==='TStack'")
               TStack
+            div(v-else-if="currentItem==='Milestone'")
+              Milestone
             div(v-else)
               Alert(type="error", show-icon)
                 | 这个页面还在施工中
@@ -138,10 +141,12 @@
   import OnlineCourse from './OnlineCourse'
   import FootPrint from './FootPrint'
   import TStack from './TStack'
+  import Milestone from './Milestone'
 
   export default {
     name: 'ResumeLayout',
-    components: {TStack, FootPrint, OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
+    components: {
+      Milestone, TStack, FootPrint, OnlineCourse, ProfessionalBook, Honor, ExamCertification, OJ, Movie, Projects, StudyTimeline, CareerTimeline, Game, Fiction},
     data () {
       return {
         currentItem: ''

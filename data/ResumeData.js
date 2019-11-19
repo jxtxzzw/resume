@@ -1,5 +1,5 @@
 import {getInfo} from '../util/getInfo'
-import {QUERY_ITEM_DB_NAME_ONLINECOURSE, QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ, QUERY_ITEM_DB_NAME_PROFESSIONALBOOK} from './Constant'
+import {QUERY_ITEM_DB_NAME_MILESTONE, QUERY_ITEM_DB_NAME_ONLINECOURSE, QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ, QUERY_ITEM_DB_NAME_PROFESSIONALBOOK} from './Constant'
 
 export async function getOJData () {
   let ret = []
@@ -146,6 +146,20 @@ export async function getOnlineCourseData () {
         rec['content'].push(x)
       }
     }
+    ret.push(rec)
+  }
+  return ret
+}
+
+export async function getMilestoneData () {
+  let ret = []
+  let res = await getInfo(QUERY_ITEM_DB_NAME_MILESTONE)
+  for (let row of res) {
+    let rec = []
+    rec['id'] = row['id']
+    rec['date'] = row['date']
+    rec['platform'] = row['platform']
+    rec['milestone'] = row['milestone']
     ret.push(rec)
   }
   return ret
