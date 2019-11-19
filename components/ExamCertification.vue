@@ -19,6 +19,24 @@
     Row
       Col(span="12")
         Card
+          p(slot="title") TOEFL My Highest Score
+          TOEFL(:reading="28", :listening="27", :speaking="23", writing="28")
+      Col(span="12")
+        Card
+          p(slot="title") TOEFL MyBest Scores
+          TOEFL(:reading="28", :listening="28", :speaking="23", writing="28")
+    Row
+      Col(span="12")
+        Card
+          p(slot="title") GRE My Highest Score
+          GRE(:verbal="154", :quantitive="170", :writing="3")
+      Col(span="12")
+        Card
+          p(slot="title") GRE MyBest Scores
+          GRE(:verbal="154", :quantitive="170", :writing="4")
+    Row
+      Col(span="12")
+        Card
           p(slot="title") CET6
           CET(:listening="184", :reading="215", :writingAndTranslation="170")
       Col(span="12")
@@ -41,10 +59,12 @@
 import CET from '../data/CET'
 import CEE from '../data/CEE'
 import HEE from '../data/HEE'
+import TOEFL from '../data/TOEFL'
+import GRE from '../data/GRE'
 import axios from 'axios'
 export default {
   name: 'ExamCertification',
-  components: {CET, CEE, HEE},
+  components: {CET, CEE, HEE, TOEFL, GRE},
   data () {
     return {
       ECNUGPA: []
