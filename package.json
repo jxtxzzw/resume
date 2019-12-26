@@ -11,14 +11,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.9.0",
+    "@nuxtjs/axios": "^5.3.6",
     "iview": "^3.1.5",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "nuxt": "^2.0.0",
-    "vue": "^2.6.11",
-    "vue-server-renderer": "^2.6.11",
-    "vue-template-compiler": "^2.6.11",
     "vue-waterfall-easy": "^2.4.4"
   },
   "devDependencies": {
