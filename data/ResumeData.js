@@ -54,6 +54,9 @@ export async function getGameData () {
     rec['cloud'] = row['cloud'] === '1'
     rec['play'] = row['play'] === '1'
     rec['achievement'] = row['achievement'] === '1'
+    rec['collection'] = row['collection'] === '1'
+    rec['friend'] = row['friend'] === '1'
+    rec['platform'] = row['platform']
     rec['date'] = row['date']
     rec['status'] = row['status']
     rec['rate'] = parseInt(row['rate'])

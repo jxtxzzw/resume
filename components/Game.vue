@@ -3,6 +3,10 @@
     Collapse(accordion)
       Panel( v-for="item in CollapsePanelData", :key="item.id", :name="item.name")
         Rate(disabled, v-model="item.rate")
+        Tooltip(v-if="item.platform === 'desktop'", content="PC端")
+          Icon(:style="{margin: ' 0 10px 0 10px'}", type="md-desktop", size="30", color="#5C6B77")
+        Tooltip(v-if="item.platform === 'phone'", content="移动端")
+          Icon(:style="{margin: ' 0 10px 0 10px'}", type="md-phone-portrait", size="30", color="#5C6B77")
         Tooltip(v-if="item.play === true", content="已通关")
           Icon(:style="{margin: ' 0 10px 0 10px'}", type="ios-game-controller-b", size="30", color="#5cb85c")
         <!--Tooltip(v-if="item.play !== true", content="未通关")-->
@@ -14,14 +18,19 @@
         | {{ item.name }}
         Tooltip(v-if="item.achievement === true", content="全成就达成")
           Icon(:style="{margin: ' 0 10px 0 10px'}", type="md-trophy", size="30", color="#F5A623")
+        Tooltip(v-if="item.collection === true", content="全要素收集")
+          Icon(:style="{margin: ' 0 10px 0 10px'}", type="md-ribbon", size="30", color="#ed4014")
+        Tooltip(v-if="item.friend === true", content="联机")
+          Icon(:style="{margin: ' 0 10px 0 10px'}", type="md-contacts", size="30", color="#2db7f5")
         Tag(v-if="item.status==='done'", color='success', :style="{margin: '0 10px 0 10px'}")
           | {{ item.date === null ? '已通关' : '已于' + item.date + '通关' }}
         Tag(v-if="item.status==='doing'", color='primary', :style="{margin: '0 10px 0 10px'}")
           | 游戏中
         Tag(v-if="item.status==='todo'", color='error', :style="{margin: '0 10px 0 10px'}")
           | 计划中
-        Tag(v-if="item.status==='disabled'", color='disabled', :style="{margin: '0 10px 0 10px'}")
-          | 无限通关（沙盒、对战等）
+        Tooltip(content="无限通关（沙盒、对战等）")
+          Tag(v-if="item.status==='disabled'", color='#808695', :style="{margin: '0 10px 0 10px'}")
+            | 不适用
         Tag(v-for="leb in item.label", :key="leb.id", :color='randomColor()') {{leb}}
         p(slot="content") {{ item.comment }}
     div(:style="{margin: '10px', overflow: 'hidden'}")
