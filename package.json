@@ -11,11 +11,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.9.3",
-    "iview": "^3.5.4",
+    "@nuxtjs/axios": "^5.9.0",
+    "iview": "^3.1.5",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
-    "nuxt": "^2.11.0",
+    "nuxt": "^2.0.0",
     "vue": "^2.6.11",
     "vue-server-renderer": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
@@ -23,10 +23,10 @@
   },
   "devDependencies": {
     "coffee-loader": "^0.9.0",
-    "coffeescript": "^2.5.0",
-    "node-sass": "^4.13.1",
-    "pug": "^2.0.4",
+    "coffeescript": "^2.4.1",
+    "node-sass": "^4.13.0",
+    "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.0"
   }
 }
