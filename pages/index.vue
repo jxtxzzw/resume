@@ -1,13 +1,11 @@
-<template>
-<ResumeLayout/>
+<template lang="pug">
+  Welcome
 </template>
 
 <script>
-import ResumeLayout from '../components/ResumeLayout'
+import Welcome from '../components/Welcome'
 export default {
-  components: {
-    ResumeLayout,
-  }
+  components: { Welcome }
 }
 </script>
 
