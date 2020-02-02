@@ -54,7 +54,6 @@
   import {BLOG_URL, GITLAB_URL} from '../data/Constant'
 
   export default {
-    middleware: 'onLoadHook',
     methods: {
       toMySites (name) {
         switch (name) {
@@ -91,12 +90,12 @@
     },
     mounted () {
       this.init()
+    },
+    updated () {
+      console.log('updated')
     }
   }
 </script>
-
-
-
 
 <style scoped>
   .layout {
