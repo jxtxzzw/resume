@@ -49,6 +49,9 @@ export default {
   */
   axios: {
   },
+  router: {
+    middleware: 'customer'
+  },
   /*
   ** Build configuration
   */
