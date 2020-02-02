@@ -12,7 +12,10 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "@nuxtjs/axios": "^5.3.6",
+    "babel-loader": "^8.0.6",
     "css-base": "^1.0.0",
     "iview": "^3.1.5",
     "less": "^3.10.3",

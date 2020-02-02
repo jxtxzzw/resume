@@ -88,3 +88,7 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# customer js and css
+static/customer-js.js
+static/customer-css.css
