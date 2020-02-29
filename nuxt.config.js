@@ -41,13 +41,16 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    '@nuxtjs/axios'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+  router: {
+    middleware: 'customer'
   },
   /*
   ** Build configuration
@@ -57,6 +60,9 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+      config.node = {
+        fs: 'empty'
+      }
     }
   }
 }

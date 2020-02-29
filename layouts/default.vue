@@ -52,9 +52,7 @@
 
 <script>
   import {BLOG_URL, GITLAB_URL} from '../data/Constant'
-
   export default {
-    middleware: 'onLoadHook',
     methods: {
       toMySites (name) {
         switch (name) {
@@ -87,16 +85,20 @@
         setTimeout(() => {
           this.$Spin.hide()
         }, 1000)
+      },
+      customerJS: function () {
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '/customer-js.js';
+        document.getElementsByTagName('head')[0].appendChild(script)
       }
     },
     mounted () {
       this.init()
+      this.customerJS()
     }
   }
 </script>
-
-
-
 
 <style scoped>
   .layout {
