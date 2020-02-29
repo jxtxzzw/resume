@@ -1,5 +1,5 @@
 import {getInfo} from '../util/getInfo'
-import {QUERY_ITEM_DB_NAME_MILESTONE, QUERY_ITEM_DB_NAME_ONLINECOURSE, QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ, QUERY_ITEM_DB_NAME_PROFESSIONALBOOK} from './Constant'
+import {QUERY_ITEM_DB_NAME_CERTIFICATION, QUERY_ITEM_DB_NAME_MILESTONE, QUERY_ITEM_DB_NAME_ONLINECOURSE, QUERY_ITEM_DB_NAME_HONOR, QUERY_ITEM_DB_NAME_FICTION, QUERY_ITEM_DB_NAME_GAME, QUERY_ITEM_DB_NAME_MOVIE, QUERY_ITEM_DB_NAME_OJ, QUERY_ITEM_DB_NAME_PROFESSIONALBOOK} from './Constant'
 
 export async function getOJData () {
   let ret = []
@@ -160,6 +160,24 @@ export async function getMilestoneData () {
     rec['date'] = row['date']
     rec['platform'] = row['platform']
     rec['milestone'] = row['milestone']
+    ret.push(rec)
+  }
+  return ret
+}
+
+export async function getCertificationData () {
+  let ret = []
+  let res = await getInfo(QUERY_ITEM_DB_NAME_CERTIFICATION)
+  for (let row of res) {
+    let rec = []
+    rec['src'] = row['dir'] + row['filename']
+    rec['title'] = row['title']
+    rec['description'] = row['description']
+    rec['content'] = row['content']
+    rec['start'] = row['start']
+    rec['end'] = row['end']
+    rec['verify'] = row['verify']
+    rec['link'] = row['link']
     ret.push(rec)
   }
   return ret

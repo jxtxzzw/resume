@@ -25,7 +25,7 @@
               MenuItem(name="introduction" to="Reserved") 个人简介
               MenuItem(name="StudyTimeline" to="StudyTimeline") 学习经历
               MenuItem(name="CareerTimeline" to="CareerTimeline") 工作经历
-              MenuItem(name="Honor" to="Honor") 获奖情况
+              MenuItem(name="Honor" to="Honor") 获奖证书
               MenuItem(name="ExamCertification" to="ExamCertification") 成绩记录
               MenuItem(name="contact" to="Reserved") 联系方式
               MenuItem(name="Milestone" to="Milestone") 里程碑
@@ -33,6 +33,7 @@
               template(slot="title")
                 Icon(type="md-school")
                 | 专业技能
+              MenuItem(name="Certification" to="Certification") 资质证书
               MenuItem(name="OJ" to="OJ") OJ做题记录
               MenuItem(name="OnlineCourse" to="OnlineCourse") 网络课程
               MenuItem(name="ProfessionalBook" to="ProfessionalBook") 专业书籍
