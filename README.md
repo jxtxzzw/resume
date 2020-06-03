@@ -1,6 +1,4 @@
-[![pipeline status](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/pipeline.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume/-/commits/master)
-
-[![coverage report](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/coverage.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume/-/commits/master)
+[![pipeline status](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/pipeline.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume/-/commits/master) [![coverage report](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/coverage.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume/-/commits/master)
 
 # resume
 
