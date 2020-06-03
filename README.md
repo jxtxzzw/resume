@@ -1,3 +1,7 @@
+[![pipeline status](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/pipeline.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume/-/commits/master)
+
+[![coverage report](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/coverage.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume/-/commits/master)
+
 # resume
 
 一个基于 Vue 的个人主页，包含个人经历展示、资质证书展示，还可以分享自己看过的小说、看过的电影……
