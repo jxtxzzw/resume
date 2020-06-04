@@ -13,6 +13,11 @@ install_dependencies:
   script:
     - npm install
 
+lint:
+  stage: .pre
+  script:
+    - npm run lint
+
 build:
   stage: build
   script:
@@ -30,5 +35,3 @@ coverage:
   stage: test
   script:
     - npm run coverage
-
-# code quality
