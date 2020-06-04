@@ -21,11 +21,14 @@ build:
     paths:
       - dist/
 
-test:
+unit_test:
   stage: test
   script:
-    - npm run test:unit
+    - npm run test
 
-# coverage
+coverage:
+  stage: test
+  script:
+    - npm run coverage
 
 # code quality
