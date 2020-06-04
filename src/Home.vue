@@ -2,97 +2,111 @@
   <div class="layout">
     <Layout :style="{minHeight: '-webkit-fill-available'}">
       <Header>
-        <Menu mode="horizontal" theme="dark" active-name="1" @on-select="toMySites">
+        <Menu mode="horizontal" theme="dark" active-name="1">
           <div class="layout-logo"/>
           <div class="layout-nav">
             <MenuItem name="blog">
               <Icon type="logo-wordpress" />
-              个人博客
+              {{ $t("message.blog") }}
             </MenuItem>
             <MenuItem name="resume">
               <Icon type="md-person" />
-              个人主页
+              {{ $t("message.resume") }}
             </MenuItem>
             <MenuItem name="gitlab">
               <Icon type="md-git-branch" />
-              代码仓库
+              {{ $t("message.gitlab") }}
             </MenuItem>
           </div>
+          <Dropdown @on-click="changeLanguage" style="margin-right: 20px">
+            <Button ghost icon="ios-globe" shape="circle">
+              中 / En
+              <Icon type="ios-arrow-down" />
+            </Button>
+            <DropdownMenu slot="list">
+              <DropdownItem name="cn">简体中文</DropdownItem>
+              <DropdownItem name="en">English</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </Menu>
       </Header>
       <Layout>
-        <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu accordion active-name="1-2" theme="light" width="auto" :open-names="['1']">
+        <Sider hide-trigger :style="{minWidth: '220px', maxWidth: '220px', width: '220px'}">
+          <Menu accordion active-name="1-2" theme="dark" width="auto" :open-names="['1']">
             <Submenu name="experience">
               <template slot="title">
                 <Icon type="md-person" />
-                个人经历
+                {{ $t("message.experience") }}
               </template>
-              <MenuItem name="introduction" to="Reserved">
-                个人简介
+              <MenuItem name="introduction" to="About">
+                {{ $t("message.introduction") }}
               </MenuItem>
               <MenuItem name="StudyTimeline" to="StudyTimeline">
-                学习经历
+                {{ $t("message.study") }}
               </MenuItem>
               <MenuItem name="CareerTimeline" to="CareerTimeline">
-                工作经历
+                {{ $t("message.career") }}
               </MenuItem>
               <MenuItem name="Honor" to="Honor">
-                获奖证书
+                {{ $t("message.honor") }}
               </MenuItem>
               <MenuItem name="ExamCertification" to="ExamCertification">
-                成绩记录
+                {{ $t("message.exam") }}
               </MenuItem>
               <MenuItem name="contact" to="Reserved">
-                联系方式
+                {{ $t("message.contact") }}
               </MenuItem>
               <MenuItem name="Milestone" to="Milestone">
-                里程碑
+                {{ $t("message.milestone") }}
               </MenuItem>
             </Submenu>
             <Submenu name="skill">
               <template slot="title">
                 <Icon type="md-school" />
-                专业技能
+                {{ $t("message.skill") }}
               </template>
               <MenuItem name="Certification" to="Certification">
-                资质证书
+                {{ $t("message.certification") }}
               </MenuItem>
               <MenuItem name="OJ" to="OJ">
-                OJ做题记录
+                {{ $t("message.oj") }}
               </MenuItem>
               <MenuItem name="OnlineCourse" to="OnlineCourse">
-                网络课程
+                {{ $t("message.course") }}
               </MenuItem>
               <MenuItem name="ProfessionalBook" to="ProfessionalBook">
-                专业书籍
+                {{ $t("message.book") }}
               </MenuItem>
               <MenuItem name="Projects" to="Projects">
-                项目
+                {{ $t("message.project") }}
+              </MenuItem>
+              <MenuItem name="Papers" to="Papers">
+                {{ $t("message.paper") }}
               </MenuItem>
             </Submenu>
             <Submenu name="entertainment">
               <template slot="title">
                 <Icon type="md-laptop" />
-                兴趣娱乐
+                {{ $t("message.entertainment") }}
               </template>
               <MenuItem name="Fiction" to="Fiction">
-                小说
+                {{ $t("message.fiction") }}
               </MenuItem>
               <MenuItem name="Game" to="Game">
-                游戏
+                {{ $t("message.game") }}
               </MenuItem>
               <MenuItem name="Movie" to="Movie">
-                影视
+                {{ $t("message.movie") }}
               </MenuItem>
               <MenuItem name="FootPrint" to="FootPrint">
-                足迹
+                {{ $t("message.footprint") }}
               </MenuItem>
             </Submenu>
           </Menu>
         </Sider>
         <Layout :style="{padding: '24px 24px 24px'}">
           <Content :style="{padding: '24px', background: '#fff'}" id="waterfallwrapper">
+            <router-view/>
           </Content>
         </Layout>
       </Layout>
@@ -105,6 +119,12 @@
 
 export default {
   name: 'Home',
+  methods: {
+    changeLanguage(lang) {
+      console.log(lang);
+      this.$i18n.locale = lang;
+    },
+  },
 };
 </script>
 
@@ -127,7 +147,7 @@ export default {
     left: 20px;
   }
   .layout-nav{
-    width: 420px;
+    width: 550px;
     margin: 0 20px 0 auto;
   }
 </style>
