@@ -22,5 +22,5 @@ pnpm-debug.log*
 *.sw?
 
 # ci
-.nyc_output/
-coverage/
+/coverage
+/.nyc_output
