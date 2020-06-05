@@ -39,7 +39,7 @@
                 <Icon type="md-person"/>
                 {{ $t('message.navigation.experience') }}
               </template>
-              <MenuItem name="introduction" to="About">
+              <MenuItem name="introduction" to="Reserved">
                 {{ $t('message.navigation.introduction') }}
               </MenuItem>
               <MenuItem name="Study" to="Study">

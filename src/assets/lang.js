@@ -39,6 +39,10 @@ const messages = {
         tianjiabing: 'Shanghai Tianjiabing Middle School',
         tianjiabing_time: 'From September, 2011, To June, 2013',
       },
+      reserved: {
+        title: 'This page is not ready for showing.',
+        desc: 'This page is not ready for showing, please visit it later.',
+      },
     },
   },
   cn: {
@@ -79,6 +83,10 @@ const messages = {
         shibei_ad_time: '2013 年 01 月',
         tianjiabing: '上海田家炳中学',
         tianjiabing_time: '自 2011 年 09 月至 2013 年 06 月',
+      },
+      reserved: {
+        title: '这个页面还在施工中',
+        desc: '这个页面还在施工中，过段时间再来访问吧',
       },
     },
   },
