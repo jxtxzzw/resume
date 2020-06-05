@@ -45,7 +45,7 @@
               <MenuItem name="Study" to="Study">
                 {{ $t('message.navigation.study') }}
               </MenuItem>
-              <MenuItem name="CareerTimeline" to="CareerTimeline">
+              <MenuItem name="Career" to="Career">
                 {{ $t('message.navigation.career') }}
               </MenuItem>
               <MenuItem name="Honor" to="Honor">
@@ -78,7 +78,7 @@
               <MenuItem name="ProfessionalBook" to="ProfessionalBook">
                 {{ $t('message.navigation.book') }}
               </MenuItem>
-              <MenuItem name="Projects" to="Projects">
+              <MenuItem name="Project" to="Project">
                 {{ $t('message.navigation.project') }}
               </MenuItem>
               <MenuItem name="Papers" to="Papers">
