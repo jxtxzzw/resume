@@ -18,7 +18,7 @@
 </template>
 <script>
 import { getOJData } from '../api/data';
-import { QUERY_URL_CODE } from '../api/constant';
+import { getCode } from '../api/util';
 
 export default {
   name: 'OJ',
@@ -42,12 +42,12 @@ export default {
             const { row } = params;
             const color = this.statusColor(row.status);
             const text = this.statusText(row.status);
-            const hyperlink = `${QUERY_URL_CODE}?oj=${params.row.oj}&problem=${params.row.problem}`;
             return h('Poptip', {
               props: {
                 trigger: 'hover',
-                title: `${params.row.oj}-${params.row.name}`,
+                title: this.$t('message.oj.code_pop', { name: params.row.name }),
                 placement: 'bottom',
+                transfer: true,
               },
             }, [
               h('Tag', {
@@ -61,24 +61,23 @@ export default {
                 style: {
                   width: '800px',
                 },
-              },
-              [
-                h('a', {
-                  domProps: {
-                    href: row.status === 'Accepted' ? hyperlink : '#',
-                    target: 'blank',
-                  },
-                },
-                [
-                  h('iframe', {
-                    domProps: {
-                      src: hyperlink,
-                      style: 'border: none; display: block; margin: 0 auto;',
-                      width: '100%',
-                      height: '800px',
+              }, [
+                h('codemirror', {
+                  class: 'codemirror',
+                  ref: 'cmEditor',
+                  props: {
+                    value: params.row.code,
+                    options: {
+                      tabSize: 4,
+                      styleActiveLine: true,
+                      lineNumbers: true,
+                      line: true,
+                      mode: params.row.mode,
+                      readOnly: true,
+                      theme: 'idea',
                     },
-                  }),
-                ]),
+                  },
+                }),
               ]),
             ]);
           },
@@ -105,6 +104,7 @@ export default {
                   trigger: 'hover',
                   title: this.$t('message.oj.ds_pop', { num: params.row.ds.length }),
                   placement: 'bottom',
+                  transfer: true,
                 },
               }, [
                 h('Tag', params.row.ds.length),
@@ -124,7 +124,7 @@ export default {
           },
         },
         {
-          title: '算法',
+          title: this.$t('message.oj.algs'),
           key: 'algs',
           render: (h, params) => {
             if (params.row.algs.length > 0) {
@@ -133,6 +133,7 @@ export default {
                   trigger: 'hover',
                   title: this.$t('message.oj.algs_pop', { num: params.row.algs.length }),
                   placement: 'bottom',
+                  transfer: true,
                 },
               }, [
                 h('Tag', params.row.algs.length),
@@ -171,37 +172,81 @@ export default {
       }
       return this.$t('message.oj.attempted');
     },
-    generatePagedTableData(pageNumber) {
+    async code(oj, problem) {
+      const res = await getCode(oj, problem);
+      return res == null ? '' : res.code;
+    },
+    async mode(oj, problem) {
+      let mode = '';
+      const res = await getCode(oj, problem);
+      const language = res == null ? '' : res.language;
+      switch (language.toLowerCase()) {
+        case 'c':
+        case 'c++':
+          mode = 'text/x-c++src';
+          break;
+        case 'java':
+          mode = 'text/x-java';
+          break;
+        case 'python':
+          mode = 'text/x-python';
+          break;
+        case 'javascript':
+          mode = 'text/javascript';
+          break;
+        case 'sql':
+          mode = 'text/x-sql';
+          break;
+        case 'ml':
+        case 'sml':
+        case 'ocaml':
+          mode = 'text/x-ocaml';
+          break;
+        default:
+          break;
+      }
+      return mode;
+    },
+    async generatePagedTableData(pageNumber) {
+      let codes = [];
+      let modes = [];
       const data = [];
       const arr = this.OJData;
       for (let i = (pageNumber - 1) * this.pageSize; i < pageNumber * this.pageSize; i += 1) {
         if (i === this.OJData.length) {
           break;
         }
-        const row = arr[i];
+        codes.push(this.code(arr[i].oj, arr[i].problem));
+        modes.push(this.mode(arr[i].oj, arr[i].problem));
         data.push({
-          oj: row.oj,
-          problem: row.problem,
-          name: row.name,
-          status: row.status,
-          ds: row.ds,
-          algs: row.algs,
+          oj: arr[i].oj,
+          problem: arr[i].problem,
+          name: arr[i].name,
+          status: arr[i].status,
+          ds: arr[i].ds,
+          algs: arr[i].algs,
         });
+      }
+      codes = await Promise.all(codes);
+      modes = await Promise.all(modes);
+      for (let i = 0; i < data.length; i += 1) {
+        data[i].code = codes[i];
+        data[i].mode = modes[i];
       }
       return data;
     },
-    changePage(pageNumber) {
+    async changePage(pageNumber) {
       this.pageNumber = pageNumber;
-      this.tableData = this.generatePagedTableData(this.pageNumber);
+      this.tableData = await this.generatePagedTableData(this.pageNumber);
     },
-    pageSizeChange(pageSize) {
+    async pageSizeChange(pageSize) {
       this.pageSize = pageSize;
-      this.changePage(this.pageNumber);
+      await this.changePage(this.pageNumber);
     },
   },
   async mounted() {
     this.OJData = await getOJData();
-    this.changePage(this.pageNumber);
+    await this.changePage(this.pageNumber);
   },
 };
 </script>

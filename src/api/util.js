@@ -9,9 +9,9 @@ export async function getInfo(item) {
   return res.reverse();
 }
 
-export async function getCode(filename) {
+export async function getCode(oj, problem) {
   const res = await axios
-    .get(QUERY_URL_CODE, { params: { filename } })
+    .get(QUERY_URL_CODE, { params: { oj, problem } })
     .then((response) => response.data);
-  return res.URL;
+  return res;
 }
