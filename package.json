@@ -12,9 +12,12 @@
   "dependencies": {
     "@antv/l7": "^2.2.11",
     "@antv/l7-maps": "^2.2.11",
+    "axios": "^0.19.2",
+    "codemirror": "^5.54.0",
     "core-js": "^3.6.5",
     "view-design": "^4.2.0",
     "vue": "^2.6.11",
+    "vue-codemirror": "^4.0.6",
     "vue-i18n": "^8.18.1",
     "vue-matomo": "^3.13.5-0",
     "vue-router": "^3.2.0"

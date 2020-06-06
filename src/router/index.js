@@ -27,6 +27,11 @@ const routes = [
     name: 'Project',
     component: () => import('../views/Project.vue'),
   },
+  {
+    path: '/OJ',
+    name: 'OJ',
+    component: () => import('../views/OJ.vue'),
+  },
 ];
 
 const router = new VueRouter({
