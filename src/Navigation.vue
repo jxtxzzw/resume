@@ -3,6 +3,18 @@
     <Layout :style="{minHeight: '-webkit-fill-available'}">
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="1">
+          <div style="float: left">
+            <Dropdown @on-click="changeLanguage" transfer style="margin-right: 20px">
+              <Button ghost icon="ios-globe" shape="circle">
+                中 / En
+                <Icon type="ios-arrow-down"/>
+              </Button>
+              <DropdownMenu slot="list">
+                <DropdownItem name="cn">简体中文</DropdownItem>
+                <DropdownItem name="en">English</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
           <div class="layout-logo"/>
           <div class="layout-nav">
             <MenuItem name="blog">
@@ -18,16 +30,6 @@
               {{ $t('message.navigation.gitlab') }}
             </MenuItem>
           </div>
-          <Dropdown @on-click="changeLanguage" style="margin-right: 20px">
-            <Button ghost icon="ios-globe" shape="circle">
-              中 / En
-              <Icon type="ios-arrow-down"/>
-            </Button>
-            <DropdownMenu slot="list">
-              <DropdownItem name="cn">简体中文</DropdownItem>
-              <DropdownItem name="en">English</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
         </Menu>
       </Header>
       <Layout>
