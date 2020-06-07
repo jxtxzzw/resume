@@ -28,6 +28,9 @@ const messages = {
         footprint: 'Footprint',
         welcome: 'Welcome to jxtxzzw\'s resume',
         updated: 'Last updated on: ',
+        grownup: 'Grown Up',
+        technique: 'Technique',
+        showroom: 'Show Room',
       },
       study: {
         ecnu: 'East China Normal University',
@@ -191,6 +194,9 @@ const messages = {
         footprint: '足迹',
         welcome: '欢迎访问凝神长老的个人简历页面',
         updated: '最后一次更新日期：',
+        grownup: '成长',
+        technique: '技术栈',
+        showroom: '陈列室',
       },
       study: {
         ecnu: '华东师范大学',

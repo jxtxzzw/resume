@@ -17,15 +17,15 @@
           </div>
           <div class="layout-logo"/>
           <div class="layout-nav">
-            <MenuItem name="blog">
+            <MenuItem name="blog" to="https://www.jxtxzzw.com" target="_blank">
               <Icon type="logo-wordpress"/>
               {{ $t('message.navigation.blog') }}
             </MenuItem>
-            <MenuItem name="resume">
+            <MenuItem name="resume" to="https://resume.jxtxzzw.com" target="_blank">
               <Icon type="md-person"/>
               {{ $t('message.navigation.resume') }}
             </MenuItem>
-            <MenuItem name="gitlab">
+            <MenuItem name="gitlab" to="https://gitlab.jxtxzzw.com" target="_blank">
               <Icon type="md-git-branch"/>
               {{ $t('message.navigation.gitlab') }}
             </MenuItem>
@@ -50,10 +50,10 @@
               <MenuItem name="Career" to="Career">
                 {{ $t('message.navigation.career') }}
               </MenuItem>
-              <MenuItem name="Honor" to="Honor">
+              <MenuItem name="Honor" to="Reserved">
                 {{ $t('message.navigation.honor') }}
               </MenuItem>
-              <MenuItem name="ExamCertification" to="ExamCertification">
+              <MenuItem name="ExamCertification" to="Reserved">
                 {{ $t('message.navigation.exam') }}
               </MenuItem>
               <MenuItem name="contact" to="Reserved">
@@ -62,12 +62,21 @@
               <MenuItem name="Milestone" to="Milestone">
                 {{ $t('message.navigation.milestone') }}
               </MenuItem>
+              <MenuItem name="Grownup" to="Reserved">
+                {{ $t('message.navigation.grownup') }}
+              </MenuItem>
+              <MenuItem name="ShowRoom" to="Reserved">
+                {{ $t('message.navigation.showroom') }}
+              </MenuItem>
             </Submenu>
             <Submenu name="skill">
               <template slot="title">
                 <Icon type="md-school"/>
                 {{ $t('message.navigation.skill') }}
               </template>
+              <MenuItem name="Technique" to="Reserved">
+                {{ $t('message.navigation.technique') }}
+              </MenuItem>
               <MenuItem name="Certification" to="Certification">
                 {{ $t('message.navigation.certification') }}
               </MenuItem>
@@ -83,7 +92,7 @@
               <MenuItem name="Project" to="Project">
                 {{ $t('message.navigation.project') }}
               </MenuItem>
-              <MenuItem name="Papers" to="Papers">
+              <MenuItem name="Papers" to="Reserved">
                 {{ $t('message.navigation.paper') }}
               </MenuItem>
             </Submenu>
@@ -101,7 +110,7 @@
               <MenuItem name="Movie" to="Movie">
                 {{ $t('message.navigation.movie') }}
               </MenuItem>
-              <MenuItem name="FootPrint" to="FootPrint">
+              <MenuItem name="FootPrint" to="Reserved">
                 {{ $t('message.navigation.footprint') }}
               </MenuItem>
             </Submenu>
