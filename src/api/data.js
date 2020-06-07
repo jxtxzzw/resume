@@ -62,3 +62,12 @@ export async function getOnlineCourseData() {
     return rec;
   });
 }
+
+export async function getProfessionalBookData() {
+  const res = await getInfo('professionalbook');
+  return res.map((row) => {
+    const rec = row;
+    rec.label = row.label == null ? [] : row.label.split(',').filter((x) => x.length > 0);
+    return rec;
+  });
+}

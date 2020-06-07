@@ -57,6 +57,11 @@ const routes = [
     name: 'OnlineCourse',
     component: () => import('../views/OnlineCourse.vue'),
   },
+  {
+    path: '/ProfessionalBook',
+    name: 'ProfessionalBook',
+    component: () => import('../views/ProfessionalBook.vue'),
+  },
 ];
 
 const router = new VueRouter({
