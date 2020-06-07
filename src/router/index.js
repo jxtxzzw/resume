@@ -52,6 +52,11 @@ const routes = [
     name: 'Movie',
     component: () => import('../views/Movie.vue'),
   },
+  {
+    path: '/OnlineCourse',
+    name: 'OnlineCourse',
+    component: () => import('../views/OnlineCourse.vue'),
+  },
 ];
 
 const router = new VueRouter({

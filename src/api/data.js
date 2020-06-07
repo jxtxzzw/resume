@@ -53,3 +53,12 @@ export async function getMovieData() {
     return rec;
   });
 }
+
+export async function getOnlineCourseData() {
+  const res = await getInfo('onlinecourse');
+  return res.map((row) => {
+    const rec = row;
+    rec.content = row.content == null ? [] : row.content.split(',').filter((x) => x.length > 0);
+    return rec;
+  });
+}
