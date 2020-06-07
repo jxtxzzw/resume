@@ -3,7 +3,7 @@ import Vue from 'vue';
 import ViewUI from 'view-design';
 import VueCodemirror from 'vue-codemirror';
 import VueI18n from 'vue-i18n';
-import VueMatomo from 'vue-matomo'
+import VueMatomo from 'vue-matomo';
 
 import App from './App.vue';
 import router from './router';
@@ -61,7 +61,7 @@ Vue.use(VueMatomo, {
   // trackerScriptUrl: 'https://example.com/whatever/script/path/you/have',
 
   // Enables automatically registering pageviews on the router
-  router: router,
+  router,
 
   // Enables link tracking on regular links. Note that this won't
   // work for routing links (ie. internal Vue router links)
@@ -112,7 +112,7 @@ Vue.use(VueMatomo, {
   //   ['appendToTrackingUrl', 'new_visit=1'],
   //   etc.
   // ]
-  preInitActions: []
+  preInitActions: [],
 });
 
 // 通过选项创建 VueI18n 实例
