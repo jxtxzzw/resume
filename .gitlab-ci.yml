@@ -1,8 +1,5 @@
 image: node:latest
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
-  
 stages:
   - build
   - test
@@ -15,22 +12,26 @@ install_dependencies:
   stage: .pre
   script:
     - npm install
-    - npm install standard mocha istanbul
-  artifacts:
-    paths:
-      - node_modules/
+
+lint:
+  stage: .pre
+  script:
+    - npm run lint
 
 build:
   stage: build
   script:
     - npm run build
-  
-# test:
-#   stage: test
-#   script:
-#     - npm test
+  artifacts:
+    paths:
+      - dist/
+
+unit_test:
+  stage: test
+  script:
+    - npm run test
 
 coverage:
   stage: test
   script:
-    - ./node_modules/.bin/istanbul cover _mocha
+    - npm run coverage
