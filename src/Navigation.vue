@@ -121,10 +121,20 @@
 export default {
   name: 'Home',
   methods: {
-    changeLanguage(lang) {
-      console.log(lang);
-      this.$i18n.locale = lang;
+    showWelcome() {
+      this.$Notice.success({
+        name: 'welcome',
+        title: this.$t('message.navigation.welcome'),
+        desc: `${this.$t('message.navigation.updated')} 2020-06-07`,
+      });
     },
+    changeLanguage(lang) {
+      this.$i18n.locale = lang;
+      this.showWelcome();
+    },
+  },
+  mounted() {
+    this.showWelcome();
   },
 };
 </script>

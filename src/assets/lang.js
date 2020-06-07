@@ -26,6 +26,8 @@ const messages = {
         game: 'Game',
         movie: 'Video',
         footprint: 'Footprint',
+        welcome: 'Welcome to jxtxzzw\'s resume',
+        updated: 'Last updated on: ',
       },
       study: {
         ecnu: 'East China Normal University',
@@ -187,6 +189,8 @@ const messages = {
         game: '游戏',
         movie: '影视',
         footprint: '足迹',
+        welcome: '欢迎访问凝神长老的个人简历页面',
+        updated: '最后一次更新日期：',
       },
       study: {
         ecnu: '华东师范大学',
