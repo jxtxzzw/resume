@@ -1,8 +1,5 @@
 image: node:latest
 
-variables:
-  BASE_URL: "./"
-
 stages:
   - build
   - test
