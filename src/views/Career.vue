@@ -3,13 +3,13 @@
     <Timeline pending>
       <TimelineItem>
         <p class="keyPoint">
-          {{ $t("message.career.microsoft2019") }}
+          {{ $t('message.career.microsoft2019') }}
         </p>
         <p class="title">
-          {{ $t("message.career.microsoft2019_title") }}
+          {{ $t('message.career.microsoft2019_title') }}
         </p>
         <p class="content">
-          {{ $t("message.career.microsoft2019_time") }}
+          {{ $t('message.career.microsoft2019_time') }}
         </p>
       </TimelineItem>
     </Timeline>
@@ -23,17 +23,19 @@ export default {
 </script>
 
 <style scoped>
-  .keyPoint{
+  .keyPoint {
     color: #2d8cf0;
     font-size: 16px;
     font-weight: bold;
   }
-  .title{
+
+  .title {
     color: #2db7f5;
     font-size: 16px;
     font-weight: bold;
   }
-  .content{
+
+  .content {
     padding-left: 12px;
   }
 </style>

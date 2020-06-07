@@ -2,7 +2,7 @@
   <div>
     <Collapse accordion>
       <Panel v-for="item in CollapsePanelData" :key="item.id" :name="item.title">
-        <Rate disabled v-model="item.rate" />
+        <Rate disabled v-model="item.rate"/>
         {{ item.title }}
         <Tag v-if="item.status==='done'" color='success' :style="{margin: '0 10px 0 10px'}">
           {{ item.date === null ? $t('message.fiction.read') : $t('message.fiction.read_at',

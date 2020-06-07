@@ -15,8 +15,6 @@ export async function getCertificationData() {
   return res.map((row) => {
     const rec = row;
     rec.src = row.dir + row.filename;
-    rec.dir = undefined;
-    rec.filename = undefined;
     return rec;
   });
 }
@@ -25,6 +23,20 @@ export async function getFictionData() {
   const res = await getInfo('fiction');
   return res.map((row) => {
     const rec = row;
+    rec.rate = parseInt(`${row.rate}`, 10);
+    rec.comment = row.comment == null ? '' : row.comment;
+    rec.label = row.label == null ? [] : row.label.split(',').filter((x) => x.length > 0);
+    return rec;
+  });
+}
+
+export async function getGameData() {
+  const res = await getInfo('game');
+  return res.map((row) => {
+    const rec = row;
+    rec.cloud = row.cloud === '1';
+    rec.play = row.play === '1';
+    rec.achievement = row.achievement === '1';
     rec.rate = parseInt(`${row.rate}`, 10);
     rec.comment = row.comment == null ? '' : row.comment;
     rec.label = row.label == null ? [] : row.label.split(',').filter((x) => x.length > 0);

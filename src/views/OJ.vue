@@ -159,7 +159,8 @@ export default {
     statusColor(status) {
       if (status === 'TODO') {
         return 'primary';
-      } if (status === 'Accepted') {
+      }
+      if (status === 'Accepted') {
         return 'success';
       }
       return 'error';
@@ -167,7 +168,8 @@ export default {
     statusText(status) {
       if (status === 'TODO') {
         return this.$t('message.oj.todo');
-      } if (status === 'Accepted') {
+      }
+      if (status === 'Accepted') {
         return this.$t('message.oj.accepted');
       }
       return this.$t('message.oj.attempted');

@@ -42,7 +42,7 @@
             2019-11-08
           </em>
           <div class="attachment">
-            <img src="https://dev.jxtxzzw.com/images/eoj_app_cert.jpg" />
+            <img src="https://dev.jxtxzzw.com/images/eoj_app_cert.jpg"/>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
                   to="https://github.com/microsoft/vscode-azure-iot-toolkit">
             GitHub
           </Button>
-          <Button style="margin-right: 10px"  type="info" ghost
+          <Button style="margin-right: 10px" type="info" ghost
                   target="_blank"
                   :to="'https://devblogs.microsoft.com/iotdev/' +
                   'easily-send-random-generated-d2c-messages-to-iot-hub-with-azure-iot-hub-tools/'">
