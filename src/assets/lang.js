@@ -95,6 +95,12 @@ const messages = {
         algs_pop: 'Used {num} main algorithm(s)',
         code_pop: 'Click below to load the code for "{name}":',
       },
+      certification: {
+        start: 'Issued Date: ',
+        end: 'Expiration Date: ',
+        verify_id: 'Credential ID: ',
+        verify_prompt: 'Click the image to see the credential',
+      },
     },
   },
   cn: {
@@ -188,6 +194,12 @@ const messages = {
         algs: '算法',
         algs_pop: '用到了 {num} 个典型的算法',
         code_pop: '点击下方以加载 “{name}” 的代码：',
+      },
+      certification: {
+        start: '颁发日期：',
+        end: '有效期至：',
+        verify_id: '认证编号：',
+        verify_prompt: '点击证书图片以核验证书',
       },
     },
   },

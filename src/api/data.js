@@ -10,6 +10,13 @@ export async function getOJData() {
   });
 }
 
-export async function f() {
-  return 'test';
+export async function getCertificationData() {
+  const res = await getInfo('certification');
+  return res.map((row) => {
+    const rec = row;
+    rec.src = row.dir + row.filename;
+    rec.dir = undefined;
+    rec.filename = undefined;
+    return rec;
+  });
 }

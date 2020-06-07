@@ -32,6 +32,11 @@ const routes = [
     name: 'OJ',
     component: () => import('../views/OJ.vue'),
   },
+  {
+    path: '/Certification',
+    name: 'Certification',
+    component: () => import('../views/Certification.vue'),
+  },
 ];
 
 const router = new VueRouter({
