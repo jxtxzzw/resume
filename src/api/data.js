@@ -43,3 +43,13 @@ export async function getGameData() {
     return rec;
   });
 }
+
+export async function getMovieData() {
+  const res = await getInfo('movie');
+  return res.map((row) => {
+    const rec = row;
+    rec.rate = parseInt(`${row.rate}`, 10);
+    rec.comment = row.comment == null ? '' : row.comment;
+    return rec;
+  });
+}

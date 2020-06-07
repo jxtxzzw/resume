@@ -5,7 +5,7 @@
         <Rate disabled v-model="item.rate"/>
         {{ item.title }}
         <Tag v-if="item.status==='done'" color='success' :style="{margin: '0 10px 0 10px'}">
-          {{ item.date === null ? $t('message.fiction.read') : $t('message.fiction.read_at',
+          {{ item.date === null ? $t('message.fiction.done') : $t('message.fiction.done_at',
           {date: item.date}) }}
         </Tag>
         <Tag v-if="item.status==='doing'" color='primary' :style="{margin: '0 10px 0 10px'}">
