@@ -62,6 +62,11 @@ const routes = [
     name: 'ProfessionalBook',
     component: () => import('../views/ProfessionalBook.vue'),
   },
+  {
+    path: '/Milestone',
+    name: 'Milestone',
+    component: () => import('../views/Milestone.vue'),
+  },
 ];
 
 const router = new VueRouter({

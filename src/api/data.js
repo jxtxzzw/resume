@@ -71,3 +71,7 @@ export async function getProfessionalBookData() {
     return rec;
   });
 }
+
+export async function getMilestoneData() {
+  return getInfo('milestone');
+}
