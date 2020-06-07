@@ -20,3 +20,14 @@ export async function getCertificationData() {
     return rec;
   });
 }
+
+export async function getFictionData() {
+  const res = await getInfo('fiction');
+  return res.map((row) => {
+    const rec = row;
+    rec.rate = parseInt(`${row.rate}`, 10);
+    rec.comment = row.comment == null ? '' : row.comment;
+    rec.label = row.label == null ? [] : row.label.split(',').filter((x) => x.length > 0);
+    return rec;
+  });
+}

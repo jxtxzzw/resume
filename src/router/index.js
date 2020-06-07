@@ -37,6 +37,11 @@ const routes = [
     name: 'Certification',
     component: () => import('../views/Certification.vue'),
   },
+  {
+    path: '/Fiction',
+    name: 'Fiction',
+    component: () => import('../views/Fiction.vue'),
+  },
 ];
 
 const router = new VueRouter({
