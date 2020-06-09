@@ -67,6 +67,11 @@ const routes = [
     name: 'Milestone',
     component: () => import('../views/Milestone.vue'),
   },
+  {
+    path: '/Exam',
+    name: 'Exam',
+    component: () => import('../views/Exam.vue'),
+  },
 ];
 
 const router = new VueRouter({

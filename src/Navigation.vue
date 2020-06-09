@@ -53,7 +53,7 @@
               <MenuItem name="Honor" to="Reserved">
                 {{ $t('message.navigation.honor') }}
               </MenuItem>
-              <MenuItem name="ExamCertification" to="Reserved">
+              <MenuItem name="Exam" to="Exam">
                 {{ $t('message.navigation.exam') }}
               </MenuItem>
               <MenuItem name="contact" to="Reserved">
