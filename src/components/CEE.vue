@@ -12,11 +12,11 @@
           {{item.score}}
         </h1>
         <p>
-          {{item.name}}
+          {{dict(item.name, $i18n)}}
         </p>
       </div>
       <span>
-        满分
+        {{$t('message.exam.total')}}
         <i>
           {{item.total}}
         </i>
@@ -27,10 +27,13 @@
 </template>
 
 <script>
+import { dict } from '../assets/dict';
+
 export default {
   name: 'CEE',
   data() {
     return {
+      dict,
       scores: [
         {
           name: '语文',

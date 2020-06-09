@@ -3,16 +3,16 @@
     <i-circle :percent="(verbal-130)/40*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{verbal}} </h1>
-        <p> Verbal </p>
+        <p> {{$t('message.exam.verbal')}} </p>
       </div>
       <span>
         <i> (130-170) </i>
       </span>
     </i-circle>
-    <i-circle :percent="(quantitive-130)/40*100" dashboard>
+    <i-circle :percent="(quantitative-130)/40*100" dashboard>
       <div class="demo-Circle-custom">
-        <h1> {{quantitive}} </h1>
-        <p> Quantitive </p>
+        <h1> {{quantitative}} </h1>
+        <p> {{$t('message.exam.quantitative')}} </p>
       </div>
       <span>
         <i> (130-170) </i>
@@ -22,7 +22,7 @@
               stroke-color="#5cb85c">
       <div class="demo-Circle-custom">
         <h1> {{total}} </h1>
-        <p> Total </p>
+        <p> {{$t('message.exam.sum')}} </p>
       </div>
       <span>
         <i> (260-340) </i>
@@ -31,7 +31,7 @@
     <i-circle :percent="writing/6*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{writing}} </h1>
-        <p> Analytical Writing </p>
+        <p> {{$t('message.exam.analytical_writing')}} </p>
       </div>
       <span>
         <i> (0-6) </i>
@@ -43,10 +43,10 @@
 <script>
 export default {
   name: 'CET',
-  props: ['verbal', 'quantitive', 'writing'],
+  props: ['verbal', 'quantitative', 'writing'],
   computed: {
     total() {
-      return parseInt(this.verbal, 10) + parseInt(this.quantitive, 10);
+      return parseInt(this.verbal, 10) + parseInt(this.quantitative, 10);
     },
   },
 };

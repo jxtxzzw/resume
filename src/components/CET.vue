@@ -3,30 +3,30 @@
     <i-circle :percent="listening/248.5*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{listening}} </h1>
-        <p> 听力 </p>
+        <p> {{$t('message.exam.listening')}} </p>
       </div>
       <span>
-        满分
+        {{$t('message.exam.total')}}
         <i> 248.5 </i>
   </span>
     </i-circle>
     <i-circle :percent="reading/248.5*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{reading}} </h1>
-        <p> 阅读 </p>
+        <p> {{$t('message.exam.reading')}} </p>
       </div>
       <span>
-        满分
+        {{$t('message.exam.total')}}
         <i> 248.5 </i>
       </span>
     </i-circle>
     <i-circle :percent="writingAndTranslation/213*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{writingAndTranslation}} </h1>
-        <p> 写作和翻译 </p>
+        <p> {{$t('message.exam.writing_and_translation')}} </p>
       </div>
       <span>
-        满分
+        {{$t('message.exam.total')}}
         <i> 213 </i>
       </span>
     </i-circle>
@@ -35,11 +35,11 @@
       dashboard stroke-color="#5cb85c">
       <div class="demo-Circle-custom">
         <h1> {{total}} </h1>
-        <p> 总分 </p>
+        <p> {{$t('message.exam.sum')}} </p>
       </div>
       <span>
-        710
-        <i> 213 </i>
+        {{$t('message.exam.total')}}
+        <i> 710 </i>
       </span>
     </i-circle>
   </div>

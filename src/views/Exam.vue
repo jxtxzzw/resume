@@ -1,26 +1,15 @@
 <template>
   <div>
     <Row>
-      <i-col span="4" v-for="item in GPA.ECNU" :key="item.id">
-        <Card>
-          <p slot="title">
-            {{item.course}}
-          </p>
-          <i-circle :percent="item.grade/4*100" stroke-color="#5cb85c">
-            <div class="demo-Circle-custom">
-              <h1>
-                {{item.rank}}
-              </h1>
-            </div>
-          </i-circle>
-        </Card>
-      </i-col>
+      <Tag v-for="item in GPA.ECNU" :key="item.id" type="dot" color="success" >
+        <b>{{item.course}}</b> 以 {{item.grade}} 分的绩点获得了 {{item.rank}}
+      </Tag>
     </Row>
     <Row>
       <i-col span="12">
         <Card>
           <p slot="title">
-            TOEFL My Highest Score
+            TOEFL
           </p>
           <TOEFL :reading="28" :listening="27" :speaking="23" :writing="28"/>
         </Card>
@@ -28,7 +17,7 @@
       <i-col span="12">
         <Card>
           <p slot="title">
-            TOEFL My MyBest Score
+            TOEFL MyBest Score
           </p>
           <TOEFL :reading="28" :listening="28" :speaking="23" :writing="28"/>
         </Card>
@@ -38,17 +27,17 @@
       <i-col span="12">
         <Card>
           <p slot="title">
-            GRE My Highest Score
+            GRE
           </p>
-          <GRE :verbal="154" :quantitive="170" :writing="3"/>
+          <GRE :verbal="154" :quantitative="170" :writing="3"/>
         </Card>
       </i-col>
       <i-col span="12">
         <Card>
           <p slot="title">
-            GRE My MyBest Score
+            GRE MyBest Score
           </p>
-          <GRE :verbal="154" :quantitive="170" :writing="4"/>
+          <GRE :verbal="154" :quantitative="170" :writing="4"/>
         </Card>
       </i-col>
     </Row>
@@ -74,7 +63,7 @@
       <i-col span="24">
         <Card>
           <p slot="title">
-            高考
+            {{$t('message.exam.CEE')}}
           </p>
           <CEE />
         </Card>
@@ -84,7 +73,7 @@
       <i-col span="24">
         <Card>
           <p slot="title">
-            中考
+            {{$t('message.exam.HEE')}}
           </p>
           <HEE />
         </Card>

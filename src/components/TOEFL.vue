@@ -3,7 +3,7 @@
     <i-circle :percent="reading/30*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{reading}} </h1>
-        <p> Reading </p>
+        <p> {{$t('message.exam.reading')}} </p>
       </div>
       <span>
         <i> (0-30) </i>
@@ -12,7 +12,7 @@
     <i-circle :percent="listening/30*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{listening}} </h1>
-        <p> Listening </p>
+        <p> {{$t('message.exam.listening')}} </p>
       </div>
       <span>
         <i> (0-30) </i>
@@ -21,7 +21,7 @@
     <i-circle :percent="speaking/30*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{speaking}} </h1>
-        <p> Speaking </p>
+        <p> {{$t('message.exam.speaking')}} </p>
       </div>
       <span>
         <i> (0-30) </i>
@@ -30,7 +30,7 @@
     <i-circle :percent="writing/30*100" dashboard>
       <div class="demo-Circle-custom">
         <h1> {{writing}} </h1>
-        <p> Writing </p>
+        <p> {{$t('message.exam.writing')}} </p>
       </div>
       <span>
         <i> (0-30) </i>
@@ -42,7 +42,7 @@
       stroke-color="#5cb85c">
       <div class="demo-Circle-custom">
         <h1> {{ total }} </h1>
-        <p> Total </p>
+        <p> {{$t('message.exam.sum')}} </p>
       </div>
       <span>
         <i> (0-120) </i>
