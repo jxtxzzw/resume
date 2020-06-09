@@ -19,11 +19,13 @@
 <script>
 import { getOJData } from '../api/data';
 import { getCode } from '../api/util';
+import { dict } from '../assets/dict';
 
 export default {
   name: 'OJ',
   data() {
     return {
+      dict,
       pageNumber: 1,
       sizer: [10],
       pageSize: 10,
@@ -116,7 +118,7 @@ export default {
                       textAlign: 'center',
                       padding: '4px',
                     },
-                  }, item))),
+                  }, this.dict(item, this.$i18n)))),
                 ]),
               ]);
             }
@@ -145,7 +147,7 @@ export default {
                       textAlign: 'center',
                       padding: '4px',
                     },
-                  }, item))),
+                  }, this.dict(item, this.$i18n)))),
                 ]),
               ]);
             }

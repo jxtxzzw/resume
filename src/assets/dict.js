@@ -6,6 +6,8 @@ const map = {
   物理: 'message.exam.physics',
   化学: 'message.exam.chemistry',
   体育: 'message.exam.pe',
+  ecnu: 'message.study.ecnu',
+  哈希表: 'message.term.hash',
 };
 
 function dict(val, i18n) {

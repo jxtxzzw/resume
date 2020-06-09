@@ -2,7 +2,14 @@
   <div>
     <Row>
       <Tag v-for="item in GPA.ECNU" :key="item.id" type="dot" color="success" >
-        <b>{{item.course}}</b> 以 {{item.grade}} 分的绩点获得了 {{item.rank}}
+
+        {{$t('message.exam.course', {
+            school: dict('ecnu', $i18n),
+            course: dict(item.course, $i18n),
+            grade: item.grade,
+            rank: item.rank
+          })}}
+
       </Tag>
     </Row>
     <Row>
@@ -88,6 +95,7 @@ import CEE from '../components/CEE.vue';
 import HEE from '../components/HEE.vue';
 import TOEFL from '../components/TOEFL.vue';
 import GRE from '../components/GRE.vue';
+import { dict } from '../assets/dict';
 
 export default {
   name: 'ExamCertification',
@@ -96,6 +104,7 @@ export default {
   },
   data() {
     return {
+      dict,
       GPA: {
         ECNU: [
           {

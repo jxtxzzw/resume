@@ -183,6 +183,10 @@ const messages = {
         analytical_writing: 'Analytical Writing',
         HEE: 'High School Entrance Examination',
         CEE: 'College Entrance Examination',
+        course: '{course} in {school} obtained rank {rank} with grade {grade}',
+      },
+      term: {
+        hash: 'Hash Table',
       },
     },
   },
@@ -366,6 +370,10 @@ const messages = {
         analytical_writing: '分析写作',
         HEE: '中考',
         CEE: '高考',
+        course: '{school} 的 {course} 课程以 {grade} 分的绩点获得 {rank}',
+      },
+      term: {
+        hash: '哈希表',
       },
     },
   },
