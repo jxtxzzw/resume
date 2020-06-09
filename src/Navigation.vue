@@ -136,7 +136,7 @@ export default {
       this.$Notice.success({
         name: 'welcome',
         title: this.$t('message.navigation.welcome'),
-        desc: `${this.$t('message.navigation.updated')} 2020-06-07`,
+        desc: `${this.$t('message.navigation.updated')} 2020-06-09`,
       });
     },
     changeLanguage(lang) {

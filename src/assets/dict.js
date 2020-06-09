@@ -1,18 +1,8 @@
-const map = {
-  总分: 'message.exam.sum',
-  语文: 'message.exam.chinese',
-  数学: 'message.exam.maths',
-  英语: 'message.exam.english',
-  物理: 'message.exam.physics',
-  化学: 'message.exam.chemistry',
-  体育: 'message.exam.pe',
-  ecnu: 'message.study.ecnu',
-  哈希表: 'message.term.hash',
-};
+const { dictMap } = require('./lang');
 
 function dict(val, i18n) {
-  if (map[val] !== undefined) {
-    return i18n.t(map[val]);
+  if (dictMap[val] !== undefined) {
+    return i18n.t(dictMap[val]);
   }
   return val;
 }
