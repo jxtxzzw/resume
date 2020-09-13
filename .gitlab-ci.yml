@@ -1,8 +1,8 @@
 image: node:latest
 
 stages:
-  - build
   - test
+  - build
 
 cache:
   paths:
@@ -18,20 +18,20 @@ lint:
   script:
     - npm run lint
 
-build:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - dist/
-
 unit_test:
   stage: test
   script:
     - npm run test
 
-coverage:
-  stage: test
+build:
+  stage: build
   script:
-    - npm run coverage
+    - npm run build
+
+generate:
+  stage: build
+  script:
+    - npm run generate
+  artifacts:
+    paths:
+      - dist/
