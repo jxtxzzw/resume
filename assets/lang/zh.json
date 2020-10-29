@@ -17,6 +17,7 @@
     "start": "颁发日期",
     "end": "有效期至",
     "verify_id": "认证编号",
-    "verify_prompt": "点击证书图片以核验证书"
+    "verify_prompt": "点击证书图片以核验证书",
+    "lifetime": "永久有效"
   }
 }

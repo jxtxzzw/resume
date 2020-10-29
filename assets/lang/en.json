@@ -17,6 +17,7 @@
     "start": "Issued Date",
     "end": "Expiration Date",
     "verify_id": "Credential ID",
-    "verify_prompt": "Click the image to see the credential"
+    "verify_prompt": "Click the image to see the credential",
+    "lifetime": "Life time"
   }
 }

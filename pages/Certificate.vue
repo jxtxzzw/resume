@@ -14,7 +14,8 @@
           </li>
           <li>
             <Icon type="ios-calendar-outline" />
-            {{ $t('certificate.end') }} {{ item.end }}
+            {{ $t('certificate.end') }}
+            {{ item.end ? item.end : $t('certificate.lifetime') }}
           </li>
           <li>
             <Icon type="ios-barcode-outline" />

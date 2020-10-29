@@ -7,6 +7,12 @@ cache:
   paths:
     - node_modules/
 
+prepare_resources:
+  stage: .pre
+  script:
+    - cp -rv ./assets/data-sample ./assets/data
+    - cp -rv ./static/data-sample ./static/data
+
 install_dependencies:
   stage: .pre
   script:
