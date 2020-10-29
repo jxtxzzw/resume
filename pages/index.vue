@@ -27,17 +27,6 @@
         >
           iView
         </Button>
-        {{ $t('welcome') }}
-        <Dropdown @on-click="changeLanguage" style="margin-right: 20px">
-          <Button ghost icon="ios-globe" shape="circle">
-            中 / En
-            <Icon type="ios-arrow-down" />
-          </Button>
-          <DropdownMenu slot="list">
-            <DropdownItem name="zh">简体中文</DropdownItem>
-            <DropdownItem name="en">English</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
       </div>
     </div>
   </div>
@@ -48,11 +37,6 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo,
-  },
-  methods: {
-    changeLanguage(lang) {
-      this.$i18n.locale = lang
-    },
   },
 }
 </script>

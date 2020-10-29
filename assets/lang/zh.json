@@ -1,3 +1,11 @@
 {
-  "welcome": "欢迎"
+  "welcome": "欢迎",
+  "updated": "最后一次更新是",
+  "permalink": "请访问 https://resume.jxtxzzw.com/ 查看最新版本",
+  "blog": "个人博客",
+  "resume": "个人简介",
+  "gitlab": "代码仓库",
+  "experience": "个人经历",
+  "skill": "专业技能",
+  "certificate": "证书"
 }

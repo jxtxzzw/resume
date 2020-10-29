@@ -1,3 +1,11 @@
 {
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "updated": "Updated at",
+  "permalink": "Visit https://resume.jxtxzzw.com/ to see the up-dated version",
+  "blog": "Blog",
+  "resume": "Resume",
+  "gitlab": "GitLab",
+  "experience": "Experience",
+  "skill": "Skill",
+  "certificate": "Certificate"
 }
