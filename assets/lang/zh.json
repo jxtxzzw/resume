@@ -2,10 +2,21 @@
   "welcome": "欢迎",
   "updated": "最后一次更新是",
   "permalink": "请访问 https://resume.jxtxzzw.com/ 查看最新版本",
-  "blog": "个人博客",
-  "resume": "个人简介",
-  "gitlab": "代码仓库",
-  "experience": "个人经历",
-  "skill": "专业技能",
-  "certificate": "证书"
+  "navigation": {
+    "blog": "个人博客",
+    "resume": "个人简介",
+    "gitlab": "代码仓库",
+    "experience": "个人经历",
+    "skill": "专业技能",
+    "certificate": "证书"
+  },
+  "certificate": {
+    "specialization": "属于{specialization}专项课程",
+    "platform": "在{platform}平台",
+    "provider": "由{provider}提供",
+    "start": "颁发日期",
+    "end": "有效期至",
+    "verify_id": "认证编号",
+    "verify_prompt": "点击证书图片以核验证书"
+  }
 }

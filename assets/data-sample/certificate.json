@@ -1,0 +1,44 @@
+[
+  {
+    "type": "header",
+    "version": "5.0.0-rc1",
+    "comment": "Export to JSON plugin for PHPMyAdmin"
+  },
+  {
+    "type": "database",
+    "name": "sample"
+  },
+  {
+    "type": "table",
+    "name": "certificate",
+    "database": "sample",
+    "data": [
+      {
+        "id": "1",
+        "title": "Neural Networks and Deep Learning",
+        "specialization": "Deep Learning",
+        "content": "XXX has successfully completed XXX, an online non-credit course authorized by deeplearning.ai and offered through Coursera",
+        "start": "2020-02-28",
+        "end": "长期有效",
+        "verify": "XXX1234YYY",
+        "filename": "sample.png",
+        "platform": "Coursera",
+        "provider": "DeepLearning.AI"
+      },
+      {
+        "id": "2",
+        "title": "Java语言程序设计进阶",
+        "specialization": null,
+        "description": "网易云课堂 （由浙江大学提供）",
+        "content": "XXX完成《Java语言程序设计进阶》课程的学习，考核通过并取得合格成绩。特发此证。",
+        "start": "2015-11-13",
+        "end": "长期有效",
+        "verify": "XXX9876YYY",
+        "filename": "sample.png",
+        "platform": "网易云课堂",
+        "provider": "XX大学"
+      }
+    ]
+  }
+]
+

@@ -1,8 +1,116 @@
 <template>
-  <div>
-    <Nuxt />
+  <div class="layout">
+    <Layout :style="{ minHeight: '-webkit-fill-available' }">
+      <Header>
+        <Menu mode="horizontal" theme="dark" active-name="1">
+          <div style="float: left">
+            <Dropdown
+              transfer
+              style="margin-right: 20px"
+              @on-click="changeLanguage"
+            >
+              <Button ghost icon="ios-globe" shape="circle">
+                中 / En
+                <Icon type="ios-arrow-down" />
+              </Button>
+              <DropdownMenu slot="list">
+                <DropdownItem name="zh">简体中文</DropdownItem>
+                <DropdownItem name="en">English</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div class="layout-logo" />
+          <div class="layout-nav">
+            <MenuItem name="blog" to="https://www.jxtxzzw.com" target="_blank">
+              <Icon type="logo-wordpress" />
+              {{ $t('navigation.blog') }}
+            </MenuItem>
+            <MenuItem
+              name="resume"
+              to="https://resume.jxtxzzw.com"
+              target="_blank"
+            >
+              <Icon type="md-person" />
+              {{ $t('navigation.resume') }}
+            </MenuItem>
+            <MenuItem
+              name="gitlab"
+              to="https://gitlab.jxtxzzw.com"
+              target="_blank"
+            >
+              <Icon type="md-git-branch" />
+              {{ $t('navigation.gitlab') }}
+            </MenuItem>
+          </div>
+        </Menu>
+      </Header>
+      <Layout>
+        <Sider hide-trigger>
+          <Menu
+            accordion
+            active-name="1-2"
+            theme="dark"
+            width="auto"
+            :open-names="['1']"
+          >
+            <Submenu name="experience">
+              <template slot="title">
+                <Icon type="md-person" />
+                {{ $t('navigation.experience') }}
+              </template>
+            </Submenu>
+            <Submenu name="skill">
+              <template slot="title">
+                <Icon type="md-school" />
+                {{ $t('navigation.skill') }}
+              </template>
+              <MenuItem name="Certificate" to="Certificate">
+                {{ $t('navigation.certificate') }}
+              </MenuItem>
+            </Submenu>
+          </Menu>
+        </Sider>
+        <Layout :style="{ padding: '24px 24px 24px' }">
+          <Content
+            id="waterfallwrapper"
+            :style="{ padding: '24px', background: '#fff' }"
+          >
+            <Nuxt />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   </div>
 </template>
+
+<script>
+import { setting } from 'assets/reader'
+
+export default {
+  name: 'Home',
+  data() {
+    return {
+      setting,
+    }
+  },
+  mounted() {
+    this.showWelcome()
+  },
+  methods: {
+    showWelcome() {
+      this.$Notice.success({
+        name: 'welcome',
+        title: `${this.$t('updated')} ${this.setting.updated}`,
+        desc: `${this.$t('permalink')}`,
+      })
+    },
+    changeLanguage(lang) {
+      this.$i18n.locale = lang
+      this.showWelcome()
+    },
+  },
+}
+</script>
 
 <style>
 html {

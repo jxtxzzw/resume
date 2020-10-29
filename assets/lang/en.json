@@ -1,11 +1,22 @@
 {
   "welcome": "Welcome",
-  "updated": "Updated at",
-  "permalink": "Visit https://resume.jxtxzzw.com/ to see the up-dated version",
-  "blog": "Blog",
-  "resume": "Resume",
-  "gitlab": "GitLab",
-  "experience": "Experience",
-  "skill": "Skill",
-  "certificate": "Certificate"
+  "updated": "Last updated on",
+  "permalink": "Please visit https://resume.jxtxzzw.com/ to see up-dated version",
+  "navigation": {
+    "blog": "Blog",
+    "resume": "Resume",
+    "gitlab": "GitLab",
+    "experience": "Experience",
+    "skill": "Skill",
+    "certificate": "Certificate"
+  },
+  "certificate": {
+    "specialization": "Part of {specialization} Specialization",
+    "platform": "On {platform}",
+    "provider": "Provided by {provider}",
+    "start": "Issued Date",
+    "end": "Expiration Date",
+    "verify_id": "Credential ID",
+    "verify_prompt": "Click the image to see the credential"
+  }
 }
