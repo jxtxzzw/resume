@@ -1,0 +1,6 @@
+{
+  "matomoUrl": "https://matomo.example.com",
+  "siteId": 1,
+  "trackerUrl": "https://matomo.example.com/matomo.php",
+  "scriptUrl": "https://matomo.example.com/matomo.js"
+}

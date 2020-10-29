@@ -56,6 +56,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'nuxt-i18n',
+    ['nuxt-matomo', require('./assets/data/matomo.json')],
   ],
   /*
    ** Axios module configuration
