@@ -1,7 +1,6 @@
 image: node:latest
 
 stages:
-  - test
   - build
 
 cache:
@@ -17,11 +16,6 @@ lint:
   stage: .pre
   script:
     - npm run lint
-
-unit_test:
-  stage: test
-  script:
-    - npm run test
 
 build:
   stage: build
