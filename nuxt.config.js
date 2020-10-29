@@ -55,6 +55,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    'nuxt-i18n',
   ],
   /*
    ** Axios module configuration
@@ -66,4 +67,19 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
+  /*
+   ** i18n configuration
+   ** See https://i18n.nuxtjs.org/basic-usage/
+   */
+  i18n: {
+    locales: ['zh', 'en'],
+    defaultLocale: 'zh',
+    vueI18n: {
+      fallbackLocale: 'zh',
+      messages: {
+        zh: require('./assets/lang/zh.json'),
+        en: require('./assets/lang/en.json'),
+      },
+    },
+  },
 }
