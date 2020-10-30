@@ -8,7 +8,9 @@
     "gitlab": "代码仓库",
     "experience": "个人经历",
     "skill": "专业技能",
-    "certificate": "证书"
+    "certificate": "证书",
+    "entertainment": "兴趣娱乐",
+    "game": "游戏"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",
@@ -19,5 +21,24 @@
     "verify_id": "认证编号",
     "verify_prompt": "点击证书图片以核验证书",
     "lifetime": "永久有效"
+  },
+  "game": {
+    "name": "游戏名",
+    "status": "状态",
+    "date": "日期",
+    "rate": "评分",
+    "collection": "全要素收集",
+    "achievement": "全成就达成",
+    "cloud": "云通关",
+    "play": "通关",
+    "comment": "简评",
+    "time": "时长（小时）",
+    "done": "已通关",
+    "done_at": "已于 {date} 通关",
+    "doing": "游戏中",
+    "todo": "计划中",
+    "disabled": "无限通关（沙盒、对战等）",
+    "message": "评分和评价仅代表个人意见。",
+    "warning": "本页面可能包含剧透内容。"
   }
 }

@@ -64,8 +64,17 @@
                 <Icon type="md-school" />
                 {{ $t('navigation.skill') }}
               </template>
-              <MenuItem name="Certificate" to="Certificate">
+              <MenuItem name="certificate" to="certificate">
                 {{ $t('navigation.certificate') }}
+              </MenuItem>
+            </Submenu>
+            <Submenu name="entertainment">
+              <template slot="title">
+                <Icon type="md-laptop" />
+                {{ $t('navigation.entertainment') }}
+              </template>
+              <MenuItem name="game" to="game">
+                {{ $t('navigation.game') }}
               </MenuItem>
             </Submenu>
           </Menu>
@@ -99,7 +108,7 @@ export default {
   methods: {
     showWelcome() {
       this.$Notice.success({
-        name: 'welcome',
+        name: 'welcome-' + new Date(),
         title: `${this.$t('updated')} ${this.setting.updated}`,
         desc: `${this.$t('permalink')}`,
       })

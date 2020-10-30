@@ -7,7 +7,9 @@ cache:
   npm: true
 
 install:
+  - rm -rf ./assets/data
   - cp -rv ./assets/data-sample ./assets/data
+  - rm -rf ./static/data
   - cp -rv ./static/data-sample ./static/data
   - npm install
   - npm run lint

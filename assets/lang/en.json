@@ -8,7 +8,9 @@
     "gitlab": "GitLab",
     "experience": "Experience",
     "skill": "Skill",
-    "certificate": "Certificate"
+    "certificate": "Certificate",
+    "entertainment": "Entertainment",
+    "game": "Game"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",
@@ -19,5 +21,24 @@
     "verify_id": "Credential ID",
     "verify_prompt": "Click the image to see the credential",
     "lifetime": "Life time"
+  },
+  "game": {
+    "name": "Name",
+    "status": "Status",
+    "date": "Date",
+    "rate": "Rate",
+    "collection": "All collected",
+    "achievement": "Achieve all accomplishments",
+    "cloud": "Accomplished by watching videos",
+    "play": "Accomplished in person",
+    "comment": "Reviews",
+    "time": "Time (hours)",
+    "done": "Accomplished",
+    "done_at": "Accomplished on {date}",
+    "doing": "Playing",
+    "todo": "Scheduling",
+    "disabled": "Ultimated (Sandbox, MOBA, etc.)",
+    "message": "Ratings and reviews are personal.",
+    "warning": "This page may contain information about the plot."
   }
 }
