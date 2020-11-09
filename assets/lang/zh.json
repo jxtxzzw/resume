@@ -12,7 +12,22 @@
     "entertainment": "兴趣娱乐",
     "game": "游戏",
     "fiction": "小说",
-    "milestone": "里程碑"
+    "milestone": "里程碑",
+    "introduction": "个人简介",
+    "contact": "联系方式",
+    "study": "学习经历",
+    "work": "工作经历",
+    "project": "项目经历",
+    "research": "科研经历",
+    "honor": "荣誉榜",
+    "exam": "考试成绩",
+    "oj": "OJ 做题记录",
+    "technique": "技术栈",
+    "movie": "影视",
+    "anime": "动漫",
+    "music": "音乐",
+    "footprint": "足迹",
+    "photo": "摄像"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",
@@ -57,6 +72,10 @@
     "warning": "本页面可能包含剧透内容。"
   },
   "milestone": {
-  "pending": "未完待续……"
-}
+    "pending": "未完待续……"
+  },
+  "reserved": {
+    "title": "这个页面还在施工中",
+    "desc": "这个页面还在施工中，过段时间再来访问吧"
+  }
 }

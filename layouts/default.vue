@@ -46,44 +46,7 @@
       </Header>
       <Layout>
         <Sider hide-trigger>
-          <Menu
-            accordion
-            active-name="1-2"
-            theme="dark"
-            width="auto"
-            :open-names="['1']"
-          >
-            <Submenu name="experience">
-              <template slot="title">
-                <Icon type="md-person" />
-                {{ $t('navigation.experience') }}
-              </template>
-              <MenuItem name="milestone" to="milestone">
-                {{ $t('navigation.milestone') }}
-              </MenuItem>
-            </Submenu>
-            <Submenu name="skill">
-              <template slot="title">
-                <Icon type="md-school" />
-                {{ $t('navigation.skill') }}
-              </template>
-              <MenuItem name="certificate" to="certificate">
-                {{ $t('navigation.certificate') }}
-              </MenuItem>
-            </Submenu>
-            <Submenu name="entertainment">
-              <template slot="title">
-                <Icon type="md-laptop" />
-                {{ $t('navigation.entertainment') }}
-              </template>
-              <MenuItem name="game" to="game">
-                {{ $t('navigation.game') }}
-              </MenuItem>
-              <MenuItem name="fiction" to="fiction">
-                {{ $t('navigation.fiction') }}
-              </MenuItem>
-            </Submenu>
-          </Menu>
+          <Navigation />
         </Sider>
         <Layout :style="{ padding: '24px 24px 24px' }">
           <Content
@@ -100,9 +63,11 @@
 
 <script>
 import { setting } from 'assets/reader'
+import Navigation from '@/components/Navigation'
 
 export default {
   name: 'Home',
+  components: { Navigation },
   data() {
     return {
       setting,

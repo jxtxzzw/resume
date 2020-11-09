@@ -12,7 +12,22 @@
     "entertainment": "Entertainment",
     "game": "Game",
     "fiction": "Fiction",
-    "milestone": "Milestone"
+    "milestone": "Milestone",
+    "introduction": "Self-Intro",
+    "contact": "Contact Me",
+    "study": "Study",
+    "work": "Work",
+    "project": "Project",
+    "research": "Research",
+    "honor": "Honor",
+    "exam": "Exam",
+    "oj": "Online Judge",
+    "technique": "Technique",
+    "movie": "Movie",
+    "anime": "Anime",
+    "music": "Music",
+    "footprint": "Footprint",
+    "photo": "Photo"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",
@@ -58,5 +73,9 @@
   },
   "milestone": {
     "pending": "Pending..."
+  },
+  "reserved": {
+    "title": "This page is not ready for showing.",
+    "desc": "This page is not ready for showing, please visit it later."
   }
 }
