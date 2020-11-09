@@ -11,7 +11,8 @@
     "certificate": "Certificate",
     "entertainment": "Entertainment",
     "game": "Game",
-    "fiction": "Fiction"
+    "fiction": "Fiction",
+    "milestone": "Milestone"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",
@@ -54,5 +55,8 @@
     "todo": "Scheduling",
     "message": "Ratings and reviews are personal.",
     "warning": "This page may contain information about the plot."
+  },
+  "milestone": {
+    "pending": "Pending..."
   }
 }

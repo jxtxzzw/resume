@@ -58,6 +58,9 @@
                 <Icon type="md-person" />
                 {{ $t('navigation.experience') }}
               </template>
+              <MenuItem name="milestone" to="milestone">
+                {{ $t('navigation.milestone') }}
+              </MenuItem>
             </Submenu>
             <Submenu name="skill">
               <template slot="title">

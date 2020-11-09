@@ -11,7 +11,8 @@
     "certificate": "证书",
     "entertainment": "兴趣娱乐",
     "game": "游戏",
-    "fiction": "小说"
+    "fiction": "小说",
+    "milestone": "里程碑"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",
@@ -54,5 +55,8 @@
     "todo": "计划中",
     "message": "评分和评价仅代表个人意见。",
     "warning": "本页面可能包含剧透内容。"
-  }
+  },
+  "milestone": {
+  "pending": "未完待续……"
+}
 }
