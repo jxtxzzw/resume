@@ -10,7 +10,8 @@
     "skill": "专业技能",
     "certificate": "证书",
     "entertainment": "兴趣娱乐",
-    "game": "游戏"
+    "game": "游戏",
+    "fiction": "小说"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",
@@ -38,6 +39,19 @@
     "doing": "游戏中",
     "todo": "计划中",
     "disabled": "无限通关（沙盒、对战等）",
+    "message": "评分和评价仅代表个人意见。",
+    "warning": "本页面可能包含剧透内容。"
+  },
+  "fiction": {
+    "title": "书名",
+    "status": "状态",
+    "date": "日期",
+    "rate": "评分",
+    "comment": "简评",
+    "done": "已阅读",
+    "done_at": "已于 {date} 阅读",
+    "doing": "阅读中",
+    "todo": "计划中",
     "message": "评分和评价仅代表个人意见。",
     "warning": "本页面可能包含剧透内容。"
   }

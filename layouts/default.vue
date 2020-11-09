@@ -76,6 +76,9 @@
               <MenuItem name="game" to="game">
                 {{ $t('navigation.game') }}
               </MenuItem>
+              <MenuItem name="fiction" to="fiction">
+                {{ $t('navigation.fiction') }}
+              </MenuItem>
             </Submenu>
           </Menu>
         </Sider>
