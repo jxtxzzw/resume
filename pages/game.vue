@@ -112,6 +112,14 @@ export default {
         title: this.$t('game.rate'),
         key: 'rate',
         sortable: true,
+        render: (h, params) => {
+          return h('Rate', {
+            props: {
+              disabled: true,
+              value: parseInt(params.row.rate),
+            },
+          })
+        },
         sortMethod: (a, b, type) => {
           if (type === 'asc') {
             return parseInt(a) - parseInt(b)
@@ -147,6 +155,7 @@ export default {
       columns.push({
         title: this.$t('game.play'),
         key: 'play',
+        width: 80,
         render: (h, params) => {
           if (parseInt(params.row.play) === 1) {
             return h(
@@ -177,6 +186,7 @@ export default {
       columns.push({
         title: this.$t('game.cloud'),
         key: 'cloud',
+        width: 80,
         render: (h, params) => {
           if (parseInt(params.row.cloud) === 1) {
             return h(
@@ -207,6 +217,7 @@ export default {
       columns.push({
         title: this.$t('game.collection'),
         key: 'collection',
+        width: 80,
         render: (h, params) => {
           if (parseInt(params.row.collection) === 1) {
             return h(
@@ -237,6 +248,7 @@ export default {
       columns.push({
         title: this.$t('game.achievement'),
         key: 'achievement',
+        width: 80,
         render: (h, params) => {
           if (parseInt(params.row.achievement) === 1) {
             return h(
@@ -267,6 +279,7 @@ export default {
       columns.push({
         title: this.$t('game.time'),
         key: 'time',
+        width: 80,
         sortable: true,
         sortMethod: (a, b, type) => {
           if (type === 'asc') {
