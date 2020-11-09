@@ -72,6 +72,9 @@ export default {
    ** i18n configuration
    ** See https://i18n.nuxtjs.org/basic-usage/
    */
+  router: {
+    base: require('./assets/data/setting.json').deployDir,
+  },
   i18n: {
     locales: ['zh', 'en'],
     defaultLocale: 'zh',

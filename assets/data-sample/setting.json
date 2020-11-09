@@ -1,5 +1,6 @@
 {
   "updated": "2020-11-09",
+  "deployDir": "/",
   "src": {
     "certificate": "/data/certificate/"
   }
