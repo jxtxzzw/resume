@@ -51,6 +51,9 @@ export default {
       setting,
     }
   },
+  mounted() {
+    this.$i18n.locale = this.$store.getters['language/getLanguage']
+  },
   methods: {
     generateDescription(item) {
       let description = ''

@@ -12,5 +12,8 @@
 <script>
 export default {
   name: 'Reserved',
+  mounted() {
+    this.$i18n.locale = this.$store.getters['language/getLanguage']
+  },
 }
 </script>

@@ -58,6 +58,7 @@ export default {
     }
   },
   mounted() {
+    this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.$Message.info(this.$t('fiction.message'))
     this.$Message.error({
       content: this.$t('fiction.warning'),

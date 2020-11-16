@@ -40,6 +40,7 @@ export default {
     }
   },
   mounted() {
+    this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.milestone = milestone.map((item) => {
       if (!this.distinctPlatform.includes(item.platform)) {
         this.distinctPlatform.push(item.platform)

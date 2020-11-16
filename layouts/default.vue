@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted() {
-    this.showWelcome()
+    this.$i18n.locale = this.$store.getters['language/getLanguage']
   },
   methods: {
     showWelcome() {
@@ -86,6 +86,7 @@ export default {
     },
     changeLanguage(lang) {
       this.$i18n.locale = lang
+      this.$store.commit('language/setLanguage', lang)
       this.showWelcome()
     },
   },
