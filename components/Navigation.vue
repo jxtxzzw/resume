@@ -7,25 +7,22 @@
       width="auto"
       :open-names="['1']"
     >
-      <Submenu name="experience">
+      <Submenu name="information">
         <template slot="title">
           <Icon type="md-person" />
-          {{ $t('navigation.experience') }}
+          {{ $t('navigation.information') }}
         </template>
         <MenuItem name="introduction" to="reserved">
           {{ $t('navigation.introduction') }}
-        </MenuItem>
-        <MenuItem name="milestone" to="milestone">
-          {{ $t('navigation.milestone') }}
         </MenuItem>
         <MenuItem name="contact" to="reserved">
           {{ $t('navigation.contact') }}
         </MenuItem>
       </Submenu>
-      <Submenu name="skill">
+      <Submenu name="experience">
         <template slot="title">
-          <Icon type="md-school" />
-          {{ $t('navigation.skill') }}
+          <Icon type="md-copy" />
+          {{ $t('navigation.experience') }}
         </template>
         <MenuItem name="study" to="reserved">
           {{ $t('navigation.study') }}
@@ -39,20 +36,35 @@
         <MenuItem name="research" to="reserved">
           {{ $t('navigation.research') }}
         </MenuItem>
-        <MenuItem name="certificate" to="certificate">
-          {{ $t('navigation.certificate') }}
+        <MenuItem name="publication" to="reserved">
+          {{ $t('navigation.publication') }}
         </MenuItem>
-        <MenuItem name="honor" to="reserved">
-          {{ $t('navigation.honor') }}
+        <MenuItem name="milestone" to="milestone">
+          {{ $t('navigation.milestone') }}
         </MenuItem>
+      </Submenu>
+      <Submenu name="skill">
+        <template slot="title">
+          <Icon type="md-school" />
+          {{ $t('navigation.skill') }}
+        </template>
         <MenuItem name="exam" to="reserved">
           {{ $t('navigation.exam') }}
+        </MenuItem>
+        <MenuItem name="certificate" to="certificate">
+          {{ $t('navigation.certificate') }}
         </MenuItem>
         <MenuItem name="oj" to="reserved">
           {{ $t('navigation.oj') }}
         </MenuItem>
         <MenuItem name="technique" to="reserved">
           {{ $t('navigation.technique') }}
+        </MenuItem>
+        <MenuItem name="honor" to="reserved">
+          {{ $t('navigation.honor') }}
+        </MenuItem>
+        <MenuItem name="exhibit" to="reserved">
+          {{ $t('navigation.exhibit') }}
         </MenuItem>
       </Submenu>
       <Submenu name="entertainment">
@@ -66,20 +78,20 @@
         <MenuItem name="fiction" to="fiction">
           {{ $t('navigation.fiction') }}
         </MenuItem>
-        <MenuItem name="movie" to="reserved">
-          {{ $t('navigation.movie') }}
+        <MenuItem name="media" to="reserved">
+          {{ $t('navigation.media') }}
         </MenuItem>
-        <MenuItem name="anime" to="reserved">
-          {{ $t('navigation.anime') }}
+        <MenuItem name="photo" to="reserved">
+          {{ $t('navigation.photo') }}
         </MenuItem>
-        <MenuItem name="music" to="reserved">
-          {{ $t('navigation.music') }}
+        <MenuItem name="food" to="reserved">
+          {{ $t('navigation.food') }}
         </MenuItem>
         <MenuItem name="footprint" to="reserved">
           {{ $t('navigation.footprint') }}
         </MenuItem>
-        <MenuItem name="photo" to="reserved">
-          {{ $t('navigation.photo') }}
+        <MenuItem name="wish" to="reserved">
+          {{ $t('navigation.wish') }}
         </MenuItem>
       </Submenu>
     </Menu>
