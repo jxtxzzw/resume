@@ -22,8 +22,7 @@ export default {
       showBorder: false,
       showStripe: false,
       showHeader: true,
-      showIndex: true,
-      showCheckbox: false,
+      showIndex: false,
       fixedHeader: false,
       tableSize: 'default',
       game,
@@ -43,13 +42,6 @@ export default {
           })
         },
       })
-      if (this.showCheckbox) {
-        columns.push({
-          type: 'selection',
-          width: 60,
-          align: 'center',
-        })
-      }
       if (this.showIndex) {
         columns.push({
           type: 'index',
@@ -129,33 +121,27 @@ export default {
         },
         filters: [
           {
-            label: `${this.$t('game.rate')} ≥ 7`,
+            label: `${this.$t('game.rate')} ≥ 3`,
             value: 1,
           },
           {
             label: `${this.$t('game.rate')} ≤ 3`,
             value: 2,
           },
-          {
-            label: `4 ≤ ${this.$t('game.rate')} ≤ 6`,
-            value: 3,
-          },
         ],
         filterMultiple: false,
         filterMethod(value, row) {
           if (value === 1) {
-            return row.rate >= 7
+            return parseInt(row.rate) >= 3
           } else if (value === 2) {
-            return row.age <= 3
-          } else if (value === 3) {
-            return row.rate >= 4 && row.rate <= 6
+            return parseInt(row.rate) <= 3
           }
         },
       })
       columns.push({
         title: this.$t('game.play'),
         key: 'play',
-        width: 80,
+        width: 110,
         render: (h, params) => {
           if (parseInt(params.row.play) === 1) {
             return h(
@@ -186,7 +172,7 @@ export default {
       columns.push({
         title: this.$t('game.cloud'),
         key: 'cloud',
-        width: 80,
+        width: 110,
         render: (h, params) => {
           if (parseInt(params.row.cloud) === 1) {
             return h(
@@ -217,7 +203,7 @@ export default {
       columns.push({
         title: this.$t('game.collection'),
         key: 'collection',
-        width: 80,
+        width: 110,
         render: (h, params) => {
           if (parseInt(params.row.collection) === 1) {
             return h(
@@ -248,7 +234,7 @@ export default {
       columns.push({
         title: this.$t('game.achievement'),
         key: 'achievement',
-        width: 80,
+        width: 110,
         render: (h, params) => {
           if (parseInt(params.row.achievement) === 1) {
             return h(
@@ -279,7 +265,7 @@ export default {
       columns.push({
         title: this.$t('game.time'),
         key: 'time',
-        width: 80,
+        width: 110,
         sortable: true,
         sortMethod: (a, b, type) => {
           if (type === 'asc') {
