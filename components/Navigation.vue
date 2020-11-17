@@ -78,7 +78,7 @@
         <MenuItem name="fiction" to="fiction">
           {{ $t('navigation.fiction') }}
         </MenuItem>
-        <MenuItem name="media" to="reserved">
+        <MenuItem name="media" to="media">
           {{ $t('navigation.media') }}
         </MenuItem>
         <MenuItem name="photo" to="reserved">

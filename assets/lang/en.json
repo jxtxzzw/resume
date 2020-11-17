@@ -80,5 +80,22 @@
   "reserved": {
     "title": "This page is not ready for showing.",
     "desc": "This page is not ready for showing, please visit it later."
+  },
+  "media": {
+    "name": "Name",
+    "status": "Status",
+    "date": "Date",
+    "rate": "Rate",
+    "type": "Type",
+    "music": "Music",
+    "tv": "TV Series",
+    "movie": "Movie",
+    "anime": "Anime",
+    "done": "Watched/Listened",
+    "done_at": "已于 {date} Watched/Listened",
+    "doing": "Watching/Listening",
+    "todo": "Scheduling",
+    "message": "Ratings and reviews are personal.",
+    "warning": "This page may contain information about the plot."
   }
 }

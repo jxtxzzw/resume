@@ -37,7 +37,9 @@ export default {
         render: (h, params) => {
           return h(ExpandRow, {
             props: {
-              row: params.row,
+              name: params.row.name,
+              comment: params.row.comment,
+              label: params.row.label,
             },
           })
         },

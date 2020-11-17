@@ -1,12 +1,11 @@
 <template>
   <div>
     <Row class="expand-row">
-      <Divider> {{ this.$t('game.name') }} </Divider>
       <Col span="24">
-        <span class="expand-value">{{ row.name }}</span>
-        <span v-if="row.label">
+        <span class="expand-value">{{ name }}</span>
+        <span v-if="label">
           <Tag
-            v-for="lab in splitToArray(row.label)"
+            v-for="lab in splitToArray(label)"
             :key="lab"
             :color="randomLabelColor()"
           >
@@ -16,9 +15,9 @@
       </Col>
     </Row>
     <Row>
-      <Divider> {{ this.$t('game.comment') }} </Divider>
+      <Divider> {{ name }} </Divider>
       <Col span="24">
-        <span class="expand-value">{{ row.comment }}</span>
+        <span class="expand-value">{{ comment }}</span>
       </Col>
     </Row>
   </div>
@@ -30,8 +29,16 @@ import { splitToArray, randomLabelColor } from 'assets/util'
 export default {
   name: 'ExpandRow',
   props: {
-    row: {
-      type: Object,
+    name: {
+      type: String,
+      default: null,
+    },
+    comment: {
+      type: String,
+      default: null,
+    },
+    label: {
+      type: String,
       default: null,
     },
   },
