@@ -35,3 +35,17 @@ export function randomLabelColor(str) {
   const r = hashCode(str) % color.length
   return color[r]
 }
+
+export function sortByDate(list) {
+  return list.sort((a, b) => {
+    if (a.date === null && b.date === null) {
+      return 0
+    } else if (a.date === null && b.date !== null) {
+      return 1
+    } else if (a.date !== null && b.date === null) {
+      return -1
+    } else {
+      return new Date(b.date) - new Date(a.date)
+    }
+  })
+}

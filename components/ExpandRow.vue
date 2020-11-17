@@ -1,8 +1,11 @@
 <template>
   <div>
+    <Divider> {{ name }} </Divider>
     <Row class="expand-row">
       <Col span="24">
-        <span class="expand-value">{{ name }}</span>
+        <span class="expand-value">
+          <Tag type="dot" :color="randomLabelColor(name)"> {{ name }} </Tag>
+        </span>
         <span v-if="label">
           <Tag
             v-for="lab in splitToArray(label)"
@@ -15,7 +18,6 @@
       </Col>
     </Row>
     <Row>
-      <Divider> {{ name }} </Divider>
       <Col span="24">
         <span class="expand-value">{{ comment }}</span>
       </Col>
