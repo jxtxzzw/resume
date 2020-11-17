@@ -7,7 +7,7 @@
           <Tag
             v-for="lab in splitToArray(label)"
             :key="lab"
-            :color="randomLabelColor()"
+            :color="randomLabelColor(lab)"
           >
             {{ lab }}
           </Tag>

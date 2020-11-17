@@ -61,7 +61,7 @@ export default {
             {
               props: {
                 type: 'border',
-                color: randomLabelColor(),
+                color: randomLabelColor(params.row.type),
               },
               style: {
                 margin: '0 10px 0 10px',

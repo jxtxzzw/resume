@@ -30,11 +30,11 @@
           {{ $t('fiction.todo') }}
         </Tag>
         <Tag
-          v-for="leb in splitToArray(item.label)"
-          :key="leb"
-          :color="randomLabelColor()"
+          v-for="lab in splitToArray(item.label)"
+          :key="lab"
+          :color="randomLabelColor(lab)"
         >
-          {{ leb }}
+          {{ lab }}
         </Tag>
         <p slot="content">
           {{ item.comment }}
