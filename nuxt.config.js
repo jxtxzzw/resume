@@ -81,8 +81,8 @@ export default {
     vueI18n: {
       fallbackLocale: 'zh',
       messages: {
-        zh: require('./assets/lang/zh.json'),
-        en: require('./assets/lang/en.json'),
+        zh: Object.assign({}, require('./assets/lang/zh.json')),
+        en: Object.assign({}, require('./assets/lang/en.json')),
       },
     },
   },
