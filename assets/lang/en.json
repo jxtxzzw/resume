@@ -92,7 +92,7 @@
     "movie": "Movie",
     "anime": "Anime",
     "done": "Watched/Listened",
-    "done_at": "已于 {date} Watched/Listened",
+    "done_at": "Watched/Listened on {date}",
     "doing": "Watching/Listening",
     "todo": "Scheduling",
     "message": "Ratings and reviews are personal.",
