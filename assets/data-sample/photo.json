@@ -16,14 +16,12 @@
       {
         "id": "1",
         "date": "2020-11-19",
-        "href": "sample1.png",
         "filename": "sample1.png",
         "info": "sample1"
       },
       {
         "id": "2",
         "date": "2020-11-19",
-        "href": "sample2.png",
         "filename": "sample2.png",
         "info": "sample2"
       }

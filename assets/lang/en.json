@@ -97,5 +97,9 @@
     "todo": "Scheduling",
     "message": "Ratings and reviews are personal.",
     "warning": "This page may contain information about the plot."
+  },
+  "photo": {
+    "date": "Took on {date}",
+    "info": "Description: {info}"
   }
 }
