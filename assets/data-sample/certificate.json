@@ -15,6 +15,7 @@
     "data": [
       {
         "id": "1",
+        "date": "2020-02-28",
         "title": "Neural Networks and Deep Learning",
         "specialization": "Deep Learning",
         "content": "XXX has successfully completed XXX, an online non-credit course authorized by deeplearning.ai and offered through Coursera",
@@ -27,6 +28,7 @@
       },
       {
         "id": "2",
+        "date": "2015-11-13",
         "title": "Java语言程序设计进阶",
         "specialization": null,
         "description": "网易云课堂 （由浙江大学提供）",

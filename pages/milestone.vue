@@ -47,6 +47,7 @@ export default {
       }
       return item
     })
+    this.distinctPlatform.sort()
     this.milestone.sort((a, b) => {
       return new Date(a) - new Date(b)
     })
