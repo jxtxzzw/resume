@@ -1,6 +1,6 @@
 <template>
-  <div class="layout">
-    <Layout :style="{ minHeight: '-webkit-fill-available' }">
+  <div>
+    <Layout>
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="1">
           <div style="float: left">
@@ -50,8 +50,12 @@
         </Sider>
         <Layout :style="{ padding: '24px 24px 24px' }">
           <Content
-            id="waterfallwrapper"
-            :style="{ padding: '24px', background: '#fff' }"
+            :style="{
+              overflowY: 'auto',
+              height: contentHeight + 'px',
+              padding: '24px',
+              background: '#fff',
+            }"
           >
             <Nuxt />
           </Content>
@@ -71,10 +75,41 @@ export default {
   data() {
     return {
       setting,
+      screenHeight: 0,
     }
+  },
+  computed: {
+    contentHeight() {
+      // 64 head + (24 padding) * 2
+      return this.screenHeight - 64 - 24 * 2
+    },
+  },
+  // 添加 watch，观察浏览器窗口变化
+  // watch 只在这里添加一次，其他页面不需要观察页面高度变化了，即使他们需要根据页面高度算一些什么东西
+  watch: {
+    // 更新窗口高度，以保证全局页面的高度
+    screenHeight(val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.$store.commit('size/setHeight', this.screenHeight)
+        this.timer = true
+        const that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
+      }
+    },
   },
   mounted() {
     this.$i18n.locale = this.$store.getters['language/getLanguage']
+
+    this.screenHeight = document.body.clientHeight
+    const that = this
+    window.onresize = () => {
+      window.screenHeight = document.body.clientHeight
+      that.screenHeight = window.screenHeight
+      return (() => {})()
+    }
   },
   methods: {
     showWelcome() {
@@ -104,6 +139,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  height: 100%;
 }
 
 *,
@@ -111,34 +151,5 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
 }
 </style>
