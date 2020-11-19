@@ -49,3 +49,10 @@ export function sortByDate(list) {
     }
   })
 }
+
+export function filenameToSrc(list, dir) {
+  return list.map((e) => {
+    e.src = dir + e.filename
+    return e
+  })
+}

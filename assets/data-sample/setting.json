@@ -1,7 +1,8 @@
 {
-  "updated": "2020-11-09",
+  "updated": "2020-11-19",
   "deployDir": "/",
   "src": {
-    "certificate": "/data/certificate/"
+    "certificate": "/data/certificate/",
+    "photo": "/data/photo/"
   }
 }

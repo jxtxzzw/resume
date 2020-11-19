@@ -28,10 +28,7 @@
               <p>{{ $t('certificate.verify_prompt') }}</p>
             </div>
             <a :href="item.link" target="_blank">
-              <img
-                :src="setting.src.certificate + item.filename"
-                style="width: 280px"
-              />
+              <img :src="item.src" style="width: 280px" />
             </a>
           </Tooltip>
         </template>
