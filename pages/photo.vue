@@ -14,6 +14,8 @@
 </template>
 
 <script>
+// TODO: 图片大小的自动计算有问题
+// TODO: 图片位置的自动计算有问题
 import vueWaterfallEasy from 'vue-waterfall-easy'
 import { photo } from 'assets/reader'
 export default {
@@ -27,8 +29,13 @@ export default {
   },
   computed: {
     contentHeight() {
-      // 64 head + (24 padding) * 2
-      return this.screenHeight - 64 - 24 * 2
+      // 64 head + (24 padding) * 2 + (24 padding) * 2
+      return this.screenHeight - 64 - 24 * 4
+    },
+  },
+  watch: {
+    '$store.state.size.height'() {
+      this.screenHeight = this.$store.getters['size/getHeight']
     },
   },
   mounted() {

@@ -85,7 +85,6 @@ export default {
     },
   },
   // 添加 watch，观察浏览器窗口变化
-  // watch 只在这里添加一次，其他页面不需要观察页面高度变化了，即使他们需要根据页面高度算一些什么东西
   watch: {
     // 更新窗口高度，以保证全局页面的高度
     screenHeight(val) {
@@ -104,10 +103,10 @@ export default {
     this.$i18n.locale = this.$store.getters['language/getLanguage']
 
     this.screenHeight = document.body.clientHeight
-    const that = this
     window.onresize = () => {
       window.screenHeight = document.body.clientHeight
-      that.screenHeight = window.screenHeight
+      this.screenHeight = window.screenHeight
+      this.$store.commit('size/setHeight', this.screenHeight)
       return (() => {})()
     }
   },

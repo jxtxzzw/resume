@@ -9,14 +9,19 @@ export default {
   name: 'Footprint',
   data() {
     return {
-      scene: null,
       screenHeight: 0,
+      scene: null,
     }
   },
   computed: {
     contentHeight() {
       // 64 head + (24 padding) * 2 + (24 padding) * 2
       return this.screenHeight - 64 - 24 * 4
+    },
+  },
+  watch: {
+    '$store.state.size.height'() {
+      this.screenHeight = this.$store.getters['size/getHeight']
     },
   },
   mounted() {
@@ -68,10 +73,6 @@ export default {
             this.scene.addLayer(pointLayer)
           })
       })
-
-      if (this.scene) {
-        console.log(this.scene.getSize())
-      }
 
       // Step 3：创建图形语法
 
