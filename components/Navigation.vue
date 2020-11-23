@@ -87,7 +87,7 @@
         <MenuItem name="food" to="reserved">
           {{ $t('navigation.food') }}
         </MenuItem>
-        <MenuItem name="footprint" to="reserved">
+        <MenuItem name="footprint" to="footprint">
           {{ $t('navigation.footprint') }}
         </MenuItem>
         <MenuItem name="wish" to="reserved">

@@ -29,12 +29,12 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['iview/dist/styles/iview.css'],
+  css: ['view-design/dist/styles/iview.css'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/iview'],
+  plugins: ['@/plugins/view-design', { src: '@/plugins/l7', ssr: false }],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
