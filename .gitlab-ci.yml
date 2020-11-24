@@ -36,7 +36,7 @@ generate:
 resume:
   stage: deploy
   script:
-    - - scp -i ~/.ssh/id_rsa -rv ./dist/* ${USER}@{$HOST_NAME}:$DEPLOY_LOCAL/
+    - - scp -i ~/.ssh/id_rsa -rv ./dist/* ${USER}@${HOST_NAME}:$DEPLOY_LOCAL/
 
 pages:
   stage: deploy
