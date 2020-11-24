@@ -2,7 +2,7 @@
   <client-only>
     <div :style="{ height: contentHeight + 'px', width: contentWidth + 'px' }">
       <vue-waterfall-easy
-        v-if="!reload"
+        v-if="!loading"
         :imgs-arr="photo"
         src-key="src"
         href-key="src"
@@ -33,7 +33,7 @@ export default {
     return {
       screenHeight: 0,
       screenWidth: 0,
-      reload: false,
+      loading: true,
       photo,
     }
   },
@@ -53,17 +53,14 @@ export default {
     },
     '$store.state.size.width'() {
       this.screenWidth = this.$store.getters['size/getWidth']
-      this.reload = true
-      const that = this
-      setTimeout(() => {
-        that.reload = false
-      }, 100)
+      this.reload()
     },
   },
   mounted() {
     this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.screenHeight = this.$store.getters['size/getHeight']
     this.screenWidth = this.$store.getters['size/getWidth']
+    this.reload()
   },
   methods: {
     descriptionDate(date) {
@@ -71,6 +68,13 @@ export default {
     },
     descriptionInfo(info) {
       return this.$t('photo.info', { info })
+    },
+    reload() {
+      this.loading = true
+      const that = this
+      setTimeout(() => {
+        that.loading = false
+      }, 100)
     },
   },
 }
