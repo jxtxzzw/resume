@@ -2,42 +2,41 @@ image: node:latest
 
 stages:
   - build
+  - deploy
 
 cache:
   paths:
     - node_modules/
 
+before_script:
+  script:
+    - rm -rf ./assets/data
+    - cp -rv $RESOURCES_DIR/assets-data ./assets/data
+    - rm -rf ./static/data
+    - cp -rv $RESOURCES_DIR/static-data ./static/data
+
 install_dependencies:
   stage: .pre
   script:
-    - rm -rf ./assets/data
-    - cp -rv ./assets/data-sample ./assets/data
-    - rm -rf ./static/data
-    - cp -rv ./static/data-sample ./static/data
     - npm install
-
-lint:
-  stage: .pre
-  script:
-    - npm run lint
-
-build:
-  stage: build
-  script:
-    - rm -rf ./assets/data
-    - cp -rv ./assets/data-sample ./assets/data
-    - rm -rf ./static/data
-    - cp -rv ./static/data-sample ./static/data
-    - npm run build
 
 generate:
   stage: build
   script:
-    - rm -rf ./assets/data
-    - cp -rv ./assets/data-sample ./assets/data
-    - rm -rf ./static/data
-    - cp -rv ./static/data-sample ./static/data
     - npm run generate
   artifacts:
     paths:
       - dist/
+
+resume:
+  stage: deploy
+  script:
+    - cp -rv ./dist/* $DEPLOY_LOCAL/
+
+pages:
+  stage: deploy
+  script:
+    - npm run generate
+  artifacts:
+    paths:
+      - dist
