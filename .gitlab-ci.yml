@@ -15,11 +15,10 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts
   - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
-  - ssh-add ~/.ssh/id_rsa
   - rm -rf ./assets/data
   - rm -rf ./static/data
-  - scp -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
-  - scp -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
+  - scp -i ~/.ssh/id_rsa -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
+  - scp -i ~/.ssh/id_rsa -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
 
 install_dependencies:
   stage: .pre
@@ -37,7 +36,7 @@ generate:
 resume:
   stage: deploy
   script:
-    - - scp -rv ./dist/* ${USER}@{$HOST_NAME}:$DEPLOY_LOCAL/
+    - - scp -i ~/.ssh/id_rsa -rv ./dist/* ${USER}@{$HOST_NAME}:$DEPLOY_LOCAL/
 
 pages:
   stage: deploy
