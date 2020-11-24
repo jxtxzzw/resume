@@ -9,10 +9,19 @@ cache:
     - node_modules/
 
 before_script:
-  - "rm -rf ./assets/data"
-  - "cp -rv $RESOURCES_DIR/assets-data ./assets/data"
-  - "rm -rf ./static/data"
-  - "cp -rv $RESOURCES_DIR/static-data ./static/data"
+  - mkdir -p ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$HOST_NAME" > ~/.ssh/known_hosts 
+  - echo , >> ~/.ssh/known_hosts 
+  - echo "$HOST_KEY" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa
+  - rm -rf ./assets/data
+  - rm -rf ./static/data
+  - scp -rv ${USER}@{$HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
+  - scp -rv ${USER}@{$HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
 
 install_dependencies:
   stage: .pre
@@ -30,7 +39,7 @@ generate:
 resume:
   stage: deploy
   script:
-    - cp -rv ./dist/* $DEPLOY_LOCAL/
+    - - scp -rv ./dist/* ${USER}@{$HOST_NAME}:$DEPLOY_LOCAL/
 
 pages:
   stage: deploy
