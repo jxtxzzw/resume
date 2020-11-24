@@ -16,12 +16,10 @@ before_script:
   - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
   - ssh-add ~/.ssh/id_rsa
-  - cat ~/.ssh/known_hosts
-  - cat ~/.ssh/id_rsa
   - rm -rf ./assets/data
   - rm -rf ./static/data
-  - scp -rv ${USER}@{$HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
-  - scp -rv ${USER}@{$HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
+  - scp -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
+  - scp -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
 
 install_dependencies:
   stage: .pre
