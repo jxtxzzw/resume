@@ -99,7 +99,7 @@
     "warning": "This page may contain information about the plot."
   },
   "photo": {
-    "date": "Took on {date}",
+    "date": "Taken on {date}",
     "info": "Description: {info}"
   }
 }

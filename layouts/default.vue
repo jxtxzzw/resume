@@ -76,6 +76,7 @@ export default {
     return {
       setting,
       screenHeight: 0,
+      screenWidth: 0,
     }
   },
   computed: {
@@ -86,14 +87,25 @@ export default {
   },
   // 添加 watch，观察浏览器窗口变化
   watch: {
-    // 更新窗口高度，以保证全局页面的高度
+    // 更新窗口高度和宽度
     screenHeight(val) {
       if (!this.timer) {
         this.screenHeight = val
         this.$store.commit('size/setHeight', this.screenHeight)
         this.timer = true
         const that = this
-        setTimeout(function () {
+        setTimeout(() => {
+          that.timer = false
+        }, 400)
+      }
+    },
+    screenWidth(val) {
+      if (!this.timer) {
+        this.screenWidth = val
+        this.$store.commit('size/setWidth', this.screenWidth)
+        this.timer = true
+        const that = this
+        setTimeout(() => {
           that.timer = false
         }, 400)
       }
@@ -103,10 +115,15 @@ export default {
     this.$i18n.locale = this.$store.getters['language/getLanguage']
 
     this.screenHeight = document.body.clientHeight
+    this.screenWidth = document.body.clientWidth
+    const that = this
     window.onresize = () => {
       window.screenHeight = document.body.clientHeight
-      this.screenHeight = window.screenHeight
-      this.$store.commit('size/setHeight', this.screenHeight)
+      window.screenWidth = document.body.clientWidth
+      that.screenHeight = window.screenHeight
+      that.screenWidth = window.screenWidth
+      that.$store.commit('size/setHeight', that.screenHeight)
+      that.$store.commit('size/setWidth', that.screenWidth)
       return (() => {})()
     }
   },
