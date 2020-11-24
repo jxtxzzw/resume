@@ -9,11 +9,10 @@ cache:
     - node_modules/
 
 before_script:
-  script:
-    - rm -rf ./assets/data
-    - cp -rv $RESOURCES_DIR/assets-data ./assets/data
-    - rm -rf ./static/data
-    - cp -rv $RESOURCES_DIR/static-data ./static/data
+  - "rm -rf ./assets/data"
+  - "cp -rv $RESOURCES_DIR/assets-data ./assets/data"
+  - "rm -rf ./static/data"
+  - "cp -rv $RESOURCES_DIR/static-data ./static/data"
 
 install_dependencies:
   stage: .pre
