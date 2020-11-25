@@ -5,6 +5,7 @@ stages:
   - deploy
 
 cache:
+  key: resume
   paths:
     - node_modules/
     - assets/data/
