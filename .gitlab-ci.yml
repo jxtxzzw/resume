@@ -44,7 +44,10 @@ resume:
 pages:
   stage: deploy
   script:
-    - npm run generate
+    - mkdir ./public
+    - mv ./dist/* ./public/ -v
   artifacts:
     paths:
-      - dist
+      - public
+  only:
+    - master
