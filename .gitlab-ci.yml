@@ -7,21 +7,26 @@ stages:
 cache:
   paths:
     - node_modules/
+    - assets/data/
+    - static/data/
 
-before_script:
-  - mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - echo "$HOST_NAME","$HOST_KEY" > ~/.ssh/known_hosts 
-  - chmod 644 ~/.ssh/known_hosts
-  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/key.pem
-  - chmod 600 ~/.ssh/key.pem
-  - rm -rf ./assets/data
-  - rm -rf ./static/data
-  - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
-  - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
-  - RESUME_DATE=`date +%Y-%m-%d`
-  - echo sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"$RESUME_DATE\\\"/g\" > ./update_time.sh
-  - cat ./assets/data/setting.json | sh ./update_time.sh > ./assets/data/setting.json
+load_resources:
+  stage: .pre
+  script:
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$HOST_NAME","$HOST_KEY" > ~/.ssh/known_hosts 
+    - chmod 644 ~/.ssh/known_hosts
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/key.pem
+    - chmod 600 ~/.ssh/key.pem
+    - rm -rf ./assets/data
+    - rm -rf ./static/data
+    - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
+    - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
+    - RESUME_DATE=`date +%Y-%m-%d`
+    - echo sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"$RESUME_DATE\\\"/g\" > ./update_time.sh
+    - ping 127.0.0.1
+    - cat ./assets/data/setting.json | sh ./update_time.sh > ./assets/data/setting.json
 
 install_dependencies:
   stage: .pre
