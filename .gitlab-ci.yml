@@ -21,6 +21,7 @@ before_script:
   - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
   - RESUME_DATE=`date +%Y-%m-%d`
   - cat ./assets/data/setting.json
+  - cat $RESUME_DATE
   - cat ./assets/data/setting.json | sed "s/\"updated\":[ ]*\"[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\"/\"updated\":\"$RESUME_DATE\"/g" > ./assets/data/setting.json
   - cat ./assets/data/setting.json
 
