@@ -62,21 +62,22 @@ pages:
   only:
     - master
 
-github:
+git:
   stage: deploy
   script:
-    - git config --global  user.email ${GITHUB_USER_EMAIL}
-    - git config --global  user.name '${GITHUB_USER_NAME}'
-    - echo https://"${GITHUB_USER_NAME}":"${GITHUB_PASSWORD}"@github.com > .git-credentials
+    - git config --global  user.email ${GIT_USER_EMAIL}
+    - git config --global  user.name '${GIT_USER_NAME}'
+    - echo https://"${GIT_USER_NAME}":"${GIT_PASSWORD}"@${GIT_DOMAIN} > .git-credentials
     - git config --global credential.helper store
-    - git clone https://"${GITHUB_USER_NAME}":"${GITHUB_PASSWORD}"@github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}
-    - cd ${GITHUB_REPO_NAME}
+    - git clone --progress --verbose https://"${GIT_USER_NAME}":"${GIT_PASSWORD}"@${GIT_DOMAIN}/${GIT_REPO_OWNER}/${GIT_REPO_NAME}
+    - cd ${GIT_REPO_NAME}
     - rm -rfv ./*
     - cp -rv ../dist/* ./
+    - touch .nojekyll
     - git add .
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CI_COMMIT_TIMESTAMP}"
     - COMMIT_MESSAGE_BODY="${CI_PIPELINE_SOURCE} ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE}) at ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION}) ${CI_PROJECT_PATH}, ID ${CI_PIPELINE_IID} (global ${CI_PIPELINE_ID}) using Runner ${CI_RUNNER_ID} (${CI_RUNNER_SHORT_TOKEN}, version ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
     - echo ${COMMIT_MESSAGE_HEAD}
     - echo ${COMMIT_MESSAGE_BODY}
     - git commit -m "${COMMIT_MESSAGE_HEAD}" -m "${COMMIT_MESSAGE_BODY}"
-    - git push
+    - git push --verbose
