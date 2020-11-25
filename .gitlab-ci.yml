@@ -66,6 +66,7 @@ pages:
 git:
   stage: deploy
   script:
+    - timedatectl set-timezone Asia/Shanghai
     - git config --global  user.email ${GIT_USER_EMAIL}
     - git config --global  user.name '${GIT_USER_NAME}'
     - echo https://"${GIT_USER_NAME}":"${GIT_PASSWORD}"@${GIT_DOMAIN} > .git-credentials
@@ -78,7 +79,7 @@ git:
     - git add .
     - CURRENT_TIME=`date +%FT%T%:z`
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CURRENT_TIME}"
-    - COMMIT_MESSAGE_BODY="${CI_PIPELINE_IID} (global ID ${CI_PIPELINE_ID}), Triggered by ${CI_PIPELINE_SOURCE}, on commit ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE}) at ${CI_COMMIT_TIMESTAMP}, from ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION}) ${CI_PROJECT_PATH}, using No.${CI_RUNNER_ID} Runner ${CI_RUNNER_SHORT_TOKEN} (${CI_RUNNER_VERSION}, ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
+    - COMMIT_MESSAGE_BODY="${CI_PIPELINE_IID} (global ID ${CI_PIPELINE_ID}), triggered by ${CI_PIPELINE_SOURCE}, on commit ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE}) at ${CI_COMMIT_TIMESTAMP}, from ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION}) ${CI_PROJECT_PATH}, using No.${CI_RUNNER_ID} Runner ${CI_RUNNER_SHORT_TOKEN} (${CI_RUNNER_VERSION}, ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
     - echo ${COMMIT_MESSAGE_HEAD}
     - echo ${COMMIT_MESSAGE_BODY}
     - git commit -m "${COMMIT_MESSAGE_HEAD}" -m "${COMMIT_MESSAGE_BODY}"
