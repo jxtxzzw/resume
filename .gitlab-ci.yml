@@ -65,12 +65,12 @@ pages:
 github:
   stage: deploy
   script:
-    - git clone https://"${GITHUB_USER_NAME}":"${GITHUB_PASSWORD}"@github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}
-    - cd ${GITHUB_REPO_NAME}
+    - git config --global  user.email ${GITHUB_USER_EMAIL}
+    - git config --global  user.name '${GITHUB_USER_NAME}'
     - echo https://"${GITHUB_USER_NAME}":"${GITHUB_PASSWORD}"@github.com > .git-credentials
     - git config --global credential.helper store
-    - git config user.email ${GITHUB_USER_EMAIL}
-    - git config user.name '${GITHUB_USER_NAME}'
+    - git clone https://"${GITHUB_USER_NAME}":"${GITHUB_PASSWORD}"@github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}
+    - cd ${GITHUB_REPO_NAME}
     - rm -rfv ./*
     - cp -rv ../dist/* ./
     - git add .
