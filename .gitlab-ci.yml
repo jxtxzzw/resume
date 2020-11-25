@@ -13,12 +13,14 @@ before_script:
   - eval $(ssh-agent -s)
   - echo "$HOST_NAME","$HOST_KEY" > ~/.ssh/known_hosts 
   - chmod 644 ~/.ssh/known_hosts
-  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/key.pem
+  - chmod 600 ~/.ssh/key.pem
   - rm -rf ./assets/data
   - rm -rf ./static/data
-  - scp -i ~/.ssh/id_rsa -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
-  - scp -i ~/.ssh/id_rsa -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
+  - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
+  - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
+  - RESUME_DATE=`date +%Y-%m-%d`
+  - cat ./assets/data/setting.json | sed "s/\"updated\":[ ]*\"[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\"/$RESUME_DATE/g" > ./assets/data/setting.json
 
 install_dependencies:
   stage: .pre
@@ -36,7 +38,7 @@ generate:
 resume:
   stage: deploy
   script:
-    - - scp -i ~/.ssh/id_rsa -rv ./dist/* ${USER}@${HOST_NAME}:$DEPLOY_LOCAL/
+    - scp -i ~/.ssh/key.pem -rv ./dist/* ${USER}@${HOST_NAME}:$DEPLOY_LOCAL/
 
 pages:
   stage: deploy
