@@ -66,7 +66,6 @@ pages:
 git:
   stage: deploy
   script:
-    - timedatectl set-timezone Asia/Shanghai
     - git config --global  user.email ${GIT_USER_EMAIL}
     - git config --global  user.name '${GIT_USER_NAME}'
     - echo https://"${GIT_USER_NAME}":"${GIT_PASSWORD}"@${GIT_DOMAIN} > .git-credentials
