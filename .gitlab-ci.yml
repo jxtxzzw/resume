@@ -13,20 +13,23 @@ cache:
 load_resources:
   stage: .pre
   script:
-    - mkdir -p ~/.ssh
+    - mkdir -vp ~/.ssh
     - eval $(ssh-agent -s)
     - echo "$HOST_NAME","$HOST_KEY" > ~/.ssh/known_hosts 
-    - chmod 644 ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts -v
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/key.pem
-    - chmod 600 ~/.ssh/key.pem
-    - rm -rf ./assets/data
-    - rm -rf ./static/data
+    - chmod 600 ~/.ssh/key.pem -v
+    - rm -rfv ./assets/data
+    - rm -rfv ./static/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/assets-data ./assets/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:$RESOURCES_DIR/static-data ./static/data
     - RESUME_DATE=`date +%Y-%m-%d`
+    - echo $RESUME_DATE
     - echo sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"$RESUME_DATE\\\"/g\" > ./update_time.sh
+    - cat ./update_time.sh 
     - cat ./assets/data/setting.json | sh ./update_time.sh > ./assets/data/setting2.json
     - mv ./assets/data/setting2.json ./assets/data/setting.json -fv
+    - cat ./assets/data/setting.json
 
 install_dependencies:
   stage: .pre
@@ -49,7 +52,7 @@ resume:
 pages:
   stage: deploy
   script:
-    - mkdir ./public
+    - mkdir -vp ./public
     - mv ./dist/* ./public/ -v
   artifacts:
     paths:
