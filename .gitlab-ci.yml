@@ -13,7 +13,7 @@ cache:
 before_script:
   - mkdir -vp ~/.ssh
   - eval $(ssh-agent -s)
-  - echo "${HOST_NAME}","{$HOST_KEY}" > ~/.ssh/known_hosts 
+  - echo "${HOST_NAME}","${HOST_KEY}" > ~/.ssh/known_hosts 
   - chmod 644 ~/.ssh/known_hosts -v
   - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/key.pem
   - chmod 600 ~/.ssh/key.pem -v
