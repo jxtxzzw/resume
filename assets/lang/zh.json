@@ -101,5 +101,9 @@
   "photo": {
     "date": "拍摄于 {date}",
     "info": "描述： {info}"
+  },
+  "study": {
+    "till": "至",
+    "now": "今"
   }
 }

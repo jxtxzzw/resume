@@ -7,13 +7,11 @@
         :label="platform"
         :name="platform"
       >
-        <Timeline pending>
+        <Timeline>
           <TimelineItem
             v-for="item in milestone.filter((x) => x.platform === platform)"
             :key="item.platform"
-            color="green"
           >
-            <Icon slot="dot" type="ios-trophy"></Icon>
             <p class="time">
               {{ item.date }}
             </p>

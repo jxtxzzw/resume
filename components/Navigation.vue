@@ -24,7 +24,7 @@
           <Icon type="md-copy" />
           {{ $t('navigation.experience') }}
         </template>
-        <MenuItem name="study" to="reserved">
+        <MenuItem name="study" to="study">
           {{ $t('navigation.study') }}
         </MenuItem>
         <MenuItem name="work" to="reserved">
