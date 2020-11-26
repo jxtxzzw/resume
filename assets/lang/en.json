@@ -24,7 +24,7 @@
     "honor": "Honor",
     "exhibit": "Exhibit",
     "exam": "Exam",
-    "oj": "Online Judge",
+    "coding": "Coding Problem",
     "technique": "Technique",
     "media": "Media",
     "footprint": "Footprint",
@@ -116,5 +116,21 @@
     "doc": "Document and Wiki",
     "award": "Award",
     "demo": "Demonstration"
+  },
+  "coding": {
+    "message": "Click the status to see the code, note that the code may not be the unique solution and/or the best one",
+    "platform": "Platform",
+    "problem": "Problem ID",
+    "title": "Problem Title",
+    "status": "Status",
+    "todo": "Scheduling",
+    "accepted": "Accepted",
+    "attempted": "Attempted",
+    "code_pop": "Click to see the code for {name}:",
+    "ds": "Data Structure",
+    "ds_pop": "Used {num} main data structure(s)",
+    "algs": "Algorithm",
+    "algs_pop": "Used {num} main algorithm(s)",
+    "loading": "Loading data. It may take one minute or two."
   }
 }

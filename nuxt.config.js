@@ -34,7 +34,11 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/view-design', { src: '@/plugins/l7', ssr: false }],
+  plugins: [
+    '@/plugins/view-design',
+    { src: '@/plugins/l7', ssr: false },
+    { src: '@/plugins/codemirror', ssr: false },
+  ],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components

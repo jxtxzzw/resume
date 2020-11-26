@@ -4,6 +4,7 @@
   "src": {
     "certificate": "/data/certificate/",
     "photo": "/data/photo/",
-    "project": "/data/project/"
+    "project": "/data/project/",
+    "coding": "/data/coding/"
   }
 }

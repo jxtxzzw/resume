@@ -19,3 +19,4 @@ export const work = sortByDate(require('./data/work.json')[2].data)
 export const project = sortByDate(
   filenameToSrc(require('./data/project.json')[2].data, setting.src.project)
 )
+export const coding = sortByDate(require('./data/coding.json')[2].data)

@@ -24,7 +24,7 @@
     "honor": "荣誉榜",
     "exhibit": "陈列室",
     "exam": "考试成绩",
-    "oj": "OJ 做题记录",
+    "coding": "编程题",
     "technique": "技术栈",
     "media": "影音",
     "footprint": "足迹",
@@ -116,5 +116,21 @@
     "doc": "文档和维基百科",
     "award": "奖项",
     "demo": "演示"
+  },
+  "coding": {
+    "message": "点击提交状态可以查看代码（如果已通过），代码不是唯一解、也不一定是最优解",
+    "platform": "平台",
+    "problem": "题目 ID",
+    "title": "题目名称",
+    "status": "状态",
+    "todo": "有空再做",
+    "accepted": "正确通过",
+    "attempted": "尝试失败",
+    "code_pop": "点击查看 {name} 的代码",
+    "ds": "数据结构",
+    "ds_pop": "使用了 {num} 种主要的数据结构",
+    "algs": "算法",
+    "algs_pop": "使用了 {num} 种主要的算法",
+    "loading": "加载数据中，这可能需要一分钟。"
   }
 }

@@ -32,6 +32,7 @@
     "nuxt-i18n": "^6.15.4",
     "nuxt-matomo": "^1.2.3",
     "view-design": "^4.4.0",
+    "vue-codemirror": "^4.0.6",
     "vue-waterfall-easy": "^2.4.4"
   },
   "devDependencies": {

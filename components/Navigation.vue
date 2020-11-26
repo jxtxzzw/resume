@@ -54,8 +54,8 @@
         <MenuItem name="certificate" to="certificate">
           {{ $t('navigation.certificate') }}
         </MenuItem>
-        <MenuItem name="oj" to="reserved">
-          {{ $t('navigation.oj') }}
+        <MenuItem name="coding" to="coding">
+          {{ $t('navigation.coding') }}
         </MenuItem>
         <MenuItem name="technique" to="reserved">
           {{ $t('navigation.technique') }}
