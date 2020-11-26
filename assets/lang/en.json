@@ -105,5 +105,9 @@
   "study": {
     "till": "till",
     "now": "now"
+  },
+  "work": {
+    "till": "till",
+    "now": "now"
   }
 }

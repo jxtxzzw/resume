@@ -22,8 +22,6 @@ before_script:
 load_resources:
   stage: .pre
   script:
-    - rm -rfv ./assets/data-sample
-    - rm -rfv ./static/data-sample
     - rm -rfv ./assets/data
     - rm -rfv ./static/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR}/assets-data ./assets/data
@@ -77,10 +75,11 @@ git:
     - rm -rfv ./*
     - cp -rv ../dist/* ./
     - touch .nojekyll
+    - rm -rfv ./data-sample
     - git add .
     - CURRENT_TIME=`date +%FT%T%:z`
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CURRENT_TIME}"
-    - COMMIT_MESSAGE_BODY="${CI_PIPELINE_IID} (global ID ${CI_PIPELINE_ID}), triggered by ${CI_PIPELINE_SOURCE}, on commit ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE}) at ${CI_COMMIT_TIMESTAMP}, from ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION}) ${CI_PROJECT_PATH}, using Runner-${CI_RUNNER_SHORT_TOKEN} (${CI_RUNNER_VERSION}, ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
+    - COMMIT_MESSAGE_BODY="${CI_PIPELINE_IID} (global ID ${CI_PIPELINE_ID}), triggered by ${CI_PIPELINE_SOURCE}, on commit ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE}) at ${CI_COMMIT_TIMESTAMP}, from ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION}) ${CI_PROJECT_PATH}, using Runner-${CI_RUNNER_ID} ${CI_RUNNER_SHORT_TOKEN} (${CI_RUNNER_VERSION}, ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
     - echo ${COMMIT_MESSAGE_HEAD}
     - echo ${COMMIT_MESSAGE_BODY}
     - git commit -m "${COMMIT_MESSAGE_HEAD}" -m "${COMMIT_MESSAGE_BODY}"

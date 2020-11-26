@@ -1,15 +1,20 @@
 <template>
   <div>
     <Timeline>
-      <TimelineItem v-for="item in study" :key="item.date" color="green">
+      <TimelineItem v-for="item in work" :key="item.date" color="green">
         <Icon slot="dot" type="ios-trophy"></Icon>
-        <p class="school">
-          {{ item.school }}
+        <p>
+          <span class="company"> {{ item.company }} </span>
+          <span class="position"> {{ item.position }} </span>
+          <span class="department"> {{ item.department }} </span>
         </p>
         <p class="date">
           <span>{{ item.date }}</span>
-          <span>{{ $t('study.till') }}</span>
-          <span>{{ item.end == null ? $t('study.now') : item.end }}</span>
+          <span>{{ $t('work.till') }}</span>
+          <span>{{ item.end == null ? $t('work.now') : item.end }}</span>
+        </p>
+        <p class="date">
+          {{ item.location }}
         </p>
         <div v-if="item.content">
           <p v-for="c in item.content.split('\n')" :key="c" class="content">
@@ -22,20 +27,32 @@
 </template>
 
 <script>
-import { study } from 'assets/reader'
+import { work } from 'assets/reader'
 export default {
-  name: 'Study',
+  name: 'Work',
   data() {
     return {
-      study,
+      work,
     }
   },
 }
 </script>
 
 <style scoped>
-.school {
+.company {
   color: #2d8cf0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.position {
+  color: #ff8120;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.department {
+  color: #2a34f6;
   font-size: 16px;
   font-weight: bold;
 }

@@ -15,3 +15,4 @@ export const photo = sortByDate(
   filenameToSrc(require('./data/photo.json')[2].data, setting.src.photo)
 )
 export const study = sortByDate(require('./data/study.json')[2].data)
+export const work = sortByDate(require('./data/work.json')[2].data)
