@@ -109,5 +109,12 @@
   "work": {
     "till": "till",
     "now": "now"
+  },
+  "project": {
+    "repo": "Code Repository",
+    "blog": "Development Blog",
+    "doc": "Document and Wiki",
+    "award": "Award",
+    "demo": "Demonstration"
   }
 }

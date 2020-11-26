@@ -30,7 +30,7 @@
         <MenuItem name="work" to="work">
           {{ $t('navigation.work') }}
         </MenuItem>
-        <MenuItem name="project" to="reserved">
+        <MenuItem name="project" to="project">
           {{ $t('navigation.project') }}
         </MenuItem>
         <MenuItem name="research" to="reserved">
