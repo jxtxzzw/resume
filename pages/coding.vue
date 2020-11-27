@@ -1,24 +1,27 @@
 <template>
   <div>
-    <div v-if="loading">
-      <Spin size="large" fix>
-        {{ $t('coding.loading') }}
-        <Progress
-          :percent="progressPercent"
-          :stroke-color="['#108ee9', '#87d068']"
-        />
-      </Spin>
-    </div>
     <Table
-      v-else
       :border="showBorder"
       :stripe="showStripe"
       :show-header="showHeader"
       :height="fixedHeader ? 250 : ''"
       :size="tableSize"
-      :data="coding"
+      :data="pagedData"
       :columns="codingColumns"
-    ></Table>
+    />
+    <div :style="{ margin: '10px', overflow: 'hidden' }">
+      <div :style="{ float: 'right' }">
+        <Page
+          :total="coding.length"
+          :current="1"
+          show-total
+          show-elevator
+          :page-size="pageSize"
+          transfer
+          @on-change="changePage"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +31,8 @@ export default {
   name: 'Coding',
   data() {
     return {
+      pageNumber: 1,
+      pageSize: 20,
       loading: true,
       showBorder: false,
       showStripe: false,
@@ -35,8 +40,7 @@ export default {
       showIndex: false,
       fixedHeader: false,
       tableSize: 'default',
-      codes: {},
-      progressPercent: 0,
+      pagedData: [],
       coding,
     }
   },
@@ -105,7 +109,7 @@ export default {
           } else if (params.row.status === 'accepted') {
             message = this.$t('coding.accepted')
           }
-          const code = this.getCode(params.row.platform, params.row.problem)
+          const code = params.row.code
           const statusTag = h(
             'Tag',
             {
@@ -152,7 +156,7 @@ export default {
                           styleActiveLine: true,
                           lineNumbers: true,
                           line: true,
-                          mode: this.getMode(params.row.language),
+                          mode: params.row.mode,
                           readOnly: true,
                           theme: 'idea',
                         },
@@ -282,42 +286,60 @@ export default {
   async mounted() {
     this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.$Message.info(this.$t('coding.message'))
-    await this.allCodes()
+    await this.changePage(this.pageNumber)
   },
   methods: {
-    async allCodes() {
-      const total = coding.length
-      let count = 0
-      for (const item of coding) {
-        const platform = item.platform
-        const problem = item.problem
-        const language = item.language
-        let code = null
-        try {
-          const res = await fetch(
+    async changePage(pageNumber) {
+      this.pageNumber = pageNumber
+      this.pagedData = await this.preparePagedData(this.pageNumber)
+    },
+    async preparePagedData(pageNumber) {
+      let reses = []
+      let codes = []
+      const modes = []
+      const data = []
+      const arr = this.coding
+      for (
+        let i = (pageNumber - 1) * this.pageSize;
+        i < pageNumber * this.pageSize;
+        i += 1
+      ) {
+        if (i === this.coding.length) {
+          break
+        }
+        const platform = arr[i].platform
+        const problem = arr[i].problem
+        const language = arr[i].language
+        reses.push(
+          fetch(
             `${
               require('@/assets/data/setting.json').src.coding
             }${platform}/${problem}.${language}`
           )
-          if (res.ok) {
-            code = await res.text()
-          }
-        } catch (e) {
-          code = null
-        }
-        const key = '' + platform + problem
-        this.codes[key] = code
-        count = count + 1
-        this.progressPercent = (count / total) * 100
+        )
+        modes.push(this.getMode(arr[i].language))
+        data.push(arr[i])
       }
-      this.loading = false
-    },
-    getCode(platform, problem) {
-      const key = '' + platform + problem
-      return this.codes[key]
+      reses = await Promise.all(reses)
+      for (const res of reses) {
+        if (res.ok) {
+          codes.push(res.text())
+        } else {
+          codes.push(null)
+        }
+      }
+      codes = await Promise.all(codes)
+      for (let i = 0; i < data.length; i += 1) {
+        data[i].code = codes[i]
+        data[i].mode = modes[i]
+      }
+      return data
     },
     getMode(language) {
       let mode = ''
+      if (language == null) {
+        return mode
+      }
       switch (language.toLowerCase()) {
         case 'c':
         case 'c++':
