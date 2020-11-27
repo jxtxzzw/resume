@@ -12,8 +12,8 @@
     <div :style="{ margin: '10px', overflow: 'hidden' }">
       <div :style="{ float: 'right' }">
         <Page
-          :total="coding.length"
-          :current="1"
+          :total="filteredData.length"
+          :current="pageNumber"
           show-total
           show-elevator
           :page-size="pageSize"
@@ -27,6 +27,7 @@
 
 <script>
 import { coding } from 'assets/reader'
+
 export default {
   name: 'Coding',
   data() {
@@ -41,6 +42,7 @@ export default {
       fixedHeader: false,
       tableSize: 'default',
       pagedData: [],
+      filteredData: [],
       coding,
     }
   },
@@ -59,8 +61,8 @@ export default {
         key: 'platform',
         filters: this.platformFilter,
         filterMultiple: true,
-        filterMethod(value, row) {
-          return value === row.platform
+        async filterRemote(value, row) {
+          await this.prepareFilteredData(value, row)
         },
       })
       columns.push({
@@ -74,24 +76,24 @@ export default {
       columns.push({
         title: this.$t('coding.status'),
         key: 'status',
-        filters: [
-          {
-            label: this.$t('coding.attempted'),
-            value: 'attempted',
-          },
-          {
-            label: this.$t('coding.todo'),
-            value: 'todo',
-          },
-          {
-            label: this.$t('coding.accepted'),
-            value: 'accepted',
-          },
-        ],
-        filterMultiple: true,
-        filterMethod(value, row) {
-          return value === row.status
-        },
+        // filters: [
+        //   {
+        //     label: this.$t('coding.attempted'),
+        //     value: 'attempted',
+        //   },
+        //   {
+        //     label: this.$t('coding.todo'),
+        //     value: 'todo',
+        //   },
+        //   {
+        //     label: this.$t('coding.accepted'),
+        //     value: 'accepted',
+        //   },
+        // ],
+        // filterMultiple: true,
+        // filterMethod(value, row) {
+        //   return value === row.status
+        // },
         render: (h, params) => {
           let color = ''
           if (params.row.status === 'todo') {
@@ -286,6 +288,8 @@ export default {
   async mounted() {
     this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.$Message.info(this.$t('coding.message'))
+    this.filteredData = this.coding
+    this.pageNumber = 1
     await this.changePage(this.pageNumber)
   },
   methods: {
@@ -293,18 +297,27 @@ export default {
       this.pageNumber = pageNumber
       this.pagedData = await this.preparePagedData(this.pageNumber)
     },
+    async prepareFilteredData(value, row) {
+      if (value.length === 0) {
+        this.filteredData = this.coding
+      } else {
+        this.filteredData = this.coding.filter((e) => value.includes(e[row]))
+      }
+      this.pageNumber = 1
+      await this.changePage(this.pageNumber)
+    },
     async preparePagedData(pageNumber) {
       let reses = []
       let codes = []
       const modes = []
       const data = []
-      const arr = this.coding
+      const arr = this.filteredData
       for (
         let i = (pageNumber - 1) * this.pageSize;
         i < pageNumber * this.pageSize;
         i += 1
       ) {
-        if (i === this.coding.length) {
+        if (i === this.filteredData.length) {
           break
         }
         const platform = arr[i].platform
