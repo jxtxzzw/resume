@@ -8,6 +8,7 @@
       :size="tableSize"
       :data="pagedData"
       :columns="codingColumns"
+      :loading="loading"
     />
     <div :style="{ margin: '10px', overflow: 'hidden' }">
       <div :style="{ float: 'right' }">
@@ -294,8 +295,10 @@ export default {
   },
   methods: {
     async changePage(pageNumber) {
+      this.loading = true
       this.pageNumber = pageNumber
       this.pagedData = await this.preparePagedData(this.pageNumber)
+      this.loading = false
     },
     async prepareFilteredData(value, row) {
       if (value.length === 0) {

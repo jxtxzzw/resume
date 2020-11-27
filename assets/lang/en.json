@@ -130,7 +130,6 @@
     "ds": "Data Structure",
     "ds_pop": "Used {num} main data structure(s)",
     "algs": "Algorithm",
-    "algs_pop": "Used {num} main algorithm(s)",
-    "loading": "Loading data. It may take one minute or two."
+    "algs_pop": "Used {num} main algorithm(s)"
   }
 }

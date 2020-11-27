@@ -42,6 +42,10 @@ install_dependencies:
 generate:
   stage: build
   script:
+    - cd static/
+    - touch .nojekyll
+    - rm -rfv ./data-sample
+    - cd ../
     - npm run generate
   artifacts:
     paths:
@@ -74,8 +78,6 @@ git:
     - cd ${GIT_REPO_NAME}
     - rm -rfv ./*
     - cp -rv ../dist/* ./
-    - touch .nojekyll
-    - rm -rfv ./data-sample
     - git add .
     - CURRENT_TIME=`date +%FT%T%:z`
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CURRENT_TIME}"
