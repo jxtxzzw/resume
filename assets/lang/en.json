@@ -102,6 +102,10 @@
     "date": "Taken on {date}",
     "info": "Description: {info}"
   },
+  "exhibit": {
+    "date": "Date: {date}",
+    "info": "Description: {info}"
+  },
   "study": {
     "till": "till",
     "now": "now"

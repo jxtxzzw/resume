@@ -1,10 +1,11 @@
 {
-  "updated": "2020-11-26",
+  "updated": "2020-12-03",
   "deployDir": "/",
   "src": {
     "certificate": "/data/certificate/",
     "photo": "/data/photo/",
     "project": "/data/project/",
-    "coding": "/data/coding/"
+    "coding": "/data/coding/",
+    "exhibit": "/data/photo/"
   }
 }

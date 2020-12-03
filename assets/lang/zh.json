@@ -102,6 +102,10 @@
     "date": "拍摄于 {date}",
     "info": "描述： {info}"
   },
+  "exhibit": {
+    "date": "日期： {date}",
+    "info": "描述： {info}"
+  },
   "study": {
     "till": "至",
     "now": "今"
