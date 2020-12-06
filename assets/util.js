@@ -36,16 +36,16 @@ export function randomLabelColor(str) {
   return color[r]
 }
 
-export function sortByDate(list) {
+export function sortByDate(list, field = 'date') {
   return list.sort((a, b) => {
-    if (a.date === null && b.date === null) {
+    if (a[field] === null && b[field] === null) {
       return 0
-    } else if (a.date === null && b.date !== null) {
+    } else if (a[field] === null && b[field] !== null) {
       return 1
-    } else if (a.date !== null && b.date === null) {
+    } else if (a[field] !== null && b[field] === null) {
       return -1
     } else {
-      return new Date(b.date) - new Date(a.date)
+      return new Date(b[field]) - new Date(a[field])
     }
   })
 }

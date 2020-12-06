@@ -30,7 +30,10 @@
     "footprint": "足迹",
     "photo": "摄像",
     "food": "美食",
-    "wish": "愿望"
+    "wish": "愿望",
+    "moment": "时刻",
+    "microblog": "轻博客",
+    "income": "收入"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",

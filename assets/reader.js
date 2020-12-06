@@ -23,3 +23,9 @@ export const project = sortByDate(
   filenameToSrc(require('./data/project.json')[2].data, setting.src.project)
 )
 export const coding = sortByDate(require('./data/coding.json')[2].data)
+export const microblog = sortByDate(
+  require('./data/microblog.json')[2].data,
+  'post_date'
+).filter((e) => {
+  return e.post_type === 'microblog'
+})

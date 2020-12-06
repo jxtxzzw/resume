@@ -30,7 +30,10 @@
     "footprint": "Footprint",
     "photo": "Photo",
     "food": "Food",
-    "wish": "Wish"
+    "wish": "Wish",
+    "moment": "Moment",
+    "microblog": "MicroBlog",
+    "income": "Income"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",

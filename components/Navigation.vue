@@ -63,9 +63,6 @@
         <MenuItem name="honor" to="reserved">
           {{ $t('navigation.honor') }}
         </MenuItem>
-        <MenuItem name="exhibit" to="exhibit">
-          {{ $t('navigation.exhibit') }}
-        </MenuItem>
       </Submenu>
       <Submenu name="entertainment">
         <template slot="title">
@@ -87,11 +84,26 @@
         <MenuItem name="food" to="reserved">
           {{ $t('navigation.food') }}
         </MenuItem>
+      </Submenu>
+      <Submenu name="moment">
+        <template slot="title">
+          <Icon type="md-filing" />
+          {{ $t('navigation.moment') }}
+        </template>
+        <MenuItem name="microblog" to="microblog">
+          {{ $t('navigation.microblog') }}
+        </MenuItem>
+        <MenuItem name="exhibit" to="exhibit">
+          {{ $t('navigation.exhibit') }}
+        </MenuItem>
         <MenuItem name="footprint" to="reserved">
           {{ $t('navigation.footprint') }}
         </MenuItem>
         <MenuItem name="wish" to="reserved">
           {{ $t('navigation.wish') }}
+        </MenuItem>
+        <MenuItem name="income" to="reserved">
+          {{ $t('navigation.income') }}
         </MenuItem>
       </Submenu>
     </Menu>
