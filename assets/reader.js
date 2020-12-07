@@ -30,3 +30,4 @@ export const microblog = sortByDate(
   return e.post_type === 'microblog'
 })
 export const introduction = require('./data/introduction.json')
+export const food = require('./data/food.json')[2].data

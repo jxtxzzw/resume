@@ -6,6 +6,7 @@
     "photo": "/data/photo/",
     "project": "/data/project/",
     "coding": "/data/coding/",
-    "exhibit": "/data/photo/"
+    "exhibit": "/data/photo/",
+    "food": "/data/food/"
   }
 }

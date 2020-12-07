@@ -1,0 +1,44 @@
+[
+  {
+    "type": "header",
+    "version": "5.0.4",
+    "comment": "Export to JSON plugin for PHPMyAdmin"
+  },
+  {
+    "type": "database",
+    "name": "resume"
+  },
+  {
+    "type": "table",
+    "name": "food",
+    "database": "resume",
+    "data": [
+      {
+        "name": "玉米烙",
+        "description": "玉米烙",
+        "seen": "1",
+        "seen_date": "2020-12-07",
+        "ate": "1",
+        "ate_date": "2020-12-07",
+        "fired": "0",
+        "fired_date": null,
+        "fired_photo": null,
+        "avatar": null,
+        "photo_width": null
+      },
+      {
+        "name": "番茄炒蛋",
+        "description": "番茄炒蛋",
+        "seen": "1",
+        "seen_date": null,
+        "ate": "1",
+        "ate_date": null,
+        "fired": "1",
+        "fired_date": "2020-12-07",
+        "fired_photo": "fqcd.jpg",
+        "avatar": "fqcd.jpg",
+        "photo_width": "800"
+      }
+    ]
+  }
+]

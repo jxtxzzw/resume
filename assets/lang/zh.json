@@ -161,5 +161,13 @@
     "twitter": "Twitter",
     "linkedin": "LinkedIn",
     "secret": "这是一个秘密"
+  },
+  "food": {
+    "seen": "见识并录入",
+    "seen_at": "于 {date} 见识并录入",
+    "ate": "品尝过",
+    "ate_at": "于 {date} 品尝过",
+    "fired": "成功下厨复现",
+    "fired_at": "于 {date} 成功下厨复现"
   }
 }
