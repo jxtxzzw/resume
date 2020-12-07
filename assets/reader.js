@@ -29,3 +29,4 @@ export const microblog = sortByDate(
 ).filter((e) => {
   return e.post_type === 'microblog'
 })
+export const introduction = require('./data/introduction.json')

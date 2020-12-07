@@ -138,5 +138,28 @@
     "ds_pop": "Used {num} main data structure(s)",
     "algs": "Algorithm",
     "algs_pop": "Used {num} main algorithm(s)"
+  },
+  "introduction": {
+    "true_name": "Name",
+    "nick_name": "Nickname",
+    "english_name": "English Name",
+    "birthday": "Birthday",
+    "location": "Location",
+    "role": "Role",
+    "email": "Email",
+    "qq": "QQ",
+    "wechat": "WeChat",
+    "github": "GitHub",
+    "gitlab": "GitLab",
+    "zhihu": "Zhihu",
+    "zhihu_zhuanlan": "Zhihu Articles",
+    "bilibili": "Bilibili",
+    "bilibili_live": "Bilibili Live",
+    "wechat_mp": "WeChat MP",
+    "facebook": "Facebook",
+    "youtube": "YouTube",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn",
+    "secret": "THIS IS A SECRET"
   }
 }

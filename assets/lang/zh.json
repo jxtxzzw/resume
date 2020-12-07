@@ -138,5 +138,28 @@
     "ds_pop": "使用了 {num} 种主要的数据结构",
     "algs": "算法",
     "algs_pop": "使用了 {num} 种主要的算法"
+  },
+  "introduction": {
+    "true_name": "姓名",
+    "nick_name": "昵称",
+    "english_name": "英语名",
+    "birthday": "生日",
+    "location": "位置",
+    "role": "角色",
+    "email": "电子邮件",
+    "qq": "QQ",
+    "wechat": "微信",
+    "github": "GitHub",
+    "gitlab": "GitLab",
+    "zhihu": "知乎",
+    "zhihu_zhuanlan": "知乎专栏",
+    "bilibili": "哔哩哔哩",
+    "bilibili_live": "哔哩哔哩直播间",
+    "wechat_mp": "微信公众号",
+    "facebook": "Facebook",
+    "youtube": "YouTube",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn",
+    "secret": "这是一个秘密"
   }
 }
