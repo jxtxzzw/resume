@@ -36,6 +36,9 @@ export default {
    */
   plugins: [
     '@/plugins/view-design',
+    '@/plugins/antd-ui',
+    '@/plugins/fontawesome',
+    { src: '@/plugins/g2', ssr: false },
     { src: '@/plugins/l7', ssr: false },
     { src: '@/plugins/codemirror', ssr: false },
   ],
