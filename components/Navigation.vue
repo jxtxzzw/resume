@@ -12,11 +12,8 @@
           <Icon type="md-person" />
           {{ $t('navigation.information') }}
         </template>
-        <MenuItem name="introduction" to="reserved">
+        <MenuItem name="introduction" to="introduction">
           {{ $t('navigation.introduction') }}
-        </MenuItem>
-        <MenuItem name="contact" to="reserved">
-          {{ $t('navigation.contact') }}
         </MenuItem>
       </Submenu>
       <Submenu name="experience">
@@ -38,9 +35,6 @@
         </MenuItem>
         <MenuItem name="publication" to="reserved">
           {{ $t('navigation.publication') }}
-        </MenuItem>
-        <MenuItem name="milestone" to="milestone">
-          {{ $t('navigation.milestone') }}
         </MenuItem>
       </Submenu>
       <Submenu name="skill">
