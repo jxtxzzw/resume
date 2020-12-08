@@ -72,5 +72,23 @@ export default {
       setting,
     }
   },
+  mounted() {
+    this.food = this.food.sort((a, b) => {
+      const A = a.photo_width ? a.photo_width : 500
+      const B = b.photo_width ? b.photo_width : 500
+      if (A === B) {
+        if (a.fired_date == null && b.fired_date == null) {
+          return 0
+        } else if (a.fired_date == null && b.fired_date != null) {
+          return 1
+        } else if (a.fired_date != null && b.fired_date == null) {
+          return -1
+        }
+        return new Date(b.fired_date) - new Date(a.fired_date)
+      } else {
+        return A - B
+      }
+    })
+  },
 }
 </script>
