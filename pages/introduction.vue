@@ -57,7 +57,7 @@
             <a-descriptions-item :label="$t('introduction.qq')">
               <a-popover :title="$t('introduction.qq')">
                 <template v-if="introduction.qq_qr" slot="content">
-                  <img :src="introduction.qq_qr" />
+                  <img :src="introduction.qq_qr" style="max-width: 400px" />
                 </template>
                 {{ maskedContent(introduction.qq) }}
               </a-popover>
@@ -65,7 +65,7 @@
             <a-descriptions-item :label="$t('introduction.wechat')">
               <a-popover :title="$t('introduction.wechat')">
                 <template v-if="introduction.wechat_qr" slot="content">
-                  <img :src="introduction.wechat_qr" />
+                  <img :src="introduction.wechat_qr" style="max-width: 400px" />
                 </template>
                 {{ maskedContent(introduction.wechat) }}
               </a-popover>
@@ -135,7 +135,10 @@
             <a-descriptions-item :label="$t('introduction.wechat_mp')">
               <a-popover :title="$t('introduction.wechat_mp')">
                 <template v-if="introduction.wechat_mp_qr" slot="content">
-                  <img :src="introduction.wechat_mp_qr" />
+                  <img
+                    :src="introduction.wechat_mp_qr"
+                    style="max-width: 800px"
+                  />
                 </template>
                 {{ maskedContent(introduction.wechat_mp) }}
               </a-popover>
