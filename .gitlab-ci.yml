@@ -22,6 +22,7 @@ before_script:
 load_resources:
   stage: .pre
   script:
+    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${SCRIPT_FILENAME}.sh"
     - rm -rfv ./assets/data
     - rm -rfv ./static/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR}/assets-data ./assets/data
