@@ -1,28 +1,12 @@
 [
   {
-    "type": "header",
-    "version": "5.0.0-rc1",
-    "comment": "Export to JSON plugin for PHPMyAdmin"
-  },
-  {
-    "type": "database",
-    "name": "sample"
-  },
-  {
-    "type": "table",
-    "name": "work",
-    "database": "resume",
-    "data": [
-      {
-        "company": "微软",
-        "position": "SWE INTERN",
-        "department": "C+AI",
-        "location": "上海紫竹",
-        "date": "2019-07-01",
-        "end": "2019-09-30",
-        "content": "暑假实习"
-      }
-    ]
+    "company": "微软",
+    "position": "SWE INTERN",
+    "department": "C+AI",
+    "location": "上海紫竹",
+    "date": "2019-07-01",
+    "end": "2019-09-30",
+    "content": "暑假实习"
   }
 ]
 

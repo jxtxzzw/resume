@@ -145,7 +145,7 @@ export default {
         key: 'play',
         width: 110,
         render: (h, params) => {
-          if (parseInt(params.row.play) === 1) {
+          if (params.row.play) {
             return h(
               'Tooltip',
               {
@@ -176,7 +176,7 @@ export default {
         key: 'cloud',
         width: 110,
         render: (h, params) => {
-          if (parseInt(params.row.cloud) === 1) {
+          if (params.row.cloud) {
             return h(
               'Tooltip',
               {
@@ -207,7 +207,7 @@ export default {
         key: 'collection',
         width: 110,
         render: (h, params) => {
-          if (parseInt(params.row.collection) === 1) {
+          if (params.row.collection) {
             return h(
               'Tooltip',
               {
@@ -238,7 +238,7 @@ export default {
         key: 'achievement',
         width: 110,
         render: (h, params) => {
-          if (parseInt(params.row.achievement) === 1) {
+          if (params.row.achievement) {
             return h(
               'Tooltip',
               {

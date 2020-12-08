@@ -1,46 +1,30 @@
 [
   {
-    "type": "header",
-    "version": "5.0.0-rc1",
-    "comment": "Export to JSON plugin for PHPMyAdmin"
+    "platform": "LeetCode",
+    "problem": "1",
+    "title": "Two Sum",
+    "status": "accepted",
+    "ds": "表",
+    "algs": "哈希",
+    "language": "java"
   },
   {
-    "type": "database",
-    "name": "resume"
+    "platform": "LeetCode",
+    "problem": "300",
+    "title": "最长上升子序列",
+    "status": "accepted",
+    "ds": null,
+    "algs": "动态规划,贪心,二分查找",
+    "language": "java"
   },
   {
-    "type": "table",
-    "name": "coding",
-    "database": "resume",
-    "data": [
-      {
-        "platform": "LeetCode",
-        "problem": "1",
-        "title": "Two Sum",
-        "status": "accepted",
-        "ds": "表",
-        "algs": "哈希",
-        "language": "java"
-      },
-      {
-        "platform": "LeetCode",
-        "problem": "300",
-        "title": "最长上升子序列",
-        "status": "accepted",
-        "ds": null,
-        "algs": "动态规划,贪心,二分查找",
-        "language": "java"
-      },
-      {
-        "platform": "HDU",
-        "problem": "6170",
-        "title": "Two strings",
-        "status": "attempted",
-        "ds": null,
-        "algs": "动态规划,正则表达式",
-        "language": "c"
-      }
-    ]
+    "platform": "HDU",
+    "problem": "6170",
+    "title": "Two strings",
+    "status": "attempted",
+    "ds": null,
+    "algs": "动态规划,正则表达式",
+    "language": "c"
   }
 ]
 

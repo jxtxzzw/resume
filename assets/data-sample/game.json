@@ -1,44 +1,28 @@
 [
   {
-    "type": "header",
-    "version": "5.0.0-rc1",
-    "comment": "Export to JSON plugin for PHPMyAdmin"
+    "name": "Brothers - A Tale of Two Sons",
+    "cloud": true,
+    "play": true,
+    "achievement": true,
+    "status": "done",
+    "date": "2019-11-04",
+    "rate": 3,
+    "comment": "评价很高的游戏",
+    "label": null,
+    "collection": true,
+    "time": 3
   },
   {
-    "type": "database",
-    "name": "sample"
-  },
-  {
-    "type": "table",
-    "name": "game",
-    "database": "sample",
-    "data": [
-      {
-        "name": "Brothers - A Tale of Two Sons",
-        "cloud": "1",
-        "play": "1",
-        "achievement": "1",
-        "status": "done",
-        "date": "2019-11-04",
-        "rate": "3",
-        "comment": "评价很高的游戏",
-        "label": null,
-        "collection": "1",
-        "time": "3"
-      },
-      {
-        "name": "Dig or Die",
-        "cloud": "0",
-        "play": "1",
-        "achievement": "0",
-        "status": "doing",
-        "date": null,
-        "rate": "4",
-        "comment": "又是一个可以联机的游戏",
-        "label": "合作,生存",
-        "collection": "0",
-        "time": "14"
-      }
-    ]
+    "name": "Dig or Die",
+    "cloud": false,
+    "play": true,
+    "achievement": false,
+    "status": "doing",
+    "date": null,
+    "rate": 4,
+    "comment": "又是一个可以联机的游戏",
+    "label": "合作,生存",
+    "collection": false,
+    "time": 14
   }
 ]

@@ -1,36 +1,20 @@
 [
   {
-    "type": "header",
-    "version": "5.0.0-rc1",
-    "comment": "Export to JSON plugin for PHPMyAdmin"
+    "id": "1",
+    "date": "2016-09-28",
+    "platform": "博客",
+    "milestone": "开通博客"
   },
   {
-    "type": "database",
-    "name": "sample"
+    "id": "2",
+    "date": "2019-09-29",
+    "platform": "博客",
+    "milestone": "文章超过 100 篇"
   },
   {
-    "type": "table",
-    "name": "milestone",
-    "database": "sample",
-    "data": [
-      {
-        "id": "1",
-        "date": "2016-09-28",
-        "platform": "博客",
-        "milestone": "开通博客"
-      },
-      {
-        "id": "2",
-        "date": "2019-09-29",
-        "platform": "博客",
-        "milestone": "文章超过 100 篇"
-      },
-      {
-        "id": "3",
-        "date": "2019-05-12",
-        "platform": "哔哩哔哩直播",
-        "milestone": "开通账号"
-      }
-    ]
+    "id": "3",
+    "date": "2019-05-12",
+    "platform": "哔哩哔哩直播",
+    "milestone": "开通账号"
   }
 ]

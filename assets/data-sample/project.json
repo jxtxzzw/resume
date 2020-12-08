@@ -1,41 +1,25 @@
 [
   {
-    "type": "header",
-    "version": "5.0.0-rc1",
-    "comment": "Export to JSON plugin for PHPMyAdmin"
+    "title": "个人简历",
+    "description": "一个演示项目，这里是项目说明",
+    "filename": "sample1.png",
+    "date": "2020-10-20",
+    "repo": "https://github.com",
+    "blog": "https://www.jxtxzzw.com",
+    "doc": null,
+    "award": null,
+    "demo": "https://resume.jxtxzzw.com"
   },
   {
-    "type": "database",
-    "name": "sample"
-  },
-  {
-    "type": "table",
-    "name": "project",
-    "database": "resume",
-    "data": [
-      {
-        "title": "个人简历",
-        "description": "一个演示项目，这里是项目说明",
-        "filename": "sample1.png",
-        "date": "2020-10-20",
-        "repo": "https://github.com",
-        "blog": "https://www.jxtxzzw.com",
-        "doc": null,
-        "award": null,
-        "demo": "https://resume.jxtxzzw.com"
-      },
-      {
-        "title": "项目二",
-        "description": "一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。",
-        "filename": "knowledgegraph.jpg",
-        "date": "2018-12-20",
-        "repo": null,
-        "blog": null,
-        "doc": "https://github.com",
-        "award": null,
-        "demo": null
-      }
-    ]
+    "title": "项目二",
+    "description": "一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。一个知识图谱的项目。另一个知识图谱项目。一个又一个知识图谱项目。",
+    "filename": "knowledgegraph.jpg",
+    "date": "2018-12-20",
+    "repo": null,
+    "blog": null,
+    "doc": "https://github.com",
+    "award": null,
+    "demo": null
   }
 ]
 
