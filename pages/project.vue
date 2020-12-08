@@ -1,5 +1,5 @@
 <template>
-  <Carousel loop autoplay autoplay-speed="5000" dots="inside" arrow="always">
+  <Carousel loop autoplay :autoplay-speed="5000" dots="inside" arrow="always">
     <CarouselItem v-for="item in project" :key="item.title">
       <div class="carousel">
         <div class="cycle-gallery">
