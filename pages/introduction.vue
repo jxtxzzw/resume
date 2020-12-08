@@ -186,7 +186,11 @@ export default {
       }
       return item
     })
-    this.distinctPlatform.sort()
+    this.distinctPlatform.sort((a, b) => {
+      const A = this.milestone.filter((e) => e.platform === a).length
+      const B = this.milestone.filter((e) => e.platform === b).length
+      return B - A
+    })
     this.milestone.sort((a, b) => {
       return new Date(a) - new Date(b)
     })
