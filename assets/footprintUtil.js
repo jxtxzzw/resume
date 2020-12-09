@@ -1,0 +1,94 @@
+import { PointLayer, Popup, Scene } from '@antv/l7'
+import { GaodeMap, Mapbox } from '@antv/l7-maps'
+
+function getPointLayer(data) {
+  return new PointLayer({})
+    .source(data, {
+      cluster: true, // 海量点数据支持聚合显示
+      parser: {
+        type: 'json',
+        x: 'lng',
+        y: 'lat',
+      },
+    })
+    .shape('circle')
+    .scale('point_count', {
+      type: 'quantile', // 根据四分位数将每个聚合点实际包含的点的个数分为五份
+    })
+    .size('point_count', [5, 10, 21, 42, 84]) // 根据每个聚合点实际包含的点的个数决定点的大小
+    .color('#4cfd47')
+    .style({
+      opacity: 1,
+      strokeWidth: 1,
+    })
+    .active(true) // hover 高亮显示
+    .select(true) // 选中高亮显示
+    .animate(true) // 水波纹效果，可以扩展更多的点动画效果
+}
+
+export function constructMapAndScene(map, source, that) {
+  // Step 1: 创建 Scene 对象
+  const config = {
+    center: [108.5525, 34.3227], // 大地原点
+    pitch: 0,
+    zoom: 4,
+    maxZoom: 18,
+  }
+  const scene = new Scene({
+    id: `${map}Footprint`,
+    logoVisible: false,
+    preserveDrawingBuffer: false,
+    map: map === 'china' ? new GaodeMap(config) : new Mapbox(config),
+  })
+  // 坑：在地图加载完成后，强制更新长和宽，让 DOM 重新绘制，确保 layer 的位置是正确的
+  // 直接读 vuex 的数据，没有效果，在 mounted 更新长和宽，没有效果
+  scene.on('loaded', () => {
+    that.screenHeight = that.$store.getters['size/getHeight']
+    that.screenWidth = that.$store.getters['size/getWidth']
+    that.screenWidth -= 1
+    that.screenHeight -= 1
+  })
+
+  // Step 2: 载入数据源
+  let data
+  if (map === 'china') {
+    data = source.filter((e) => {
+      return e.map === 'china'
+    })
+  } else {
+    data = source
+  }
+
+  // Step 3：创建图形语法
+  const pointLayer = getPointLayer(data)
+  pointLayer.on('mousemove', (e) => {
+    let popMessage = '<span>'
+    if (e.feature.cluster) {
+      popMessage = `这里有 ${e.feature.point_count} 条记录`
+    } else {
+      const { date, name } = e.feature
+      if (date) {
+        popMessage += `于 ${date} `
+      }
+      popMessage += `到达 ${name}</span>`
+    }
+    const popup = new Popup({
+      offsets: [0, 0],
+      closeButton: false,
+    })
+      .setLnglat(e.lngLat)
+      .setHTML(popMessage)
+    scene.addPopup(popup)
+  })
+
+  // Step 4: 渲染图表
+  scene.addLayer(pointLayer)
+
+  return scene
+}
+
+export function destroyScene(scene) {
+  console.log('in destory')
+  console.log(scene)
+  scene.destroy()
+}
