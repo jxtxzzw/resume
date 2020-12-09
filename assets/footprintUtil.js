@@ -1,7 +1,8 @@
-import { PointLayer, Popup, Scene } from '@antv/l7'
-import { GaodeMap, Mapbox } from '@antv/l7-maps'
+// nuxt 下不能用 import 引入整个依赖，只能用 plugin 的方式引入
 
-function getPointLayer(data) {
+function getPointLayer(data, that) {
+  const { PointLayer } = that.$l7
+
   return new PointLayer({
     name: 'layer',
   })
@@ -29,6 +30,9 @@ function getPointLayer(data) {
 }
 
 export function constructMapAndScene(map, source, that) {
+  const { Scene, Popup } = that.$l7
+  const { GaodeMap, Mapbox } = that.$l7maps
+
   // Step 1: 创建 Scene 对象
   const config = {
     center: [108.5525, 34.3227], // 大地原点
@@ -64,7 +68,7 @@ export function constructMapAndScene(map, source, that) {
   }
 
   // Step 3：创建图形语法
-  const pointLayer = getPointLayer(data)
+  const pointLayer = getPointLayer(data, that)
   pointLayer.on('mousemove', (e) => {
     let popMessage = '<span>'
     if (e.feature.cluster) {
