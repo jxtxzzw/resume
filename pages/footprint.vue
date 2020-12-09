@@ -42,6 +42,8 @@ export default {
     },
   },
   mounted() {
+    this.screenHeight = this.$store.getters['size/getHeight']
+    this.screenWidth = this.$store.getters['size/getWidth']
     this.drawScene()
   },
   methods: {
