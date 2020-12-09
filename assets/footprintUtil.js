@@ -15,7 +15,7 @@ function getPointLayer(data) {
     .scale('point_count', {
       type: 'quantile', // 根据四分位数将每个聚合点实际包含的点的个数分为五份
     })
-    .size('point_count', [5, 10, 21, 42, 84]) // 根据每个聚合点实际包含的点的个数决定点的大小
+    .size('point_count', [30, 40, 50, 60, 70]) // 根据每个聚合点实际包含的点的个数决定点的大小
     .color('#4cfd47')
     .style({
       opacity: 1,
@@ -64,13 +64,20 @@ export function constructMapAndScene(map, source, that) {
   pointLayer.on('mousemove', (e) => {
     let popMessage = '<span>'
     if (e.feature.cluster) {
-      popMessage = `这里有 ${e.feature.point_count} 条记录`
+      popMessage = that.$t('footprint.cluster', {
+        count: e.feature.point_count,
+      })
     } else {
       const { date, name } = e.feature
       if (date) {
-        popMessage += `于 ${date} `
+        popMessage += that.$t('footprint.date', {
+          date,
+        })
       }
-      popMessage += `到达 ${name}</span>`
+      popMessage += that.$t('footprint.name', {
+        name,
+      })
+      popMessage += `</span>`
     }
     const popup = new Popup({
       offsets: [0, 0],
@@ -85,10 +92,4 @@ export function constructMapAndScene(map, source, that) {
   scene.addLayer(pointLayer)
 
   return scene
-}
-
-export function destroyScene(scene) {
-  console.log('in destory')
-  console.log(scene)
-  scene.destroy()
 }

@@ -169,5 +169,14 @@
     "ate_at": "于 {date} 品尝过",
     "fired": "成功下厨复现",
     "fired_at": "于 {date} 成功下厨复现"
+  },
+  "footprint": {
+    "china": "中国",
+    "world": "世界",
+    "current": "你正在浏览 ",
+    "desc": "点击切换中国足迹与世界足迹",
+    "cluster": "这里有 {count} 条记录",
+    "date": "于 {date} ",
+    "name": "到达 {name}"
   }
 }

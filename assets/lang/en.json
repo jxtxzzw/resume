@@ -169,5 +169,14 @@
     "ate_at": "Ate on {date} in some restaurant",
     "fired": "Fired personally",
     "fired_at": "Fired on {date} personally"
+  },
+  "footprint": {
+    "china": "China",
+    "world": "World",
+    "current": "You are browsing ",
+    "desc": "Click to switch between China Footprint and World Footprint",
+    "cluster": "There are {count} records here",
+    "date": "Arrived on {date} ",
+    "name": "Arrived at {name}"
   }
 }

@@ -16,9 +16,8 @@
 <script>
 import * as footprintUtil from 'assets/footprintUtil'
 import { footprint } from 'assets/reader'
-
 export default {
-  name: 'WorldFootprint',
+  name: 'ChinaFootprint',
   data() {
     return {
       map: 'world',
