@@ -7,7 +7,11 @@
         width: contentWidth + 'px',
         height: contentHeight + 'px',
         justifyContent: 'center',
-        position: 'relative',
+        position: 'absolute',
+        // 设置在 ChinaFootprint 下层，当切换时设定 ChinaFootprint display: none，就会显示这个地图
+        // 这样做是因为 MapBox 初次加载时长宽为 300 * 400，必须经过一次 map.resize 才能正确铺满
+        // 而 MapBox 经过 L7 封装后不方便直接操作，因此直接让父组件放在底层，绘制成功后不再反复绘制，避免父组件宽度为 0（display: none）导致需要重新绘制
+        zIndex: 1,
       }"
     />
   </div>
@@ -17,7 +21,7 @@
 import * as footprintUtil from 'assets/footprintUtil'
 import { footprint } from 'assets/reader'
 export default {
-  name: 'ChinaFootprint',
+  name: 'WorldFootprint',
   data() {
     return {
       map: 'world',
@@ -53,7 +57,12 @@ export default {
   mounted() {
     this.screenHeight = this.$store.getters['size/getHeight']
     this.screenWidth = this.$store.getters['size/getWidth']
-    footprintUtil.constructMapAndScene(this.map, this.source, this)
+    const scene = footprintUtil.constructMapAndScene(
+      this.map,
+      this.source,
+      this
+    )
+    this.$emit('scene', scene)
   },
 }
 </script>

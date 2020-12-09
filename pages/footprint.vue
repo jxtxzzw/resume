@@ -22,12 +22,9 @@
       :style="{
         display: map === 'china' ? 'block' : 'none',
       }"
+      @scene="saveChinaScene"
     />
-    <WorldFootprint
-      :style="{
-        display: map === 'world' ? 'block' : 'none',
-      }"
-    />
+    <WorldFootprint @scene="saveWorldScene" />
   </div>
 </template>
 
@@ -43,7 +40,31 @@ export default {
   data() {
     return {
       map: 'china',
+      chinaScene: null,
+      worldScene: null,
     }
+  },
+  watch: {
+    map() {
+      // 大坑：强制设置窗口大小，让数据状态发生变化，因此会重新渲染组件
+      // MapBox 样式 min height 和 min width 是 400 和 300，所以这两个指必须大于 400 和 300
+      this.$store.commit('size/setHeight', 600)
+      this.$store.commit('size/setWidth', 600)
+      // 重新渲染 Scene
+      this.chinaScene.render()
+      this.worldScene.render()
+      // 其他页面的宽度基本上都不依赖于 vuex 的 screenWidth，所以不用担心
+      // 个别依赖 screenWidth 的页面也能正常工作，因为触发 resize 的时候会更新 vuex
+      // 如果手动更改了浏览器窗口，那 on resize 就更没有关系了
+    },
+  },
+  methods: {
+    saveChinaScene(scene) {
+      this.chinaScene = scene
+    },
+    saveWorldScene(scene) {
+      this.worldScene = scene
+    },
   },
 }
 </script>

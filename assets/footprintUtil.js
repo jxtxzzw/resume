@@ -2,7 +2,9 @@ import { PointLayer, Popup, Scene } from '@antv/l7'
 import { GaodeMap, Mapbox } from '@antv/l7-maps'
 
 function getPointLayer(data) {
-  return new PointLayer({})
+  return new PointLayer({
+    name: 'layer',
+  })
     .source(data, {
       cluster: true, // 海量点数据支持聚合显示
       parser: {
@@ -43,6 +45,8 @@ export function constructMapAndScene(map, source, that) {
   // 坑：在地图加载完成后，强制更新长和宽，让 DOM 重新绘制，确保 layer 的位置是正确的
   // 直接读 vuex 的数据，没有效果，在 mounted 更新长和宽，没有效果
   scene.on('loaded', () => {
+    // MapBox 初次加载时长宽为 300 * 400，必须经过一次 map.resize 才能正确铺满，所以强制触发一次 resize
+    window.dispatchEvent(new Event('resize'))
     that.screenHeight = that.$store.getters['size/getHeight']
     that.screenWidth = that.$store.getters['size/getWidth']
     that.screenWidth -= 1

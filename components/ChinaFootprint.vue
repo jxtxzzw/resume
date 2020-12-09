@@ -7,7 +7,8 @@
         width: contentWidth + 'px',
         height: contentHeight + 'px',
         justifyContent: 'center',
-        position: 'relative',
+        position: 'absolute',
+        zIndex: 2, // 设置在 WordFootprint 上层，当切换时设定 display: none
       }"
     />
   </div>
@@ -53,7 +54,12 @@ export default {
   mounted() {
     this.screenHeight = this.$store.getters['size/getHeight']
     this.screenWidth = this.$store.getters['size/getWidth']
-    footprintUtil.constructMapAndScene(this.map, this.source, this)
+    const scene = footprintUtil.constructMapAndScene(
+      this.map,
+      this.source,
+      this
+    )
+    this.$emit('scene', scene)
   },
 }
 </script>
