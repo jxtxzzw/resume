@@ -57,7 +57,10 @@
               background: '#fff',
             }"
           >
-            <Nuxt />
+            <!-- 这里 keep-alive 有两层含义：-->
+            <!-- 1. 修复：离开足迹后再回到足迹，页面会卡死的问题，利用 keep-alive 解决； -->
+            <!-- 2. 顺便优化：利用 keep-alive 优化页面切换 -->
+            <Nuxt keep-alive />
           </Content>
         </Layout>
       </Layout>
