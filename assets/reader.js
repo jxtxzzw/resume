@@ -28,3 +28,4 @@ export const microblog = sortByDate(
 })
 export const introduction = require('./data/introduction.json')
 export const food = require('./data/food.json')
+export const footprint = require('./data/footprint.json')

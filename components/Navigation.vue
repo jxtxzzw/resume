@@ -90,7 +90,7 @@
         <MenuItem name="exhibit" to="exhibit">
           {{ $t('navigation.exhibit') }}
         </MenuItem>
-        <MenuItem name="footprint" to="reserved">
+        <MenuItem name="footprint" to="footprint">
           {{ $t('navigation.footprint') }}
         </MenuItem>
         <MenuItem name="wish" to="reserved">
