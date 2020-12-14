@@ -65,7 +65,7 @@ export default {
           } else if (params.row.status === 'todo') {
             color = 'error'
           } else if (params.row.status === 'disabled') {
-            color = 'disabled'
+            color = '#808695'
           } else if (params.row.status === 'done') {
             color = 'success'
           }

@@ -84,8 +84,6 @@ export default {
             color = 'primary'
           } else if (params.row.status === 'todo') {
             color = 'error'
-          } else if (params.row.status === 'disabled') {
-            color = 'disabled'
           } else if (params.row.status === 'done') {
             color = 'success'
           }
@@ -94,8 +92,6 @@ export default {
             message = this.$t('media.doing')
           } else if (params.row.status === 'todo') {
             message = this.$t('media.todo')
-          } else if (params.row.status === 'disabled') {
-            message = this.$t('media.disabled')
           } else if (params.row.status === 'done') {
             if (params.row.date === null) {
               message = this.$t('media.done')
