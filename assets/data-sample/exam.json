@@ -18,6 +18,12 @@
       150,
       150,
       150
+    ],
+    "zeros": [
+      0,
+      0,
+      0,
+      0
     ]
   },
   {
@@ -46,27 +52,37 @@
       90,
       60,
       30
+    ],
+    "zeros": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
     ]
   },
   {
-    "name": "TOEFL",
+    "name": "GRE",
     "sections": [
-      "Reading",
-      "Listening",
-      "Speaking",
+      "Verbal",
+      "Quantitative",
       "Writing"
     ],
     "scores": [
-      28,
-      27,
-      23,
-      28
+      154,
+      170,
+      3
     ],
     "totals": [
-      30,
-      30,
-      30,
-      30
+      170,
+      170,
+      6
+    ],
+    "zeros": [
+      130,
+      130,
+      0
     ]
   }
 ]
