@@ -109,6 +109,10 @@
     "date": "日期： {date}",
     "info": "描述： {info}"
   },
+  "honor": {
+    "date": "日期： {date}",
+    "info": "获得 {info} 荣誉"
+  },
   "study": {
     "till": "至",
     "now": "今"

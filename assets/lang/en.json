@@ -109,6 +109,10 @@
     "date": "Date: {date}",
     "info": "Description: {info}"
   },
+  "honor": {
+    "date": "Date: {date}",
+    "info": "Honor: {info}"
+  },
   "study": {
     "till": "till",
     "now": "now"

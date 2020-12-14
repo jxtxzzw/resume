@@ -54,7 +54,7 @@
         <MenuItem name="technique" to="reserved">
           {{ $t('navigation.technique') }}
         </MenuItem>
-        <MenuItem name="honor" to="reserved">
+        <MenuItem name="honor" to="honor">
           {{ $t('navigation.honor') }}
         </MenuItem>
       </Submenu>
