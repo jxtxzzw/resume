@@ -178,5 +178,9 @@
     "cluster": "There are {count} records here",
     "date": "Arrived on {date} ",
     "name": "Arrived at {name}"
+  },
+  "exam": {
+    "total": "Total",
+    "sum": "Sum"
   }
 }

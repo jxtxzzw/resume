@@ -178,5 +178,9 @@
     "cluster": "这里有 {count} 条记录",
     "date": "于 {date} ",
     "name": "到达 {name}"
+  },
+  "exam": {
+    "total": "满分",
+    "sum": "总分"
   }
 }
