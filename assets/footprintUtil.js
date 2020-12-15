@@ -18,7 +18,7 @@ function getPointLayer(data, that) {
     .scale('point_count', {
       type: 'quantile', // 根据四分位数将每个聚合点实际包含的点的个数分为五份
     })
-    .size('point_count', [30, 40, 50, 60, 70]) // 根据每个聚合点实际包含的点的个数决定点的大小
+    .size('point_count', [20, 25, 30, 35, 40]) // 根据每个聚合点实际包含的点的个数决定点的大小
     .color('#4cfd47')
     .style({
       opacity: 1,
@@ -27,6 +27,13 @@ function getPointLayer(data, that) {
     .active(true) // hover 高亮显示
     .select(true) // 选中高亮显示
     .animate(true) // 水波纹效果，可以扩展更多的点动画效果
+    .on('click', (e) => {
+      if (e.feature.cluster) {
+        that.$Message.info(that.$t('footprint.cluster_click'))
+      } else {
+        that.$emit('pictures', e.feature.id, e.feature.pictures)
+      }
+    })
 }
 
 export function constructMapAndScene(map, source, that) {

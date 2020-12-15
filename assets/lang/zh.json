@@ -181,7 +181,9 @@
     "desc": "点击切换中国足迹与世界足迹",
     "cluster": "这里有 {count} 条记录",
     "date": "于 {date} ",
-    "name": "到达 {name}"
+    "name": "到达 {name}",
+    "cluster_click": "放大，然后点击单个足迹查看照片吧",
+    "no_pictures": "这里没有照片，换别的足迹看看吧"
   },
   "exam": {
     "total": "满分",

@@ -181,7 +181,9 @@
     "desc": "Click to switch between China Footprint and World Footprint",
     "cluster": "There are {count} records here",
     "date": "Arrived on {date} ",
-    "name": "Arrived at {name}"
+    "name": "Arrived at {name}",
+    "cluster_click": "Zoom in, and click on a single footprint to see the picture(s)",
+    "no_pictures": "No pictures here, so why not visit other footprints?"
   },
   "exam": {
     "total": "Total",

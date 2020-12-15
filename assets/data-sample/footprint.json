@@ -5,20 +5,23 @@
     "lat": 30.455,
     "date": "2020-12-09",
     "name": "XX公园",
-    "map": "china"
+    "map": "china",
+    "pictures": "1.jpg,2.jpg"
   },
   {
     "id": 2,
     "lng": 114.345,
     "lat": 31.455,
     "name": "YY博物馆",
-    "map": "china"
+    "map": "china",
+    "pictures": null
   },
   {
     "id": 3,
     "lng": 134.345,
     "lat": 33.455,
     "name": "ZZZ",
-    "map": "world"
+    "map": "world",
+    "pictures": "1.jpg"
   }
 ]

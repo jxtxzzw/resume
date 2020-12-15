@@ -23,14 +23,42 @@
         display: map === 'china' ? 'block' : 'none',
       }"
       @scene="saveChinaScene"
+      @pictures="showPictures"
     />
-    <WorldFootprint @scene="saveWorldScene" />
+    <WorldFootprint @scene="saveWorldScene" @pictures="showPictures" />
+    <Modal v-model="pictureModal" footer-hide width="90">
+      <!-- 对话框宽度，对话框的宽度是响应式的，当屏幕尺寸小于 768px 时，宽度会变为自动auto -->
+      <!-- 当其值不大于 100 时以百分比显示，大于 100 时为像素 -->
+      <Carousel
+        v-if="pictureModal"
+        v-model="carouselId"
+        loop
+        autoplay
+        :autoplay-speed="5000"
+      >
+        <!-- .ivu-carousel-item 这个 div 宽度为 0 的问题，需要加上 v-if="pictureModal" 令其和 Modal 一起渲染就 OK 了 -->
+        <!-- 类似的，对于 list，需要加上 v-if="list.length" -->
+        <CarouselItem v-for="picture in pictures" :key="picture.id">
+          <div class="demo-carousel">
+            <div class="cycle-gallery">
+              <div class="img-box">
+                <div class="img-holder">
+                  <img :src="setting.src.footprint + picture" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </CarouselItem>
+      </Carousel>
+    </Modal>
   </div>
 </template>
 
 <script>
 import ChinaFootprint from '@/components/ChinaFootprint'
 import WorldFootprint from '@/components/WorldFootprint'
+import { setting } from 'assets/reader'
+
 export default {
   name: 'Footprint',
   components: {
@@ -39,9 +67,14 @@ export default {
   },
   data() {
     return {
+      setting,
       map: 'china',
       chinaScene: null,
       worldScene: null,
+      pictureModal: false,
+      pictureId: 0,
+      carouselId: 0,
+      pictures: [],
     }
   },
   watch: {
@@ -65,6 +98,70 @@ export default {
     saveWorldScene(scene) {
       this.worldScene = scene
     },
+    showPictures(id, pictures) {
+      this.pictureId = id
+      if (pictures != null && pictures !== '') {
+        this.pictures = pictures.split(',')
+        this.pictureModal = true
+      } else {
+        this.$Message.error(this.$t('footprint.no_pictures'))
+        this.pictures = []
+        this.pictureModal = false
+      }
+    },
   },
 }
 </script>
+
+<style scoped>
+.demo-carousel {
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  background: #fff;
+}
+.cycle-gallery {
+  position: relative;
+  text-align: center;
+  padding: 40px 200px 33px;
+  margin: 0 0 60px;
+  line-height: 1.6;
+}
+.cycle-gallery p {
+  color: #515a6e;
+}
+.cycle-gallery .img-box {
+  display: block;
+  line-height: 1.5;
+  padding: 0 0 40px;
+}
+.cycle-gallery .img-box .img-holder {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 22px 0 0;
+  overflow: hidden;
+}
+.cycle-gallery .img-box .img-holder img {
+  /* TODO 样式大小有待调整 */
+  width: 100%;
+  height: 100%;
+  border-radius: 10%;
+}
+.cycle-gallery .img-box h3 {
+  margin: 0;
+  line-height: 1.33333;
+  color: #635c73;
+}
+.cycle-gallery .img-box a {
+  font-weight: bold;
+}
+.cycle-gallery::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 180px;
+  right: 180px;
+  height: 1px;
+  background: #f4f4f4;
+}
+</style>
