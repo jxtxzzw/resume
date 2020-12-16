@@ -113,7 +113,7 @@ export default {
       this.$Notice.success({
         name: 'welcome-' + new Date(),
         title: `${this.$t('updated')} ${this.setting.updated}`,
-        desc: `${this.$t('permalink')}`,
+        desc: `${this.$t('permalink', { link: this.setting.link })}`,
       })
     },
     changeLanguage(lang) {

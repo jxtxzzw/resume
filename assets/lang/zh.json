@@ -1,7 +1,7 @@
 {
   "welcome": "欢迎",
   "updated": "最后一次更新是",
-  "permalink": "请访问 https://resume.jxtxzzw.com/ 查看最新版本",
+  "permalink": "请访问 {link} 查看最新版本",
   "navigation": {
     "blog": "个人博客",
     "resume": "个人简介",

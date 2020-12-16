@@ -1,7 +1,7 @@
 {
   "welcome": "Welcome",
   "updated": "Last updated on",
-  "permalink": "Please visit https://resume.jxtxzzw.com/ to see up-dated version",
+  "permalink": "Please visit {link} to see up-dated version",
   "navigation": {
     "blog": "Blog",
     "resume": "Resume",

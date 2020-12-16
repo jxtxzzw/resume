@@ -1,6 +1,7 @@
 {
   "updated": "2020-12-14",
   "deployDir": "/",
+  "link": "",
   "src": {
     "certificate": "/data/certificate/",
     "photo": "/data/photo/",
