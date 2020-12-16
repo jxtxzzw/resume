@@ -33,7 +33,8 @@
     "wish": "Wish",
     "moment": "Moment",
     "microblog": "MicroBlog",
-    "income": "Income"
+    "income": "Income",
+    "life": "Life"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",
@@ -188,5 +189,8 @@
   "exam": {
     "total": "Total",
     "sum": "Sum"
+  },
+  "life": {
+    "event": "Event"
   }
 }

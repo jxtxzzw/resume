@@ -33,7 +33,8 @@
     "wish": "愿望",
     "moment": "时刻",
     "microblog": "轻博客",
-    "income": "收入"
+    "income": "收入",
+    "life": "生活"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",
@@ -188,5 +189,8 @@
   "exam": {
     "total": "满分",
     "sum": "总分"
+  },
+  "life": {
+    "event": "事件"
   }
 }

@@ -36,6 +36,9 @@
         <MenuItem name="publication" to="reserved">
           {{ $t('navigation.publication') }}
         </MenuItem>
+        <MenuItem name="life" to="life">
+          {{ $t('navigation.life') }}
+        </MenuItem>
       </Submenu>
       <Submenu name="skill">
         <template slot="title">
