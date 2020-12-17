@@ -21,23 +21,15 @@
           </div>
           <div class="layout-logo" />
           <div class="layout-nav">
-            <MenuItem name="blog" to="https://www.jxtxzzw.com" target="_blank">
+            <MenuItem name="blog" :to="setting.blog" target="_blank">
               <Icon type="logo-wordpress" />
               {{ $t('navigation.blog') }}
             </MenuItem>
-            <MenuItem
-              name="resume"
-              to="https://resume.jxtxzzw.com"
-              target="_blank"
-            >
+            <MenuItem name="resume" :to="setting.link" target="_blank">
               <Icon type="md-person" />
               {{ $t('navigation.resume') }}
             </MenuItem>
-            <MenuItem
-              name="gitlab"
-              to="https://gitlab.jxtxzzw.com"
-              target="_blank"
-            >
+            <MenuItem name="gitlab" :to="setting.gitlab" target="_blank">
               <Icon type="md-git-branch" />
               {{ $t('navigation.gitlab') }}
             </MenuItem>
