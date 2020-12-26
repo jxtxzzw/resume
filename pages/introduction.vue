@@ -143,6 +143,17 @@
                 {{ maskedContent(introduction.wechat_mp) }}
               </a-popover>
             </a-descriptions-item>
+            <a-descriptions-item :label="$t('introduction.wechat_video')">
+              <a-popover :title="$t('introduction.wechat_video')">
+                <template v-if="introduction.wechat_video_qr" slot="content">
+                  <img
+                    :src="introduction.wechat_video_qr"
+                    style="max-width: 800px"
+                  />
+                </template>
+                {{ maskedContent(introduction.wechat_video) }}
+              </a-popover>
+            </a-descriptions-item>
             <a-descriptions-item :label="$t('introduction.youtube')">
               {{ maskedContent(introduction.youtube) }}
             </a-descriptions-item>
