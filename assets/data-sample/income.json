@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "year": "2019",
+    "amount": "30",
+    "type": "酬金",
+    "category": "科研津贴"
+  },
+  {
+    "id": "2",
+    "year": "2019",
+    "amount": "20",
+    "type": "酬金",
+    "category": "项目津贴"
+  },
+  {
+    "id": "3",
+    "year": "2019",
+    "amount": "-30",
+    "type": "税务",
+    "category": "税务"
+  },
+  {
+    "id": "4",
+    "year": "2020",
+    "amount": "30",
+    "type": "酬金",
+    "category": "科研津贴"
+  },
+  {
+    "id": "5",
+    "year": "2020",
+    "amount": "30",
+    "type": "酬金2",
+    "category": "科研津贴"
+  }
+]
