@@ -50,6 +50,7 @@ export default {
         '#2391FF',
       ]
     )
+    incomeUtil.renderChartForAdvancedPlatform(this, advancedIncome)
     // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
     window.dispatchEvent(new Event('resize'))
   },

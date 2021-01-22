@@ -250,3 +250,127 @@ export function renderChartForBasicAccumulated(that, rawData) {
 
   chart.render()
 }
+
+function getTreeData(rawData) {
+  const dict = {}
+  for (const x of rawData) {
+    const amount = parseFloat(x.amount)
+    const type = x.type
+    const platform = x.platform
+    if (!(platform in dict)) {
+      dict[platform] = {}
+      dict[platform].value = 0
+      dict[platform].children = {}
+    }
+    dict[platform].value += amount
+    if (!(type in dict[platform].children)) {
+      dict[platform].children[type] = 0
+    }
+    dict[platform].children[type] += amount
+  }
+
+  const data = []
+  for (const platform in dict) {
+    const obj = {
+      name: platform,
+      brand: platform,
+      value: dict[platform].amount,
+      children: [],
+    }
+    for (const type in dict[platform].children) {
+      obj.children.push({
+        name: platform + ' - ' + type,
+        value: dict[platform].children[type],
+      })
+    }
+    data.push(obj)
+  }
+
+  return data
+}
+
+export function renderChartForAdvancedPlatform(that, rawData) {
+  const { Chart } = that.$g2
+  const { DataView } = that.$dataset
+  const treeData = getTreeData(rawData)
+  console.log(treeData)
+  // 会通过子节点累加 value 值，所以设置为 0
+  treeData.forEach(function (td) {
+    td.value = null
+  })
+  const data = {
+    name: 'root',
+    children: treeData,
+  }
+  const dv = new DataView()
+  dv.source(data, {
+    type: 'hierarchy',
+  }).transform({
+    field: 'value',
+    type: 'hierarchy.treemap',
+    tile: 'treemapResquarify',
+    as: ['x', 'y'],
+  })
+  // 将 DataSet 处理后的结果转换为 G2 接受的数据
+  const nodes = []
+  for (const node of dv.getAllNodes()) {
+    if (!node.children) {
+      const eachNode = {
+        name: node.data.name,
+        x: node.x,
+        y: node.y,
+        depth: node.depth,
+        value: node.value,
+      }
+      if (!node.data.brand && node.parent) {
+        eachNode.brand = node.parent.data.brand
+      } else {
+        eachNode.brand = node.data.brand
+      }
+
+      nodes.push(eachNode)
+    }
+  }
+  const chart = new Chart({
+    container: 'advanced-platform',
+    autoFit: true,
+    height: 500,
+    padding: 0,
+  })
+  chart.coordinate().scale(1, -1) // 习惯性最小的在最下面
+  chart.data(nodes)
+  chart.axis(false)
+  chart.legend(false)
+  chart.tooltip({
+    showTitle: false,
+    showMarkers: false,
+  })
+  chart
+    .polygon()
+    .position('x*y')
+    .color('brand')
+    .tooltip('name*value', function (name, value) {
+      return {
+        name,
+        value,
+      }
+    })
+    .style({
+      lineWidth: 1,
+      stroke: '#fff',
+    })
+    .label('name', {
+      offset: 0,
+      style: {
+        textBaseline: 'middle',
+        fill: '#000',
+        shadowBlur: 10,
+        shadowColor: '#fff',
+      },
+      layout: {
+        type: 'limit-in-shape',
+      },
+    })
+  chart.interaction('element-active')
+  chart.render()
+}
