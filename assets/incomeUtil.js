@@ -172,3 +172,68 @@ export function renderChartForBasicCategory(that, rawData) {
 
   chart.render()
 }
+
+function getDataForBasicAccumulated(rawData) {
+  const dict = {}
+  let minYear = 9999
+  let maxYear = 0
+  for (const x of rawData) {
+    const year = parseInt(x.year)
+    const amount = parseFloat(x.amount)
+    if (year < minYear) {
+      minYear = year
+    }
+    if (year > maxYear) {
+      maxYear = year
+    }
+    if (!(year in dict)) {
+      dict[year] = 0
+    }
+    dict[year] += amount
+  }
+
+  const data = []
+  let sum = 0
+  for (let i = minYear; i <= maxYear; i++) {
+    if (i in dict) {
+      sum += dict[i]
+    }
+    data.push({
+      year: i,
+      value: sum,
+    })
+  }
+  return data
+}
+
+export function renderChartForBasicAccumulated(that, rawData) {
+  const { Chart } = that.$g2
+
+  const data = getDataForBasicAccumulated(rawData)
+  const chart = new Chart({
+    container: 'basic-accumulated',
+    autoFit: true,
+    height: 500,
+  })
+
+  chart.data(data)
+  chart.scale({
+    year: {
+      range: [0, 1],
+    },
+    value: {
+      min: 0,
+      nice: true,
+    },
+  })
+
+  chart.tooltip({
+    showCrosshairs: true, // 展示 Tooltip 辅助线
+    shared: true,
+  })
+
+  chart.line().position('year*value').label('value')
+  chart.point().position('year*value')
+
+  chart.render()
+}

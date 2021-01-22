@@ -4,6 +4,7 @@
     <div id="basic-year"></div>
     <Divider>{{ $t('income.basic-category') }} </Divider>
     <div id="basic-category"></div>
+    <Divider>{{ $t('income.basic-accumulated') }} </Divider>
     <div id="basic-accumulated"></div>
     <div id="advanced-year"></div>
     <div id="advanced-platform"></div>
@@ -19,6 +20,7 @@ export default {
   mounted() {
     incomeUtil.renderChartForBasicYear(this, income)
     incomeUtil.renderChartForBasicCategory(this, income)
+    incomeUtil.renderChartForBasicAccumulated(this, income)
     // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
     window.dispatchEvent(new Event('resize'))
   },

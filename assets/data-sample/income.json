@@ -11,7 +11,7 @@
     "year": "2019",
     "amount": "20",
     "type": "酬金",
-    "category": "项目津贴"
+    "category": "科研津贴"
   },
   {
     "id": "3",
@@ -22,16 +22,23 @@
   },
   {
     "id": "4",
-    "year": "2020",
+    "year": "2019",
     "amount": "30",
     "type": "酬金",
-    "category": "科研津贴"
+    "category": "项目津贴"
   },
   {
     "id": "5",
-    "year": "2020",
+    "year": "2019",
     "amount": "30",
-    "type": "酬金2",
-    "category": "科研津贴"
+    "type": "工资",
+    "category": "奖金"
+  },
+  {
+    "id": "6",
+    "year": "2021",
+    "amount": "30",
+    "type": "工资",
+    "category": "基本工资"
   }
 ]

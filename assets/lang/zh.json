@@ -196,6 +196,7 @@
   },
   "income": {
     "basic-year": "每年收入",
-    "basic-category": "收入类型"
+    "basic-category": "收入类型",
+    "basic-accumulated": "收入汇总"
   }
 }
