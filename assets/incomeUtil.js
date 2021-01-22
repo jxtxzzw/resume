@@ -25,7 +25,6 @@ function getDataForBasicYear(rawData) {
       })
     }
   }
-  console.log(data)
   return data
 }
 
@@ -97,5 +96,79 @@ export function renderChartForBasicYear(that, rawData) {
     })
 
   // Step 4: 渲染图表
+  chart.render()
+}
+
+function getDataForBasicCategory(rawData) {
+  const dict = {}
+  let total = 0
+  for (const x of rawData) {
+    const category = x.category
+    const amount = parseFloat(x.amount)
+    if (!(category in dict)) {
+      dict[category] = 0
+    }
+    if (amount > 0) {
+      dict[category] += amount
+      total += amount
+    }
+  }
+
+  const data = []
+  for (const category in dict) {
+    const amount = dict[category]
+    if (amount > 0) {
+      data.push({
+        category,
+        amount,
+        percent: amount / total,
+      })
+    }
+  }
+  return data
+}
+
+export function renderChartForBasicCategory(that, rawData) {
+  const { Chart } = that.$g2
+
+  const data = getDataForBasicCategory(rawData)
+
+  const chart = new Chart({
+    container: 'basic-category',
+    autoFit: true,
+    height: 500,
+  })
+
+  chart.coordinate('theta', {
+    radius: 0.75,
+  })
+
+  chart.data(data)
+
+  chart.scale('percent', {
+    formatter: (val) => {
+      val = val * 100 + '%'
+      return val
+    },
+  })
+
+  chart.tooltip({
+    showTitle: false,
+    showMarkers: false,
+  })
+
+  chart
+    .interval()
+    .position('percent')
+    .color('category')
+    .label('percent', {
+      content: (data) => {
+        return `${data.category}: ${data.percent * 100}%`
+      },
+    })
+    .adjust('stack')
+
+  chart.interaction('element-active')
+
   chart.render()
 }

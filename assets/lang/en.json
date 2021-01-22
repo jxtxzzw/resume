@@ -193,5 +193,9 @@
   },
   "life": {
     "event": "Event"
+  },
+  "income": {
+    "basic-year": "Income for each year",
+    "basic-category": "Income for categories"
   }
 }
