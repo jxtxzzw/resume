@@ -99,7 +99,7 @@
         <MenuItem name="wish" to="reserved">
           {{ $t('navigation.wish') }}
         </MenuItem>
-        <MenuItem name="income" to="reserved">
+        <MenuItem name="income" to="income">
           {{ $t('navigation.income') }}
         </MenuItem>
       </Submenu>

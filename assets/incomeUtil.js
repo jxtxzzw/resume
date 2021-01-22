@@ -61,6 +61,10 @@ export function renderChartForYearAndType(
   // Step 3: 创建图形语法，绘制柱状图
   chart.scale('amount', {
     alias: '金额(元)',
+    formatter: (val) => {
+      val = parseFloat(val).toFixed(2)
+      return val
+    },
   })
   chart.axis('year', {
     tickLine: null,
@@ -93,7 +97,7 @@ export function renderChartForYearAndType(
         position: 'middle',
         offset: 0,
         content: (originData) => {
-          return originData.amount
+          return parseFloat(originData.amount).toFixed(2)
         },
         style: {
           stroke: '#fff',
@@ -153,7 +157,7 @@ export function renderChartForBasicCategory(that, rawData) {
 
   chart.scale('percent', {
     formatter: (val) => {
-      val = val * 100 + '%'
+      val = parseFloat(val * 100).toFixed(2) + '%'
       return val
     },
   })
@@ -169,7 +173,7 @@ export function renderChartForBasicCategory(that, rawData) {
     .color('category')
     .label('percent', {
       content: (data) => {
-        return `${data.category}: ${data.percent * 100}%`
+        return `${data.category}: ${parseFloat(data.percent * 100).toFixed(2)}%`
       },
     })
     .adjust('stack')
@@ -231,10 +235,12 @@ export function renderChartForBasicAccumulated(that, rawData) {
     year: {
       range: [0, 1],
     },
+    formatter: (val) => {
+      return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+    },
   })
   chart.tooltip({
     showCrosshairs: true,
-    shared: true,
   })
 
   chart.axis('value', {
@@ -246,7 +252,15 @@ export function renderChartForBasicAccumulated(that, rawData) {
   })
 
   chart.area().position('year*value')
-  chart.line().position('year*value')
+  chart
+    .line()
+    .position('year*value')
+    .tooltip('year*value', (year, value) => {
+      return {
+        name: year,
+        value: (parseFloat(value) / 10000).toFixed(2) + that.$t('income.10k'),
+      }
+    })
 
   chart.render()
 }
@@ -293,7 +307,6 @@ export function renderChartForAdvancedPlatform(that, rawData) {
   const { Chart } = that.$g2
   const { DataView } = that.$dataset
   const treeData = getTreeData(rawData)
-  console.log(treeData)
   // 会通过子节点累加 value 值，所以设置为 0
   treeData.forEach(function (td) {
     td.value = null
@@ -335,12 +348,13 @@ export function renderChartForAdvancedPlatform(that, rawData) {
     container: 'advanced-platform',
     autoFit: true,
     height: 500,
-    padding: 0,
   })
   chart.coordinate().scale(1, -1) // 习惯性最小的在最下面
   chart.data(nodes)
   chart.axis(false)
-  chart.legend(false)
+  chart.legend({
+    position: 'bottom',
+  })
   chart.tooltip({
     showTitle: false,
     showMarkers: false,
