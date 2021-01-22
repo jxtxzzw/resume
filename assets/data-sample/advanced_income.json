@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "year": "2019",
+    "amount": "1",
+    "type": "付费内容",
+    "platform": "微信公众号"
+  },
+  {
+    "id": "2",
+    "year": "2019",
+    "amount": "2",
+    "type": "付费内容",
+    "platform": "微信公众号"
+  },
+  {
+    "id": "3",
+    "year": "2019",
+    "amount": "10",
+    "type": "打赏",
+    "platform": "付费内容"
+  },
+  {
+    "id": "4",
+    "year": "2020",
+    "amount": "10",
+    "type": "活动奖励",
+    "platform": "哔哩哔哩"
+  },
+  {
+    "id": "5",
+    "year": "2020",
+    "amount": "30",
+    "type": "打赏",
+    "platform": "哔哩哔哩"
+  },
+  {
+    "id": "6",
+    "year": "2021",
+    "amount": "10",
+    "type": "打赏",
+    "platform": "知乎"
+  }
+]

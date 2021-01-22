@@ -1,6 +1,6 @@
 // nuxt 下不能用 import 引入整个依赖，只能用 plugin 的方式引入
 
-function getDataForBasicYear(rawData) {
+function getDataForYearAndType(rawData) {
   const dict = {}
   for (const x of rawData) {
     const year = x.year
@@ -28,14 +28,29 @@ function getDataForBasicYear(rawData) {
   return data
 }
 
-export function renderChartForBasicYear(that, rawData) {
+export function renderChartForYearAndType(
+  that,
+  rawData,
+  containerID = 'container',
+  colors = [
+    '#FF6B3B',
+    '#5B8FF9',
+    '#FFC100',
+    '#61DDAA',
+    '#76523B',
+    '#0E8E89',
+    '#E19348',
+    '#F383A2',
+    '#247FEA',
+  ]
+) {
   const { Chart } = that.$g2
 
-  const data = getDataForBasicYear(rawData)
+  const data = getDataForYearAndType(rawData)
 
   // Step 1: 创建 Chart 对象
   const chart = new Chart({
-    container: 'basic-year',
+    container: containerID,
     autoFit: true,
     height: 500,
   })
@@ -66,22 +81,13 @@ export function renderChartForBasicYear(that, rawData) {
     showMarkers: false,
   })
   chart.interaction('active-region')
+  chart.interaction('element-highlight-by-color')
 
   chart
     .interval()
     .adjust('stack')
     .position('year*amount')
-    .color('type', [
-      '#FF6B3B',
-      '#5B8FF9',
-      '#FFC100',
-      '#61DDAA',
-      '#76523B',
-      '#0E8E89',
-      '#E19348',
-      '#F383A2',
-      '#247FEA',
-    ])
+    .color('type', colors)
     .label('value', () => {
       return {
         position: 'middle',
@@ -218,22 +224,29 @@ export function renderChartForBasicAccumulated(that, rawData) {
 
   chart.data(data)
   chart.scale({
-    year: {
-      range: [0, 1],
-    },
     value: {
       min: 0,
       nice: true,
     },
+    year: {
+      range: [0, 1],
+    },
   })
-
   chart.tooltip({
-    showCrosshairs: true, // 展示 Tooltip 辅助线
+    showCrosshairs: true,
     shared: true,
   })
 
-  chart.line().position('year*value').label('value')
-  chart.point().position('year*value')
+  chart.axis('value', {
+    label: {
+      formatter: (val) => {
+        return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+      },
+    },
+  })
+
+  chart.area().position('year*value')
+  chart.line().position('year*value')
 
   chart.render()
 }

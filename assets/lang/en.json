@@ -195,8 +195,11 @@
     "event": "Event"
   },
   "income": {
-    "basic-year": "Income for each year",
-    "basic-category": "Income for categories",
-    "basic-accumulated": "Accumulated incomes"
+    "basic-year": "Income for Each Year",
+    "basic-category": "Income for Categories",
+    "basic-accumulated": "Accumulated Incomes",
+    "10k": "(x10,000)",
+    "advanced-year": "Advanced Income for Each Year",
+    "advanced-platform": "Advanced Income for Platforms"
   }
 }
