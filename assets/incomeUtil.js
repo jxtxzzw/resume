@@ -366,7 +366,7 @@ export function renderChartForAdvancedPlatform(that, rawData) {
     .tooltip('name*value', function (name, value) {
       return {
         name,
-        value,
+        value: parseFloat(value).toFixed(2),
       }
     })
     .style({
