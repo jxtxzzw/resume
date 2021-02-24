@@ -3,6 +3,7 @@ image: node:latest
 stages:
   - build
   - deploy
+  - test
 
 cache:
   key: resume
@@ -87,3 +88,11 @@ git:
     - echo ${COMMIT_MESSAGE_BODY}
     - git commit -m "${COMMIT_MESSAGE_HEAD}" -m "${COMMIT_MESSAGE_BODY}"
     - git push --verbose
+
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/License-Scanning.gitlab-ci.yml
