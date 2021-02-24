@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "course": "Foundations of Computer System",
+    "university": "Carnegie Mellon University",
+    "score": null,
+    "max_score": null,
+    "grade": "A"
+  },
+  {
+    "id": "2",
+    "course": "计算机组成原理",
+    "university": "华东师范大学",
+    "score": 3.9,
+    "max_score": 4.0,
+    "grade": null
+  },
+  {
+    "id": "3",
+    "course": "Another Course",
+    "university": "另一所学校",
+    "score": 80,
+    "max_score": 100,
+    "grade": "A-"
+  }
+]

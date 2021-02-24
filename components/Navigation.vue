@@ -45,6 +45,9 @@
           <Icon type="md-school" />
           {{ $t('navigation.skill') }}
         </template>
+        <MenuItem name="course" to="course">
+          {{ $t('navigation.course') }}
+        </MenuItem>
         <MenuItem name="exam" to="exam">
           {{ $t('navigation.exam') }}
         </MenuItem>
