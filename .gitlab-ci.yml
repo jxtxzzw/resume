@@ -1,18 +1,17 @@
-# You can override the included template(s) by including variable overrides
-# See https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
 image: node:latest
+
 stages:
-- build
-- deploy
-- test
+  - build
+  - deploy
+  - test
+
 cache:
   key: resume
   paths:
-  - node_modules/
-  - assets/data/
-  - static/data/
+    - node_modules/
+    - assets/data/
+    - static/data/
+
 before_script:
   - mkdir -vp ~/.ssh
   - eval $(ssh-agent -s)
@@ -20,8 +19,9 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts -v
   - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/key.pem
   - chmod 600 ~/.ssh/key.pem -v
+
 load_resources:
-  stage: ".pre"
+  stage: .pre
   script:
     - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${SCRIPT_FILENAME}.sh"
     - rm -rfv ./assets/data
@@ -30,16 +30,17 @@ load_resources:
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR}/static-data ./static/data
     - RESUME_DATE=`date +%Y-%m-%d`
     - echo ${RESUME_DATE}
-    - echo sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"${RESUME_DATE}\\\"/g\"
-      > ./update_time.sh
+    - echo sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"${RESUME_DATE}\\\"/g\" > ./update_time.sh
     - cat ./update_time.sh
     - cat ./assets/data/setting.json | sh ./update_time.sh > ./assets/data/setting2.json
     - mv ./assets/data/setting2.json ./assets/data/setting.json -fv
     - cat ./assets/data/setting.json
+
 install_dependencies:
-  stage: ".pre"
+  stage: .pre
   script:
     - npm install
+
 generate:
   stage: build
   script:
@@ -50,11 +51,13 @@ generate:
     - npm run generate
   artifacts:
     paths:
-    - dist/
+      - dist/
+
 resume:
   stage: deploy
   script:
     - scp -i ~/.ssh/key.pem -rv ./dist/* ${USER}@${HOST_NAME}:${DEPLOY_LOCAL}/
+
 pages:
   stage: deploy
   script:
@@ -65,6 +68,7 @@ pages:
       - public
   only:
     - master
+
 git:
   stage: deploy
   script:
@@ -79,11 +83,7 @@ git:
     - git add .
     - CURRENT_TIME=`date +%FT%T%:z`
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CURRENT_TIME}"
-    - COMMIT_MESSAGE_BODY="${CI_PIPELINE_IID} (global ID ${CI_PIPELINE_ID}), triggered
-      by ${CI_PIPELINE_SOURCE}, on commit ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE})
-      at ${CI_COMMIT_TIMESTAMP}, from ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION})
-      ${CI_PROJECT_PATH}, using Runner-${CI_RUNNER_ID} ${CI_RUNNER_SHORT_TOKEN} (${CI_RUNNER_VERSION},
-      ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
+    - COMMIT_MESSAGE_BODY="${CI_PIPELINE_IID} (global ID ${CI_PIPELINE_ID}), triggered by ${CI_PIPELINE_SOURCE}, on commit ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE}) at ${CI_COMMIT_TIMESTAMP}, from ${CI_SERVER_HOST} (${CI_SERVER_VERSION}, ${CI_SERVER_REVISION}) ${CI_PROJECT_PATH}, using Runner-${CI_RUNNER_ID} ${CI_RUNNER_SHORT_TOKEN} (${CI_RUNNER_VERSION}, ${CI_RUNNER_REVISION}), by ${GITLAB_USER_NAME}"
     - echo ${COMMIT_MESSAGE_HEAD}
     - echo ${COMMIT_MESSAGE_BODY}
     - git commit -m "${COMMIT_MESSAGE_HEAD}" -m "${COMMIT_MESSAGE_BODY}"
@@ -91,5 +91,5 @@ git:
 
 sast:
   stage: test
-include:
-  - template: Security/SAST.gitlab-ci.yml
+  include:
+    - template: Security/SAST.gitlab-ci.yml
