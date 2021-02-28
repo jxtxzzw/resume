@@ -5,14 +5,18 @@
     "university": "Carnegie Mellon University",
     "score": null,
     "max_score": null,
+    "grade_point": 4,
+    "max_grade_point": 4,
     "grade": "A"
   },
   {
     "id": "2",
     "course": "计算机组成原理",
     "university": "华东师范大学",
-    "score": 3.9,
-    "max_score": 4.0,
+    "score": 90,
+    "max_score": 100,
+    "grade_point": null,
+    "max_grade_point": null,
     "grade": null
   },
   {
@@ -21,6 +25,8 @@
     "university": "另一所学校",
     "score": 80,
     "max_score": 100,
+    "grade_point": 3.88,
+    "max_grade_point": 4,
     "grade": "A-"
   }
 ]
