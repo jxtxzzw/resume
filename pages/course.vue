@@ -68,6 +68,7 @@ export default {
           style: {
             marginRight: '40px',
             marginTop: '40px',
+            display: 'inline-block',
           },
         },
         [gradeWrapper]
