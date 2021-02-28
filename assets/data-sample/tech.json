@@ -1,0 +1,26 @@
+[
+  {
+    "tech": "Java",
+    "desc": null,
+    "category": "Language",
+    "level": 4
+  },
+  {
+    "tech": "Docker",
+    "desc": "docker-compose is not included",
+    "category": "System",
+    "level": 2
+  },
+  {
+    "tech": "Vue",
+    "desc": null,
+    "category": "Platform",
+    "level": 3
+  },
+  {
+    "tech": "Kubernetes",
+    "desc": null,
+    "category": "System",
+    "level": 1
+  }
+]
