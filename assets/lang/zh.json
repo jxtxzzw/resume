@@ -96,6 +96,7 @@
     "tv": "电视剧",
     "movie": "电影",
     "anime": "动漫",
+    "documentary": "纪录片",
     "done": "已欣赏",
     "done_at": "已于 {date} 欣赏",
     "doing": "欣赏中",

@@ -96,6 +96,7 @@
     "tv": "TV Series",
     "movie": "Movie",
     "anime": "Anime",
+    "documentary": "Documentary",
     "done": "Watched/Listened",
     "done_at": "Watched/Listened on {date}",
     "doing": "Watching/Listening",
