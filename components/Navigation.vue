@@ -99,8 +99,8 @@
         <MenuItem name="footprint" to="footprint">
           {{ $t('navigation.footprint') }}
         </MenuItem>
-        <MenuItem name="wish" to="reserved">
-          {{ $t('navigation.wish') }}
+        <MenuItem name="dream" to="dream">
+          {{ $t('navigation.dream') }}
         </MenuItem>
         <MenuItem name="income" to="income">
           {{ $t('navigation.income') }}

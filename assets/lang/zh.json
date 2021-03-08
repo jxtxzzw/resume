@@ -31,7 +31,7 @@
     "footprint": "足迹",
     "photo": "摄像",
     "food": "美食",
-    "wish": "愿望",
+    "dream": "愿望",
     "moment": "时刻",
     "microblog": "轻博客",
     "income": "收入",
@@ -211,5 +211,11 @@
     "10k": "万元",
     "advanced-year": "每年额外收入",
     "advanced-platform": "额外收入平台"
+  },
+  "dream": {
+    "born": "萌芽",
+    "prepare": "准备",
+    "enjoy": "享受",
+    "done": "回味"
   }
 }
