@@ -22,6 +22,9 @@ import GamePlatformPCIcon from '@/components/GamePlatformPCIcon'
 import GamePlatformNSIcon from '@/components/GamePlatformNSIcon'
 import GamePlatformPSIcon from '@/components/GamePlatformPSIcon'
 import GamePlatformXboxIcon from '@/components/GamePlatformXboxIcon'
+import GamePlatformOriginIcon from '@/components/GamePlatformOriginIcon'
+import GamePlatformSteamIcon from '@/components/GamePlatformSteamIcon'
+import GamePlatformBattleNetIcon from '@/components/GamePlatformBattleNetIcon'
 
 export default {
   name: 'Game',
@@ -236,6 +239,18 @@ export default {
               break
             case 'Xbox':
               platformIcon = h(GamePlatformXboxIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'Steam':
+              platformIcon = h(GamePlatformSteamIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'BattleNet':
+              platformIcon = h(GamePlatformBattleNetIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'Origin':
+              platformIcon = h(GamePlatformOriginIcon)
               platformTip = this.$t(`game.${platform}`)
               break
             default:

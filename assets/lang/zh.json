@@ -72,7 +72,10 @@
     "Android": "Android",
     "iOS": "iOS",
     "PC": "PC",
-    "default": ""
+    "default": "",
+    "Steam": "Steam",
+    "BattleNet": "Blizzard Battle.Net",
+    "Origin": "Origin"
   },
   "fiction": {
     "title": "书名",
