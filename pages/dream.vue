@@ -1,6 +1,7 @@
 <template>
   <div>
     <Row v-for="d in dream" :key="d.name" style="margin-bottom: 20px">
+      <Divider> {{ d.name }} </Divider>
       <a-steps :current="d.current" :status="d.status">
         <a-step>
           <span slot="title"> {{ $t('dream.born') }} </span>
