@@ -10,7 +10,8 @@
     "comment": "评价很高的游戏",
     "label": null,
     "collection": true,
-    "time": 3
+    "time": 3,
+    "platform": "PC"
   },
   {
     "name": "Dig or Die",
@@ -23,6 +24,35 @@
     "comment": "又是一个可以联机的游戏",
     "label": "合作,生存",
     "collection": false,
-    "time": 14
+    "time": 14,
+    "platform": "PC"
+  },
+  {
+    "name": "Super Mario",
+    "cloud": false,
+    "play": true,
+    "achievement": false,
+    "status": "todo",
+    "date": null,
+    "rate": 4,
+    "comment": "好玩",
+    "label": null,
+    "collection": false,
+    "time": 5,
+    "platform": "NS"
+  },
+  {
+    "name": "刺客信条",
+    "cloud": false,
+    "play": true,
+    "achievement": false,
+    "status": "doing",
+    "date": null,
+    "rate": 4,
+    "comment": "刺客信条",
+    "label": null,
+    "collection": false,
+    "time": 4,
+    "platform": "Xbox"
   }
 ]

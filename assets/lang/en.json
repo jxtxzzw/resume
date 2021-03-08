@@ -64,7 +64,15 @@
     "todo": "Scheduling",
     "disabled": "Ultimated (Sandbox, MOBA, etc.)",
     "message": "Ratings and reviews are personal.",
-    "warning": "This page may contain information about the plot."
+    "warning": "This page may contain information about the plot.",
+    "platform": "Platform",
+    "NS": "Nintendo Switch",
+    "PS": "Sony PlayStation",
+    "Xbox": "Microsoft Xbox",
+    "Android": "Android",
+    "iOS": "iOS",
+    "PC": "PC",
+    "default": ""
   },
   "fiction": {
     "title": "Title",

@@ -64,7 +64,15 @@
     "todo": "计划中",
     "disabled": "无限通关（沙盒、对战等）",
     "message": "评分和评价仅代表个人意见。",
-    "warning": "本页面可能包含剧透内容。"
+    "warning": "本页面可能包含剧透内容。",
+    "platform": "游戏平台",
+    "NS": "Nintendo Switch",
+    "PS": "Sony PlayStation",
+    "Xbox": "Microsoft Xbox",
+    "Android": "Android",
+    "iOS": "iOS",
+    "PC": "PC",
+    "default": ""
   },
   "fiction": {
     "title": "书名",

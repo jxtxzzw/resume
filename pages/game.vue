@@ -15,6 +15,14 @@
 <script>
 import { game } from 'assets/reader'
 import ExpandRow from '@/components/ExpandRow'
+import GamePlatformDefaultIcon from '@/components/GamePlatformDefaultIcon'
+import GamePlatformAndroidIcon from '@/components/GamePlatformAndroidIcon'
+import GamePlatformIOSIcon from '@/components/GamePlatformIOSIcon'
+import GamePlatformPCIcon from '@/components/GamePlatformPCIcon'
+import GamePlatformNSIcon from '@/components/GamePlatformNSIcon'
+import GamePlatformPSIcon from '@/components/GamePlatformPSIcon'
+import GamePlatformXboxIcon from '@/components/GamePlatformXboxIcon'
+
 export default {
   name: 'Game',
   data() {
@@ -33,7 +41,6 @@ export default {
       const columns = []
       columns.push({
         type: 'expand',
-        width: 50,
         render: (h, params) => {
           return h(ExpandRow, {
             props: {
@@ -47,7 +54,6 @@ export default {
       if (this.showIndex) {
         columns.push({
           type: 'index',
-          width: 60,
           align: 'center',
         })
       }
@@ -143,7 +149,6 @@ export default {
       columns.push({
         title: this.$t('game.play'),
         key: 'play',
-        width: 110,
         render: (h, params) => {
           if (params.row.play) {
             return h(
@@ -174,7 +179,6 @@ export default {
       columns.push({
         title: this.$t('game.cloud'),
         key: 'cloud',
-        width: 110,
         render: (h, params) => {
           if (params.row.cloud) {
             return h(
@@ -203,9 +207,55 @@ export default {
         },
       })
       columns.push({
+        title: this.$t('game.platform'),
+        key: 'platform',
+        render: (h, params) => {
+          const platform = params.row.platform
+          let platformIcon
+          let platformTip
+          switch (platform) {
+            case 'Android':
+              platformIcon = h(GamePlatformAndroidIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'iOS':
+              platformIcon = h(GamePlatformIOSIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'PC':
+              platformIcon = h(GamePlatformPCIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'NS':
+              platformIcon = h(GamePlatformNSIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'PS':
+              platformIcon = h(GamePlatformPSIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'Xbox':
+              platformIcon = h(GamePlatformXboxIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            default:
+              platformIcon = h(GamePlatformDefaultIcon)
+              platformTip = this.$t('game.default')
+          }
+          return h(
+            'Tooltip',
+            {
+              props: {
+                content: platformTip,
+              },
+            },
+            [platformIcon]
+          )
+        },
+      })
+      columns.push({
         title: this.$t('game.collection'),
         key: 'collection',
-        width: 110,
         render: (h, params) => {
           if (params.row.collection) {
             return h(
@@ -236,7 +286,6 @@ export default {
       columns.push({
         title: this.$t('game.achievement'),
         key: 'achievement',
-        width: 110,
         render: (h, params) => {
           if (params.row.achievement) {
             return h(
@@ -267,7 +316,6 @@ export default {
       columns.push({
         title: this.$t('game.time'),
         key: 'time',
-        width: 110,
         sortable: true,
         sortMethod: (a, b, type) => {
           if (a === null) {
