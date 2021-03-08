@@ -72,10 +72,12 @@
     "Android": "Android",
     "iOS": "iOS",
     "PC": "PC",
-    "default": "",
+    "default": "N/A",
     "Steam": "Steam",
     "BattleNet": "Blizzard Battle.Net",
-    "Origin": "Origin"
+    "Origin": "Origin",
+    "Epic": "Epic",
+    "UPlay": "UbiSoft UPlay"
   },
   "fiction": {
     "title": "Title",
