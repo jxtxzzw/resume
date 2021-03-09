@@ -12,7 +12,7 @@
           <Icon type="md-person" />
           {{ $t('navigation.information') }}
         </template>
-        <MenuItem name="introduction" to="introduction">
+        <MenuItem name="introduction" to="/introduction">
           {{ $t('navigation.introduction') }}
         </MenuItem>
       </Submenu>
@@ -21,22 +21,22 @@
           <Icon type="md-copy" />
           {{ $t('navigation.experience') }}
         </template>
-        <MenuItem name="study" to="study">
+        <MenuItem name="study" to="/study">
           {{ $t('navigation.study') }}
         </MenuItem>
-        <MenuItem name="work" to="work">
+        <MenuItem name="work" to="/work">
           {{ $t('navigation.work') }}
         </MenuItem>
-        <MenuItem name="project" to="project">
+        <MenuItem name="project" to="/project">
           {{ $t('navigation.project') }}
         </MenuItem>
-        <MenuItem name="research" to="reserved">
+        <MenuItem name="research" to="/reserved">
           {{ $t('navigation.research') }}
         </MenuItem>
-        <MenuItem name="publication" to="reserved">
+        <MenuItem name="publication" to="/reserved">
           {{ $t('navigation.publication') }}
         </MenuItem>
-        <MenuItem name="life" to="life">
+        <MenuItem name="life" to="/life">
           {{ $t('navigation.life') }}
         </MenuItem>
       </Submenu>
@@ -45,22 +45,22 @@
           <Icon type="md-school" />
           {{ $t('navigation.skill') }}
         </template>
-        <MenuItem name="course" to="course">
+        <MenuItem name="course" to="/course">
           {{ $t('navigation.course') }}
         </MenuItem>
-        <MenuItem name="exam" to="exam">
+        <MenuItem name="exam" to="/exam">
           {{ $t('navigation.exam') }}
         </MenuItem>
-        <MenuItem name="certificate" to="certificate">
+        <MenuItem name="certificate" to="/certificate">
           {{ $t('navigation.certificate') }}
         </MenuItem>
-        <MenuItem name="coding" to="coding">
+        <MenuItem name="coding" to="/coding">
           {{ $t('navigation.coding') }}
         </MenuItem>
-        <MenuItem name="tech" to="tech">
+        <MenuItem name="tech" to="/tech">
           {{ $t('navigation.tech') }}
         </MenuItem>
-        <MenuItem name="honor" to="honor">
+        <MenuItem name="honor" to="/honor">
           {{ $t('navigation.honor') }}
         </MenuItem>
       </Submenu>
@@ -69,19 +69,19 @@
           <Icon type="md-laptop" />
           {{ $t('navigation.entertainment') }}
         </template>
-        <MenuItem name="game" to="game">
+        <MenuItem name="game" to="/game">
           {{ $t('navigation.game') }}
         </MenuItem>
-        <MenuItem name="fiction" to="fiction">
+        <MenuItem name="fiction" to="/fiction">
           {{ $t('navigation.fiction') }}
         </MenuItem>
-        <MenuItem name="media" to="media">
+        <MenuItem name="media" to="/media">
           {{ $t('navigation.media') }}
         </MenuItem>
-        <MenuItem name="photo" to="photo">
+        <MenuItem name="photo" to="/photo">
           {{ $t('navigation.photo') }}
         </MenuItem>
-        <MenuItem name="food" to="food">
+        <MenuItem name="food" to="/food">
           {{ $t('navigation.food') }}
         </MenuItem>
       </Submenu>
@@ -90,19 +90,19 @@
           <Icon type="md-filing" />
           {{ $t('navigation.moment') }}
         </template>
-        <MenuItem name="microblog" to="microblog">
+        <MenuItem name="microblog" to="/microblog">
           {{ $t('navigation.microblog') }}
         </MenuItem>
-        <MenuItem name="exhibit" to="exhibit">
+        <MenuItem name="exhibit" to="/exhibit">
           {{ $t('navigation.exhibit') }}
         </MenuItem>
-        <MenuItem name="footprint" to="footprint">
+        <MenuItem name="footprint" to="/footprint">
           {{ $t('navigation.footprint') }}
         </MenuItem>
-        <MenuItem name="dream" to="dream">
+        <MenuItem name="dream" to="/dream">
           {{ $t('navigation.dream') }}
         </MenuItem>
-        <MenuItem name="income" to="income">
+        <MenuItem name="income" to="/income">
           {{ $t('navigation.income') }}
         </MenuItem>
       </Submenu>
