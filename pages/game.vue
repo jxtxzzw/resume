@@ -82,7 +82,7 @@ export default {
           } else if (params.row.status === 'aborted') {
             color = 'error'
           } else if (params.row.status === 'returning') {
-            color = 'info'
+            color = '#2db7f5'
           }
           let message = ''
           if (params.row.status === 'doing') {
