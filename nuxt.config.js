@@ -24,6 +24,7 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
+    script: require('./assets/data/headerScript.json'),
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*

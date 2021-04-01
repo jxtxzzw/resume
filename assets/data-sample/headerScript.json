@@ -1,0 +1,6 @@
+[
+  { "src": "https://www.example.com/hello.js", "async": true },
+  {
+    "innerHTML": "const a = 100;"
+  }
+]
