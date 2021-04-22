@@ -1,3 +1,7 @@
+[![wakatime](https://wakatime.com/badge/gitlab/jxtxzzw/resume.svg)](https://wakatime.com/badge/gitlab/jxtxzzw/resume)
+
+[![GitLab pipeline](https://gitlab.jxtxzzw.com/jxtxzzw/resume/badges/master/pipeline.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/resume)
+
 # 个人简历 (resume)
 
 这是凝神长老的个人简历页面。
