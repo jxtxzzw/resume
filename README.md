@@ -4,11 +4,11 @@
 
 我提供了 3 份详细程度不同的说明，请根据你的需要，随意使用我的代码：
 
-+ 面向中级用户的使用说明 (For Intermediate Level)
+- 面向中级用户的使用说明 (For Intermediate Level)
 
-+ 面向高级用户的使用说明 (For Advanced Users)
+- 面向高级用户的使用说明 (For Advanced Users)
 
-+ 面向初级用户的使用说明 (For Beginners)
+- 面向初级用户的使用说明 (For Beginners)
 
 ## 面向中级用户的使用说明 (For Intermediate Level)
 
@@ -20,26 +20,26 @@
 
 3. 运行，或者生产静态文件
 
-    ```bash
-    # install dependencies
-    $ npm install
-    
-    # serve with hot reload at localhost:3000
-    $ npm run dev
-    
-    # build for production and launch server
-    $ npm run build
-    $ npm run start
-    
-    # generate static project
-    $ npm run generate
-    ```
+   ```bash
+   # install dependencies
+   $ npm install
 
-5. 如果你不需要某些页面，删除 `/components/Navigation.vue` 中的菜单项
+   # serve with hot reload at localhost:3000
+   $ npm run dev
+
+   # build for production and launch server
+   $ npm run build
+   $ npm run start
+
+   # generate static project
+   $ npm run generate
+   ```
+
+4. 如果你不需要某些页面，删除 `/components/Navigation.vue` 中的菜单项
 
    翻译在 `/assets/lang/` 目录下
 
-6. 你可以使用 `npm run build && npm run start` 运行，你可以修改默认端口，或者使用 Nginx 等工具进行反向代理、端口转发
+5. 你可以使用 `npm run build && npm run start` 运行，你可以修改默认端口，或者使用 Nginx 等工具进行反向代理、端口转发
 
    也可以使用 `npm run generate` 生成静态文件，然后将 `dist` 目录下的所有文件上传到你的服务器目录中
 
@@ -47,7 +47,7 @@
 
    如果你需要部署到子目录，你需要修改 `setting.json` 中的 `deployDir` 字段，注意，当你采用 `npm run start` 方式运行时，这个参数不起作用
 
-7. 更新时，只需要下载（或者克隆）最新的项目文件，将 `/assets/data/` 和 `/static/data/` 复制到新的项目文件夹中，重新运行这些命令即可，无需再次编辑数据
+6. 更新时，只需要下载（或者克隆）最新的项目文件，将 `/assets/data/` 和 `/static/data/` 复制到新的项目文件夹中，重新运行这些命令即可，无需再次编辑数据
 
 ## 面向高级用户的使用说明 (For Advanced Users)
 
@@ -60,9 +60,9 @@
    如果数据是存放在数据库中，可以使用脚本提前导出，`sql_to_json_converter.js` 提供了一个脚本，将 `.sql` 文件转化为 `.json` 文件，你只需要使用 `mysqldump` 这样的命令导出相应的表然后运行这个脚本，注意 `\` 转义已经被消除，如果你的需要转义后的 `\`，你可以自己修改 `stringify` 前后的代码
 
    考虑到 MySQL 中没有原生数组的支持，所以很多文件都是采用了 `,` 分隔，然后调用 `.split(',')` 得到数组，如果你使用的是 MongoDB 这样的数据库，你可以修改对应的代码，直接使用数组
-   
+
    你也可以安装 `Sequelize` 或者 `Mongoose` 这样的模块，并修改 `/assets/reader.js` 以便从数据库获取数据
-   
+
    或者采用前后端分离的部署方法，利用 `axios` 等手段获取数据
 
 3. 如果需要部署到 GitHub Pages，你还需要在 `/static/` 目录下创建一个 `.nojekyll` 的文件
@@ -77,11 +77,11 @@
 
    在 `.gitlab-ci.yml` 中，这个命令是
 
-    ```yaml
-    sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"${RESUME_DATE}\\\"/g\"
-    ```   
+   ```yaml
+   sed \"s/\\\"updated\\\":[ ]*\\\"[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\\"/\\\"updated\\\":\\\"${RESUME_DATE}\\\"/g\"
+   ```
 
-    使用不同的 `yml` 工具可能会有不同的转义 `\` 的次数
+   使用不同的 `yml` 工具可能会有不同的转义 `\` 的次数
 
 5. 你可以随意修改代码，删除你不需要的内容，或者增加、修改其他的功能
 
@@ -114,43 +114,43 @@
 8. 编辑 `/assets/data/settings.json`，修改 `updated` 为当天的日期
 
 9. 编辑 `/assets/data/` 中除了 `matomo.json` 以外的 `.json` 文件，仿照样例的格式，输入你想要展示的内容
-   
+
    例如对 `introduction.json` 做如下修改
 
-    ```json
-    {
-      "location": "上海",
-      "role": "学生",
-      "email": null,
-      "qq": "12345",
-      "qq_qr": "/data/introduction/qrcode_qq.jpg"
-    }
-    ```
-   
+   ```json
+   {
+     "location": "上海",
+     "role": "学生",
+     "email": null,
+     "qq": "12345",
+     "qq_qr": "/data/introduction/qrcode_qq.jpg"
+   }
+   ```
+
    又比如在 `study.json` 文件中，在 `[]` 之间增加其他的记录
 
-    ```json
-    [
-      {
-        "school": "中学",
-        "date": "2011-09-01",
-        "end": "2011-10-01",
-        "content": "某中学录取"
-      },
-      {
-        "school": "大学",
-        "date": "2011-10-01",
-        "end": null,
-        "content": "位于上海，至今，附加说明……"
-      },
-      {
-        "school": "小学",
-        "date": "2010-11-10",
-        "end": null,
-        "content": "增加的记录"
-      }
-    ]
-    ```
+   ```json
+   [
+     {
+       "school": "中学",
+       "date": "2011-09-01",
+       "end": "2011-10-01",
+       "content": "某中学录取"
+     },
+     {
+       "school": "大学",
+       "date": "2011-10-01",
+       "end": null,
+       "content": "位于上海，至今，附加说明……"
+     },
+     {
+       "school": "小学",
+       "date": "2010-11-10",
+       "end": null,
+       "content": "增加的记录"
+     }
+   ]
+   ```
 
    明确不需要的字段，例如没有内容、不适用，这样的字段请设置为 `null`
 
@@ -194,26 +194,26 @@
 
     这些文件就是最终的页面，部署它们
 
-  + 将 `/dist/` 文件夹下的所有内容（不包括 `/dist/` 文件夹本身），复制（上传）到你的服务器域名对应目录中，然后访问域名（例如 `www.jxtxzzw.com` ）就可以了，你可能需要了解你的站点文件是存放在何处，以及你可能需要给这些文件授予读取的权限，请自行搜索教程，或者咨询服务器提供商
+- 将 `/dist/` 文件夹下的所有内容（不包括 `/dist/` 文件夹本身），复制（上传）到你的服务器域名对应目录中，然后访问域名（例如 `www.jxtxzzw.com` ）就可以了，你可能需要了解你的站点文件是存放在何处，以及你可能需要给这些文件授予读取的权限，请自行搜索教程，或者咨询服务器提供商
 
-  + 如果你的服务器提供商给你的站点是子目录，或者你需要部署到某个子目录中，例如 `www.jxtxzzw.com/zzw` 方式访问，那么你需要在执行 `generate` 步骤前，将 `settings.json` 中的 `deployDir` 修改为子目录 `/zzw/`，注意，当你采用 `npm run start` 方式运行时，这个参数不起作用
+- 如果你的服务器提供商给你的站点是子目录，或者你需要部署到某个子目录中，例如 `www.jxtxzzw.com/zzw` 方式访问，那么你需要在执行 `generate` 步骤前，将 `settings.json` 中的 `deployDir` 修改为子目录 `/zzw/`，注意，当你采用 `npm run start` 方式运行时，这个参数不起作用
 
-    如果你没有自己的服务器或者空间，你也可以使用 GitHub Pages
+  如果你没有自己的服务器或者空间，你也可以使用 GitHub Pages
 
-  + 首先注册 GitHub 账号，假设账号名是 `jxtxzzw`
+- 首先注册 GitHub 账号，假设账号名是 `jxtxzzw`
 
-  + 然后新建一个仓库，仓库名必须是 `XXX.github.io` 的形式，其中 `XXX` 是你的用户名，例如 `jxtxzzw.github.io`
+- 然后新建一个仓库，仓库名必须是 `XXX.github.io` 的形式，其中 `XXX` 是你的用户名，例如 `jxtxzzw.github.io`
 
-    + 你可以搜索关键词为 `GitHub Pages` 的相关教程，注意，有些 GitHub Pages 的教程是指导使用 `hexo`，这需要安装额外的软件，或者要在仓库设置中进行一些配置，我们不需要这些步骤
+  - 你可以搜索关键词为 `GitHub Pages` 的相关教程，注意，有些 GitHub Pages 的教程是指导使用 `hexo`，这需要安装额外的软件，或者要在仓库设置中进行一些配置，我们不需要这些步骤
 
-  + 将 `/dist/` 文件夹下的所有内容（不包括 `/dist/` 文件夹本身），上传到这个仓库，注意，当你需要部署到 GitHub Pages 时，请检查 `/dist/` 目录下应该有一个 `.nojekyll` 的文件，如果没有，你应该创建它
+- 将 `/dist/` 文件夹下的所有内容（不包括 `/dist/` 文件夹本身），上传到这个仓库，注意，当你需要部署到 GitHub Pages 时，请检查 `/dist/` 目录下应该有一个 `.nojekyll` 的文件，如果没有，你应该创建它
 
-    + 你可以下载 GitHub Desktop 完成这个操作
+  - 你可以下载 GitHub Desktop 完成这个操作
 
-    + 你也可以下载安装 git 软件，利用 `git push` 操作将这些文件推送到远端仓库
+  - 你也可以下载安装 git 软件，利用 `git push` 操作将这些文件推送到远端仓库
 
-    + 你可以搜索关键词为 `git tutorial`、`git pull push`、`git remote` 的相关教程
+  - 你可以搜索关键词为 `git tutorial`、`git pull push`、`git remote` 的相关教程
 
-  + 你可以访问 `https://XXX.github.io`，例如 `https://jxtxzzw.github.io`，查看你的页面
+- 你可以访问 `https://XXX.github.io`，例如 `https://jxtxzzw.github.io`，查看你的页面
 
 15. 更新时，只需要下载（或者克隆）最新的项目文件，将 `/assets/data/` 和 `/static/data/` 复制到新的项目文件夹中，重新运行这些命令即可，无需再次编辑数据

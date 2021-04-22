@@ -27,6 +27,7 @@ import GamePlatformSteamIcon from '@/components/IconSVG/GamePlatformSteamIcon'
 import GamePlatformBattleNetIcon from '@/components/IconSVG/GamePlatformBattleNetIcon'
 import GamePlatformUPlayIcon from '@/components/IconSVG/GamePlatformUPlayIcon'
 import GamePlatformEpicIcon from '@/components/IconSVG/GamePlatformEpicIcon'
+import GamePlatformWiiUIcon from '@/components/IconSVG/GamePlatformWiiUIcon'
 
 export default {
   name: 'Game',
@@ -269,6 +270,10 @@ export default {
               break
             case 'Epic':
               platformIcon = h(GamePlatformEpicIcon)
+              platformTip = this.$t(`game.${platform}`)
+              break
+            case 'WiiU':
+              platformIcon = h(GamePlatformWiiUIcon)
               platformTip = this.$t(`game.${platform}`)
               break
             default:
