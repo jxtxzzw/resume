@@ -19,6 +19,7 @@
     "study": "学习",
     "work": "工作",
     "project": "项目",
+    "subject": "课题",
     "research": "科研",
     "publication": "出版",
     "honor": "荣誉榜",
@@ -145,6 +146,9 @@
     "blog": "开发博客",
     "doc": "文档和维基百科",
     "award": "奖项",
+    "demo": "演示"
+  },
+  "subject": {
     "demo": "演示"
   },
   "coding": {

@@ -33,6 +33,9 @@
         <MenuItem name="research" to="/reserved">
           {{ $t('navigation.research') }}
         </MenuItem>
+        <MenuItem name="subject" to="/subject">
+          {{ $t('navigation.subject') }}
+        </MenuItem>
         <MenuItem name="publication" to="/reserved">
           {{ $t('navigation.publication') }}
         </MenuItem>

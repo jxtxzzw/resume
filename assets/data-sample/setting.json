@@ -8,6 +8,7 @@
     "certificate": "/data/certificate/",
     "photo": "/data/photo/",
     "project": "/data/project/",
+    "subject": "/data/subject/",
     "coding": "/data/coding/",
     "exhibit": "/data/photo/",
     "food": "/data/food/",

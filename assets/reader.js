@@ -23,6 +23,9 @@ export const work = sortByDate(require('./data/work.json'))
 export const project = sortByDate(
   filenameToSrc(require('./data/project.json'), setting.src.project)
 )
+export const subject = sortByDate(
+  filenameToSrc(require('./data/subject.json'), setting.src.subject)
+)
 export const coding = sortByDate(require('./data/coding.json'))
 export const microblog = sortByDate(
   require('./data/microblog.json'),

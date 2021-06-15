@@ -19,6 +19,7 @@
     "study": "Study",
     "work": "Work",
     "project": "Project",
+    "subject": "Subject",
     "research": "Research",
     "publication": "Publication",
     "honor": "Honor",
@@ -145,6 +146,9 @@
     "blog": "Development Blog",
     "doc": "Document and Wiki",
     "award": "Award",
+    "demo": "Demonstration"
+  },
+  "subject": {
     "demo": "Demonstration"
   },
   "coding": {
