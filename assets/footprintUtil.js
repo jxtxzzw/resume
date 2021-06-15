@@ -17,7 +17,7 @@ function getPointLayer(data, that) {
     .scale('point_count', {
       type: 'quantile', // 根据四分位数将每个聚合点实际包含的点的个数分为五份
     })
-    .size('point_count', [20, 25, 30, 35, 40]) // 根据每个聚合点实际包含的点的个数决定点的大小
+    .size('point_count', [20, 25, 30, 40, 50]) // 根据每个聚合点实际包含的点的个数决定点的大小
     .color('point_count', (pc) => {
       if (pc === 1) {
         return '#4cfd47'
@@ -25,21 +25,13 @@ function getPointLayer(data, that) {
         return '#01a31c'
       } else if (pc >= 6 && pc <= 10) {
         return '#006400'
+      } else if (pc >= 11 && pc <= 30) {
+        return '#20a0ff'
       } else {
         return '#5b8ff9'
       }
     })
-    .shape('point_count', (pc) => {
-      if (pc === 1) {
-        return 'point'
-      } else if (pc >= 2 && pc <= 5) {
-        return 'circle'
-      } else if (pc >= 6 && pc <= 10) {
-        return 'circle'
-      } else {
-        return 'square'
-      }
-    })
+    .shape('point_count', 'point')
     .style({
       opacity: 0.75,
       strokeWidth: 0.75,
