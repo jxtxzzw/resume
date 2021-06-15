@@ -151,6 +151,12 @@
   "subject": {
     "demo": "演示"
   },
+  "research": {
+    "repo": "代码仓库",
+    "paper_url": "文章链接",
+    "paper_file": "下载 .PDF 文件",
+    "org": "组织者"
+  },
   "coding": {
     "message": "点击提交状态可以查看代码（如果已通过），代码不是唯一解、也不一定是最优解",
     "platform": "平台",

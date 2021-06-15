@@ -1,0 +1,12 @@
+[
+  {
+    "title": "论文A",
+    "abstract": "研究XX算法的论文",
+    "filename": "sample1.png",
+    "date": "2020-10-20",
+    "org": "ICPP 2021",
+    "repo": "https://github.com",
+    "paper_url": "https://www.jxtxzzw.com",
+    "paper_file": "https://dl.jxtxzzw.com/sample_paper.pdf"
+  }
+]

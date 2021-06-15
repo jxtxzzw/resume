@@ -151,6 +151,12 @@
   "subject": {
     "demo": "Demonstration"
   },
+  "research": {
+    "repo": "Code Repository",
+    "paper_url": "Paper URL",
+    "paper_file": "Download .PDF",
+    "org": "Organization"
+  },
   "coding": {
     "message": "Click the status to see the code, note that the code may not be the unique solution and/or the best one",
     "platform": "Platform",
