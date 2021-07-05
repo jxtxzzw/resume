@@ -287,7 +287,6 @@ export default {
     },
   },
   async mounted() {
-    this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.$Message.info(this.$t('coding.message'))
     this.filteredData = this.coding
     this.pageNumber = 1

@@ -81,7 +81,6 @@ export default {
     },
   },
   mounted() {
-    this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.showWelcome()
 
     this.screenHeight = document.body.clientHeight

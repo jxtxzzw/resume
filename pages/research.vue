@@ -57,7 +57,7 @@
 <script>
 import { research } from 'assets/reader'
 export default {
-  name: 'research',
+  name: 'Research',
   data() {
     return {
       research,

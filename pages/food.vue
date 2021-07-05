@@ -73,7 +73,6 @@ export default {
     }
   },
   mounted() {
-    this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.food = this.food.sort((a, b) => {
       const A = a.photo_width ? a.photo_width : 500
       const B = b.photo_width ? b.photo_width : 500
