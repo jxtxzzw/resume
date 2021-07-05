@@ -30,9 +30,6 @@ export default {
       microblog,
     }
   },
-  mounted() {
-    this.$i18n.locale = this.$store.getters['language/getLanguage']
-  },
   methods: {
     parseHTML(content) {
       return content.split('\r\n').join('<br/>')

@@ -69,7 +69,6 @@ export default {
     },
   },
   mounted() {
-    this.$i18n.locale = this.$store.getters['language/getLanguage']
     this.screenHeight = this.$store.getters['size/getHeight']
     this.screenWidth = this.$store.getters['size/getWidth']
     this.reload()
