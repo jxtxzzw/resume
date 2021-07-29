@@ -1,32 +1,21 @@
 <template>
   <div>
-    <Row v-for="d in dream" :key="d.name" style="margin-bottom: 40px">
-      <Col span="4">
-        <Divider> {{ d.name }} </Divider>
-      </Col>
-      <a-steps :current="d.current" :status="d.status">
-        <a-step>
-          <span slot="title"> {{ $t('dream.born') }} </span>
-          <span slot="subTitle"> {{ d.born_date }} </span>
-          <span slot="description"> {{ d.born }} </span>
-        </a-step>
-        <a-step>
-          <span slot="title"> {{ $t('dream.prepare') }} </span>
-          <span slot="subTitle"> {{ d.prepare_date }} </span>
-          <span slot="description"> {{ d.prepare }} </span>
-        </a-step>
-        <a-step>
-          <span slot="title"> {{ $t('dream.enjoy') }} </span>
-          <span slot="subTitle"> {{ d.enjoy_date }} </span>
-          <span slot="description"> {{ d.enjoy }} </span>
-        </a-step>
-        <a-step>
-          <span slot="title"> {{ $t('dream.done') }} </span>
-          <span slot="subTitle"> {{ d.done_date }} </span>
-          <span slot="description"> {{ d.done }} </span>
+    <Card v-for="d in data" :key="d.name" style="margin-bottom: 40px">
+      <p slot="title">
+        {{ d.name }}
+      </p>
+      <a-steps :current="d.current" direction="vertical">
+        <a-step
+          v-for="r in d.recursions"
+          :key="d.name + r.recursion"
+          :status="r.status"
+        >
+          <span slot="title"> {{ slotTitle(r.category) }} </span>
+          <span slot="subTitle"> {{ r.date }} </span>
+          <span slot="description"> {{ r.note }} </span>
         </a-step>
       </a-steps>
-    </Row>
+    </Card>
   </div>
 </template>
 
@@ -37,7 +26,62 @@ export default {
   data() {
     return {
       dream,
+      map: new Map(),
+      data: [],
     }
+  },
+  mounted() {
+    this.prepareData()
+  },
+  methods: {
+    slotTitle(catrgory) {
+      if (catrgory === 'born') {
+        return this.$t('dream.born')
+      } else if (catrgory === 'preparing') {
+        return this.$t('dream.prepare')
+      } else if (catrgory === 'enjoying') {
+        return this.$t('dream.enjoy')
+      } else {
+        return this.$t('dream.done')
+      }
+    },
+    prepareData() {
+      this.dream.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1
+        } else if (a.name > b.name) {
+          return 1
+        } else {
+          return a.recursion - b.recursion
+        }
+      })
+      for (const x of this.dream) {
+        let e
+        if (this.map.has(x.name)) {
+          e = this.map.get(x.name)
+        } else {
+          e = {}
+          e.name = x.name
+          e.comment = x.comment
+          e.current = 0
+          e.status = x.status
+          e.recursions = []
+        }
+        e.recursions.push({
+          recursion: parseInt(x.recursion),
+          category: x.category,
+          note: x.note,
+          date: x.date,
+          status: x.status,
+        })
+        e.current = Math.max(e.current, parseInt(x.recursion) - 1)
+        this.map.set(x.name, e)
+      }
+      this.data = []
+      this.map.forEach((v) => {
+        this.data.push(v)
+      })
+    },
   },
 }
 </script>
