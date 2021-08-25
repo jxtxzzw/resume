@@ -47,6 +47,7 @@ export default {
       const columns = []
       columns.push({
         type: 'expand',
+        width: 50,
         render: (h, params) => {
           return h(ExpandRow, {
             props: {
