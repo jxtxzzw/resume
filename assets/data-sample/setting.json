@@ -15,5 +15,9 @@
     "food": "/data/food/",
     "honor": "/data/honor/",
     "footprint": "/data/footprint/"
+  },
+  "token": {
+    "gaode": "atokenxxxxxxxx",
+    "mapbox": "pk.eyxxx.xxx_x_XXXX"
   }
 }

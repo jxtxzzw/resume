@@ -51,6 +51,7 @@ function getPointLayer(data, that) {
 export function constructMapAndScene(map, source, that) {
   const { Scene, Popup } = that.$l7
   const { GaodeMap, Mapbox } = that.$l7maps
+  const { setting } = require('./reader')
 
   // Step 1: 创建 Scene 对象
   const config = {
@@ -58,6 +59,7 @@ export function constructMapAndScene(map, source, that) {
     pitch: 0,
     zoom: 4,
     maxZoom: 18,
+    token: map === 'china' ? setting.token.gaode : setting.token.mapbox,
   }
   const scene = new Scene({
     id: `${map}Footprint`,
