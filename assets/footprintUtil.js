@@ -31,7 +31,7 @@ function getPointLayer(data, that) {
         return '#5b8ff9'
       }
     })
-    .shape('point_count', 'point')
+    .shape('point_count', ['circle'])
     .style({
       opacity: 0.75,
       strokeWidth: 0.75,
