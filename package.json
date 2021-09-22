@@ -37,7 +37,7 @@
     "@nuxtjs/axios": "^5.13.0",
     "ant-design-vue": "^1.7.2",
     "iview": "^3.5.4",
-    "nuxt": "^2.14.12",
+    "nuxt": "^2.15.8",
     "nuxt-i18n": "^6.20.0",
     "nuxt-matomo": "^1.2.4",
     "view-design": "^4.5.0",
