@@ -154,16 +154,29 @@ export function renderChartForYearAndType(
   chart.render()
 }
 
-function getDataForBasicCategory(rawData) {
+function getDataForBasicCategory(rawData, withCurrency = false) {
   const dict = {}
   let total = 0
   for (const x of rawData) {
     const category = x.category
     const amount = parseFloat(x.amount)
     if (!(category in dict)) {
-      dict[category] = 0
+      if (withCurrency) {
+        dict[category] = {}
+      } else {
+        dict[category] = 0
+      }
     }
-    if (amount > 0) {
+    if (amount <= 0) {
+      continue
+    }
+    if (withCurrency) {
+      const currency = x.currency
+      if (!(currency in dict[category])) {
+        dict[category][currency] = 0
+      }
+      dict[category][currency] += amount
+    } else {
       dict[category] += amount
       total += amount
     }
@@ -171,22 +184,50 @@ function getDataForBasicCategory(rawData) {
 
   const data = []
   for (const category in dict) {
-    const amount = dict[category]
-    if (amount > 0) {
-      data.push({
-        category,
-        amount,
-        percent: amount / total,
-      })
+    if (withCurrency) {
+      for (const currency in dict[category]) {
+        const amount = dict[category][currency]
+        if (amount > 0) {
+          data.push({
+            category,
+            amount,
+            currency,
+            percent: amount / total,
+          })
+        }
+      }
+    } else {
+      const amount = dict[category]
+      if (amount > 0) {
+        data.push({
+          category,
+          amount,
+          percent: amount / total,
+        })
+      }
     }
   }
   return data
 }
 
-export function renderChartForBasicCategory(that, rawData) {
+export function renderChartForBasicCategory(
+  that,
+  rawData,
+  withCurrency = false
+) {
   const { Chart } = that.$g2
+  const { DataView } = that.$dataset
 
-  const data = getDataForBasicCategory(rawData)
+  const data = getDataForBasicCategory(rawData, withCurrency)
+
+  // 通过 DataSet 计算百分比
+  const dv = new DataView()
+  dv.source(data).transform({
+    type: 'percent',
+    field: 'amount',
+    dimension: 'category',
+    as: 'percent',
+  })
 
   const chart = new Chart({
     container: 'basic-category',
@@ -194,18 +235,21 @@ export function renderChartForBasicCategory(that, rawData) {
     height: 500,
   })
 
-  chart.coordinate('theta', {
-    radius: 0.75,
-  })
+  chart.data(dv.rows)
 
-  chart.data(data)
-
-  chart.scale('percent', {
-    formatter: (val) => {
-      val = parseFloat(val * 100).toFixed(2) + '%'
-      return val
+  chart.scale({
+    percent: {
+      formatter: (val) => {
+        val = parseFloat(val * 100).toFixed(2) + '%'
+        return val
+      },
     },
   })
+
+  chart.coordinate('theta', {
+    radius: 0.5,
+  })
+  chart.legend(false)
 
   chart.tooltip({
     showTitle: false,
@@ -214,6 +258,7 @@ export function renderChartForBasicCategory(that, rawData) {
 
   chart
     .interval()
+    .adjust('stack')
     .position('percent')
     .color('category')
     .label('percent', {
@@ -221,7 +266,55 @@ export function renderChartForBasicCategory(that, rawData) {
         return `${data.category}: ${parseFloat(data.percent * 100).toFixed(2)}%`
       },
     })
-    .adjust('stack')
+
+  if (withCurrency) {
+    const outterView = chart.createView()
+    const dv1 = new DataView()
+    dv1.source(data).transform({
+      type: 'percent',
+      field: 'amount',
+      dimension: 'currency',
+      as: 'percent',
+    })
+
+    outterView.data(dv1.rows)
+    outterView.scale({
+      percent: {
+        formatter: (val) => {
+          val = parseFloat(val * 100).toFixed(2) + '%'
+          return val
+        },
+      },
+    })
+    outterView.coordinate('theta', {
+      innerRadius: 0.5 / 0.75,
+      radius: 0.75,
+    })
+    outterView
+      .interval()
+      .adjust('stack')
+      .position('percent')
+      .color('currency', [
+        '#BAE7FF',
+        '#7FC9FE',
+        '#71E3E3',
+        '#ABF5F5',
+        '#8EE0A1',
+        '#BAF5C4',
+      ])
+      .label('currency')
+      .tooltip('currency*percent', (item, percent) => {
+        percent = (percent * 100).toFixed(2) + '%'
+        return {
+          name: item,
+          value: percent,
+        }
+      })
+      .style({
+        lineWidth: 1,
+        stroke: '#fff',
+      })
+  }
 
   chart.interaction('element-active')
 

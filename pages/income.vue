@@ -37,7 +37,7 @@ export default {
       ],
       true
     )
-    incomeUtil.renderChartForBasicCategory(this, income)
+    incomeUtil.renderChartForBasicCategory(this, income, true)
     incomeUtil.renderChartForBasicAccumulated(this, income)
     incomeUtil.renderChartForYearAndType(
       this,
