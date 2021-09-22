@@ -1,6 +1,6 @@
 // nuxt 下不能用 import 引入整个依赖，只能用 plugin 的方式引入
 
-function getDataForYearAndType(rawData) {
+function getDataForYearAndType(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
     const year = x.year
@@ -10,19 +10,42 @@ function getDataForYearAndType(rawData) {
       dict[year] = {}
     }
     if (!(type in dict[year])) {
-      dict[year][type] = 0
+      if (withCurrency) {
+        dict[year][type] = {}
+      } else {
+        dict[year][type] = 0
+      }
     }
-    dict[year][type] += amount
+    if (withCurrency) {
+      const currency = x.currency
+      if (!(currency in dict[year][type])) {
+        dict[year][type][currency] = 0
+      }
+      dict[year][type][currency] += amount
+    } else {
+      dict[year][type] += amount
+    }
   }
 
   const data = []
   for (const year in dict) {
     for (const type in dict[year]) {
-      data.push({
-        year,
-        type,
-        amount: dict[year][type],
-      })
+      if (withCurrency) {
+        for (const currency in dict[year][type]) {
+          data.push({
+            year,
+            type,
+            currency,
+            amount: dict[year][type][currency],
+          })
+        }
+      } else {
+        data.push({
+          year,
+          type,
+          amount: dict[year][type],
+        })
+      }
     }
   }
   return data
@@ -42,11 +65,12 @@ export function renderChartForYearAndType(
     '#E19348',
     '#F383A2',
     '#247FEA',
-  ]
+  ],
+  withCurrency = false
 ) {
   const { Chart } = that.$g2
 
-  const data = getDataForYearAndType(rawData)
+  const data = getDataForYearAndType(rawData, withCurrency)
 
   // Step 1: 创建 Chart 对象
   const chart = new Chart({
@@ -60,7 +84,7 @@ export function renderChartForYearAndType(
 
   // Step 3: 创建图形语法，绘制柱状图
   chart.scale('amount', {
-    alias: '金额(元)',
+    alias: '金额',
     formatter: (val) => {
       val = parseFloat(val).toFixed(2)
       return val
@@ -87,9 +111,25 @@ export function renderChartForYearAndType(
   chart.interaction('active-region')
   chart.interaction('element-highlight-by-color')
 
+  let adjustCfg
+  if (withCurrency) {
+    adjustCfg = [
+      {
+        type: 'dodge',
+        dodgeBy: 'currency',
+        marginRatio: 0,
+      },
+      {
+        type: 'stack',
+      },
+    ]
+  } else {
+    adjustCfg = 'stack'
+  }
+
   chart
     .interval()
-    .adjust('stack')
+    .adjust(adjustCfg)
     .position('year*amount')
     .color('type', colors)
     .label('value', () => {
@@ -97,7 +137,12 @@ export function renderChartForYearAndType(
         position: 'middle',
         offset: 0,
         content: (originData) => {
-          return parseFloat(originData.amount).toFixed(2)
+          const amount = parseFloat(originData.amount).toFixed(2)
+          if (withCurrency) {
+            return `${originData.currency} ${amount}`
+          } else {
+            return amount
+          }
         },
         style: {
           stroke: '#fff',

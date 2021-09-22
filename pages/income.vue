@@ -20,17 +20,23 @@ import { income, advancedIncome } from 'assets/reader'
 export default {
   name: 'Income',
   mounted() {
-    incomeUtil.renderChartForYearAndType(this, income, 'basic-year', [
-      '#FF6B3B',
-      '#5B8FF9',
-      '#FFC100',
-      '#61DDAA',
-      '#76523B',
-      '#0E8E89',
-      '#E19348',
-      '#F383A2',
-      '#247FEA',
-    ])
+    incomeUtil.renderChartForYearAndType(
+      this,
+      income,
+      'basic-year',
+      [
+        '#FF6B3B',
+        '#5B8FF9',
+        '#FFC100',
+        '#61DDAA',
+        '#76523B',
+        '#0E8E89',
+        '#E19348',
+        '#F383A2',
+        '#247FEA',
+      ],
+      true
+    )
     incomeUtil.renderChartForBasicCategory(this, income)
     incomeUtil.renderChartForBasicAccumulated(this, income)
     incomeUtil.renderChartForYearAndType(
