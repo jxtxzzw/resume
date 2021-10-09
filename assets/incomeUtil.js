@@ -105,11 +105,14 @@ export function renderChartForYearAndType(
   chart.legend()
 
   chart.tooltip({
-    shared: true,
-    showMarkers: false,
+    shared: false,
+    showMarkers: true,
+    showTitle: true,
   })
   chart.interaction('active-region')
   chart.interaction('element-highlight-by-color')
+  chart.interaction('legend-highlight')
+  chart.interaction('axis-label-highlight')
 
   let adjustCfg
   if (withCurrency) {
@@ -191,7 +194,7 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
           data.push({
             category,
             amount,
-            currency,
+            currency: `${category} - ${currency}`,
             percent: amount / total,
           })
         }
@@ -252,8 +255,8 @@ export function renderChartForBasicCategory(
   chart.legend(false)
 
   chart.tooltip({
-    showTitle: false,
-    showMarkers: false,
+    showTitle: true,
+    showMarkers: true,
   })
 
   chart

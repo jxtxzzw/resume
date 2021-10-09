@@ -4,9 +4,9 @@
     <div id="basic-year"></div>
     <Divider>{{ $t('income.basic-category') }}</Divider>
     <div id="basic-category"></div>
-    <Divider>{{ $t('income.basic-accumulated') }}</Divider>
+    <!--    <Divider>{{ $t('income.basic-accumulated') }}</Divider>-->
     <!--    <div id="basic-accumulated"></div>-->
-    <!--    <Divider>{{ $t('income.advanced-year') }}</Divider>-->
+    <Divider>{{ $t('income.advanced-year') }}</Divider>
     <div id="advanced-year"></div>
     <Divider>{{ $t('income.advanced-platform') }}</Divider>
     <div id="advanced-platform"></div>
