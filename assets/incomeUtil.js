@@ -96,7 +96,7 @@ export function renderChartForYearAndType(
 
   chart.axis('amount', {
     title: {
-      offset: 80,
+      offset: 40,
       style: {
         fill: '#aaaaaa',
       },
@@ -117,7 +117,7 @@ export function renderChartForYearAndType(
       {
         type: 'dodge',
         dodgeBy: 'currency',
-        marginRatio: 0,
+        marginRatio: 5,
       },
       {
         type: 'stack',
@@ -135,7 +135,7 @@ export function renderChartForYearAndType(
     .label('value', () => {
       return {
         position: 'middle',
-        offset: 0,
+        offset: 5,
         content: (originData) => {
           const amount = parseFloat(originData.amount).toFixed(2)
           if (withCurrency) {
