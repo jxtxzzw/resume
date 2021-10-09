@@ -5,8 +5,8 @@
     <Divider>{{ $t('income.basic-category') }}</Divider>
     <div id="basic-category"></div>
     <Divider>{{ $t('income.basic-accumulated') }}</Divider>
-    <div id="basic-accumulated"></div>
-    <Divider>{{ $t('income.advanced-year') }}</Divider>
+    <!--    <div id="basic-accumulated"></div>-->
+    <!--    <Divider>{{ $t('income.advanced-year') }}</Divider>-->
     <div id="advanced-year"></div>
     <Divider>{{ $t('income.advanced-platform') }}</Divider>
     <div id="advanced-platform"></div>
@@ -54,7 +54,8 @@ export default {
         '#007E99',
         '#FFA8A8',
         '#2391FF',
-      ]
+      ],
+      true
     )
     incomeUtil.renderChartForAdvancedPlatform(this, advancedIncome)
     // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
