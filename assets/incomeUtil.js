@@ -83,6 +83,22 @@ export function renderChartForYearAndType(
   chart.data(data)
 
   // Step 3: 创建图形语法，绘制柱状图
+
+  // 开启缩略轴组件
+  chart.option('slider', {
+    // 组件高度
+    height: 30,
+    // 滑块背景趋势图配置
+    trendCfg: {
+      // 	趋势图曲线是否圆滑
+      smooth: true,
+      // 	趋势图是否使用面积图
+      isArea: true,
+    },
+  })
+
+  chart.legend()
+
   chart.scale('amount', {
     alias: '金额',
     formatter: (val) => {
@@ -90,6 +106,7 @@ export function renderChartForYearAndType(
       return val
     },
   })
+
   chart.axis('year', {
     tickLine: null,
   })
@@ -102,13 +119,13 @@ export function renderChartForYearAndType(
       },
     },
   })
-  chart.legend()
 
   chart.tooltip({
     shared: false,
     showMarkers: true,
     showTitle: true,
   })
+
   chart.interaction('active-region')
   chart.interaction('element-highlight-by-color')
   chart.interaction('legend-highlight')
