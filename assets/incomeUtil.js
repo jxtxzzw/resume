@@ -446,7 +446,7 @@ function getTreeData(rawData) {
     const obj = {
       name: platform,
       brand: platform,
-      value: dict[platform].amount,
+      value: dict[platform].value,
       children: [],
     }
     for (const type in dict[platform].children) {
@@ -458,6 +458,10 @@ function getTreeData(rawData) {
     data.push(obj)
   }
 
+  data.sort((a, b) => {
+    return b.value - a.value
+  })
+
   return data
 }
 
@@ -467,7 +471,7 @@ export function renderChartForAdvancedPlatform(that, rawData) {
   const treeData = getTreeData(rawData)
   // 会通过子节点累加 value 值，所以设置为 0
   treeData.forEach(function (td) {
-    td.value = null
+    td.value = 0
   })
   const data = {
     name: 'root',
