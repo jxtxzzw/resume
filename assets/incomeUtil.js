@@ -18,10 +18,15 @@ function getDataForYearAndType(rawData, withCurrency = false) {
     }
     if (withCurrency) {
       const currency = x.currency
+      const currencyWeight = parseFloat(x.currency_weight)
       if (!(currency in dict[year][type])) {
-        dict[year][type][currency] = 0
+        dict[year][type][currency] = {
+          amount: 0,
+          weightedAmount: 0,
+        }
       }
-      dict[year][type][currency] += amount
+      dict[year][type][currency].amount += amount
+      dict[year][type][currency].weightedAmount += amount * currencyWeight
     } else {
       dict[year][type] += amount
     }
@@ -36,7 +41,8 @@ function getDataForYearAndType(rawData, withCurrency = false) {
             year,
             type,
             currency,
-            amount: dict[year][type][currency],
+            amount: dict[year][type][currency].amount,
+            weightedAmount: dict[year][type][currency].weightedAmount,
           })
         }
       } else {
@@ -97,9 +103,7 @@ export function renderChartForYearAndType(
     },
   })
 
-  chart.legend()
-
-  chart.scale('amount', {
+  chart.scale(withCurrency ? 'weightedAmount' : 'amount', {
     alias: '金额',
     formatter: (val) => {
       val = parseFloat(val).toFixed(2)
@@ -111,7 +115,7 @@ export function renderChartForYearAndType(
     tickLine: null,
   })
 
-  chart.axis('amount', {
+  chart.axis(withCurrency ? 'weightedAmount' : 'amount', {
     title: {
       offset: 80,
       style: {
@@ -150,7 +154,7 @@ export function renderChartForYearAndType(
   chart
     .interval()
     .adjust(adjustCfg)
-    .position('year*amount')
+    .position(`year*${withCurrency ? 'weightedAmount' : 'amount'}`)
     .color('type', colors)
     .label('value', () => {
       return {
@@ -192,10 +196,15 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
     }
     if (withCurrency) {
       const currency = x.currency
+      const currencyWeight = parseFloat(x.currency_weight)
       if (!(currency in dict[category])) {
-        dict[category][currency] = 0
+        dict[category][currency] = {
+          amount: 0,
+          weightedAmount: 0,
+        }
       }
-      dict[category][currency] += amount
+      dict[category][currency].amount += amount
+      dict[category][currency].weightedAmount += amount * currencyWeight
     } else {
       dict[category] += amount
       total += amount
@@ -206,13 +215,14 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
   for (const category in dict) {
     if (withCurrency) {
       for (const currency in dict[category]) {
-        const amount = dict[category][currency]
+        const amount = dict[category][currency].amount
+        const weightedAmount = dict[category][currency].weightedAmount
         if (amount > 0) {
           data.push({
             category,
             amount,
+            weightedAmount,
             currency: `${category} - ${currency}`,
-            percent: amount / total,
           })
         }
       }
@@ -244,7 +254,7 @@ export function renderChartForBasicCategory(
   const dv = new DataView()
   dv.source(data).transform({
     type: 'percent',
-    field: 'amount',
+    field: withCurrency ? 'weightedAmount' : 'amount',
     dimension: 'category',
     as: 'percent',
   })
@@ -292,7 +302,7 @@ export function renderChartForBasicCategory(
     const dv1 = new DataView()
     dv1.source(data).transform({
       type: 'percent',
-      field: 'amount',
+      field: withCurrency ? 'weightedAmount' : 'amount',
       dimension: 'currency',
       as: 'percent',
     })
@@ -341,92 +351,95 @@ export function renderChartForBasicCategory(
   chart.render()
 }
 
-function getDataForBasicAccumulated(rawData) {
-  const dict = {}
-  let minYear = 9999
-  let maxYear = 0
-  for (const x of rawData) {
-    const year = parseInt(x.year)
-    const amount = parseFloat(x.amount)
-    if (year < minYear) {
-      minYear = year
-    }
-    if (year > maxYear) {
-      maxYear = year
-    }
-    if (!(year in dict)) {
-      dict[year] = 0
-    }
-    dict[year] += amount
-  }
+// function getDataForBasicAccumulated(rawData) {
+//   const dict = {}
+//   let minYear = 9999
+//   let maxYear = 0
+//   for (const x of rawData) {
+//     const year = parseInt(x.year)
+//     const amount = parseFloat(x.amount)
+//     if (year < minYear) {
+//       minYear = year
+//     }
+//     if (year > maxYear) {
+//       maxYear = year
+//     }
+//     if (!(year in dict)) {
+//       dict[year] = 0
+//     }
+//     dict[year] += amount
+//   }
+//
+//   const data = []
+//   let sum = 0
+//   for (let i = minYear; i <= maxYear; i++) {
+//     if (i in dict) {
+//       sum += dict[i]
+//     }
+//     data.push({
+//       year: i,
+//       value: sum,
+//     })
+//   }
+//   return data
+// }
 
-  const data = []
-  let sum = 0
-  for (let i = minYear; i <= maxYear; i++) {
-    if (i in dict) {
-      sum += dict[i]
-    }
-    data.push({
-      year: i,
-      value: sum,
-    })
-  }
-  return data
-}
-
-export function renderChartForBasicAccumulated(that, rawData) {
-  const { Chart } = that.$g2
-
-  const data = getDataForBasicAccumulated(rawData)
-  const chart = new Chart({
-    container: 'basic-accumulated',
-    autoFit: true,
-    height: 500,
-  })
-
-  chart.data(data)
-  chart.scale({
-    value: {
-      min: 0,
-      nice: true,
-    },
-    year: {
-      range: [0, 1],
-    },
-    formatter: (val) => {
-      return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
-    },
-  })
-  chart.tooltip({
-    showCrosshairs: true,
-  })
-
-  chart.axis('value', {
-    label: {
-      formatter: (val) => {
-        return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
-      },
-    },
-  })
-
-  chart.area().position('year*value')
-  chart
-    .line()
-    .position('year*value')
-    .tooltip('year*value', (year, value) => {
-      return {
-        name: year,
-        value: (parseFloat(value) / 10000).toFixed(2) + that.$t('income.10k'),
-      }
-    })
-
-  chart.render()
-}
+// export function renderChartForBasicAccumulated(that, rawData) {
+//   const { Chart } = that.$g2
+//
+//   const data = getDataForBasicAccumulated(rawData)
+//   const chart = new Chart({
+//     container: 'basic-accumulated',
+//     autoFit: true,
+//     height: 500,
+//   })
+//
+//   chart.data(data)
+//   chart.scale({
+//     value: {
+//       min: 0,
+//       nice: true,
+//     },
+//     year: {
+//       range: [0, 1],
+//     },
+//     formatter: (val) => {
+//       return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+//     },
+//   })
+//   chart.tooltip({
+//     showCrosshairs: true,
+//   })
+//
+//   chart.axis('value', {
+//     label: {
+//       formatter: (val) => {
+//         return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+//       },
+//     },
+//   })
+//
+//   chart.area().position('year*value')
+//   chart
+//     .line()
+//     .position('year*value')
+//     .tooltip('year*value', (year, value) => {
+//       return {
+//         name: year,
+//         value: (parseFloat(value) / 10000).toFixed(2) + that.$t('income.10k'),
+//       }
+//     })
+//
+//   chart.render()
+// }
 
 function getTreeData(rawData) {
   const dict = {}
   for (const x of rawData) {
-    const amount = parseFloat(x.amount)
+    let amount = parseFloat(x.amount)
+    if (x.currency_weight !== undefined && x.currency_weight !== null) {
+      amount *= parseFloat(x.currency_weight)
+    }
     const type = x.type
     const platform = x.platform
     if (!(platform in dict)) {

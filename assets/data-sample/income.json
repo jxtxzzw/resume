@@ -4,41 +4,53 @@
     "year": "2019",
     "amount": "30",
     "type": "酬金",
-    "category": "科研津贴"
+    "category": "科研津贴",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "2",
     "year": "2019",
     "amount": "20",
     "type": "酬金",
-    "category": "科研津贴"
+    "category": "科研津贴",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "3",
     "year": "2019",
     "amount": "-30",
     "type": "税务",
-    "category": "税务"
+    "category": "税务",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "4",
     "year": "2019",
     "amount": "30",
     "type": "酬金",
-    "category": "项目津贴"
+    "category": "项目津贴",
+    "currency": "USD",
+    "currency_weight": "6.8"
   },
   {
     "id": "5",
     "year": "2019",
     "amount": "30",
     "type": "工资",
-    "category": "奖金"
+    "category": "奖金",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "6",
     "year": "2021",
     "amount": "30",
     "type": "工资",
-    "category": "基本工资"
+    "category": "基本工资",
+    "currency": "USD",
+    "currency_weight": "7.1"
   }
 ]

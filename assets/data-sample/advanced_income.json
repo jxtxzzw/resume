@@ -4,41 +4,53 @@
     "year": "2019",
     "amount": "1",
     "type": "付费内容",
-    "platform": "微信公众号"
+    "platform": "微信公众号",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "2",
     "year": "2019",
     "amount": "2",
     "type": "付费内容",
-    "platform": "微信公众号"
+    "platform": "微信公众号",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "3",
     "year": "2019",
     "amount": "10",
     "type": "打赏",
-    "platform": "微信公众号"
+    "platform": "微信公众号",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   },
   {
     "id": "4",
     "year": "2020",
     "amount": "10",
     "type": "活动奖励",
-    "platform": "哔哩哔哩"
+    "platform": "哔哩哔哩",
+    "currency": "USD",
+    "currency_weight": "6.0"
   },
   {
     "id": "5",
     "year": "2020",
     "amount": "30",
     "type": "打赏",
-    "platform": "哔哩哔哩"
+    "platform": "哔哩哔哩",
+    "currency": "USD",
+    "currency_weight": "6.5"
   },
   {
     "id": "6",
     "year": "2021",
     "amount": "10",
     "type": "打赏",
-    "platform": "知乎"
+    "platform": "知乎",
+    "currency": "CNY",
+    "currency_weight": "1.0"
   }
 ]
