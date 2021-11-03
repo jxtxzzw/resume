@@ -358,15 +358,15 @@ export default {
         sortable: true,
         sortMethod: (a, b, type) => {
           if (a === null) {
-            a = 0
+            a = 0.0
           }
           if (b === null) {
-            b = 0
+            b = 0.0
           }
           if (type === 'asc') {
-            return parseInt(a) - parseInt(b)
+            return parseFloat(a) - parseFloat(b)
           } else if (type === 'desc') {
-            return parseInt(b) - parseInt(a)
+            return parseFloat(b) - parseFloat(a)
           }
         },
       })
