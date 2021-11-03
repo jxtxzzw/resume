@@ -57,6 +57,10 @@ function getDataForYearAndType(rawData, withCurrency = false) {
   return data
 }
 
+function chartHeight() {
+  return (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.9
+}
+
 export function renderChartForYearAndType(
   that,
   rawData,
@@ -82,7 +86,7 @@ export function renderChartForYearAndType(
   const chart = new Chart({
     container: containerID,
     autoFit: true,
-    height: 500,
+    height: chartHeight(),
   })
 
   // Step 2: 载入数据源
@@ -262,7 +266,7 @@ export function renderChartForBasicCategory(
   const chart = new Chart({
     container: 'basic-category',
     autoFit: true,
-    height: 500,
+    height: chartHeight(),
   })
 
   chart.data(dv.rows)
@@ -522,7 +526,7 @@ export function renderChartForAdvancedPlatform(that, rawData) {
   const chart = new Chart({
     container: 'advanced-platform',
     autoFit: true,
-    height: 500,
+    height: chartHeight(),
   })
   chart.coordinate().scale(1, -1) // 习惯性最小的在最下面
   chart.data(nodes)
