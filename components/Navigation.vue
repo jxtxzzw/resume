@@ -81,6 +81,9 @@
         <MenuItem name="media" :to="localePath('media')">
           {{ $t('navigation.media') }}
         </MenuItem>
+        <MenuItem name="activity" :to="localePath('activity')">
+          {{ $t('navigation.activity') }}
+        </MenuItem>
         <MenuItem name="photo" :to="localePath('photo')">
           {{ $t('navigation.photo') }}
         </MenuItem>
