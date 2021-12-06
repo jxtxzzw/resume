@@ -86,4 +86,4 @@ git:
     - echo ${COMMIT_MESSAGE_HEAD}
     - echo ${COMMIT_MESSAGE_BODY}
     - git commit -m "${COMMIT_MESSAGE_HEAD}" -m "${COMMIT_MESSAGE_BODY}"
-    - git push --verbose
+    - git push --set-upstream origin master --verbose
