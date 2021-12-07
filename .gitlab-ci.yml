@@ -79,7 +79,7 @@ git:
     - cd ${GIT_REPO_NAME}
     - rm -rfv ./*
     - cp -rv ../dist/* ./
-    - git pull
+    - git pull origin master --verbose
     - git add .
     - CURRENT_TIME=`date +%FT%T%:z`
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CURRENT_TIME}"
