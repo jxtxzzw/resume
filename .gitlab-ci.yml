@@ -77,9 +77,9 @@ git:
     - git config --global credential.helper store
     - git clone --progress --verbose https://"${GIT_USER_NAME}":"${GIT_PASSWORD}"@${GIT_DOMAIN}/${GIT_REPO_OWNER}/${GIT_REPO_NAME}
     - cd ${GIT_REPO_NAME}
+    - git pull origin master --verbose
     - rm -rfv ./*
     - cp -rv ../dist/* ./
-    - git pull origin master --verbose
     - git add .
     - CURRENT_TIME=`date +%FT%T%:z`
     - COMMIT_MESSAGE_HEAD="[GitLab CI/CD] ${CURRENT_TIME}"
