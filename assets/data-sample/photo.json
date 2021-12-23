@@ -3,12 +3,14 @@
     "id": "1",
     "date": "2020-11-19",
     "filename": "sample1.png",
-    "info": "sample1"
+    "info": "sample1",
+    "credit": null
   },
   {
     "id": "2",
     "date": "2020-11-19",
     "filename": "sample2.png",
-    "info": "sample2"
+    "info": "sample2",
+    "credit": "Andrew Photo"
   }
 ]

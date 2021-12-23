@@ -124,7 +124,8 @@
   },
   "photo": {
     "date": "Taken on {date}",
-    "info": "Description: {info}"
+    "info": "Description: {info}",
+    "credit": "Credit To: {credit}"
   },
   "exhibit": {
     "date": "Date: {date}",

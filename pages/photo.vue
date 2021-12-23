@@ -3,6 +3,7 @@
     :data="photo"
     :date-lang="'photo.date'"
     :info-lang="'photo.info'"
+    :credit-lang="'photo.credit'"
   />
 </template>
 

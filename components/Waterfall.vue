@@ -17,6 +17,12 @@
         <div slot-scope="props">
           <p class="some-info">{{ descriptionDate(props.value.date) }}</p>
           <p class="some-info">{{ descriptionInfo(props.value.info) }}</p>
+          <p
+            v-if="props.value.credit != null && props.value.credit.length > 0"
+            class="some-info"
+          >
+            <i>{{ descriptionCredit(props.value.credit) }}</i>
+          </p>
         </div>
       </vue-waterfall-easy>
     </div>
@@ -38,6 +44,10 @@ export default {
       default: null,
     },
     infoLang: {
+      type: String,
+      default: null,
+    },
+    creditLang: {
       type: String,
       default: null,
     },
@@ -79,6 +89,9 @@ export default {
     },
     descriptionInfo(info) {
       return this.$t(this.infoLang, { info })
+    },
+    descriptionCredit(credit) {
+      return this.$t(this.creditLang, { credit })
     },
     reload() {
       this.loading = true

@@ -124,7 +124,8 @@
   },
   "photo": {
     "date": "拍摄于 {date}",
-    "info": "描述： {info}"
+    "info": "描述： {info}",
+    "credit": "图片来源 (Credit To)： {credit}"
   },
   "exhibit": {
     "date": "日期： {date}",
