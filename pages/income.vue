@@ -24,17 +24,7 @@ export default {
       this,
       income,
       'basic-year',
-      [
-        '#FF6B3B',
-        '#5B8FF9',
-        '#FFC100',
-        '#61DDAA',
-        '#76523B',
-        '#0E8E89',
-        '#E19348',
-        '#F383A2',
-        '#247FEA',
-      ],
+      undefined,
       true
     )
     incomeUtil.renderChartForBasicCategory(this, income, true)
@@ -43,18 +33,7 @@ export default {
       this,
       advancedIncome,
       'advanced-year',
-      [
-        '#025DF4',
-        '#DB6BCF',
-        '#2498D1',
-        '#bbbde6',
-        '#4045b2',
-        '#21A97A',
-        '#FF745A',
-        '#007E99',
-        '#FFA8A8',
-        '#2391FF',
-      ],
+      undefined,
       true
     )
     incomeUtil.renderChartForAdvancedPlatform(this, advancedIncome)
