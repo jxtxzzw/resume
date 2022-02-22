@@ -115,6 +115,7 @@
     "movie": "Movie",
     "anime": "Anime",
     "documentary": "Documentary",
+    "lecture": "Lecture",
     "done": "Watched/Listened",
     "done_at": "Watched/Listened on {date}",
     "doing": "Watching/Listening",
