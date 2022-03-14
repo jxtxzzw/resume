@@ -38,7 +38,7 @@ load_resources:
 install_dependencies:
   stage: .pre
   script:
-    - node --versoin
+    - node --version
     - npm --version
     - npm install
 
