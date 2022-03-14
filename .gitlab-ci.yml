@@ -1,4 +1,4 @@
-image: node:16.13.0
+image: node:10.19.0
 
 stages:
   - build
@@ -38,6 +38,8 @@ load_resources:
 install_dependencies:
   stage: .pre
   script:
+    - node --versoin
+    - npm --version
     - npm install
 
 generate:
