@@ -24,12 +24,14 @@ export default {
   methods: {
     prepareData() {
       for (const pair of this.dreamCascade) {
-        if (!this.dreamsIDWithParent.includes(pair.dream_id)) {
-          this.dreamsIDWithParent.push(pair.dream_id)
+        const did = parseInt(pair.dream_id)
+        if (!this.dreamsIDWithParent.includes(did)) {
+          this.dreamsIDWithParent.push(did)
         }
       }
       for (const dream of this.dreamEntry) {
-        if (!this.dreamsIDWithParent.includes(dream.id)) {
+        const did = parseInt(dream.id)
+        if (!this.dreamsIDWithParent.includes(did)) {
           this.dreamsShouldShow.push(dream)
         }
       }

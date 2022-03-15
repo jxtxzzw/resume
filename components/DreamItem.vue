@@ -61,15 +61,16 @@ export default {
   },
   methods: {
     getProgress(dream) {
+      const did = parseInt(dream.id)
       const progressID = []
       for (const pair of this.dreamProgressRelation) {
-        if (pair.dream_id === dream.id) {
-          progressID.push(pair.progress_id)
+        if (parseInt(pair.dream_id) === did) {
+          progressID.push(parseInt(pair.progress_id))
         }
       }
       const progress = []
       for (const p of this.dreamProgress) {
-        if (progressID.includes(p.id)) {
+        if (progressID.includes(parseInt(p.id))) {
           progress.push(p)
         }
       }
@@ -78,14 +79,14 @@ export default {
           if (a.date !== b.date) {
             return new Date(a.date) - new Date(b.date)
           } else {
-            return a.id - b.id
+            return parseInt(a.id) - parseInt(b.id)
           }
         } else if (a.date === null && b.date !== null) {
           return 1
         } else if (a.date !== null && b.date === null) {
           return -1
         } else {
-          return a.id - b.id
+          return parseInt(a.id) - parseInt(b.id)
         }
       })
       return progress
@@ -93,7 +94,7 @@ export default {
     getCurrentProgressInScope(dream) {
       const progress = this.getProgress(dream)
       for (const i in progress) {
-        if (progress[i].id === dream.current_progress) {
+        if (parseInt(progress[i].id) === parseInt(dream.current_progress)) {
           return i
         }
       }
@@ -102,12 +103,12 @@ export default {
     getChildren(dream) {
       const id2dream = new Map()
       for (const dream of this.dreamEntry) {
-        id2dream.set(dream.id, dream)
+        id2dream.set(parseInt(dream.id), dream)
       }
       const children = []
       for (const pair of this.dreamCascade) {
-        if (pair.parent_dream_id === dream.id) {
-          children.push(id2dream.get(pair.dream_id))
+        if (parseInt(pair.parent_dream_id) === parseInt(dream.id)) {
+          children.push(id2dream.get(parseInt(pair.dream_id)))
         }
       }
       return children
