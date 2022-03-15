@@ -7,6 +7,7 @@
           {{ dream.content }}
         </span>
         <Progress
+          v-if="dream.estimated_progress !== null"
           :percent="dream.estimated_progress"
           :stroke-color="['#108ee9', '#87d068']"
           status="active"
@@ -22,7 +23,7 @@
             :key="prg.id"
             :status="prg.status"
           >
-            <span slot="title"> {{ prg.title }} </span>
+            <span slot="title">{{ prg.title }} </span>
             <span slot="subTitle"> {{ prg.date }} </span>
             <span slot="description"> {{ prg.description }} </span>
           </a-step>
