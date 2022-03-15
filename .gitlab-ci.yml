@@ -25,7 +25,7 @@ load_resources:
   stage: .pre
   script:
     - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${EXPORT_DB_SHELL}.sh"
-    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${LOAD_DATA}.sh"
+    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${LOAD_DATA_SHELL}.sh"
     - rm -rfv ./assets/data
     - rm -rfv ./static/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR}/assets-data ./assets/data
