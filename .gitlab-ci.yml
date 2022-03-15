@@ -21,17 +21,23 @@ before_script:
   - node --version
   - npm --version
   - python3 --version
-  - python3 -m ensurepip --upgrade
-  - pip install requests
 
 load_resources:
   stage: .pre
   script:
+    - echo "Exporting database from the source host"
     - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${EXPORT_DB_SHELL}.sh"
-    - mkdir -p ~/cicd
-    - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${CICD_DIR} ~/cicd
-    - cd ~/cicd/scripts
-    - sh ${LOAD_DATA_SHELL}.sh
+    - echo "Transfering data to a trusted user for pre-processing"
+    - ssh -i ~/.ssh/key.pem -v ${TRUSTED_USER}@${TRUSTED_HOST_NAME} "rm -rfv ${CICD_DIR} && mkdir -p ${CICD_DIR}"
+    - ssh -i ~/.ssh/key.pem -v ${TRUSTED_USER}@${TRUSTED_HOST_NAME} "rm -rfv ${RESOURCES_DIR} && mkdir -p ${RESOURCES_DIR}"
+    - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${CICD_DIR} ${TRUSTED_USER}@${TRUSTED_HOST_NAME}:${CICD_DIR}
+    - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR} ${TRUSTED_USER}@${TRUSTED_HOST_NAME}:${RESOURCES_DIR}
+    - ssh -i ~/.ssh/key.pem -v ${TRUSTED_USER}@${TRUSTED_HOST_NAME} "cd ${CICD_DIR} && sh ${LOAD_DATA_SHELL}.sh"
+    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "rm -rfv ${RESOURCES_DIR} && mkdir -p ${RESOURCES_DIR}"
+    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "rm -rfv ${CICD_DIR} && mkdir -p ${CICD_DIR}"
+    - scp -i ~/.ssh/key.pem -rv ${TRUSTED_USER}@${TRUSTED_HOST_NAME}:${CICD_DIR} ${USER}@${HOST_NAME}:${CICD_DIR}
+    - scp -i ~/.ssh/key.pem -rv ${TRUSTED_USER}@${TRUSTED_HOST_NAME}:${RESOURCES_DIR} ${USER}@${HOST_NAME}:${RESOURCES_DIR}
+    - echo "Copying data to runner to generate artifacts"
     - rm -rfv ./assets/data
     - rm -rfv ./static/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR}/assets-data ./assets/data
