@@ -35,7 +35,12 @@
 </template>
 
 <script>
-import { dreamEntry, dreamCascade, dreamProgress } from 'assets/reader'
+import {
+  dreamEntry,
+  dreamCascade,
+  dreamProgress,
+  dreamProgressRelation,
+} from 'assets/reader'
 export default {
   name: 'DreamItem',
   props: {
@@ -51,13 +56,20 @@ export default {
       dreamEntry,
       dreamCascade,
       dreamProgress,
+      dreamProgressRelation,
     }
   },
   methods: {
     getProgress(dream) {
+      const progressID = []
+      for (const pair of this.dreamProgressRelation) {
+        if (pair.dream_id === dream.id) {
+          progressID.push(pair.progress_id)
+        }
+      }
       const progress = []
       for (const p of this.dreamProgress) {
-        if (p.dream_id === dream.id) {
+        if (progressID.includes(p.id)) {
           progress.push(p)
         }
       }

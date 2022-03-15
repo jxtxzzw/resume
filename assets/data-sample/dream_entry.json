@@ -1,16 +1,380 @@
 [
     {
-      "name": "美国国家公园",
-      "estimated_progress": 4,
       "id": 1,
-      "content": "游览美国国家公园",
+      "name": "Carnegie Mellon University",
+      "estimated_progress": 50,
+      "content": "周游 Carnegie Mellon University",
       "current_progress": null
     },
     {
+      "id": 2,
+      "name": "Carnegie Mellon University (Silicon Valley)",
+      "estimated_progress": 100,
+      "content": "周游 Carnegie Mellon University (Silicon Valley)",
+      "current_progress": 3
+    },
+    {
+      "id": 3,
+      "name": "Carnegie Mellon University (Pittsburg)",
+      "estimated_progress": 0,
+      "content": "周游 Carnegie Mellon University (Pittsburg)",
+      "current_progress": 4
+    },
+    {
+      "id": 4,
+      "name": "磁悬浮",
+      "estimated_progress": 100,
+      "content": "体验磁悬浮",
+      "current_progress": 5
+    },
+    {
+      "id": 5,
+      "name": "本科毕业旅行",
+      "estimated_progress": null,
+      "content": "本科毕业旅行",
+      "current_progress": null
+    },
+    {
+      "id": 6,
+      "name": "日本",
+      "estimated_progress": null,
+      "content": "本科毕业旅行",
+      "current_progress": 8
+    },
+    {
+      "id": 7,
+      "name": "China Joy",
+      "estimated_progress": null,
+      "content": "China Joy",
+      "current_progress": 11
+    },
+    {
+      "id": 8,
+      "name": "Empress by Boon",
+      "estimated_progress": 50,
+      "content": "米其林餐厅 Empress by Boon",
+      "current_progress": 16
+    },
+    {
+      "id": 9,
+      "name": "Golden Gate Bridge",
+      "estimated_progress": 100,
+      "content": "湾区标志性建筑：金门大桥",
+      "current_progress": 18
+    },
+    {
+      "id": 10,
+      "name": "HoloLens",
+      "estimated_progress": 0,
+      "content": "HoloLens",
+      "current_progress": 19
+    },
+    {
+      "id": 12,
+      "name": "Junior's Restaurant & Bakery",
+      "estimated_progress": 0,
+      "content": "著名餐厅",
+      "current_progress": 21
+    },
+    {
+      "id": 13,
+      "name": "Oculus",
+      "estimated_progress": 20,
+      "content": "Oculus",
+      "current_progress": 22
+    },
+    {
+      "id": 14,
+      "name": "Stanford University",
+      "estimated_progress": 100,
+      "content": "参观 Stanford University",
+      "current_progress": 23
+    },
+    {
+      "id": 15,
+      "name": "Top of Euro",
+      "estimated_progress": 0,
+      "content": "登临 Top of Euro",
+      "current_progress": 24
+    },
+    {
+      "id": 16,
+      "name": "拍卖会",
+      "estimated_progress": 0,
+      "content": "拍卖会",
+      "current_progress": null
+    },
+    {
+      "id": 17,
+      "name": "中国嘉德拍卖会",
+      "estimated_progress": 0,
+      "content": "中国嘉德拍卖会",
+      "current_progress": null
+    },
+    {
+      "id": 18,
+      "name": "剧本杀",
+      "estimated_progress": null,
+      "content": "剧本杀",
+      "current_progress": null
+    },
+    {
+      "id": 19,
+      "name": "罪案调查局：二十花杀",
+      "estimated_progress": 100,
+      "content": "罪案调查局：二十花杀",
+      "current_progress": 27
+    },
+    {
+      "id": 20,
+      "name": "密室逃脱",
+      "estimated_progress": null,
+      "content": "密室逃脱",
+      "current_progress": null
+    },
+    {
+      "id": 21,
+      "name": "青丘灵宫",
+      "estimated_progress": 100,
+      "content": "青丘灵宫",
+      "current_progress": 29
+    },
+    {
+      "id": 22,
+      "name": "Room 2217",
+      "estimated_progress": 100,
+      "content": "湾区主题密室逃脱：暗杀 - Room 2217",
+      "current_progress": 32
+    },
+    {
+      "id": 23,
+      "name": "Memento",
+      "estimated_progress": 100,
+      "content": "湾区主题密室逃脱：Memento",
+      "current_progress": 35
+    },
+    {
+      "id": 24,
+      "name": "Project Delta",
+      "estimated_progress": 0,
+      "content": "湾区主题密室逃脱：Project Delta",
+      "current_progress": 36
+    },
+    {
+      "id": 25,
+      "name": "只此青绿",
+      "estimated_progress": 0,
+      "content": "舞蹈诗剧《只此青绿》",
+      "current_progress": 37
+    },
+    {
+      "id": 26,
+      "name": "太阳马戏团驻场秀",
+      "estimated_progress": 0,
+      "content": "太阳马戏团驻场秀",
+      "current_progress": 38
+    },
+    {
+      "id": 27,
+      "name": "射击",
+      "estimated_progress": 0,
+      "content": "体验射击",
+      "current_progress": null
+    },
+    {
+      "id": 28,
+      "name": "广州塔高空户外步行",
+      "estimated_progress": 0,
+      "content": "广州塔高空户外步行",
+      "current_progress": 40
+    },
+    {
+      "id": 29,
+      "name": "战斗机飞行体验",
+      "estimated_progress": 0,
+      "content": "战斗机飞行体验",
+      "current_progress": 41
+    },
+    {
+      "id": 30,
+      "name": "拉斯维加斯",
+      "estimated_progress": 0,
+      "content": "拉斯维加斯",
+      "current_progress": 42
+    },
+    {
+      "id": 31,
+      "name": "新加坡球形 Apple Store",
+      "estimated_progress": 0,
+      "content": "新加坡球形 Apple Store",
+      "current_progress": 44
+    },
+    {
+      "id": 32,
+      "name": "极光",
+      "estimated_progress": 0,
+      "content": "极光",
+      "current_progress": null
+    },
+    {
+      "id": 33,
+      "name": "温泉",
+      "estimated_progress": 0,
+      "content": "温泉",
+      "current_progress": null
+    },
+    {
+      "id": 34,
+      "name": "滑翔伞",
+      "estimated_progress": 0,
+      "content": "滑翔伞",
+      "current_progress": null
+    },
+    {
+      "id": 35,
+      "name": "潜水",
+      "estimated_progress": 0,
+      "content": "潜水",
+      "current_progress": null
+    },
+    {
+      "id": 36,
+      "name": "爬雪山",
+      "estimated_progress": 0,
+      "content": "爬雪山",
+      "current_progress": null
+    },
+    {
+      "id": 37,
+      "name": "环球影城",
+      "estimated_progress": 20,
+      "content": "环球影城",
+      "current_progress": null
+    },
+    {
+      "id": 38,
+      "name": "环球影城 - 洛杉矶",
+      "estimated_progress": 100,
+      "content": "环球影城 - 洛杉矶",
+      "current_progress": 48
+    },
+    {
+      "id": 39,
+      "name": "球赛",
+      "estimated_progress": null,
+      "content": "球赛",
+      "current_progress": null
+    },
+    {
+      "id": 40,
+      "name": "Golden State Warriors vs. Philadelphia 76ers",
+      "estimated_progress": 100,
+      "content": "Golden State Warriors vs. Philadelphia 76ers",
+      "current_progress": 51
+    },
+    {
+      "id": 41,
+      "name": "纳斯达克敲钟",
+      "estimated_progress": 0,
+      "content": "纳斯达克敲钟",
+      "current_progress": 41
+    },
+    {
+      "id": 42,
+      "name": "豪华游轮",
+      "estimated_progress": 0,
+      "content": "豪华游轮",
+      "current_progress": null
+    },
+    {
+      "id": 43,
+      "name": "Brooklyn Nets at Los Angeles Lakers",
+      "estimated_progress": 100,
+      "content": "Brooklyn Nets at Los Angeles Lakers",
+      "current_progress": 57
+    },
+    {
+      "id": 44,
+      "name": "鲸",
+      "estimated_progress": 0,
+      "content": "鲸",
+      "current_progress": 54
+    },
+    {
+      "id": 45,
+      "name": "骑马",
+      "estimated_progress": 100,
+      "content": "骑马",
+      "current_progress": 55
+    },
+    {
+      "id": 46,
+      "name": "雪场滑雪",
+      "estimated_progress": 20,
+      "content": "雪场滑雪（非室内滑雪场）",
+      "current_progress": null
+    },
+    {
+      "id": 47,
+      "name": "Tahoe - Boreal",
+      "estimated_progress": 100,
+      "content": "Tahoe - Boreal",
+      "current_progress": null
+    },
+    {
+      "id": 48,
+      "name": "美国国家公园",
+      "estimated_progress": 4,
+      "content": "参观美国国家公园",
+      "current_progress": null
+    },
+    {
+      "id": 49,
+      "name": "Yosemite National Park",
+      "estimated_progress": 100,
+      "content": "Yosemite National Park",
+      "current_progress": 67
+    },
+    {
+      "id": 50,
+      "name": "Joshua Tree National Park",
+      "estimated_progress": 100,
+      "content": "Joshua Tree National Park",
+      "current_progress": 69
+    },
+    {
+      "id": 51,
+      "name": "macOS 壁纸打卡",
+      "estimated_progress": 10,
+      "content": "参观 macOS 历代系统取名地，打卡标志性壁纸",
+      "current_progress": null
+    },
+    {
+      "id": 52,
       "name": "Yosemite",
       "estimated_progress": 100,
-      "id": 2,
-      "content": "优胜美地国家公园",
-      "current_progress": 5
+      "content": "Yosemite",
+      "current_progress": 71
+    },
+    {
+      "id": 53,
+      "name": "Monterey and BigSur",
+      "estimated_progress": 100,
+      "content": "Monterey and BigSur",
+      "current_progress": 72
+    },
+    {
+      "id": 54,
+      "name": "Monterey",
+      "estimated_progress": 100,
+      "content": "Monterey",
+      "current_progress": 75
+    },
+    {
+      "id": 55,
+      "name": "BigSur",
+      "estimated_progress": 100,
+      "content": "BigSur",
+      "current_progress": 77
     }
   ]
