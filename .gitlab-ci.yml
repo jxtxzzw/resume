@@ -21,8 +21,8 @@ before_script:
   - node --version
   - npm --version
   - python3 --version
-  - pip3 --version
-  - pip3 install requests
+  - python3 -m ensurepip --upgrade
+  - pip install requests
 
 load_resources:
   stage: .pre
