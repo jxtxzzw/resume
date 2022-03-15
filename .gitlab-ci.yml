@@ -18,11 +18,18 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts -v
   - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/key.pem
   - chmod 600 ~/.ssh/key.pem -v
+  - node --version
+  - npm --version
+  - python3 --version
 
 load_resources:
   stage: .pre
   script:
-    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${SCRIPT_FILENAME}.sh"
+    - ssh -i ~/.ssh/key.pem -v ${USER}@${HOST_NAME} "cd ${CICD_DIR} && sh ${EXPORT_DB_SHELL}.sh"
+    - mkdir -p ~/cicd
+    - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${CICD_DIR} ~/cicd
+    - cd ~/cicd/scripts
+    - sh ${LOAD_DATA_SHELL}.sh
     - rm -rfv ./assets/data
     - rm -rfv ./static/data
     - scp -i ~/.ssh/key.pem -rv ${USER}@${HOST_NAME}:${RESOURCES_DIR}/assets-data ./assets/data
@@ -38,8 +45,6 @@ load_resources:
 install_dependencies:
   stage: .pre
   script:
-    - node --version
-    - npm --version
     - npm install
 
 generate:
