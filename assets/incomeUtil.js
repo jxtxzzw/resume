@@ -426,18 +426,6 @@ export function renderChartForAllAccumulated(that, rawData) {
   })
 
   chart.data(data)
-  // chart.scale({
-  //   value: {
-  //     min: 0,
-  //     nice: true,
-  //   },
-  //   year: {
-  //     range: [0, 1],
-  //   },
-  //   formatter: (val) => {
-  //     return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
-  //   },
-  // })
   chart.scale('year', {
     type: 'linear',
   })
@@ -594,6 +582,77 @@ export function renderChartForAdvancedPlatform(that, rawData) {
       },
     })
   chart.interaction('element-active')
+  chart.render()
+  return chart
+}
+
+function getBalanceData(rawData) {
+  const ALL_ACCUMULATED = 'ALL_ACCUMULATED'
+  const dict = []
+  for (const x of rawData) {
+    if (!dict[x.date]) {
+      dict[x.date] = {
+        ALL_ACCUMULATED: 0,
+      }
+    }
+    dict[x.date][x.currency] = x.amount
+    dict[x.date][ALL_ACCUMULATED] += x.amount * x.currency_weight
+  }
+
+  const data = []
+  for (const d in dict) {
+    for (const c in dict[d]) {
+      data.push({
+        date: d,
+        currency: c,
+        value: dict[d][c],
+      })
+    }
+  }
+  return data
+}
+
+export function renderChartForBalance(that, rawData) {
+  const { Chart } = that.$g2
+  const chart = new Chart({
+    container: 'balance',
+    autoFit: true,
+    height: chartHeight(),
+  })
+
+  chart.data(getBalanceData(rawData))
+  chart.scale({
+    date: {
+      range: [0, 1],
+    },
+    value: {
+      nice: true,
+    },
+  })
+
+  chart.tooltip({
+    showCrosshairs: true,
+    shared: true,
+  })
+
+  chart.axis('value', {
+    label: {
+      formatter: (val) => {
+        return val
+      },
+    },
+  })
+
+  chart.line().position('date*value').color('currency').shape('smooth')
+
+  chart.point().position('date*value').color('currency').shape('circle').style({
+    stroke: '#fff',
+    lineWidth: 1,
+  })
+
+  chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
+  chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
+
   chart.render()
   return chart
 }

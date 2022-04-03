@@ -234,6 +234,7 @@
     "all-accumulated": "Accumulated Income",
     "10k": "(x10,000)",
     "advanced-year": "Advanced Income for Each Year",
-    "advanced-platform": "Advanced Income for Platforms"
+    "advanced-platform": "Advanced Income for Platforms",
+    "balance": "Balance"
   }
 }

@@ -15,6 +15,7 @@
       </i-switch>
     </Alert>
     <div id="all-accumulated"></div>
+
     <Divider>{{ $t('income.basic-year') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
@@ -29,6 +30,7 @@
       </i-switch>
     </Alert>
     <div id="basic-year"></div>
+
     <Divider>{{ $t('income.basic-category') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
@@ -43,6 +45,7 @@
       </i-switch>
     </Alert>
     <div id="basic-category"></div>
+
     <Divider>{{ $t('income.advanced-year') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
@@ -57,6 +60,7 @@
       </i-switch>
     </Alert>
     <div id="advanced-year"></div>
+
     <Divider>{{ $t('income.advanced-platform') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
@@ -72,12 +76,28 @@
       </i-switch>
     </Alert>
     <div id="advanced-platform"></div>
+
+    <Divider>{{ $t('income.balance') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currency.balance"
+        size="large"
+        disabled
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
+    <div id="balance"></div>
   </div>
 </template>
 
 <script>
 import * as incomeUtil from 'assets/incomeUtil'
-import { income, advancedIncome } from 'assets/reader'
+import { income, advancedIncome, balance } from 'assets/reader'
 
 export default {
   name: 'Income',
@@ -89,6 +109,7 @@ export default {
         basicCategory: true,
         advancedYear: true,
         advancedPlatform: false,
+        balance: true,
       },
       oldChart: {
         allAccumulated: undefined,
@@ -96,6 +117,7 @@ export default {
         incomeChartForBasicCategory: undefined,
         advancedIncomeChartForYearAndType: undefined,
         advancedIncomeChartForAdvancedPlatform: undefined,
+        balance: undefined,
       },
     }
   },
@@ -144,6 +166,7 @@ export default {
         this,
         advancedIncome
       )
+      this.oldChart.balance = incomeUtil.renderChartForBalance(this, balance)
       // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
       window.dispatchEvent(new Event('resize'))
     },
