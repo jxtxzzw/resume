@@ -16,9 +16,9 @@ function getDataForYearAndType(rawData, withCurrency = false) {
         dict[year][type] = 0
       }
     }
+    const currencyWeight = parseFloat(x.currency_weight)
     if (withCurrency) {
       const currency = x.currency
-      const currencyWeight = parseFloat(x.currency_weight)
       if (!(currency in dict[year][type])) {
         dict[year][type][currency] = {
           amount: 0,
@@ -28,7 +28,7 @@ function getDataForYearAndType(rawData, withCurrency = false) {
       dict[year][type][currency].amount += amount
       dict[year][type][currency].weightedAmount += amount * currencyWeight
     } else {
-      dict[year][type] += amount
+      dict[year][type] += amount * currencyWeight
     }
   }
 
@@ -184,6 +184,7 @@ export function renderChartForYearAndType(
 
   // Step 4: 渲染图表
   chart.render()
+  return chart
 }
 
 function getDataForBasicCategory(rawData, withCurrency = false) {
@@ -202,9 +203,9 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
     if (amount <= 0) {
       continue
     }
+    const currencyWeight = parseFloat(x.currency_weight)
     if (withCurrency) {
       const currency = x.currency
-      const currencyWeight = parseFloat(x.currency_weight)
       if (!(currency in dict[category])) {
         dict[category][currency] = {
           amount: 0,
@@ -214,8 +215,8 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
       dict[category][currency].amount += amount
       dict[category][currency].weightedAmount += amount * currencyWeight
     } else {
-      dict[category] += amount
-      total += amount
+      dict[category] += amount * currencyWeight
+      total += amount * currencyWeight
     }
   }
 
@@ -357,6 +358,7 @@ export function renderChartForBasicCategory(
   chart.interaction('element-active')
 
   chart.render()
+  return chart
 }
 
 // function getDataForBasicAccumulated(rawData) {
@@ -391,7 +393,7 @@ export function renderChartForBasicCategory(
 //   }
 //   return data
 // }
-
+//
 // export function renderChartForBasicAccumulated(that, rawData) {
 //   const { Chart } = that.$g2
 //
@@ -570,4 +572,5 @@ export function renderChartForAdvancedPlatform(that, rawData) {
     })
   chart.interaction('element-active')
   chart.render()
+  return chart
 }

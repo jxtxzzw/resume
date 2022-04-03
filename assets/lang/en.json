@@ -226,6 +226,9 @@
     "event": "Event"
   },
   "income": {
+    "currency": "Show by Currency",
+    "open": "ON",
+    "close": "OFF",
     "basic-year": "Income for Each Year",
     "basic-category": "Income for Categories",
     "basic-accumulated": "Accumulated Incomes",
