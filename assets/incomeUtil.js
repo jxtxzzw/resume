@@ -58,7 +58,7 @@ function getDataForYearAndType(rawData, withCurrency = false) {
 }
 
 function chartHeight() {
-  return (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.9
+  return (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.75
 }
 
 export function renderChartForYearAndType(
@@ -422,7 +422,7 @@ export function renderChartForAllAccumulated(that, rawData) {
   const chart = new Chart({
     container: 'all-accumulated',
     autoFit: true,
-    height: 500,
+    height: chartHeight(),
   })
 
   chart.data(data)

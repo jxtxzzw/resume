@@ -1,21 +1,5 @@
 <template>
   <div>
-    <Divider>{{ $t('income.all-accumulated') }}</Divider>
-    <Alert type="info">
-      {{ $t('income.currency') }}
-      <i-switch
-        v-model="currency.allAccumulated"
-        size="large"
-        disabled
-        :true-value="true"
-        :false-value="false"
-      >
-        <span slot="open">{{ $t('income.open') }}</span>
-        <span slot="close">{{ $t('income.close') }}</span>
-      </i-switch>
-    </Alert>
-    <div id="all-accumulated"></div>
-
     <Divider>{{ $t('income.basic-year') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
@@ -76,6 +60,22 @@
       </i-switch>
     </Alert>
     <div id="advanced-platform"></div>
+
+    <Divider>{{ $t('income.all-accumulated') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currency.allAccumulated"
+        size="large"
+        disabled
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
+    <div id="all-accumulated"></div>
 
     <Divider>{{ $t('income.balance') }}</Divider>
     <Alert type="info">
