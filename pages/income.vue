@@ -4,7 +4,7 @@
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency.basicYear"
+        v-model="currencyBasicYear"
         size="large"
         :true-value="true"
         :false-value="false"
@@ -19,7 +19,7 @@
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency.basicCategory"
+        v-model="currencyBasicCategory"
         size="large"
         :true-value="true"
         :false-value="false"
@@ -34,7 +34,7 @@
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency.advancedYear"
+        v-model="currencyAdvancedYear"
         size="large"
         :true-value="true"
         :false-value="false"
@@ -49,11 +49,11 @@
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency.advancedPlatform"
+        v-model="currencyAdvancedPlatform"
         size="large"
-        disabled
         :true-value="true"
         :false-value="false"
+        disabled
       >
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
@@ -65,11 +65,11 @@
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency.allAccumulated"
+        v-model="currencyAllAccumulated"
         size="large"
-        disabled
         :true-value="true"
         :false-value="false"
+        disabled
       >
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
@@ -81,11 +81,11 @@
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency.balance"
+        v-model="currencyBalance"
         size="large"
-        disabled
         :true-value="true"
         :false-value="false"
+        disabled
       >
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
@@ -103,14 +103,12 @@ export default {
   name: 'Income',
   data() {
     return {
-      currency: {
-        allAccumulated: false,
-        basicYear: true,
-        basicCategory: true,
-        advancedYear: true,
-        advancedPlatform: false,
-        balance: true,
-      },
+      currencyBasicYear: true,
+      currencyBasicCategory: true,
+      currencyAdvancedYear: true,
+      currencyAdvancedPlatform: false,
+      currencyAllAccumulated: false,
+      currencyBalance: true,
       oldChart: {
         allAccumulated: undefined,
         incomeChartForYearAndType: undefined,
@@ -122,51 +120,84 @@ export default {
     }
   },
   watch: {
-    currency: {
-      handler() {
-        this.renderAllCharts()
-      },
-      deep: true,
+    currencyBasicYear() {
+      this.renderAllCharts(['basic-year'])
+    },
+    currencyBasicCategory() {
+      this.renderAllCharts(['basic-category'])
+    },
+    currencyAdvancedYear() {
+      this.renderAllCharts(['advanced-year'])
     },
   },
   mounted() {
     this.renderAllCharts()
   },
   methods: {
-    renderAllCharts() {
-      for (const chart in this.oldChart) {
-        if (this.oldChart[chart]) {
-          this.oldChart[chart].destroy()
-        }
-      }
-      this.oldChart.allAccumulated = incomeUtil.renderChartForAllAccumulated(
-        this,
-        income
-      )
-      this.oldChart.incomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
-        this,
-        income,
+    renderAllCharts(
+      charts = [
         'basic-year',
-        undefined,
-        this.currency.basicYear
-      )
-      this.oldChart.incomeChartForBasicCategory = incomeUtil.renderChartForBasicCategory(
-        this,
-        income,
-        this.currency.basicCategory
-      )
-      this.oldChart.advancedIncomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
-        this,
-        advancedIncome,
+        'basic-category',
         'advanced-year',
-        undefined,
-        this.currency.advancedYear
-      )
-      this.oldChart.advancedIncomeChartForAdvancedPlatform = incomeUtil.renderChartForAdvancedPlatform(
-        this,
-        advancedIncome
-      )
-      this.oldChart.balance = incomeUtil.renderChartForBalance(this, balance)
+        'advanced-platform',
+        'all-accumulated',
+        'balance',
+      ]
+    ) {
+      if (charts.includes('basic-year')) {
+        if (this.oldChart.incomeChartForYearAndType) {
+          this.oldChart.incomeChartForYearAndType.destroy()
+        }
+        this.oldChart.incomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
+          this,
+          income,
+          'basic-year',
+          undefined,
+          this.currencyBasicYear
+        )
+      }
+
+      if (charts.includes('basic-category')) {
+        if (this.oldChart.incomeChartForBasicCategory) {
+          this.oldChart.incomeChartForBasicCategory.destroy()
+        }
+        this.oldChart.incomeChartForBasicCategory = incomeUtil.renderChartForBasicCategory(
+          this,
+          income,
+          this.currencyBasicCategory
+        )
+      }
+
+      if (charts.includes('advanced-year')) {
+        if (this.oldChart.advancedIncomeChartForYearAndType) {
+          this.oldChart.advancedIncomeChartForYearAndType.destroy()
+        }
+        this.oldChart.advancedIncomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
+          this,
+          advancedIncome,
+          'advanced-year',
+          undefined,
+          this.currencyAdvancedYear
+        )
+      }
+
+      if (charts.includes('advanced-platform')) {
+        this.oldChart.advancedIncomeChartForAdvancedPlatform = incomeUtil.renderChartForAdvancedPlatform(
+          this,
+          advancedIncome
+        )
+      }
+
+      if (charts.includes('all-accumulated')) {
+        this.oldChart.allAccumulated = incomeUtil.renderChartForAllAccumulated(
+          this,
+          income
+        )
+      }
+      if (charts.includes('balance')) {
+        this.oldChart.balance = incomeUtil.renderChartForBalance(this, balance)
+      }
+
       // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
       window.dispatchEvent(new Event('resize'))
     },
