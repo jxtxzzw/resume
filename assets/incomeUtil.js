@@ -362,6 +362,7 @@ export function renderChartForBasicCategory(
 }
 
 function getDataForAllAccumulated(rawData) {
+  const currencies = []
   const dict = {}
   let minYear = 9999
   let maxYear = 0
@@ -375,22 +376,41 @@ function getDataForAllAccumulated(rawData) {
       maxYear = year
     }
     if (!(year in dict)) {
-      dict[year] = 0
+      dict[year] = {}
     }
     const currencyWeight = parseFloat(x.currency_weight)
-    dict[year] += amount * currencyWeight
+    const currency = x.currency
+    if (!currencies.includes(currency)) {
+      currencies.push(currency)
+    }
+    if (!dict[year][currency]) {
+      dict[year][currency] = {
+        amount: 0,
+        weightedAmount: 0,
+      }
+    }
+    dict[year][currency].amount += amount
+    dict[year][currency].weightedAmount += amount * currencyWeight
+  }
+
+  const sumTillNow = {}
+  for (const c of currencies) {
+    sumTillNow[c] = 0
   }
 
   const data = []
-  let sum = 0
   for (let i = minYear; i <= maxYear; i++) {
     if (i in dict) {
-      sum += dict[i]
+      for (const c of currencies) {
+        const v = sumTillNow[c] + (c in dict[i] ? dict[i][c].weightedAmount : 0)
+        sumTillNow[c] = v
+        data.push({
+          year: i,
+          currency: c,
+          value: v,
+        })
+      }
     }
-    data.push({
-      year: i,
-      value: sum,
-    })
   }
   return data
 }
@@ -406,21 +426,33 @@ export function renderChartForAllAccumulated(that, rawData) {
   })
 
   chart.data(data)
-  chart.scale({
-    value: {
-      min: 0,
-      nice: true,
-    },
-    year: {
-      range: [0, 1],
-    },
-    formatter: (val) => {
-      return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
-    },
+  // chart.scale({
+  //   value: {
+  //     min: 0,
+  //     nice: true,
+  //   },
+  //   year: {
+  //     range: [0, 1],
+  //   },
+  //   formatter: (val) => {
+  //     return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+  //   },
+  // })
+  chart.scale('year', {
+    type: 'linear',
+  })
+  chart.scale('value', {
+    nice: true,
   })
   chart.tooltip({
     showCrosshairs: true,
+    shared: true, // true 表示合并当前点对应的所有数据并展示，false 表示只展示离当前点最逼近的数据内容
   })
+
+  chart.area().adjust('stack').position('year*value').color('currency')
+  chart.line().adjust('stack').position('year*value').color('currency')
+
+  chart.interaction('element-highlight')
 
   chart.axis('value', {
     label: {
@@ -429,17 +461,6 @@ export function renderChartForAllAccumulated(that, rawData) {
       },
     },
   })
-
-  chart.area().position('year*value')
-  chart
-    .line()
-    .position('year*value')
-    .tooltip('year*value', (year, value) => {
-      return {
-        name: year,
-        value: (parseFloat(value) / 10000).toFixed(2) + that.$t('income.10k'),
-      }
-    })
 
   chart.render()
   return chart
