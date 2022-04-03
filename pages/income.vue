@@ -1,9 +1,25 @@
 <template>
   <div>
+    <Divider>{{ $t('income.all-accumulated') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
       <i-switch
-        v-model="currency"
+        v-model="currency.allAccumulated"
+        size="large"
+        disabled
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
+    <div id="all-accumulated"></div>
+    <Divider>{{ $t('income.basic-year') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currency.basicYear"
         size="large"
         :true-value="true"
         :false-value="false"
@@ -12,15 +28,49 @@
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
     </Alert>
-    <!--    <Divider>{{ $t('income.basic-accumulated') }}</Divider>-->
-    <!--    <div id="basic-accumulated"></div>-->
-    <Divider>{{ $t('income.basic-year') }}</Divider>
     <div id="basic-year"></div>
     <Divider>{{ $t('income.basic-category') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currency.basicCategory"
+        size="large"
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
     <div id="basic-category"></div>
     <Divider>{{ $t('income.advanced-year') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currency.advancedYear"
+        size="large"
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
     <div id="advanced-year"></div>
     <Divider>{{ $t('income.advanced-platform') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currency.advancedPlatform"
+        size="large"
+        disabled
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
     <div id="advanced-platform"></div>
   </div>
 </template>
@@ -33,8 +83,15 @@ export default {
   name: 'Income',
   data() {
     return {
-      currency: true,
+      currency: {
+        allAccumulated: false,
+        basicYear: true,
+        basicCategory: true,
+        advancedYear: true,
+        advancedPlatform: false,
+      },
       oldChart: {
+        allAccumulated: undefined,
         incomeChartForYearAndType: undefined,
         incomeChartForBasicCategory: undefined,
         advancedIncomeChartForYearAndType: undefined,
@@ -43,8 +100,11 @@ export default {
     }
   },
   watch: {
-    currency() {
-      this.renderAllCharts()
+    currency: {
+      handler() {
+        this.renderAllCharts()
+      },
+      deep: true,
     },
   },
   mounted() {
@@ -57,25 +117,28 @@ export default {
           this.oldChart[chart].destroy()
         }
       }
+      this.oldChart.allAccumulated = incomeUtil.renderChartForAllAccumulated(
+        this,
+        income
+      )
       this.oldChart.incomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
         this,
         income,
         'basic-year',
         undefined,
-        this.currency
+        this.currency.basicYear
       )
       this.oldChart.incomeChartForBasicCategory = incomeUtil.renderChartForBasicCategory(
         this,
         income,
-        this.currency
+        this.currency.basicCategory
       )
-      // incomeUtil.renderChartForBasicAccumulated(this, income)
       this.oldChart.advancedIncomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
         this,
         advancedIncome,
         'advanced-year',
         undefined,
-        this.currency
+        this.currency.advancedYear
       )
       this.oldChart.advancedIncomeChartForAdvancedPlatform = incomeUtil.renderChartForAdvancedPlatform(
         this,

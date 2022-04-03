@@ -231,7 +231,7 @@
     "close": "OFF",
     "basic-year": "Income for Each Year",
     "basic-category": "Income for Categories",
-    "basic-accumulated": "Accumulated Incomes",
+    "all-accumulated": "Accumulated Income",
     "10k": "(x10,000)",
     "advanced-year": "Advanced Income for Each Year",
     "advanced-platform": "Advanced Income for Platforms"
