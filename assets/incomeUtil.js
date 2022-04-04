@@ -452,6 +452,19 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
     },
   })
 
+  // 开启缩略轴组件
+  chart.option('slider', {
+    // 组件高度
+    height: 30,
+    // 滑块背景趋势图配置
+    trendCfg: {
+      // 	趋势图曲线是否圆滑
+      smooth: true,
+      // 	趋势图是否使用面积图
+      isArea: true,
+    },
+  })
+
   chart.render()
   return chart
 }
@@ -646,6 +659,19 @@ export function renderChartForBalance(that, rawData) {
 
   chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
   chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
+
+  // 开启缩略轴组件
+  chart.option('slider', {
+    // 组件高度
+    height: 30,
+    // 滑块背景趋势图配置
+    trendCfg: {
+      // 	趋势图曲线是否圆滑
+      smooth: true,
+      // 	趋势图是否使用面积图
+      isArea: true,
+    },
+  })
 
   chart.render()
   return chart
