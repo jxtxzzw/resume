@@ -1,5 +1,7 @@
 // nuxt 下不能用 import 引入整个依赖，只能用 plugin 的方式引入
 
+const ALL_ACCUMULATED = 'ALL_ACCUMULATED'
+
 function getDataForYearAndType(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
@@ -628,12 +630,17 @@ function getDataForAllAccumulated(rawDataArray) {
   for (let i = minYear; i <= maxYear; i++) {
     if (i in dict) {
       for (const c of currencies) {
-        const v = sumTillNow[c] + (c in dict[i] ? dict[i][c].weightedAmount : 0)
-        sumTillNow[c] = v
+        const v = c in dict[i] ? dict[i][c].weightedAmount : 0
         data.push({
           year: i,
           currency: c,
           value: v,
+        })
+        sumTillNow[c] += v
+        data.push({
+          year: i,
+          currency: `${c}_${ALL_ACCUMULATED}`,
+          value: sumTillNow[c],
         })
       }
     }
@@ -826,7 +833,6 @@ export function renderChartForAdvancedPlatform(that, rawData) {
 }
 
 function getBalanceData(rawData) {
-  const ALL_ACCUMULATED = 'ALL_ACCUMULATED'
   const dict = []
   for (const x of rawData) {
     if (!dict[x.date]) {
