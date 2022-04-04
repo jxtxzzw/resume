@@ -220,14 +220,19 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
     }
   }
 
-  const data = []
-  for (const category in dict) {
-    if (withCurrency) {
+  if (withCurrency) {
+    const currencies = []
+    const leftData = [] // 先分类再货币
+    const rightData = [] // 先货币再分类
+    for (const category in dict) {
       for (const currency in dict[category]) {
+        if (!currencies.includes(currency)) {
+          currencies.push(currency)
+        }
         const amount = dict[category][currency].amount
         const weightedAmount = dict[category][currency].weightedAmount
         if (amount > 0) {
-          data.push({
+          leftData.push({
             category,
             amount,
             weightedAmount,
@@ -235,7 +240,27 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
           })
         }
       }
-    } else {
+    }
+    for (const currency of currencies) {
+      for (const category in dict) {
+        if (dict[category][currency]) {
+          const amount = dict[category][currency].amount
+          const weightedAmount = dict[category][currency].weightedAmount
+          if (amount > 0) {
+            rightData.push({
+              category: `${currency} - ${category}`,
+              amount,
+              weightedAmount,
+              currency,
+            })
+          }
+        }
+      }
+    }
+    return [leftData, rightData]
+  } else {
+    const data = []
+    for (const category in dict) {
       const amount = dict[category]
       if (amount > 0) {
         data.push({
@@ -245,8 +270,8 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
         })
       }
     }
+    return data
   }
-  return data
 }
 
 export function renderChartForBasicCategory(
@@ -257,67 +282,42 @@ export function renderChartForBasicCategory(
   const { Chart } = that.$g2
   const { DataView } = that.$dataset
 
-  const data = getDataForBasicCategory(rawData, withCurrency)
-
-  // 通过 DataSet 计算百分比
-  const dv = new DataView()
-  dv.source(data).transform({
-    type: 'percent',
-    field: withCurrency ? 'weightedAmount' : 'amount',
-    dimension: 'category',
-    as: 'percent',
-  })
-
   const chart = new Chart({
     container: 'basic-category',
     autoFit: true,
     height: chartHeight(),
   })
 
-  chart.data(dv.rows)
+  if (!withCurrency) {
+    // 不进行多币种处理，就只需要画一个图
+    // 获取数据
+    const data = getDataForBasicCategory(rawData, withCurrency)
 
-  chart.scale({
-    percent: {
-      formatter: (val) => {
-        val = parseFloat(val * 100).toFixed(2) + '%'
-        return val
-      },
-    },
-  })
-
-  chart.coordinate('theta', {
-    radius: 0.5,
-  })
-  chart.legend(false)
-
-  chart.tooltip({
-    showTitle: true,
-    showMarkers: true,
-  })
-
-  chart
-    .interval()
-    .adjust('stack')
-    .position('percent')
-    .color('category')
-    .label('percent', {
-      content: (data) => {
-        return `${data.category}: ${parseFloat(data.percent * 100).toFixed(2)}%`
-      },
-    })
-
-  if (withCurrency) {
-    const outterView = chart.createView()
-    const dv1 = new DataView()
-    dv1.source(data).transform({
+    // 通过 DataSet 计算百分比
+    const dv = new DataView()
+    dv.source(data).transform({
       type: 'percent',
-      field: withCurrency ? 'weightedAmount' : 'amount',
-      dimension: 'currency',
+      field: 'amount',
+      dimension: 'category',
       as: 'percent',
     })
 
-    outterView.data(dv1.rows)
-    outterView.scale({
+    chart.data(dv.rows)
+
+    chart
+      .interval()
+      .adjust('stack')
+      .position('percent')
+      .color('category')
+      .label('percent', {
+        content: (data) => {
+          return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
+            2
+          )}%`
+        },
+      })
+
+    chart.scale({
       percent: {
         formatter: (val) => {
           val = parseFloat(val * 100).toFixed(2) + '%'
@@ -325,22 +325,135 @@ export function renderChartForBasicCategory(
         },
       },
     })
-    outterView.coordinate('theta', {
-      innerRadius: 0.5 / 0.75,
-      radius: 0.75,
+
+    chart.coordinate('theta', {
+      radius: 0.5,
     })
-    outterView
+    chart.legend(false)
+
+    chart.tooltip({
+      showTitle: true,
+      showMarkers: true,
+    })
+
+    chart.interaction('element-active')
+  } else {
+    // 多币种处理
+
+    const OUTTER_COLOR = [
+      '#e57575',
+      '#96ef78',
+      '#ba75e8',
+      '#7af1e0',
+      '#ccec68',
+      '#768dea',
+      '#e573de',
+      '#626114',
+      '#b0adad',
+      '#f1c265',
+      '#672323',
+      '#7e6767',
+    ]
+
+    // 先计算出按类别分类的结果
+    const [leftData, rightData] = getDataForBasicCategory(rawData, withCurrency)
+
+    const leftView = chart.createView({
+      region: {
+        start: {
+          x: 0,
+          y: 0,
+        },
+        end: {
+          x: 0.5,
+          y: 1,
+        },
+      },
+      padding: [0, 10, 40, 60],
+    })
+
+    const leftInnerDV = new DataView()
+    leftInnerDV.source(leftData).transform({
+      type: 'percent',
+      field: 'weightedAmount',
+      dimension: 'category',
+      as: 'percent',
+    })
+
+    leftView.data(leftInnerDV.rows)
+
+    leftView
       .interval()
       .adjust('stack')
       .position('percent')
-      .color('currency', [
-        '#BAE7FF',
-        '#7FC9FE',
-        '#71E3E3',
-        '#ABF5F5',
-        '#8EE0A1',
-        '#BAF5C4',
-      ])
+      .color('category')
+      .label('percent', {
+        content: (data) => {
+          return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
+            2
+          )}%`
+        },
+      })
+
+    leftView.scale({
+      percent: {
+        formatter: (val) => {
+          val = parseFloat(val * 100).toFixed(2) + '%'
+          return val
+        },
+      },
+    })
+
+    leftView.coordinate('theta', {
+      radius: 0.5,
+    })
+
+    leftView.tooltip({
+      showTitle: true,
+      showMarkers: true,
+    })
+
+    leftView.interaction('element-active')
+
+    const leftOutterView = chart.createView({
+      region: {
+        start: {
+          x: 0,
+          y: 0,
+        },
+        end: {
+          x: 0.5,
+          y: 1,
+        },
+      },
+      padding: [0, 10, 40, 60],
+    })
+    const leftOutterDV = new DataView()
+    leftOutterDV.source(leftData).transform({
+      type: 'percent',
+      field: 'weightedAmount',
+      dimension: 'currency',
+      as: 'percent',
+    })
+
+    leftOutterView.data(leftOutterDV.rows)
+    leftOutterView.scale({
+      percent: {
+        formatter: (val) => {
+          val = parseFloat(val * 100).toFixed(2) + '%'
+          return val
+        },
+      },
+    })
+    leftOutterView.coordinate('theta', {
+      innerRadius: 0.5 / 0.75,
+      radius: 0.75,
+    })
+    leftOutterView
+      .interval()
+      .adjust('stack')
+      .position('percent')
+      .color('currency', OUTTER_COLOR)
       .label('currency')
       .tooltip('currency*percent', (item, percent) => {
         percent = (percent * 100).toFixed(2) + '%'
@@ -353,11 +466,122 @@ export function renderChartForBasicCategory(
         lineWidth: 1,
         stroke: '#fff',
       })
+
+    // 右边反过来，先计算币种，再计算分类
+    const rightView = chart.createView({
+      region: {
+        start: {
+          x: 0.5,
+          y: 0,
+        },
+        end: {
+          x: 1,
+          y: 1,
+        },
+      },
+      padding: [0, 10, 40, 60],
+    })
+
+    const rightInnerDV = new DataView()
+    rightInnerDV.source(rightData).transform({
+      type: 'percent',
+      field: 'weightedAmount',
+      dimension: 'currency',
+      as: 'percent',
+    })
+
+    rightView.data(rightInnerDV.rows)
+
+    rightView
+      .interval()
+      .adjust('stack')
+      .position('percent')
+      .color('currency')
+      .label('percent', {
+        content: (data) => {
+          return `${data.currency}: ${parseFloat(data.percent * 100).toFixed(
+            2
+          )}%`
+        },
+      })
+
+    rightView.scale({
+      percent: {
+        formatter: (val) => {
+          val = parseFloat(val * 100).toFixed(2) + '%'
+          return val
+        },
+      },
+    })
+
+    rightView.coordinate('theta', {
+      radius: 0.5,
+    })
+
+    rightView.tooltip({
+      showTitle: true,
+      showMarkers: true,
+    })
+
+    rightView.interaction('element-active')
+
+    const rightOutterView = chart.createView({
+      region: {
+        start: {
+          x: 0.5,
+          y: 0,
+        },
+        end: {
+          x: 1,
+          y: 1,
+        },
+      },
+      padding: [0, 10, 40, 60],
+    })
+    const rightOutterDV = new DataView()
+    rightOutterDV.source(rightData).transform({
+      type: 'percent',
+      field: 'weightedAmount',
+      dimension: 'category',
+      as: 'percent',
+    })
+
+    rightOutterView.data(rightOutterDV.rows)
+    rightOutterView.scale({
+      percent: {
+        formatter: (val) => {
+          val = parseFloat(val * 100).toFixed(2) + '%'
+          return val
+        },
+      },
+    })
+    rightOutterView.coordinate('theta', {
+      innerRadius: 0.5 / 0.75,
+      radius: 0.75,
+    })
+    rightOutterView
+      .interval()
+      .adjust('stack')
+      .position('percent')
+      .color('category', OUTTER_COLOR)
+      .label('category')
+      .tooltip('category*percent', (item, percent) => {
+        percent = (percent * 100).toFixed(2) + '%'
+        return {
+          name: item,
+          value: percent,
+        }
+      })
+      .style({
+        lineWidth: 1,
+        stroke: '#fff',
+      })
   }
 
-  chart.interaction('element-active')
+  chart.legend(false)
 
   chart.render()
+
   return chart
 }
 
