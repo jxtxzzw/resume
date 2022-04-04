@@ -630,16 +630,16 @@ function getDataForAllAccumulated(rawDataArray) {
   for (let i = minYear; i <= maxYear; i++) {
     if (i in dict) {
       for (const c of currencies) {
-        const v = c in dict[i] ? dict[i][c].weightedAmount : 0
         data.push({
           year: i,
           currency: c,
-          value: v,
+          value: c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0,
         })
-        sumTillNow[c] += v
+        sumTillNow[c] +=
+          c in dict[i] ? parseFloat(dict[i][c].weightedAmount) : 0.0
         data.push({
           year: i,
-          currency: `${c}_${ALL_ACCUMULATED}`,
+          currency: `WEIGHTED_${c}_${ALL_ACCUMULATED}`,
           value: sumTillNow[c],
         })
       }
@@ -650,38 +650,37 @@ function getDataForAllAccumulated(rawDataArray) {
 
 export function renderChartForAllAccumulated(that, rawDataArray) {
   const { Chart } = that.$g2
-
-  const data = getDataForAllAccumulated(rawDataArray)
   const chart = new Chart({
     container: 'all-accumulated',
     autoFit: true,
     height: chartHeight(),
   })
 
+  const data = getDataForAllAccumulated(rawDataArray)
   chart.data(data)
-  chart.scale('year', {
-    type: 'linear',
-  })
-  chart.scale('value', {
-    nice: true,
-  })
+
   chart.tooltip({
     showCrosshairs: true,
-    shared: true, // true 表示合并当前点对应的所有数据并展示，false 表示只展示离当前点最逼近的数据内容
+    shared: true,
   })
-
-  chart.area().adjust('stack').position('year*value').color('currency')
-  chart.line().adjust('stack').position('year*value').color('currency')
-
-  chart.interaction('element-highlight')
 
   chart.axis('value', {
     label: {
       formatter: (val) => {
-        return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+        return val
       },
     },
   })
+
+  chart.line().position('year*value').color('currency').shape('smooth')
+
+  chart.point().position('year*value').color('currency').shape('circle').style({
+    stroke: '#fff',
+    lineWidth: 1,
+  })
+
+  // chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
+  // chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
 
   // 开启缩略轴组件
   chart.option('slider', {
@@ -833,24 +832,29 @@ export function renderChartForAdvancedPlatform(that, rawData) {
 }
 
 function getBalanceData(rawData) {
+  const WAA = `WEIGHTED_${ALL_ACCUMULATED}`
+  const currencies = [WAA]
   const dict = []
   for (const x of rawData) {
     if (!dict[x.date]) {
       dict[x.date] = {
-        ALL_ACCUMULATED: 0,
+        WEIGHTED_ALL_ACCUMULATED: 0,
       }
     }
-    dict[x.date][x.currency] = x.amount
-    dict[x.date][ALL_ACCUMULATED] += x.amount * x.currency_weight
+    if (!currencies.includes(x.currency)) {
+      currencies.push(x.currency)
+    }
+    dict[x.date][x.currency] = parseFloat(x.amount)
+    dict[x.date][WAA] += parseFloat(x.amount * x.currency_weight)
   }
 
   const data = []
   for (const d in dict) {
-    for (const c in dict[d]) {
+    for (const c of currencies) {
       data.push({
         date: d,
         currency: c,
-        value: dict[d][c],
+        value: c in dict[d] ? parseFloat(dict[d][c]) : 0.0,
       })
     }
   }
@@ -865,30 +869,29 @@ export function renderChartForBalance(that, rawData) {
     height: chartHeight(),
   })
 
-  chart.data(getBalanceData(rawData))
+  const data = getBalanceData(rawData)
+  chart.data(data)
 
+  chart.scale('value', {
+    nice: true,
+  })
   chart.tooltip({
     showCrosshairs: true,
-    shared: true,
+    shared: true, // true 表示合并当前点对应的所有数据并展示，false 表示只展示离当前点最逼近的数据内容
   })
 
-  chart.axis('value', {
-    label: {
-      formatter: (val) => {
-        return val
-      },
-    },
-  })
+  chart.area().adjust('stack').position('date*value').color('currency')
+  chart.line().adjust('stack').position('date*value').color('currency')
 
-  chart.line().position('date*value').color('currency').shape('smooth')
+  chart.interaction('element-highlight')
 
-  chart.point().position('date*value').color('currency').shape('circle').style({
-    stroke: '#fff',
-    lineWidth: 1,
-  })
-
-  chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
-  chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
+  // chart.axis('value', {
+  //   label: {
+  //     formatter: (val) => {
+  //       return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
+  //     },
+  //   },
+  // })
 
   // 开启缩略轴组件
   chart.option('slider', {
