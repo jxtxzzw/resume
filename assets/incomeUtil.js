@@ -832,20 +832,16 @@ export function renderChartForAdvancedPlatform(that, rawData) {
 }
 
 function getBalanceData(rawData) {
-  const WAA = `WEIGHTED_${ALL_ACCUMULATED}`
-  const currencies = [WAA]
+  const currencies = []
   const dict = []
   for (const x of rawData) {
     if (!dict[x.date]) {
-      dict[x.date] = {
-        WEIGHTED_ALL_ACCUMULATED: 0,
-      }
+      dict[x.date] = {}
     }
     if (!currencies.includes(x.currency)) {
       currencies.push(x.currency)
     }
-    dict[x.date][x.currency] = parseFloat(x.amount)
-    dict[x.date][WAA] += parseFloat(x.amount * x.currency_weight)
+    dict[x.date][x.currency] = parseFloat(x.amount * x.currency_weight)
   }
 
   const data = []
