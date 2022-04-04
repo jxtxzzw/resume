@@ -90,6 +90,9 @@
         <MenuItem name="food" :to="localePath('food')">
           {{ $t('navigation.food') }}
         </MenuItem>
+        <MenuItem name="creation" :to="localePath('creation')">
+          {{ $t('navigation.creation') }}
+        </MenuItem>
       </Submenu>
       <Submenu name="moment">
         <template slot="title">

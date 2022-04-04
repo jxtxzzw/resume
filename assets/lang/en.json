@@ -37,7 +37,8 @@
     "moment": "Moment",
     "microblog": "MicroBlog",
     "income": "Income",
-    "life": "Life"
+    "life": "Life",
+    "creation": "Creation"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",

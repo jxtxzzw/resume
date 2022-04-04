@@ -5,31 +5,6 @@
       :title="introduction.nick_name"
       :sub-title="introduction.motto"
     >
-      <template slot="footer">
-        <a-divider> {{ $t('navigation.milestone') }} </a-divider>
-        <a-tabs default-active-key="0">
-          <a-tab-pane
-            v-for="(platform, index) in distinctPlatform"
-            :key="index"
-            :tab="platform"
-          >
-            <div style="margin-top: 20px"></div>
-            <a-timeline :pending="$t('milestone.pending')" :reverse="true">
-              <a-timeline-item
-                v-for="item in milestone.filter((x) => x.platform === platform)"
-                :key="item.id"
-              >
-                <p class="time">
-                  {{ item.date }}
-                </p>
-                <p class="content">
-                  {{ item.milestone }}
-                </p>
-              </a-timeline-item>
-            </a-timeline>
-          </a-tab-pane>
-        </a-tabs>
-      </template>
       <div class="content">
         <div class="main">
           <a-descriptions size="small" :column="3">

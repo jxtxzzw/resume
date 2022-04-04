@@ -24,7 +24,7 @@
     "publication": "出版",
     "honor": "荣誉榜",
     "exhibit": "陈列室",
-    "course": "课程",
+    "course": "专业课",
     "exam": "考试成绩",
     "coding": "编程题",
     "tech": "技术栈",
@@ -37,7 +37,8 @@
     "moment": "时刻",
     "microblog": "轻博客",
     "income": "收入",
-    "life": "生活"
+    "life": "生活",
+    "creation": "创作"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",

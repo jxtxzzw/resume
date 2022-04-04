@@ -623,14 +623,6 @@ export function renderChartForBalance(that, rawData) {
   })
 
   chart.data(getBalanceData(rawData))
-  chart.scale({
-    date: {
-      range: [0, 1],
-    },
-    value: {
-      nice: true,
-    },
-  })
 
   chart.tooltip({
     showCrosshairs: true,
