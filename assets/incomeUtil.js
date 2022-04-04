@@ -4,7 +4,7 @@ function getDataForYearAndType(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
     const year = x.year
-    const amount = parseFloat(x.amount)
+    const amount = parseFloat(x.amount).toFixed(2)
     const type = x.type
     if (!(year in dict)) {
       dict[year] = {}
@@ -26,7 +26,9 @@ function getDataForYearAndType(rawData, withCurrency = false) {
         }
       }
       dict[year][type][currency].amount += amount
-      dict[year][type][currency].weightedAmount += amount * currencyWeight
+      dict[year][type][currency].weightedAmount += (
+        amount * currencyWeight
+      ).toFixed(2)
     } else {
       dict[year][type] += amount * currencyWeight
     }
@@ -192,7 +194,7 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
   let total = 0
   for (const x of rawData) {
     const category = x.category
-    const amount = parseFloat(x.amount)
+    const amount = parseFloat(x.amount).toFixed(2)
     if (!(category in dict)) {
       if (withCurrency) {
         dict[category] = {}
@@ -213,7 +215,9 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
         }
       }
       dict[category][currency].amount += amount
-      dict[category][currency].weightedAmount += amount * currencyWeight
+      dict[category][currency].weightedAmount += (
+        amount * currencyWeight
+      ).toFixed(2)
     } else {
       dict[category] += amount * currencyWeight
       total += amount * currencyWeight
@@ -593,7 +597,7 @@ function getDataForAllAccumulated(rawDataArray) {
   for (const rawData of rawDataArray) {
     for (const x of rawData) {
       const year = parseInt(x.year)
-      const amount = parseFloat(x.amount)
+      const amount = parseFloat(x.amount).toFixed(2)
       if (year < minYear) {
         minYear = year
       }
@@ -610,8 +614,8 @@ function getDataForAllAccumulated(rawDataArray) {
       }
       if (!dict[year][currency]) {
         dict[year][currency] = {
-          amount: 0,
-          weightedAmount: 0,
+          amount: 0.0,
+          weightedAmount: 0.0,
         }
       }
       dict[year][currency].amount += amount
@@ -632,14 +636,19 @@ function getDataForAllAccumulated(rawDataArray) {
         data.push({
           year: i,
           currency: c,
-          value: c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0,
+          value: (c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0).toFixed(
+            2
+          ),
         })
         // 累计收入，不计权重，因为这是折线图，折线图可以只看数据值的趋势。可以不需要高度
-        sumTillNow[c] += c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
+        sumTillNow[c] += (c in dict[i]
+          ? parseFloat(dict[i][c].amount)
+          : 0.0
+        ).toFixed(2)
         data.push({
           year: i,
           currency: `${c}_(ACCUMULATED)`,
-          value: sumTillNow[c],
+          value: parseFloat(sumTillNow[c]).toFixed(2),
         })
       }
     }
@@ -666,7 +675,7 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
   chart.axis('value', {
     label: {
       formatter: (val) => {
-        return val
+        return parseFloat(val).toFixed(2)
       },
     },
   })
@@ -701,7 +710,7 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
 function getTreeData(rawData) {
   const dict = {}
   for (const x of rawData) {
-    let amount = parseFloat(x.amount)
+    let amount = parseFloat(x.amount).toFixed(2)
     if (x.currency_weight !== undefined && x.currency_weight !== null) {
       amount *= parseFloat(x.currency_weight)
     }
@@ -709,12 +718,12 @@ function getTreeData(rawData) {
     const platform = x.platform
     if (!(platform in dict)) {
       dict[platform] = {}
-      dict[platform].value = 0
+      dict[platform].value = 0.0
       dict[platform].children = {}
     }
     dict[platform].value += amount
     if (!(type in dict[platform].children)) {
-      dict[platform].children[type] = 0
+      dict[platform].children[type] = 0.0
     }
     dict[platform].children[type] += amount
   }
@@ -724,13 +733,13 @@ function getTreeData(rawData) {
     const obj = {
       name: platform,
       brand: platform,
-      value: dict[platform].value,
+      value: parseFloat(dict[platform].value).toFixed(2),
       children: [],
     }
     for (const type in dict[platform].children) {
       obj.children.push({
         name: platform + ' - ' + type,
-        value: dict[platform].children[type],
+        value: parseFloat(dict[platform].children[type]).toFixed(2),
       })
     }
     data.push(obj)
@@ -749,7 +758,7 @@ export function renderChartForAdvancedPlatform(that, rawData) {
   const treeData = getTreeData(rawData)
   // 会通过子节点累加 value 值，所以设置为 0
   treeData.forEach(function (td) {
-    td.value = 0
+    td.value = 0.0
   })
   const data = {
     name: 'root',
@@ -842,7 +851,9 @@ function getBalanceData(rawData) {
     }
     // Balance 因为是堆叠的效果，就像直方图一样，所以高度上需要体现不同币种的权重
     // 所以乘上了 currency weight 这样画出来就可以看到 weighted 的总资产（等价人民币）
-    dict[x.date][x.currency] = parseFloat(x.amount * x.currency_weight)
+    const amount = parseFloat(x.amount).toFixed(2)
+    const currencyWeight = parseFloat(x.currency_weight)
+    dict[x.date][x.currency] = (amount * currencyWeight).toFixed(2)
   }
 
   const data = []
@@ -851,7 +862,7 @@ function getBalanceData(rawData) {
       data.push({
         date: d,
         currency: c,
-        value: c in dict[d] ? parseFloat(dict[d][c]) : 0.0, // 没有的值补 0
+        value: (c in dict[d] ? parseFloat(dict[d][c]) : 0.0).toFixed(2), // 没有的值补 0
       })
     }
   }
