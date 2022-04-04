@@ -1,7 +1,5 @@
 // nuxt 下不能用 import 引入整个依赖，只能用 plugin 的方式引入
 
-const ALL_ACCUMULATED = 'ALL_ACCUMULATED'
-
 function getDataForYearAndType(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
@@ -590,7 +588,7 @@ export function renderChartForBasicCategory(
 function getDataForAllAccumulated(rawDataArray) {
   const currencies = []
   const dict = {}
-  let minYear = 9999
+  let minYear = 9999 // 最大应该只能活到 9999 年了
   let maxYear = 0
   for (const rawData of rawDataArray) {
     for (const x of rawData) {
@@ -630,16 +628,17 @@ function getDataForAllAccumulated(rawDataArray) {
   for (let i = minYear; i <= maxYear; i++) {
     if (i in dict) {
       for (const c of currencies) {
+        // 每年的各币种收入汇总，去掉，包括 income 和 advanced income，去除负值（税收和亏损）
         data.push({
           year: i,
           currency: c,
           value: c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0,
         })
-        sumTillNow[c] +=
-          c in dict[i] ? parseFloat(dict[i][c].weightedAmount) : 0.0
+        // 累计收入，不计权重，因为这是折线图，折线图可以只看数据值的趋势。可以不需要高度
+        sumTillNow[c] += c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
         data.push({
           year: i,
-          currency: `WEIGHTED_${c}_${ALL_ACCUMULATED}`,
+          currency: `${c}_(ACCUMULATED)`,
           value: sumTillNow[c],
         })
       }
@@ -841,6 +840,8 @@ function getBalanceData(rawData) {
     if (!currencies.includes(x.currency)) {
       currencies.push(x.currency)
     }
+    // Balance 因为是堆叠的效果，就像直方图一样，所以高度上需要体现不同币种的权重
+    // 所以乘上了 currency weight 这样画出来就可以看到 weighted 的总资产（等价人民币）
     dict[x.date][x.currency] = parseFloat(x.amount * x.currency_weight)
   }
 
@@ -850,7 +851,7 @@ function getBalanceData(rawData) {
       data.push({
         date: d,
         currency: c,
-        value: c in dict[d] ? parseFloat(dict[d][c]) : 0.0,
+        value: c in dict[d] ? parseFloat(dict[d][c]) : 0.0, // 没有的值补 0
       })
     }
   }
