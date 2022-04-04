@@ -361,36 +361,38 @@ export function renderChartForBasicCategory(
   return chart
 }
 
-function getDataForAllAccumulated(rawData) {
+function getDataForAllAccumulated(rawDataArray) {
   const currencies = []
   const dict = {}
   let minYear = 9999
   let maxYear = 0
-  for (const x of rawData) {
-    const year = parseInt(x.year)
-    const amount = parseFloat(x.amount)
-    if (year < minYear) {
-      minYear = year
-    }
-    if (year > maxYear) {
-      maxYear = year
-    }
-    if (!(year in dict)) {
-      dict[year] = {}
-    }
-    const currencyWeight = parseFloat(x.currency_weight)
-    const currency = x.currency
-    if (!currencies.includes(currency)) {
-      currencies.push(currency)
-    }
-    if (!dict[year][currency]) {
-      dict[year][currency] = {
-        amount: 0,
-        weightedAmount: 0,
+  for (const rawData of rawDataArray) {
+    for (const x of rawData) {
+      const year = parseInt(x.year)
+      const amount = parseFloat(x.amount)
+      if (year < minYear) {
+        minYear = year
       }
+      if (year > maxYear) {
+        maxYear = year
+      }
+      if (!(year in dict)) {
+        dict[year] = {}
+      }
+      const currencyWeight = parseFloat(x.currency_weight)
+      const currency = x.currency
+      if (!currencies.includes(currency)) {
+        currencies.push(currency)
+      }
+      if (!dict[year][currency]) {
+        dict[year][currency] = {
+          amount: 0,
+          weightedAmount: 0,
+        }
+      }
+      dict[year][currency].amount += amount
+      dict[year][currency].weightedAmount += amount * currencyWeight
     }
-    dict[year][currency].amount += amount
-    dict[year][currency].weightedAmount += amount * currencyWeight
   }
 
   const sumTillNow = {}
@@ -415,10 +417,10 @@ function getDataForAllAccumulated(rawData) {
   return data
 }
 
-export function renderChartForAllAccumulated(that, rawData) {
+export function renderChartForAllAccumulated(that, rawDataArray) {
   const { Chart } = that.$g2
 
-  const data = getDataForAllAccumulated(rawData)
+  const data = getDataForAllAccumulated(rawDataArray)
   const chart = new Chart({
     container: 'all-accumulated',
     autoFit: true,

@@ -107,7 +107,7 @@ export default {
       currencyBasicCategory: true,
       currencyAdvancedYear: true,
       currencyAdvancedPlatform: false,
-      currencyAllAccumulated: false,
+      currencyAllAccumulated: true,
       currencyBalance: true,
       oldChart: {
         allAccumulated: undefined,
@@ -191,7 +191,7 @@ export default {
       if (charts.includes('all-accumulated')) {
         this.oldChart.allAccumulated = incomeUtil.renderChartForAllAccumulated(
           this,
-          income
+          [income, advancedIncome]
         )
       }
       if (charts.includes('balance')) {
