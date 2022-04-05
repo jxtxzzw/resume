@@ -632,16 +632,14 @@ function getDataForAllAccumulated(rawDataArray) {
         data.push({
           year: i,
           currency: c,
-          value: parseFloat(
-            (c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0).toString(10)
-          ).toFixed(2),
+          value: c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0,
         })
         // 累计收入，不计权重，因为这是折线图，折线图可以只看数据值的趋势。可以不需要高度
         sumTillNow[c] += c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
         data.push({
           year: i,
           currency: `${c}_(ACCUMULATED)`,
-          value: parseFloat(sumTillNow[c]).toFixed(2),
+          value: sumTillNow[c],
         })
       }
     }
@@ -847,7 +845,7 @@ function getBalanceData(rawData) {
     // 所以乘上了 currency weight 这样画出来就可以看到 weighted 的总资产（等价人民币）
     const amount = parseFloat(x.amount)
     const currencyWeight = parseFloat(x.currency_weight)
-    dict[x.date][x.currency] = (amount * currencyWeight).toFixed(2)
+    dict[x.date][x.currency] = amount * currencyWeight
   }
 
   const data = []
@@ -856,9 +854,7 @@ function getBalanceData(rawData) {
       data.push({
         date: d,
         currency: c,
-        value: parseFloat(
-          (c in dict[d] ? parseFloat(dict[d][c]) : 0.0).toString(10)
-        ).toFixed(2), // 没有的值补 0
+        value: c in dict[d] ? parseFloat(dict[d][c]) : 0.0, // 没有的值补 0
       })
     }
   }
@@ -889,13 +885,13 @@ export function renderChartForBalance(that, rawData) {
 
   chart.interaction('element-highlight')
 
-  // chart.axis('value', {
-  //   label: {
-  //     formatter: (val) => {
-  //       return (parseFloat(val) / 10000).toFixed(2) + that.$t('income.10k')
-  //     },
-  //   },
-  // })
+  chart.axis('value', {
+    label: {
+      formatter: (val) => {
+        return parseFloat(val).toFixed(2)
+      },
+    },
+  })
 
   // 开启缩略轴组件
   chart.option('slider', {
