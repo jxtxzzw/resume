@@ -204,3 +204,54 @@ export default {
   },
 }
 </script>
+
+<style>
+#app-container-balance {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#g2-container-balance {
+  flex: auto;
+}
+
+#g2-customize-tooltip-balance {
+  margin-bottom: 16px;
+  font-size: 12px;
+}
+
+#g2-customize-tooltip-balance .tooltip-items {
+  display: flex;
+  flex-direction: row;
+}
+
+#g2-customize-tooltip-balance .tooltip-item {
+  flex-basis: 240px;
+  padding-left: 8px;
+  margin-right: 12px;
+}
+
+#g2-customize-tooltip-balance .tooltip-item .tooltip-item-value {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#g2-customize-tooltip-balance .tooltip-item-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+#g2-customize-tooltip-balance .tooltip-item-info .info-item {
+  display: flex;
+}
+
+#g2-customize-tooltip-balance .tooltip-item-info .info-item .info-item-name {
+  opacity: 0.65;
+}
+
+#g2-customize-tooltip-balance .tooltip-item-info .info-item .info-item-value {
+  margin-left: 8px;
+}
+</style>

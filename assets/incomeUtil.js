@@ -851,18 +851,28 @@ function getBalanceData(rawData) {
     // 所以乘上了 currency weight 这样画出来就可以看到 weighted 的总资产（等价人民币）
     const amount = parseFloat(x.amount)
     const currencyWeight = parseFloat(x.currency_weight)
-    dict[x.date][x.currency] = amount * currencyWeight
+    if (!dict[x.date][x.currency]) {
+      dict[x.date][x.currency] = {
+        amount: 0.0,
+        weightedAmount: 0.0,
+      }
+    }
+    dict[x.date][x.currency].amount = amount
+    dict[x.date][x.currency].weightedAmount = amount * currencyWeight
   }
 
   const data = []
   for (const d in dict) {
     for (const c of currencies) {
-      let v = c in dict[d] ? parseFloat(dict[d][c]) : 0.0 // 没有的值补 0
-      v = parseFloat(parseFloat(v).toFixed(2))
+      let a = c in dict[d] ? parseFloat(dict[d][c].amount) : 0.0 // 没有的值补 0
+      a = parseFloat(parseFloat(a).toFixed(2))
+      let wa = c in dict[d] ? parseFloat(dict[d][c].weightedAmount) : 0.0 // 没有的值补 0
+      wa = parseFloat(parseFloat(wa).toFixed(2))
       data.push({
         date: d,
         currency: c,
-        value: v,
+        value: wa, // value 是乘上汇率之后的，用来画高度
+        originalAmount: a, // 原始数据是没有乘上汇率的，用来展示额外 tooltip 信息
       })
     }
   }
@@ -870,9 +880,17 @@ function getBalanceData(rawData) {
 }
 
 export function renderChartForBalance(that, rawData) {
+  const $container = document.getElementById('balance')
+  $container.innerHTML = `
+<div id="app-container-balance">
+  <div id="g2-customize-tooltip-balance"></div>
+  <div id="g2-container-balance"></div>
+</div>
+`
+
   const { Chart } = that.$g2
   const chart = new Chart({
-    container: 'balance',
+    container: 'g2-container-balance',
     autoFit: true,
     height: chartHeight(),
   })
@@ -880,6 +898,7 @@ export function renderChartForBalance(that, rawData) {
   const data = getBalanceData(rawData)
   chart.data(data)
 
+  // 这里的 value 值都是 weightedAmount
   chart.scale('value', {
     nice: true,
   })
@@ -912,6 +931,60 @@ export function renderChartForBalance(that, rawData) {
       // 	趋势图是否使用面积图
       isArea: true,
     },
+  })
+
+  // customize tooltip
+  const $tooltip = document.getElementById('g2-customize-tooltip-balance')
+
+  function getTooltipHTML(data) {
+    const { title, items } = data
+    return `
+    <div class="tooltip-title">${title}</div>
+    <div class="tooltip-items">
+      ${items
+        .map((datum) => {
+          const color = datum.color
+          const name = datum.name
+          const value = datum.value // 是 datum 的 value，即 datum.data.value (weightedAmount)
+          const originalAmount = datum.data.originalAmount // 取出没有乘上汇率的值
+
+          return `
+        <div class="tooltip-item" style="border-left: 2px solid ${color}">
+          <div class="tooltip-item-name">${name} (Weighted ${name})</div>
+          <div class="tooltip-item-value">${originalAmount} (${value})</div>
+        </div>
+        `
+        })
+        .join('')}
+    </div>
+  `
+  }
+
+  const latestDate = data[data.length - 1].date
+
+  // 初始的 tooltip
+  chart.on('afterrender', () => {
+    const items = data
+      .filter((ele) => ele.date === latestDate)
+      .map((ele) => {
+        return {
+          name: ele.currency,
+          value: ele.value,
+          data: {
+            originalAmount: ele.originalAmount,
+          },
+        }
+      })
+
+    $tooltip.innerHTML = getTooltipHTML({
+      title: latestDate,
+      items,
+    })
+  })
+
+  // tooltip 的更新
+  chart.on('tooltip:change', (e) => {
+    $tooltip.innerHTML = getTooltipHTML(e.data)
   })
 
   chart.render()
