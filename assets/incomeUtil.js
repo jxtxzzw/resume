@@ -21,8 +21,8 @@ function getDataForYearAndType(rawData, withCurrency = false) {
       const currency = x.currency
       if (!(currency in dict[year][type])) {
         dict[year][type][currency] = {
-          amount: 0,
-          weightedAmount: 0,
+          amount: 0.0,
+          weightedAmount: 0.0,
         }
       }
       dict[year][type][currency].amount += amount
@@ -114,7 +114,7 @@ export function renderChartForYearAndType(
   chart.scale(withCurrency ? 'weightedAmount' : 'amount', {
     alias: '金额',
     formatter: (val) => {
-      val = parseFloat(val).toFixed(2)
+      val = parseFloat(parseFloat(val).toFixed(2))
       return val
     },
   })
@@ -169,9 +169,12 @@ export function renderChartForYearAndType(
         position: 'middle',
         offset: 0,
         content: (originData) => {
-          const amount = parseFloat(originData.amount)
+          const amount = parseFloat(parseFloat(originData.amount).toFixed(2))
           if (withCurrency) {
-            return `${originData.currency} ${amount}`
+            const weightedAmount = parseFloat(
+              parseFloat(originData.weightedAmount).toFixed(2)
+            )
+            return `${originData.currency} ${amount} \n (${weightedAmount})`
           } else {
             return amount
           }
@@ -629,17 +632,20 @@ function getDataForAllAccumulated(rawDataArray) {
     if (i in dict) {
       for (const c of currencies) {
         // 每年的各币种收入汇总，去掉，包括 income 和 advanced income，去除负值（税收和亏损）
+        let v = c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
+        v = parseFloat(parseFloat(v).toFixed(2))
         data.push({
           year: i,
           currency: c,
-          value: c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0,
+          value: v,
         })
         // 累计收入，不计权重，因为这是折线图，折线图可以只看数据值的趋势。可以不需要高度
         sumTillNow[c] += c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
+        v = parseFloat(parseFloat(sumTillNow[c]).toFixed(2))
         data.push({
           year: i,
           currency: `${c}_(ACCUMULATED)`,
-          value: sumTillNow[c],
+          value: v,
         })
       }
     }
@@ -729,7 +735,7 @@ function getTreeData(rawData) {
     }
     for (const type in dict[platform].children) {
       obj.children.push({
-        name: platform + ' - ' + type,
+        name: `${platform} - ${type}`,
         value: dict[platform].children[type],
       })
     }
@@ -807,7 +813,7 @@ export function renderChartForAdvancedPlatform(that, rawData) {
     .tooltip('name*value', function (name, value) {
       return {
         name,
-        value: parseFloat(value).toFixed(2),
+        value: `(${parseFloat(value).toFixed(2)})`,
       }
     })
     .style({
@@ -851,10 +857,12 @@ function getBalanceData(rawData) {
   const data = []
   for (const d in dict) {
     for (const c of currencies) {
+      let v = c in dict[d] ? parseFloat(dict[d][c]) : 0.0 // 没有的值补 0
+      v = parseFloat(parseFloat(v).toFixed(2))
       data.push({
         date: d,
         currency: c,
-        value: c in dict[d] ? parseFloat(dict[d][c]) : 0.0, // 没有的值补 0
+        value: v,
       })
     }
   }
