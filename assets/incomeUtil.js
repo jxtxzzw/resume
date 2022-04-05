@@ -621,7 +621,7 @@ function getDataForAllAccumulated(rawDataArray) {
 
   const sumTillNow = {}
   for (const c of currencies) {
-    sumTillNow[c] = 0
+    sumTillNow[c] = 0.0
   }
 
   const data = []
@@ -633,7 +633,7 @@ function getDataForAllAccumulated(rawDataArray) {
           year: i,
           currency: c,
           value: parseFloat(
-            c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
+            (c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0).toString(10)
           ).toFixed(2),
         })
         // 累计收入，不计权重，因为这是折线图，折线图可以只看数据值的趋势。可以不需要高度
@@ -847,7 +847,7 @@ function getBalanceData(rawData) {
     // 所以乘上了 currency weight 这样画出来就可以看到 weighted 的总资产（等价人民币）
     const amount = parseFloat(x.amount)
     const currencyWeight = parseFloat(x.currency_weight)
-    dict[x.date][x.currency] = amount * currencyWeight
+    dict[x.date][x.currency] = (amount * currencyWeight).toFixed(2)
   }
 
   const data = []
@@ -856,9 +856,9 @@ function getBalanceData(rawData) {
       data.push({
         date: d,
         currency: c,
-        value: parseFloat(c in dict[d] ? parseFloat(dict[d][c]) : 0.0).toFixed(
-          2
-        ), // 没有的值补 0
+        value: parseFloat(
+          (c in dict[d] ? parseFloat(dict[d][c]) : 0.0).toString(10)
+        ).toFixed(2), // 没有的值补 0
       })
     }
   }
