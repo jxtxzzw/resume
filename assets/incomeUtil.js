@@ -57,7 +57,7 @@ function getDataForYearAndType(rawData, withCurrency = false) {
   return data
 }
 
-function chartHeight() {
+export function chartHeight() {
   return (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.75
 }
 

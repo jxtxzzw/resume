@@ -38,7 +38,8 @@
     "microblog": "MicroBlog",
     "income": "Income",
     "life": "Life",
-    "creation": "Creation"
+    "creation": "Creation",
+    "credit": "Credit Score"
   },
   "certificate": {
     "specialization": "Part of {specialization} Specialization",

@@ -114,6 +114,9 @@
         <MenuItem name="income" :to="localePath('income')">
           {{ $t('navigation.income') }}
         </MenuItem>
+        <MenuItem name="credit" :to="localePath('credit')">
+          {{ $t('navigation.credit') }}
+        </MenuItem>
       </Submenu>
     </Menu>
   </div>

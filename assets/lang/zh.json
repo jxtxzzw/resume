@@ -38,7 +38,8 @@
     "microblog": "轻博客",
     "income": "收入",
     "life": "生活",
-    "creation": "创作"
+    "creation": "创作",
+    "credit": "信用分"
   },
   "certificate": {
     "specialization": "属于{specialization}专项课程",
