@@ -8,6 +8,14 @@
         </p>
         <p class="date">
           <span>{{ item.date }}</span>
+          <span v-if="item.till">
+            <span v-if="item.date !== item.till">
+              {{ `${$t('life.till')} ${item.till}` }}
+            </span>
+          </span>
+          <span v-else>
+            {{ `${$t('life.till')} ${$t('now')}` }}
+          </span>
         </p>
         <div v-if="item.content">
           <p v-for="c in item.content.split('\n')" :key="c" class="content">

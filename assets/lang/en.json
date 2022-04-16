@@ -225,7 +225,9 @@
     "sum": "Sum"
   },
   "life": {
-    "event": "Event"
+    "event": "Event",
+    "till": "till",
+    "now": "now"
   },
   "income": {
     "currency": "Show by Currency",
