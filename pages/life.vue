@@ -14,7 +14,7 @@
             </span>
           </span>
           <span v-else>
-            {{ `${$t('life.till')} ${$t('now')}` }}
+            {{ `${$t('life.till')} ${$t('life.now')}` }}
           </span>
         </p>
         <div v-if="item.content">
