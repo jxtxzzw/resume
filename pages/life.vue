@@ -3,8 +3,15 @@
     <Timeline>
       <TimelineItem v-for="item in life" :key="item.event" color="green">
         <Icon slot="dot" type="ios-trophy"></Icon>
-        <p class="event">
+        <p :id="item.event" class="event">
           {{ item.event }}
+          <a
+            v-if="item.previous"
+            class="related"
+            :href="`/life#${item.previous}`"
+          >
+            {{ $t('life.previous') }}
+          </a>
         </p>
         <p class="date">
           <span>{{ item.date }}</span>
@@ -57,5 +64,11 @@ export default {
   padding-left: 12px;
   margin-top: 6px;
   font-size: 12px;
+}
+
+.related {
+  color: #8fb2f6;
+  padding-left: 9px;
+  font-size: 9px;
 }
 </style>

@@ -227,7 +227,8 @@
   "life": {
     "event": "Event",
     "till": "till",
-    "now": "now"
+    "now": "now",
+    "previous": "Previous-Related"
   },
   "income": {
     "currency": "Show by Currency",

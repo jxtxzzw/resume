@@ -227,7 +227,8 @@
   "life": {
     "event": "事件",
     "till": "至",
-    "now": "今"
+    "now": "今",
+    "previous": "查看前一个相关事件"
   },
   "income": {
     "currency": "按币种展示",
