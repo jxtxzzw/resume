@@ -228,7 +228,9 @@
     "event": "Event",
     "till": "till",
     "now": "now",
-    "previous": "Previous-Related"
+    "previous": "Previous-Related",
+    "unselect": "Unfiltered",
+    "related": "All-Related"
   },
   "income": {
     "currency": "Show by Currency",

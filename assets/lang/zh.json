@@ -228,7 +228,9 @@
     "event": "事件",
     "till": "至",
     "now": "今",
-    "previous": "查看前一个相关事件"
+    "previous": "前一个相关事件",
+    "unselect": "取消筛选",
+    "related": "全部相关事件"
   },
   "income": {
     "currency": "按币种展示",

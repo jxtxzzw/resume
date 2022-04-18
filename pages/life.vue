@@ -1,17 +1,27 @@
 <template>
   <div>
     <Timeline>
-      <TimelineItem v-for="item in life" :key="item.event" color="green">
+      <TimelineItem v-for="item in showData" :key="item.event" color="green">
         <Icon slot="dot" type="ios-trophy"></Icon>
         <p :id="item.event" class="event">
           {{ item.event }}
-          <a
-            v-if="item.previous"
-            class="related"
-            :href="`/life#${item.previous}`"
-          >
-            {{ $t('life.previous') }}
-          </a>
+          <template v-if="selecting">
+            <a class="related" @click="unselect">
+              {{ $t('life.unselect') }}
+            </a>
+          </template>
+          <template v-else>
+            <a
+              v-if="item.previous"
+              class="related"
+              :href="`/life#${item.previous}`"
+            >
+              {{ $t('life.previous') }}
+            </a>
+            <a class="related" @click="select(item.event)">
+              {{ $t('life.related') }}
+            </a>
+          </template>
         </p>
         <p class="date">
           <span>{{ item.date }}</span>
@@ -41,7 +51,57 @@ export default {
   data() {
     return {
       life,
+      rawData: [],
+      showData: [],
+      group: [],
+      dsu: [],
+      selecting: false,
     }
+  },
+  mounted() {
+    this.rawData = [...life]
+    this.showData = [...life]
+    this.grouping()
+  },
+  methods: {
+    dsu_init(xs) {
+      this.dsu = []
+      for (const x of xs) {
+        this.dsu[x] = x
+      }
+    },
+    dsu_find(x) {
+      return this.dsu[x] === x ? x : this.dsu_find(this.dsu[x])
+    },
+    dsu_union(x, y) {
+      this.dsu[this.dsu_find(x)] = this.dsu_find(y)
+    },
+    dsu_same(x, y) {
+      return this.dsu_find(x) === this.dsu_find(y)
+    },
+    grouping() {
+      const xs = this.rawData.map((e) => {
+        return e.event
+      })
+      this.dsu_init(xs)
+      for (const x of this.rawData) {
+        if (x.previous) {
+          this.dsu_union(x.event, x.previous)
+        }
+      }
+    },
+    select(x) {
+      this.selecting = true
+      this.showData = []
+      this.showData = this.rawData.filter((e) => {
+        return this.dsu_same(x, e.event)
+      })
+    },
+    unselect() {
+      this.selecting = false
+      this.showData = []
+      this.showData = [...this.rawData]
+    },
   },
 }
 </script>
