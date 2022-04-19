@@ -14,7 +14,7 @@
             <a
               v-if="item.previous"
               class="related"
-              :href="`/life#${item.previous}`"
+              :href="getAnchor(item.previous)"
             >
               {{ $t('life.previous') }}
             </a>
@@ -101,6 +101,14 @@ export default {
       this.selecting = false
       this.showData = []
       this.showData = [...this.rawData]
+    },
+    getAnchor(href) {
+      let anchorHref = `${document.location.origin}${document.location.pathname}`
+      if (anchorHref[anchorHref.length - 1] === '/') {
+        anchorHref = anchorHref.substring(0, anchorHref.length - 1)
+      }
+      anchorHref += `#${href}`
+      return anchorHref
     },
   },
 }
