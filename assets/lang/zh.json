@@ -84,7 +84,9 @@
     "Origin": "Origin",
     "Epic": "Epic",
     "UPlay": "UbiSoft UPlay",
-    "WiiU": "Nintendo WiiU"
+    "WiiU": "Nintendo WiiU",
+    "accomplishstatus": "通关情况",
+    "trophystatus": "成就情况"
   },
   "fiction": {
     "title": "书名",

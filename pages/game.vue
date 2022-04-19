@@ -162,60 +162,55 @@ export default {
         },
       })
       columns.push({
-        title: this.$t('game.play'),
+        title: this.$t('game.accomplishstatus'),
         key: 'play',
         render: (h, params) => {
-          if (params.row.play) {
-            return h(
-              'Tooltip',
-              {
-                props: {
-                  content: this.$t('game.play'),
-                },
+          const playH = h(
+            'Tooltip',
+            {
+              props: {
+                content: this.$t('game.play'),
               },
-              [
-                h('Icon', {
-                  props: {
-                    type: 'ios-game-controller-b',
-                    size: '30',
-                    color: '#5cb85c',
-                  },
-                  style: {
-                    margin: ' 0 10px 0 10px',
-                  },
-                }),
-              ]
-            )
-          } else {
-            return h('span')
-          }
-        },
-      })
-      columns.push({
-        title: this.$t('game.cloud'),
-        key: 'cloud',
-        render: (h, params) => {
-          if (params.row.cloud) {
-            return h(
-              'Tooltip',
-              {
+            },
+            [
+              h('Icon', {
                 props: {
-                  content: this.$t('game.cloud'),
+                  type: 'ios-game-controller-b',
+                  size: '30',
+                  color: '#5cb85c',
                 },
+                style: {
+                  margin: ' 0 5px 0 5px',
+                },
+              }),
+            ]
+          )
+          const cloudH = h(
+            'Tooltip',
+            {
+              props: {
+                content: this.$t('game.cloud'),
               },
-              [
-                h('Icon', {
-                  props: {
-                    type: 'ios-cloud-done',
-                    size: '30',
-                    color: '#2d8cf0',
-                  },
-                  style: {
-                    margin: ' 0 10px 0 10px',
-                  },
-                }),
-              ]
-            )
+            },
+            [
+              h('Icon', {
+                props: {
+                  type: 'ios-cloud-done',
+                  size: '30',
+                  color: '#2d8cf0',
+                },
+                style: {
+                  margin: ' 0 5px 0 5px',
+                },
+              }),
+            ]
+          )
+          if (params.row.play && params.row.cloud) {
+            return h('span', [playH, cloudH])
+          } else if (params.row.play) {
+            return playH
+          } else if (params.row.cloud) {
+            return cloudH
           } else {
             return h('span')
           }
@@ -293,60 +288,55 @@ export default {
         },
       })
       columns.push({
-        title: this.$t('game.collection'),
+        title: this.$t('game.trophystatus'),
         key: 'collection',
         render: (h, params) => {
-          if (params.row.collection) {
-            return h(
-              'Tooltip',
-              {
-                props: {
-                  content: this.$t('game.collection'),
-                },
+          const collectionH = h(
+            'Tooltip',
+            {
+              props: {
+                content: this.$t('game.collection'),
               },
-              [
-                h('Icon', {
-                  props: {
-                    type: 'md-unlock',
-                    size: '30',
-                    color: '#FAB1B3',
-                  },
-                  style: {
-                    margin: ' 0 10px 0 10px',
-                  },
-                }),
-              ]
-            )
-          } else {
-            return h('span')
-          }
-        },
-      })
-      columns.push({
-        title: this.$t('game.achievement'),
-        key: 'achievement',
-        render: (h, params) => {
-          if (params.row.achievement) {
-            return h(
-              'Tooltip',
-              {
+            },
+            [
+              h('Icon', {
                 props: {
-                  content: this.$t('game.achievement'),
+                  type: 'md-unlock',
+                  size: '30',
+                  color: '#FAB1B3',
                 },
+                style: {
+                  margin: ' 0 5px 0 5px',
+                },
+              }),
+            ]
+          )
+          const achievementH = h(
+            'Tooltip',
+            {
+              props: {
+                content: this.$t('game.achievement'),
               },
-              [
-                h('Icon', {
-                  props: {
-                    type: 'md-trophy',
-                    size: '30',
-                    color: '#F5A623',
-                  },
-                  style: {
-                    margin: ' 0 10px 0 10px',
-                  },
-                }),
-              ]
-            )
+            },
+            [
+              h('Icon', {
+                props: {
+                  type: 'md-trophy',
+                  size: '30',
+                  color: '#F5A623',
+                },
+                style: {
+                  margin: ' 0 5px 0 5px',
+                },
+              }),
+            ]
+          )
+          if (params.row.collection && params.row.achievement) {
+            return h('span', [collectionH, achievementH])
+          } else if (params.row.collection) {
+            return collectionH
+          } else if (params.row.achievement) {
+            return achievementH
           } else {
             return h('span')
           }
