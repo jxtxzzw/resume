@@ -138,6 +138,12 @@
             <a-descriptions-item :label="$t('introduction.twitter')">
               {{ maskedContent(introduction.twitter) }}
             </a-descriptions-item>
+            <a-descriptions-item :label="$t('introduction.xiaohongshu')">
+              {{ maskedContent(introduction.xiaohongshu) }}
+            </a-descriptions-item>
+            <a-descriptions-item :label="$t('introduction.instagram')">
+              {{ maskedContent(introduction.instagram) }}
+            </a-descriptions-item>
             <a-descriptions-item :label="$t('introduction.linkedin')">
               <a
                 v-if="introduction.linkedin"

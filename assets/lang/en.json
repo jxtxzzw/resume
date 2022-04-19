@@ -199,7 +199,9 @@
     "youtube": "YouTube",
     "twitter": "Twitter",
     "linkedin": "LinkedIn",
-    "secret": "THIS IS A SECRET"
+    "secret": "THIS IS A SECRET",
+    "xiaohongshu": "XiaoHongShu",
+    "instagram": "Instagram"
   },
   "food": {
     "seen": "Seen and recorded",
