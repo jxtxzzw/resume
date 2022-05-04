@@ -52,7 +52,6 @@ function increaseDay(date) {
 }
 
 function fillUp(credit) {
-  console.log(credit)
   const firstDay = credit[0].date
   const lastDay = credit[credit.length - 1].date
 
