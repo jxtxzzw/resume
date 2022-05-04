@@ -76,7 +76,7 @@ export function renderChartForCredit(that, credit) {
     height: chartHeight(),
   })
 
-  chart.data(fillUp(credit))
+  chart.data(credit)
 
   chart.tooltip({
     showCrosshairs: true,
