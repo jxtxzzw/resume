@@ -902,6 +902,12 @@ export function renderChartForBalance(that, rawData) {
   chart.scale('value', {
     nice: true,
   })
+
+  chart.scale('date', {
+    nice: true,
+    type: 'time', // 连续的时间类型，是一种特殊的连续性数据，也是 linear 的子类
+  })
+
   chart.tooltip({
     showCrosshairs: true,
     shared: true, // true 表示合并当前点对应的所有数据并展示，false 表示只展示离当前点最逼近的数据内容
