@@ -31,7 +31,7 @@ export function renderChartForCredit(that, credit) {
     },
   })
 
-  chart.line().position('date*score').color('source')
+  chart.line().position('date*score').color('source').shape('smooth')
 
   chart.point().position('date*score').color('source').shape('circle').style({
     stroke: '#fff',
