@@ -15,7 +15,7 @@ function getPointLayer(data, that) {
       },
     })
     .scale('point_count', {
-      type: 'log', // type: 'quantile', // 根据四分位数将每个聚合点实际包含的点的个数分为五份
+      type: 'quantile', // 根据四分位数将每个聚合点实际包含的点的个数分为五份
     })
     .size('point_count', [10, 25, 40, 60, 80]) // 根据每个聚合点实际包含的点的个数决定点的大小
     .color('point_count', (pc) => {
