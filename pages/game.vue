@@ -1,5 +1,36 @@
 <template>
   <div>
+    <Alert type="info" show-icon>
+      <template slot="desc">
+        <p>
+          {{
+            $t('game.summary_count', {
+              count_total: getSummary['count_total'],
+              count_done: getSummary['count_done'],
+              count_doing: getSummary['count_doing'],
+              count_todo: getSummary['count_todo'],
+            })
+          }}
+        </p>
+        <p>
+          {{
+            $t('game.summary_time', {
+              time_count: getSummary['time_count'],
+              time_total: getSummary['time_total'],
+              time_max: getSummary['time_max'],
+              time_max_name: getSummary['time_max_name'],
+            })
+          }}
+        </p>
+        <p>
+          {{
+            $t('game.summary_rating', {
+              rating_5: getSummary['rating_5'],
+            })
+          }}
+        </p>
+      </template>
+    </Alert>
     <Table
       :border="showBorder"
       :stripe="showStripe"
@@ -43,6 +74,46 @@ export default {
     }
   },
   computed: {
+    getSummary() {
+      return {
+        count_total: game.length,
+        count_done: game.filter((e) => {
+          return e.status === 'done'
+        }).length,
+        count_doing: game.filter((e) => {
+          return e.status === 'doing'
+        }).length,
+        count_todo: game.filter((e) => {
+          return e.status === 'todo'
+        }).length,
+        time_count: game.filter((e) => {
+          return e.time != null
+        }).length,
+        time_total: this.sum(
+          game.filter((e) => {
+            return e.time != null
+          })
+        ),
+        time_max: game.filter((e) => {
+          return (
+            e.name ===
+            this.max(
+              game.filter((e) => {
+                return e.time != null
+              })
+            )
+          )
+        })[0].time,
+        time_max_name: this.max(
+          game.filter((e) => {
+            return e.time != null
+          })
+        ),
+        rating_5: game.filter((e) => {
+          return e.rate === 5 || e.rate === '5'
+        }).length,
+      }
+    },
     gameColumns() {
       const columns = []
       columns.push({
@@ -370,6 +441,27 @@ export default {
       duration: 5,
       closable: true,
     })
+  },
+  methods: {
+    sum(arr) {
+      let sum = 0
+      for (const x of arr) {
+        sum += parseFloat(x.time)
+      }
+      return sum
+    },
+    max(arr) {
+      let max = -1
+      let name = ''
+      for (const x of arr) {
+        const t = parseFloat(x.time)
+        if (t > max) {
+          max = t
+          name = x.name
+        }
+      }
+      return name
+    },
   },
 }
 </script>

@@ -86,7 +86,10 @@
     "UPlay": "UbiSoft UPlay",
     "WiiU": "Nintendo WiiU",
     "accomplishstatus": "通关情况",
-    "trophystatus": "成就情况"
+    "trophystatus": "成就情况",
+    "summary_count": "共计 {count_total} 款游戏：{count_done} 款已通关，{count_doing} 款正在游戏中，{count_todo} 款正在计划中，其余为其他状态。",
+    "summary_time": "{time_count} 款游戏有时长记录：累计 {time_total} 小时。游玩时间最长的游戏是：{time_max_name} （{time_max} 小时）。",
+    "summary_rating": "{rating_5} 款游戏被评为最高分。"
   },
   "fiction": {
     "title": "书名",
@@ -99,7 +102,9 @@
     "doing": "阅读中",
     "todo": "计划中",
     "message": "评分和评价仅代表个人意见。",
-    "warning": "本页面可能包含剧透内容。"
+    "warning": "本页面可能包含剧透内容。",
+    "summary_count": "共计 {count_total} 本小说：{count_done} 本已阅读，{count_doing} 本正在阅读中，{count_todo} 本正在计划中，其余为其他状态。",
+    "summary_rating": "{rating_5} 本小说被评为最高分。"
   },
   "milestone": {
     "pending": "未完待续……"
@@ -125,7 +130,10 @@
     "doing": "欣赏中",
     "todo": "计划中",
     "message": "评分和评价仅代表个人意见。",
-    "warning": "本页面可能包含剧透内容。"
+    "warning": "本页面可能包含剧透内容。",
+    "summary_count": "共计 {count_total} 条影音记录：{count_done} 条已欣赏，{count_doing} 条正在欣赏中，{count_todo} 条正在计划中，其余为其他状态。",
+    "summary_rating": "{rating_5} 条影音记录被评为最高分。",
+    "summary_type": "分类统计如下：音乐：{type_music} 条；电视剧：{type_tv} 条；电影：{type_movie} 条；动漫：{type_anime} 条；纪录片：{type_documentary} 条；讲座：{type_lecture} 条。"
   },
   "photo": {
     "date": "拍摄于 {date}",

@@ -86,7 +86,10 @@
     "UPlay": "UbiSoft UPlay",
     "WiiU": "Nintendo WiiU",
     "accomplishstatus": "Accomplish Status",
-    "trophystatus": "Trophy Status"
+    "trophystatus": "Trophy Status",
+    "summary_count": "{count_total} game(s) in total: {count_done} is(are) done, {count_doing} is(are) doing, {count_todo} is(are) todo, and the rest is(are) in other status.",
+    "summary_time": "{time_count} game(s) is(are) recorded with playing times: {time_total} hour(s) in total. The game with the longest playing hours is: {time_max_name} ({time_max} hour(s)).",
+    "summary_rating": "{rating_5} of them is(are) top-rated."
   },
   "fiction": {
     "title": "Title",
@@ -99,7 +102,9 @@
     "doing": "Reading",
     "todo": "Scheduling",
     "message": "Ratings and reviews are personal.",
-    "warning": "This page may contain information about the plot."
+    "warning": "This page may contain information about the plot.",
+    "summary_count": "{count_total} fiction(s) in total: {count_done} is(are) done, {count_doing} is(are) doing, {count_todo} is(are) todo, and the rest is(are) in other status.",
+    "summary_rating": "{rating_5} of them is(are) top-rated."
   },
   "milestone": {
     "pending": "To be continued..."
@@ -125,7 +130,10 @@
     "doing": "Watching/Listening",
     "todo": "Scheduling",
     "message": "Ratings and reviews are personal.",
-    "warning": "This page may contain information about the plot."
+    "warning": "This page may contain information about the plot.",
+    "summary_count": "{count_total} number(s) of media in total: {count_done} is(are) done, {count_doing} is(are) doing, {count_todo} is(are) todo, and the rest is(are) in other status.",
+    "summary_rating": "{rating_5} of them is(are) top-rated.",
+    "summary_type": "Categories as: Music: {type_music}; TV Series: {type_tv}; Movie: {type_movie}; Anime: {type_anime}; Documentary: {type_documentary}; Lecture: {type_lecture}."
   },
   "photo": {
     "date": "Taken on {date}",

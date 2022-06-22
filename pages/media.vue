@@ -1,5 +1,38 @@
 <template>
   <div>
+    <Alert show-icon>
+      <template slot="desc">
+        <p>
+          {{
+            $t('media.summary_count', {
+              count_total: getSummary['count_total'],
+              count_done: getSummary['count_done'],
+              count_doing: getSummary['count_doing'],
+              count_todo: getSummary['count_todo'],
+            })
+          }}
+        </p>
+        <p>
+          {{
+            $t('media.summary_type', {
+              type_music: getSummary['type_music'],
+              type_tv: getSummary['type_tv'],
+              type_movie: getSummary['type_movie'],
+              type_documentary: getSummary['type_documentary'],
+              type_lecture: getSummary['type_lecture'],
+              type_anime: getSummary['type_anime'],
+            })
+          }}
+        </p>
+        <p>
+          {{
+            $t('media.summary_rating', {
+              rating_5: getSummary['rating_5'],
+            })
+          }}
+        </p>
+      </template>
+    </Alert>
     <Table
       :border="showBorder"
       :stripe="showStripe"
@@ -31,6 +64,41 @@ export default {
     }
   },
   computed: {
+    getSummary() {
+      return {
+        count_total: media.length,
+        count_done: media.filter((e) => {
+          return e.status === 'done'
+        }).length,
+        count_doing: media.filter((e) => {
+          return e.status === 'doing'
+        }).length,
+        count_todo: media.filter((e) => {
+          return e.status === 'todo'
+        }).length,
+        rating_5: media.filter((e) => {
+          return e.rate === 5 || e.rate === '5'
+        }).length,
+        type_music: media.filter((e) => {
+          return e.type === 'music'
+        }).length,
+        type_tv: media.filter((e) => {
+          return e.type === 'tv'
+        }).length,
+        type_anime: media.filter((e) => {
+          return e.type === 'anime'
+        }).length,
+        type_movie: media.filter((e) => {
+          return e.type === 'movie'
+        }).length,
+        type_documentary: media.filter((e) => {
+          return e.type === 'documentary'
+        }).length,
+        type_lecture: media.filter((e) => {
+          return e.type === 'lecture'
+        }).length,
+      }
+    },
     gameColumns() {
       const columns = []
       columns.push({

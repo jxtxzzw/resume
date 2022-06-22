@@ -1,5 +1,26 @@
 <template>
   <div>
+    <Alert type="info" show-icon>
+      <template slot="desc">
+        <p>
+          {{
+            $t('fiction.summary_count', {
+              count_total: getSummary['count_total'],
+              count_done: getSummary['count_done'],
+              count_doing: getSummary['count_doing'],
+              count_todo: getSummary['count_todo'],
+            })
+          }}
+        </p>
+        <p>
+          {{
+            $t('fiction.summary_rating', {
+              rating_5: getSummary['rating_5'],
+            })
+          }}
+        </p>
+      </template>
+    </Alert>
     <Table
       :border="showBorder"
       :stripe="showStripe"
@@ -30,6 +51,23 @@ export default {
     }
   },
   computed: {
+    getSummary() {
+      return {
+        count_total: fiction.length,
+        count_done: fiction.filter((e) => {
+          return e.status === 'done'
+        }).length,
+        count_doing: fiction.filter((e) => {
+          return e.status === 'doing'
+        }).length,
+        count_todo: fiction.filter((e) => {
+          return e.status === 'todo'
+        }).length,
+        rating_5: fiction.filter((e) => {
+          return e.rate === 5 || e.rate === '5'
+        }).length,
+      }
+    },
     gameColumns() {
       const columns = []
       columns.push({
