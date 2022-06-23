@@ -148,44 +148,45 @@ export default {
         if (this.oldChart.incomeChartForYearAndType) {
           this.oldChart.incomeChartForYearAndType.destroy()
         }
-        this.oldChart.incomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
-          this,
-          income,
-          'basic-year',
-          undefined,
-          this.currencyBasicYear
-        )
+        this.oldChart.incomeChartForYearAndType =
+          incomeUtil.renderChartForYearAndType(
+            this,
+            income,
+            'basic-year',
+            undefined,
+            this.currencyBasicYear
+          )
       }
 
       if (charts.includes('basic-category')) {
         if (this.oldChart.incomeChartForBasicCategory) {
           this.oldChart.incomeChartForBasicCategory.destroy()
         }
-        this.oldChart.incomeChartForBasicCategory = incomeUtil.renderChartForBasicCategory(
-          this,
-          income,
-          this.currencyBasicCategory
-        )
+        this.oldChart.incomeChartForBasicCategory =
+          incomeUtil.renderChartForBasicCategory(
+            this,
+            income,
+            this.currencyBasicCategory
+          )
       }
 
       if (charts.includes('advanced-year')) {
         if (this.oldChart.advancedIncomeChartForYearAndType) {
           this.oldChart.advancedIncomeChartForYearAndType.destroy()
         }
-        this.oldChart.advancedIncomeChartForYearAndType = incomeUtil.renderChartForYearAndType(
-          this,
-          advancedIncome,
-          'advanced-year',
-          undefined,
-          this.currencyAdvancedYear
-        )
+        this.oldChart.advancedIncomeChartForYearAndType =
+          incomeUtil.renderChartForYearAndType(
+            this,
+            advancedIncome,
+            'advanced-year',
+            undefined,
+            this.currencyAdvancedYear
+          )
       }
 
       if (charts.includes('advanced-platform')) {
-        this.oldChart.advancedIncomeChartForAdvancedPlatform = incomeUtil.renderChartForAdvancedPlatform(
-          this,
-          advancedIncome
-        )
+        this.oldChart.advancedIncomeChartForAdvancedPlatform =
+          incomeUtil.renderChartForAdvancedPlatform(this, advancedIncome)
       }
 
       if (charts.includes('all-accumulated')) {

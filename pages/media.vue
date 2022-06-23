@@ -47,8 +47,8 @@
 
 <script>
 import { media } from 'assets/reader'
-import ExpandRow from '@/components/ExpandRow'
 import { randomLabelColor } from 'assets/util'
+import ExpandRow from '@/components/ExpandRow'
 export default {
   name: 'Media',
   data() {

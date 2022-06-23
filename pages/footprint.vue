@@ -55,9 +55,9 @@
 </template>
 
 <script>
+import { setting } from 'assets/reader'
 import ChinaFootprint from '@/components/ChinaFootprint'
 import WorldFootprint from '@/components/WorldFootprint'
-import { setting } from 'assets/reader'
 
 export default {
   name: 'Footprint',
