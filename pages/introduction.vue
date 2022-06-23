@@ -163,31 +163,13 @@
 </template>
 
 <script>
-import { introduction, milestone } from 'assets/reader'
+import { introduction } from 'assets/reader'
 export default {
   name: 'Introduction',
   data() {
     return {
       introduction,
-      milestone,
-      distinctPlatform: [],
     }
-  },
-  mounted() {
-    this.milestone = milestone.map((item) => {
-      if (!this.distinctPlatform.includes(item.platform)) {
-        this.distinctPlatform.push(item.platform)
-      }
-      return item
-    })
-    this.distinctPlatform.sort((a, b) => {
-      const A = this.milestone.filter((e) => e.platform === a).length
-      const B = this.milestone.filter((e) => e.platform === b).length
-      return B - A
-    })
-    this.milestone.sort((a, b) => {
-      return new Date(a) - new Date(b)
-    })
   },
   methods: {
     maskedContent(content) {
