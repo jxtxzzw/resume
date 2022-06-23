@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Layout>
+    <Spin v-if="loading" fix>
+      <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
+      <div>Loading</div>
+    </Spin>
+    <Layout v-else>
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="1">
           <div style="float: left">
@@ -69,6 +73,7 @@ export default {
   components: { Navigation },
   data() {
     return {
+      loading: true,
       setting,
       screenHeight: 0,
       screenWidth: 0,
@@ -98,6 +103,7 @@ export default {
       that.$store.commit('size/setWidth', that.screenWidth)
       return (() => {})()
     }
+    this.loading = false
   },
   methods: {
     showWelcome() {
