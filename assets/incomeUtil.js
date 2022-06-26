@@ -389,7 +389,7 @@ export function renderChartForBasicCategory(
       '#626114',
       '#b0adad',
       '#f1c265',
-      '#672323',
+      '#20a0ff',
       '#7e6767',
     ]
 
