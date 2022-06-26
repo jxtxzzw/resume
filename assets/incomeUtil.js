@@ -190,11 +190,45 @@ export function renderChartForYearAndType(
   return chart
 }
 
-function getDataForBasicCategory(rawData, withCurrency = false) {
+function getDataForBasicCategory(
+  rawData,
+  rawAdvancedData,
+  withCurrency = false
+) {
   const dict = {}
   let total = 0
   for (const x of rawData) {
     const category = x.category
+    const amount = parseFloat(x.amount)
+    if (!(category in dict)) {
+      if (withCurrency) {
+        dict[category] = {}
+      } else {
+        dict[category] = 0
+      }
+    }
+    if (amount <= 0) {
+      continue
+    }
+    const currencyWeight = parseFloat(x.currency_weight)
+    if (withCurrency) {
+      const currency = x.currency
+      if (!(currency in dict[category])) {
+        dict[category][currency] = {
+          amount: 0,
+          weightedAmount: 0,
+        }
+      }
+      dict[category][currency].amount += amount
+      dict[category][currency].weightedAmount += amount * currencyWeight
+    } else {
+      dict[category] += amount * currencyWeight
+      total += amount * currencyWeight
+    }
+  }
+
+  for (const x of rawAdvancedData) {
+    const category = '被动收入' // TODO: HARD_CODED
     const amount = parseFloat(x.amount)
     if (!(category in dict)) {
       if (withCurrency) {
@@ -280,6 +314,7 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
 export function renderChartForBasicCategory(
   that,
   rawData,
+  rawAdvancedData,
   withCurrency = false
 ) {
   const { Chart } = that.$g2
@@ -294,13 +329,13 @@ export function renderChartForBasicCategory(
   if (!withCurrency) {
     // 不进行多币种处理，就只需要画一个图
     // 获取数据
-    const data = getDataForBasicCategory(rawData, withCurrency)
+    const data = getDataForBasicCategory(rawData, rawAdvancedData, withCurrency)
 
     // 通过 DataSet 计算百分比
     const dv = new DataView()
     dv.source(data).transform({
       type: 'percent',
-      field: 'amount',
+      field: 'amount', // 只有 amount
       dimension: 'category',
       as: 'percent',
     })
@@ -359,7 +394,11 @@ export function renderChartForBasicCategory(
     ]
 
     // 先计算出按类别分类的结果
-    const [leftData, rightData] = getDataForBasicCategory(rawData, withCurrency)
+    const [leftData, rightData] = getDataForBasicCategory(
+      rawData,
+      rawAdvancedData,
+      withCurrency
+    )
 
     const leftView = chart.createView({
       region: {
@@ -378,7 +417,7 @@ export function renderChartForBasicCategory(
     const leftInnerDV = new DataView()
     leftInnerDV.source(leftData).transform({
       type: 'percent',
-      field: 'weightedAmount',
+      field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
       dimension: 'category',
       as: 'percent',
     })
@@ -434,7 +473,7 @@ export function renderChartForBasicCategory(
     const leftOutterDV = new DataView()
     leftOutterDV.source(leftData).transform({
       type: 'percent',
-      field: 'weightedAmount',
+      field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
       dimension: 'currency',
       as: 'percent',
     })

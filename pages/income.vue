@@ -45,6 +45,9 @@
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
     </Alert>
+    <Alert type="info">
+      {{ $t('income.basic-category-no-negative') }}
+    </Alert>
     <div id="basic-category"></div>
 
     <Divider>{{ $t('income.basic-year') }}</Divider>
@@ -166,6 +169,7 @@ export default {
           incomeUtil.renderChartForBasicCategory(
             this,
             income,
+            advancedIncome,
             this.currencyBasicCategory
           )
       }
