@@ -255,6 +255,6 @@
     "advanced-year": "Advanced Income for Each Year",
     "advanced-platform": "Advanced Income for Platforms",
     "balance": "Balance",
-    "basic-category-no-negative": "Negative amounts (e.g., tax, re-bill) are not included."
+    "no-negative": "Negative amounts (e.g., tax, re-bill) are not included."
   }
 }

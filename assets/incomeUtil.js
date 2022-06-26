@@ -747,6 +747,9 @@ function getTreeData(rawData) {
   const dict = {}
   for (const x of rawData) {
     let amount = parseFloat(x.amount)
+    if (amount < 0) {
+      continue // 跳过负数金额，否则方块大小会错乱
+    }
     if (x.currency_weight !== undefined && x.currency_weight !== null) {
       amount *= parseFloat(x.currency_weight)
     }

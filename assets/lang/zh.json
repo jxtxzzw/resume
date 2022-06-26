@@ -255,6 +255,6 @@
     "advanced-year": "每年被动收入",
     "advanced-platform": "被动收入平台",
     "balance": "可用资产",
-    "basic-category-no-negative": "负数金额（例如税收、再分配）没有被统计进饼图。"
+    "no-negative": "负数金额（例如税收、再分配）没有被统计。"
   }
 }

@@ -46,7 +46,7 @@
       </i-switch>
     </Alert>
     <Alert type="info">
-      {{ $t('income.basic-category-no-negative') }}
+      {{ $t('income.no-negative') }}
     </Alert>
     <div id="basic-category"></div>
 
@@ -93,6 +93,9 @@
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+    </Alert>
+    <Alert type="info">
+      {{ $t('income.no-negative') }}
     </Alert>
     <div id="advanced-platform"></div>
   </div>
