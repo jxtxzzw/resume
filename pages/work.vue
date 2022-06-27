@@ -5,16 +5,18 @@
         <Icon slot="dot" type="ios-trophy"></Icon>
         <p>
           <span class="company"> {{ item.company }} </span>
-          <span class="position"> {{ item.position }} </span>
-          <span class="department"> {{ item.department }} </span>
         </p>
         <p class="date">
           <span>{{ item.date }}</span>
           <span>{{ $t('work.till') }}</span>
           <span>{{ item.end == null ? $t('work.now') : item.end }}</span>
         </p>
-        <p class="date">
-          {{ item.location }}
+        <p v-for="c in item.location.split('\n')" :key="c" class="date">
+          {{ c }}
+        </p>
+        <p>
+          <span class="position"> {{ item.position }} </span>
+          <span class="department"> {{ item.department }} </span>
         </p>
         <div v-if="item.content">
           <p v-for="c in item.content.split('\n')" :key="c" class="content">
