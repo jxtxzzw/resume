@@ -176,7 +176,7 @@ export function renderChartForYearAndType(
             )
             return `${originData.currency} ${amount} \n (${weightedAmount})`
           } else {
-            return amount
+            return `(${amount})`
           }
         },
         style: {
@@ -347,12 +347,16 @@ export function renderChartForBasicCategory(
       .adjust('stack')
       .position('percent')
       .color('category')
-      .label('percent', {
-        content: (data) => {
-          return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
-            2
-          )}%`
-        },
+      .label('percent', function (val) {
+        const offset = val > 0.02 ? -30 : 30
+        return {
+          offset,
+          content: (data) => {
+            return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
+              2
+            )}%`
+          },
+        }
       })
 
     chart.scale({
@@ -429,12 +433,16 @@ export function renderChartForBasicCategory(
       .adjust('stack')
       .position('percent')
       .color('category')
-      .label('percent', {
-        content: (data) => {
-          return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
-            2
-          )}%`
-        },
+      .label('percent', function (val) {
+        const offset = val > 0.02 ? -30 : 30
+        return {
+          offset,
+          content: (data) => {
+            return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
+              2
+            )}%`
+          },
+        }
       })
 
     leftView.scale({
@@ -539,12 +547,16 @@ export function renderChartForBasicCategory(
       .adjust('stack')
       .position('percent')
       .color('currency')
-      .label('percent', {
-        content: (data) => {
-          return `${data.currency}: ${parseFloat(data.percent * 100).toFixed(
-            2
-          )}%`
-        },
+      .label('percent', function (val) {
+        const offset = val > 0.02 ? -30 : 30
+        return {
+          offset,
+          content: (data) => {
+            return `${data.currency}: ${parseFloat(data.percent * 100).toFixed(
+              2
+            )}%`
+          },
+        }
       })
 
     rightView.scale({
@@ -670,7 +682,7 @@ function getDataForAllAccumulated(rawDataArray) {
   for (let i = minYear; i <= maxYear; i++) {
     if (i in dict) {
       for (const c of currencies) {
-        // 每年的各币种收入汇总，去掉，包括 income 和 advanced income，去除负值（税收和亏损）
+        // 每年的各币种收入汇总，包括 income 和 advanced income，去除负值（税收和亏损）
         let v = c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
         v = parseFloat(parseFloat(v).toFixed(2))
         data.push({
@@ -1033,6 +1045,44 @@ export function renderChartForBalance(that, rawData) {
   // tooltip 的更新
   chart.on('tooltip:change', (e) => {
     $tooltip.innerHTML = getTooltipHTML(e.data)
+  })
+
+  let minD = '9999-12-31'
+  let maxD = '0000-01-01'
+  let sum = 0
+  let count = 0
+  for (const d of data) {
+    if (d.date > maxD) {
+      maxD = d.date
+    }
+    if (d.date < minD) {
+      minD = d.date
+    }
+    sum += d.value
+    count += 1
+  }
+
+  const avg = sum / count
+
+  chart.annotation().line({
+    top: true,
+    start: [minD, avg],
+    end: [maxD, avg],
+    style: {
+      stroke: '#595959',
+      lineWidth: 1,
+      lineDash: [3, 3],
+    },
+    text: {
+      position: 'start',
+      style: {
+        fill: '#8c8c8c',
+        fontSize: 12,
+        fontWeight: 300,
+      },
+      content: `均值线：(${avg})`,
+      offsetY: -5,
+    },
   })
 
   chart.render()
