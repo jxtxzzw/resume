@@ -933,6 +933,10 @@ function getBalanceData(rawData) {
   return data
 }
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index
+}
+
 export function renderChartForBalance(that, rawData) {
   const $container = document.getElementById('balance')
   $container.innerHTML = `
@@ -1050,7 +1054,6 @@ export function renderChartForBalance(that, rawData) {
   let minD = '9999-12-31'
   let maxD = '0000-01-01'
   let sum = 0
-  let count = 0
   for (const d of data) {
     if (d.date > maxD) {
       maxD = d.date
@@ -1059,10 +1062,15 @@ export function renderChartForBalance(that, rawData) {
       minD = d.date
     }
     sum += d.value
-    count += 1
   }
 
-  const avg = sum / count
+  const uniqueCount = data
+    .map((e) => {
+      return e.date
+    })
+    .filter(onlyUnique).length
+
+  const avg = sum / uniqueCount
 
   chart.annotation().line({
     top: true,
