@@ -38,6 +38,8 @@ export function renderChartForCredit(that, credit) {
     lineWidth: 1,
   })
 
+  chart.legend(false)
+
   // chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
   // chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
 

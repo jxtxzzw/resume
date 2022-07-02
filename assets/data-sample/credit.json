@@ -2,26 +2,31 @@
   {
     "date": "2022-01-01",
     "source": "Experian",
+    "model": "FICO Score 8",
     "score": "400"
   },
   {
     "date": "2022-02-01",
     "source": "Experian",
+    "model": "VantageScore 3.0",
     "score": 500
   },
   {
     "date": "2022-01-05",
     "source": "芝麻信用",
+    "model": "芝麻信用",
     "score": "400"
   },
   {
     "date": "2022-02-01",
     "source": "芝麻信用",
+    "model": "芝麻信用",
     "score": "400"
   },
   {
     "date": "2022-03-01",
     "source": "微信支付分",
+    "model": "微信支付分",
     "score": "600"
   }
 ]

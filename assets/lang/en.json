@@ -256,5 +256,9 @@
     "advanced-platform": "Advanced Income for Platforms",
     "balance": "Balance",
     "no-negative": "Negative amounts (e.g., tax, re-bill) are not included."
+  },
+  "credit": {
+    "source": "Source",
+    "model": "Model"
   }
 }
