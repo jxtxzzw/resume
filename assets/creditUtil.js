@@ -2,7 +2,20 @@
 
 import { chartHeight } from './incomeUtil'
 
-export function renderChartForCredit(that, credit) {
+export function renderChartForCredit(that, credit, checkboxes) {
+  const [checkAllGroupSource, checkAllGroupModel] = checkboxes
+
+  credit = credit.filter((e) => {
+    return (
+      checkAllGroupSource.includes(e.source) &&
+      checkAllGroupModel.includes(e.model)
+    )
+  })
+
+  if (credit.length === 0) {
+    return null
+  }
+
   const { Chart } = that.$g2
   const chart = new Chart({
     container: 'credit-score',
@@ -54,6 +67,31 @@ export function renderChartForCredit(that, credit) {
       // 	趋势图是否使用面积图
       isArea: true,
     },
+  })
+
+  let chartMin = 1000
+  let chartMax = 0
+
+  if (
+    checkAllGroupModel.includes('微信支付分') ||
+    checkAllGroupModel.includes('芝麻信用')
+  ) {
+    chartMin = Math.min(chartMin, 350)
+    chartMax = Math.max(chartMax, 950)
+  }
+  if (
+    checkAllGroupModel.includes('FICO Score 8') ||
+    checkAllGroupModel.includes('FICO Score 9') ||
+    checkAllGroupModel.includes('VantageScore 3.0') ||
+    checkAllGroupModel.includes('VantageScore 4.0')
+  ) {
+    chartMin = Math.min(chartMin, 300)
+    chartMax = Math.max(chartMax, 850)
+  }
+
+  chart.scale('score', {
+    min: chartMin,
+    max: chartMax,
   })
 
   chart.render()

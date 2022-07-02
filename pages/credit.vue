@@ -61,12 +61,8 @@ export default {
       }
       this.oldChart.creditScore = creditUtil.renderChartForCredit(
         this,
-        credit.filter((e) => {
-          return (
-            this.checkAllGroupSource.includes(e.source) &&
-            this.checkAllGroupModel.includes(e.model)
-          )
-        })
+        credit,
+        [this.checkAllGroupSource, this.checkAllGroupModel]
       )
       // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
       window.dispatchEvent(new Event('resize'))
