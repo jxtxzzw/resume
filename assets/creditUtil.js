@@ -2,6 +2,35 @@
 
 import { chartHeight } from './incomeUtil'
 
+// This function is HARD_CODED
+function scaleChartRange(checkAllGroupModel, chart) {
+  let chartMin = 1000
+  let chartMax = 0
+
+  if (
+    checkAllGroupModel.includes('微信支付分') ||
+    checkAllGroupModel.includes('芝麻信用')
+  ) {
+    chartMin = Math.min(chartMin, 350)
+    chartMax = Math.max(chartMax, 950)
+  }
+  if (
+    checkAllGroupModel.includes('FICO Score 8') ||
+    checkAllGroupModel.includes('FICO Score 9') ||
+    checkAllGroupModel.includes('VantageScore 3.0') ||
+    checkAllGroupModel.includes('VantageScore 4.0')
+  ) {
+    chartMin = Math.min(chartMin, 300)
+    chartMax = Math.max(chartMax, 850)
+  }
+
+  chart.scale('score', {
+    min: chartMin,
+    max: chartMax,
+  })
+}
+
+// This function is HARD_CODED
 function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
   // 计算并绘制分界线
   let minD = '9999-12-31'
@@ -151,6 +180,10 @@ export function renderChartForCredit(that, credit, checkboxes) {
     height: chartHeight(),
   })
 
+  for (const c of credit) {
+    c.name = `${c.source} (${c.model})`
+  }
+
   chart.data(credit)
 
   chart.tooltip({
@@ -171,9 +204,9 @@ export function renderChartForCredit(that, credit, checkboxes) {
     },
   })
 
-  chart.line().position('date*score').color('source')
+  chart.line().position('date*score').color('name')
 
-  chart.point().position('date*score').color('source').shape('circle').style({
+  chart.point().position('date*score').color('name').shape('circle').style({
     stroke: '#fff',
     lineWidth: 1,
   })
@@ -195,30 +228,7 @@ export function renderChartForCredit(that, credit, checkboxes) {
   })
 
   // 调整画布范围
-  let chartMin = 1000
-  let chartMax = 0
-
-  if (
-    checkAllGroupModel.includes('微信支付分') ||
-    checkAllGroupModel.includes('芝麻信用')
-  ) {
-    chartMin = Math.min(chartMin, 350)
-    chartMax = Math.max(chartMax, 950)
-  }
-  if (
-    checkAllGroupModel.includes('FICO Score 8') ||
-    checkAllGroupModel.includes('FICO Score 9') ||
-    checkAllGroupModel.includes('VantageScore 3.0') ||
-    checkAllGroupModel.includes('VantageScore 4.0')
-  ) {
-    chartMin = Math.min(chartMin, 300)
-    chartMax = Math.max(chartMax, 850)
-  }
-
-  chart.scale('score', {
-    min: chartMin,
-    max: chartMax,
-  })
+  scaleChartRange(checkAllGroupModel, chart)
 
   // Show Range And Annotations
   showRangeAndAnnotations(credit, checkAllGroupRange, chart)
