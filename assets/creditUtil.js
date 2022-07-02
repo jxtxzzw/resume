@@ -46,7 +46,7 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
             fontSize: 12,
             fontWeight: 300,
           },
-          content: `芝麻信用 - ${text[i]}`,
+          content: `${text[i]} - 芝麻信用`,
           offsetY: -5,
         },
       })
@@ -78,7 +78,7 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
             fontSize: 12,
             fontWeight: 300,
           },
-          content: `微信支付分 - ${text[i]}`,
+          content: `${text[i]} - 微信支付分`,
           offsetY: -5,
         },
       })
@@ -110,7 +110,7 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
             fontSize: 12,
             fontWeight: 300,
           },
-          content: `VantageScore 3.0 - ${text[i]}`,
+          content: `${text[i]} - VantageScore 3.0`,
           offsetY: -5,
         },
       })
@@ -142,11 +142,23 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
             fontSize: 12,
             fontWeight: 300,
           },
-          content: `FICO Score 8 - ${text[i]}`,
+          content: `${text[i]} - FICO Score 8`,
           offsetY: -5,
         },
       })
     }
+  }
+
+  if (checkAllGroupRange.includes('FICO BankCard Score 8')) {
+    chartMin = Math.min(chartMin, 250)
+    chartMax = Math.max(chartMax, 900)
+    shouldFixScale = true
+  }
+
+  if (checkAllGroupRange.includes('FICO Auto Score 8')) {
+    chartMin = Math.min(chartMin, 250)
+    chartMax = Math.max(chartMax, 900)
+    shouldFixScale = true
   }
 
   // 调整画布范围
@@ -185,7 +197,7 @@ export function renderChartForCredit(that, credit, checkboxes) {
   })
 
   for (const c of credit) {
-    c.name = `${c.source} (${c.model})`
+    c.name = `${c.source} + ${c.model}`
   }
 
   chart.data(credit)
