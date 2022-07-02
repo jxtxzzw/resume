@@ -2,8 +2,135 @@
 
 import { chartHeight } from './incomeUtil'
 
+function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
+  // 计算并绘制分界线
+  let minD = '9999-12-31'
+  let maxD = '0000-01-01'
+  for (const c of credit) {
+    if (c.date > maxD) {
+      maxD = c.date
+    }
+    if (c.date < minD) {
+      minD = c.date
+    }
+  }
+
+  if (checkAllGroupRange.includes('芝麻信用')) {
+    const score = [350, 550, 600, 650, 700]
+    const text = ['较差', '中等', '良好', '优秀', '极好']
+
+    for (let i = 0; i < 5; i++) {
+      chart.annotation().line({
+        top: true,
+        start: [minD, score[i]],
+        end: [maxD, score[i]],
+        style: {
+          stroke: '#1574F7',
+          lineWidth: 1,
+          lineDash: [3, 3],
+        },
+        text: {
+          position: 'start',
+          style: {
+            fill: '#1574F7',
+            fontSize: 12,
+            fontWeight: 300,
+          },
+          content: `芝麻信用 - ${text[i]}`,
+          offsetY: -5,
+        },
+      })
+    }
+  }
+
+  if (checkAllGroupRange.includes('微信支付分')) {
+    const score = [350, 550, 600, 650, 700]
+    const text = ['较差', '中等', '良好', '优秀', '极好']
+
+    for (let i = 0; i < 5; i++) {
+      chart.annotation().line({
+        top: true,
+        start: [minD, score[i]],
+        end: [maxD, score[i]],
+        style: {
+          stroke: '#1AAD19',
+          lineWidth: 1,
+          lineDash: [3, 3],
+        },
+        text: {
+          position: 'end',
+          style: {
+            fill: '#1AAD19',
+            fontSize: 12,
+            fontWeight: 300,
+          },
+          content: `微信支付分 - ${text[i]}`,
+          offsetY: -5,
+        },
+      })
+    }
+  }
+
+  if (checkAllGroupRange.includes('VantageScore 3.0')) {
+    const score = [300, 500, 601, 661, 781]
+    const text = ['Very Poor', 'Poor', 'Fair', 'Good', 'Excellent']
+
+    for (let i = 0; i < 5; i++) {
+      chart.annotation().line({
+        top: true,
+        start: [minD, score[i]],
+        end: [maxD, score[i]],
+        style: {
+          stroke: '#F15F22',
+          lineWidth: 1,
+          lineDash: [3, 3],
+        },
+        text: {
+          position: 'end',
+          style: {
+            fill: '#F15F22',
+            fontSize: 12,
+            fontWeight: 300,
+          },
+          content: `VantageScore 3.0 - ${text[i]}`,
+          offsetY: -5,
+        },
+      })
+    }
+  }
+
+  if (checkAllGroupRange.includes('FICO Score 8')) {
+    const score = [300, 580, 670, 740, 800]
+    const text = ['Poor', 'Fair', 'Good', 'Very Good', 'Exceptional']
+
+    for (let i = 0; i < 5; i++) {
+      chart.annotation().line({
+        top: true,
+        start: [minD, score[i]],
+        end: [maxD, score[i]],
+        style: {
+          stroke: '#00609C',
+          lineWidth: 1,
+          lineDash: [3, 3],
+        },
+        text: {
+          position: 'start',
+          style: {
+            fill: '#00609C',
+            fontSize: 12,
+            fontWeight: 300,
+          },
+          content: `FICO Score 8 - ${text[i]}`,
+          offsetY: -5,
+        },
+      })
+    }
+  }
+}
+
 export function renderChartForCredit(that, credit, checkboxes) {
-  const [checkAllGroupSource, checkAllGroupModel] = checkboxes
+  const [checkAllGroupSource, checkAllGroupModel, checkAllGroupRange] =
+    checkboxes
 
   credit = credit.filter((e) => {
     return (
@@ -51,8 +178,6 @@ export function renderChartForCredit(that, credit, checkboxes) {
     lineWidth: 1,
   })
 
-  chart.legend(false)
-
   // chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
   // chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
 
@@ -69,6 +194,7 @@ export function renderChartForCredit(that, credit, checkboxes) {
     },
   })
 
+  // 调整画布范围
   let chartMin = 1000
   let chartMax = 0
 
@@ -93,6 +219,12 @@ export function renderChartForCredit(that, credit, checkboxes) {
     min: chartMin,
     max: chartMax,
   })
+
+  // Show Range And Annotations
+  showRangeAndAnnotations(credit, checkAllGroupRange, chart)
+
+  chart.legend(true) // 仍然需要图例来看不同的颜色
+  chart.removeInteraction('legend-filter') // 但是禁用交互
 
   chart.render()
   return chart

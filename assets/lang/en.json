@@ -259,6 +259,7 @@
   },
   "credit": {
     "source": "Source",
-    "model": "Model"
+    "model": "Model",
+    "range": "Show Range and Annotations"
   }
 }

@@ -10,6 +10,11 @@
       <CheckboxGroup v-model="checkAllGroupModel" @on-change="renderAllCharts">
         <Checkbox v-for="m in uniqueModel" :key="m" :label="m"></Checkbox>
       </CheckboxGroup>
+      <Divider size="small" class="ivu-m-0" />
+      <p>{{ $t('credit.range') }}</p>
+      <CheckboxGroup v-model="checkAllGroupRange" @on-change="renderAllCharts">
+        <Checkbox v-for="m in uniqueModel" :key="m" :label="m"></Checkbox>
+      </CheckboxGroup>
     </Alert>
     <div id="credit-score"></div>
   </div>
@@ -27,6 +32,7 @@ export default {
       uniqueModel: [],
       checkAllGroupSource: [],
       checkAllGroupModel: [],
+      checkAllGroupRange: [],
       oldChart: {
         creditScore: undefined,
       },
@@ -54,6 +60,7 @@ export default {
         })
       this.checkAllGroupSource = [...this.uniqueSource]
       this.checkAllGroupModel = [...this.uniqueModel]
+      this.checkAllGroupRange = []
     },
     renderAllCharts() {
       if (this.oldChart.creditScore) {
@@ -62,7 +69,11 @@ export default {
       this.oldChart.creditScore = creditUtil.renderChartForCredit(
         this,
         credit,
-        [this.checkAllGroupSource, this.checkAllGroupModel]
+        [
+          this.checkAllGroupSource,
+          this.checkAllGroupModel,
+          this.checkAllGroupRange,
+        ]
       )
       // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
       window.dispatchEvent(new Event('resize'))

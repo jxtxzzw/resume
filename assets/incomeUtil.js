@@ -1051,6 +1051,7 @@ export function renderChartForBalance(that, rawData) {
     $tooltip.innerHTML = getTooltipHTML(e.data)
   })
 
+  // 计算并绘制均值线
   let minD = '9999-12-31'
   let maxD = '0000-01-01'
   let sum = 0
