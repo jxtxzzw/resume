@@ -3,35 +3,12 @@
 import { chartHeight } from './incomeUtil'
 
 // This function is HARD_CODED
-function scaleChartRange(checkAllGroupModel, chart) {
+function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
+  // 优化：调整画布范围仅在需要显示标注时固定范围，如果没有标注，则允许自由伸缩
   let chartMin = 1000
   let chartMax = 0
+  let shouldFixScale = false
 
-  if (
-    checkAllGroupModel.includes('微信支付分') ||
-    checkAllGroupModel.includes('芝麻信用')
-  ) {
-    chartMin = Math.min(chartMin, 350)
-    chartMax = Math.max(chartMax, 950)
-  }
-  if (
-    checkAllGroupModel.includes('FICO Score 8') ||
-    checkAllGroupModel.includes('FICO Score 9') ||
-    checkAllGroupModel.includes('VantageScore 3.0') ||
-    checkAllGroupModel.includes('VantageScore 4.0')
-  ) {
-    chartMin = Math.min(chartMin, 300)
-    chartMax = Math.max(chartMax, 850)
-  }
-
-  chart.scale('score', {
-    min: chartMin,
-    max: chartMax,
-  })
-}
-
-// This function is HARD_CODED
-function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
   // 计算并绘制分界线
   let minD = '9999-12-31'
   let maxD = '0000-01-01'
@@ -45,6 +22,10 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
   }
 
   if (checkAllGroupRange.includes('芝麻信用')) {
+    chartMin = Math.min(chartMin, 350)
+    chartMax = Math.max(chartMax, 950)
+    shouldFixScale = true
+
     const score = [350, 550, 600, 650, 700]
     const text = ['较差', '中等', '良好', '优秀', '极好']
 
@@ -73,6 +54,10 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
   }
 
   if (checkAllGroupRange.includes('微信支付分')) {
+    chartMin = Math.min(chartMin, 350)
+    chartMax = Math.max(chartMax, 950)
+    shouldFixScale = true
+
     const score = [350, 550, 600, 650, 700]
     const text = ['较差', '中等', '良好', '优秀', '极好']
 
@@ -101,6 +86,10 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
   }
 
   if (checkAllGroupRange.includes('VantageScore 3.0')) {
+    chartMin = Math.min(chartMin, 300)
+    chartMax = Math.max(chartMax, 850)
+    shouldFixScale = true
+
     const score = [300, 500, 601, 661, 781]
     const text = ['Very Poor', 'Poor', 'Fair', 'Good', 'Excellent']
 
@@ -129,6 +118,10 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
   }
 
   if (checkAllGroupRange.includes('FICO Score 8')) {
+    chartMin = Math.min(chartMin, 300)
+    chartMax = Math.max(chartMax, 850)
+    shouldFixScale = true
+
     const score = [300, 580, 670, 740, 800]
     const text = ['Poor', 'Fair', 'Good', 'Very Good', 'Exceptional']
 
@@ -154,6 +147,17 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
         },
       })
     }
+  }
+
+  // 调整画布范围
+  if (shouldFixScale) {
+    chart.scale('score', {
+      min: chartMin,
+      max: chartMax,
+    })
+    // 如果固定了画布，就不能移除图例数据了，所以要禁用交互
+    chart.legend(true) // 仍然需要图例来看不同的颜色
+    chart.removeInteraction('legend-filter') // 但是禁用交互
   }
 }
 
@@ -227,14 +231,8 @@ export function renderChartForCredit(that, credit, checkboxes) {
     },
   })
 
-  // 调整画布范围
-  scaleChartRange(checkAllGroupModel, chart)
-
   // Show Range And Annotations
   showRangeAndAnnotations(credit, checkAllGroupRange, chart)
-
-  chart.legend(true) // 仍然需要图例来看不同的颜色
-  chart.removeInteraction('legend-filter') // 但是禁用交互
 
   chart.render()
   return chart
