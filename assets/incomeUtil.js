@@ -728,12 +728,12 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
     },
   })
 
-  chart.line().position('year*value').color('currency').shape('smooth')
+  chart.line().position('year*value').color('currency').shape('smooth') // 收入可以平滑，信用分不平滑
 
   chart.point().position('year*value').color('currency').shape('circle').style({
     stroke: '#fff',
     lineWidth: 1,
-  })
+  }) // 收入一年一个数据点可以画点，信用分就只画线
 
   // chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
   // chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
