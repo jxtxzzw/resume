@@ -891,10 +891,13 @@ export function renderChartForAdvancedPlatform(that, rawData) {
   return chart
 }
 
-function getBalanceData(rawData) {
+function getBalanceData(rawData, includePendingBalance) {
   const currencies = []
   const dict = []
   for (const x of rawData) {
+    if (x.pending && !includePendingBalance) {
+      continue
+    }
     if (!dict[x.date]) {
       dict[x.date] = {}
     }
@@ -911,8 +914,8 @@ function getBalanceData(rawData) {
         weightedAmount: 0.0,
       }
     }
-    dict[x.date][x.currency].amount = amount
-    dict[x.date][x.currency].weightedAmount = amount * currencyWeight
+    dict[x.date][x.currency].amount += amount
+    dict[x.date][x.currency].weightedAmount += amount * currencyWeight
   }
 
   const data = []
@@ -937,12 +940,16 @@ function onlyUnique(value, index, self) {
   return self.indexOf(value) === index
 }
 
-export function renderChartForBalance(that, rawData) {
+export function renderChartForBalance(
+  that,
+  rawData,
+  includePendingBalance = false
+) {
   const $container = document.getElementById('balance')
   $container.innerHTML = `
-<div id="app-container-balance">
-  <div id="g2-customize-tooltip-balance"></div>
-  <div id="g2-container-balance"></div>
+<div id='app-container-balance'>
+  <div id='g2-customize-tooltip-balance'></div>
+  <div id='g2-container-balance'></div>
 </div>
 `
 
@@ -953,7 +960,7 @@ export function renderChartForBalance(that, rawData) {
     height: chartHeight(),
   })
 
-  const data = getBalanceData(rawData)
+  const data = getBalanceData(rawData, includePendingBalance)
   chart.data(data)
 
   // 这里的 value 值都是 weightedAmount
@@ -1003,8 +1010,8 @@ export function renderChartForBalance(that, rawData) {
   function getTooltipHTML(data) {
     const { title, items } = data
     return `
-    <div class="tooltip-title">${title}</div>
-    <div class="tooltip-items">
+    <div class='tooltip-title'>${title}</div>
+    <div class='tooltip-items'>
       ${items
         .map((datum) => {
           const color = datum.color
@@ -1013,9 +1020,9 @@ export function renderChartForBalance(that, rawData) {
           const originalAmount = datum.data.originalAmount // 取出没有乘上汇率的值
 
           return `
-        <div class="tooltip-item" style="border-left: 2px solid ${color}">
-          <div class="tooltip-item-name">${name} (Weighted ${name})</div>
-          <div class="tooltip-item-value">${originalAmount} (${value})</div>
+        <div class='tooltip-item' style='border-left: 2px solid ${color}'>
+          <div class='tooltip-item-name'>${name} (Weighted ${name})</div>
+          <div class='tooltip-item-value'>${originalAmount} (${value})</div>
         </div>
         `
         })

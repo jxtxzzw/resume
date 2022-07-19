@@ -255,7 +255,8 @@
     "advanced-year": "每年被动收入",
     "advanced-platform": "被动收入平台",
     "balance": "可用资产",
-    "no-negative": "负数金额（例如税收、再分配）没有被统计。"
+    "no-negative": "负数金额（例如税收、再分配）没有被统计。",
+    "show-pending": "包括未决款项"
   },
   "credit": {
     "source": "数据源",

@@ -4,34 +4,47 @@
     "date": "2019-04-03",
     "amount": "600.00",
     "currency": "CNY",
-    "currency_weight": "1.0"
+    "currency_weight": "1.0",
+    "pending": false
   },
   {
     "id": "2",
     "date": "2019-10-03",
     "amount": "4300.00",
     "currency": "CNY",
-    "currency_weight": "1.0"
+    "currency_weight": "1.0",
+    "pending": false
   },
   {
     "id": "3",
     "date": "2019-10-03",
     "amount": "1100.00",
     "currency": "USD",
-    "currency_weight": "10.0"
+    "currency_weight": "10.0",
+    "pending": false
   },
   {
     "id": "3",
     "date": "2020-10-03",
     "amount": "1100.00",
     "currency": "CNY",
-    "currency_weight": "1.0"
+    "currency_weight": "1.0",
+    "pending": false
   },
   {
     "id": "4",
     "date": "2022-10-03",
     "amount": "333.00",
     "currency": "USD",
-    "currency_weight": "3.0"
+    "currency_weight": "3.0",
+    "pending": false
+  },
+  {
+    "id": "5",
+    "date": "2022-10-03",
+    "amount": "250.00",
+    "currency": "USD",
+    "currency_weight": "3.0",
+    "pending": true
   }
 ]

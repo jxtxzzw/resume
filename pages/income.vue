@@ -14,6 +14,17 @@
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
     </Alert>
+    <Alert>
+      <CheckboxGroup
+        v-model="showPendingCheckGroup"
+        @on-change="renderAllCharts(['balance'])"
+      >
+        <Checkbox
+          :key="$t('income.show-pending')"
+          :label="$t('income.show-pending')"
+        ></Checkbox>
+      </CheckboxGroup>
+    </Alert>
     <div id="balance"></div>
 
     <Divider>{{ $t('income.all-accumulated') }}</Divider>
@@ -123,6 +134,7 @@ export default {
         advancedIncomeChartForAdvancedPlatform: undefined,
         balance: undefined,
       },
+      showPendingCheckGroup: [],
     }
   },
   watch: {
@@ -203,7 +215,11 @@ export default {
         )
       }
       if (charts.includes('balance')) {
-        this.oldChart.balance = incomeUtil.renderChartForBalance(this, balance)
+        this.oldChart.balance = incomeUtil.renderChartForBalance(
+          this,
+          balance,
+          this.showPendingCheckGroup.length > 0
+        )
       }
 
       // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
