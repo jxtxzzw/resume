@@ -212,6 +212,10 @@ export function renderChartForCredit(that, credit, checkboxes) {
     type: 'time', // 连续的时间类型，是一种特殊的连续性数据，也是 linear 的子类
   })
 
+  chart.scale('score', {
+    nice: true,
+  })
+
   chart.axis('score', {
     label: {
       formatter: (val) => {

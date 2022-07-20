@@ -113,14 +113,11 @@ export function renderChartForYearAndType(
 
   chart.scale(withCurrency ? 'weightedAmount' : 'amount', {
     alias: '金额',
+    nice: true,
     formatter: (val) => {
       val = parseFloat(parseFloat(val).toFixed(2))
       return val
     },
-  })
-
-  chart.axis('year', {
-    tickLine: null,
   })
 
   chart.axis(withCurrency ? 'weightedAmount' : 'amount', {
@@ -130,6 +127,14 @@ export function renderChartForYearAndType(
         fill: '#aaaaaa',
       },
     },
+  })
+
+  chart.scale('year', {
+    nice: true,
+  })
+
+  chart.axis('year', {
+    tickLine: null,
   })
 
   chart.tooltip({
@@ -718,6 +723,14 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
   chart.tooltip({
     showCrosshairs: true,
     shared: true,
+  })
+
+  chart.scale('value', {
+    nice: true,
+  })
+
+  chart.scale('date', {
+    nice: true,
   })
 
   chart.axis('value', {
