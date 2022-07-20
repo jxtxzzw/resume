@@ -43,6 +43,21 @@
     </Alert>
     <div id="all-accumulated"></div>
 
+    <Divider>{{ $t('income.basic-year') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currencyBasicYear"
+        size="large"
+        :true-value="true"
+        :false-value="false"
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
+    <div id="basic-year"></div>
+
     <Divider>{{ $t('income.basic-category') }}</Divider>
     <Alert type="info">
       {{ $t('income.currency') }}
@@ -60,21 +75,6 @@
       {{ $t('income.no-negative') }}
     </Alert>
     <div id="basic-category"></div>
-
-    <Divider>{{ $t('income.basic-year') }}</Divider>
-    <Alert type="info">
-      {{ $t('income.currency') }}
-      <i-switch
-        v-model="currencyBasicYear"
-        size="large"
-        :true-value="true"
-        :false-value="false"
-      >
-        <span slot="open">{{ $t('income.open') }}</span>
-        <span slot="close">{{ $t('income.close') }}</span>
-      </i-switch>
-    </Alert>
-    <div id="basic-year"></div>
 
     <Divider>{{ $t('income.advanced-year') }}</Divider>
     <Alert type="info">
