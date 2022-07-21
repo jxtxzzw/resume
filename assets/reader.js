@@ -35,7 +35,7 @@ export const microblog = sortByDate(
   'post_date'
 ).filter((e) => {
   return e.post_type === 'microblog'
-})
+}).reverse()
 export const introduction = require('./data/introduction.json')
 export const food = require('./data/food.json')
 export const footprint = require('./data/footprint.json')
