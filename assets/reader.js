@@ -35,7 +35,7 @@ export const microblog = sortByDate(
   'post_date'
 ).filter((e) => {
   return e.post_type === 'microblog'
-}).reverse()
+})
 export const introduction = require('./data/introduction.json')
 export const food = require('./data/food.json')
 export const footprint = require('./data/footprint.json')
@@ -44,7 +44,7 @@ export const income = require('./data/income.json')
 export const advancedIncome = require('./data/advanced_income.json')
 export const course = require('./data/course.json')
 export const tech = require('./data/tech.json')
-export const activity = sortByDate(require('./data/activity.json')).reverse()
+export const activity = sortByDate(require('./data/activity.json'))
 export const dreamEntry = require('./data/dream_entry.json')
 export const dreamCascade = require('./data/dream_cascade.json')
 export const dreamProgress = require('./data/dream_progress.json')
