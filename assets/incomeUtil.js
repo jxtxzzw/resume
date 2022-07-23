@@ -1120,18 +1120,17 @@ export function renderChartForBalance(
 
 function getTaxDeductionData(income) {
   // 以下部分为硬编码部分，暂时只处理 USD 和 CNY
-  const POSITIVE = '所有类型收入汇总'
-  // 获取所有扣款项
-  const KK = '扣款'
+  const TAXABLE = '应税收入'
+  const CURRENCIES = ['USD', 'CNY']
+
   const KKs = []
   for (const x of income) {
-    if (x.type === KK && !KKs.includes(x.category)) {
+    if (x.amount < 0 && !KKs.includes(x.category)) {
       KKs.push(x.category)
     }
   }
-  const TYPES = [POSITIVE, ...KKs]
 
-  const CURRENCIES = ['USD', 'CNY']
+  const TYPES = [TAXABLE, ...KKs]
 
   const dict = {}
   for (const t of TYPES) {
@@ -1142,12 +1141,12 @@ function getTaxDeductionData(income) {
   }
 
   for (const x of income) {
-    if (x.amount > 0) {
-      dict[POSITIVE][x.currency] += x.amount
+    if (x.amount > 0 && x.taxable) {
+      dict[TAXABLE][x.currency] += x.amount
       for (const k of KKs) {
         dict[k][x.currency] += x.amount
       }
-    } else if (x.type === KK) {
+    } else if (KKs.includes(x.category)) {
       // 逐级递减，每个都要扣款
       const idx = KKs.indexOf(x.category)
       for (let i = idx; i < KKs.length; i++) {
@@ -1169,7 +1168,7 @@ function getTaxDeductionData(income) {
     }
   }
 
-  return [data, dict[POSITIVE].USD, dict[POSITIVE].CNY]
+  return [data, dict[TAXABLE].USD, dict[TAXABLE].CNY]
 }
 
 export function renderChartForTaxAndDeduction(that, income) {
