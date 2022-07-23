@@ -1117,3 +1117,150 @@ export function renderChartForBalance(
   chart.render()
   return chart
 }
+
+function getTaxDeductionData(income) {
+  // 以下部分为硬编码部分，暂时只处理 USD 和 CNY
+  const POSITIVE = '所有类型收入汇总'
+  // 获取所有扣款项
+  const KK = '扣款'
+  const KKs = []
+  for (const x of income) {
+    if (x.type === KK && !KKs.includes(x.category)) {
+      KKs.push(x.category)
+    }
+  }
+  const TYPES = [POSITIVE, ...KKs]
+
+  const CURRENCIES = ['USD', 'CNY']
+
+  const dict = {}
+  for (const t of TYPES) {
+    dict[t] = {
+      USD: 0,
+      CNY: 0,
+    }
+  }
+
+  for (const x of income) {
+    if (x.amount > 0) {
+      dict[POSITIVE][x.currency] += x.amount
+      for (const k of KKs) {
+        dict[k][x.currency] += x.amount
+      }
+    } else if (x.type === KK) {
+      // 逐级递减，每个都要扣款
+      const idx = KKs.indexOf(x.category)
+      for (let i = idx; i < KKs.length; i++) {
+        dict[KKs[i]][x.currency] += x.amount
+      }
+    }
+  }
+
+  const data = []
+
+  // 按漏斗顺序排序，扣的最多的是最底部的，放在最前面
+  for (const t of TYPES.reverse()) {
+    for (const c of CURRENCIES) {
+      data.push({
+        type: t,
+        currency: c,
+        value: dict[t][c],
+      })
+    }
+  }
+
+  return [data, dict[POSITIVE].USD, dict[POSITIVE].CNY]
+}
+
+export function renderChartForTaxAndDeduction(that, income) {
+  // 硬编码部分
+  const [data, baseUSD, baseCNY] = getTaxDeductionData(income)
+  const base = {
+    USD: baseUSD,
+    CNY: baseCNY,
+  }
+
+  const { Chart } = that.$g2
+  const chart = new Chart({
+    container: 'tax-deduction',
+    autoFit: true,
+    height: chartHeight(),
+    padding: [30, 120, 95],
+  })
+  chart.data(data)
+  chart.axis(false)
+  chart.tooltip({
+    showMarkers: false,
+    showTitle: false,
+    itemTpl:
+      '<li class="g2-tooltip-list-item" data-index={index} style="margin-bottom:4px;">' +
+      '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
+      '<span style="padding-left: 16px">{value} {name}</span>' +
+      '</li>',
+  })
+
+  chart.facet('mirror', {
+    fields: ['currency'],
+    transpose: true,
+    padding: 0,
+    eachView(view, facet) {
+      view
+        .interval()
+        .position('type*value')
+        .color('type', [
+          '#69C0FF',
+          '#40A9FF',
+          '#1890FF',
+          '#0050B3',
+          '#0C3967FF',
+        ])
+        .shape('funnel')
+        .tooltip('currency*type*value', (currency, type, value) => {
+          return {
+            name: currency,
+            value: type + ': ' + value,
+          }
+        })
+        .style({
+          lineWidth: 1,
+          stroke: '#fff',
+        })
+        .animate({
+          appear: {
+            animation: 'fade-in',
+          },
+          update: {
+            annotation: 'fade-in',
+          },
+        })
+
+      data.map((obj) => {
+        if (obj.currency === facet.columnValue) {
+          view.annotation().text({
+            top: true,
+            position: [obj.type, 'min'],
+            content: `${obj.type} ${parseFloat(obj.value).toFixed(2)} (${(
+              (parseFloat(obj.value) * 100) /
+              parseFloat(base[obj.currency])
+            ).toFixed(2)}%)`,
+            style: {
+              fill: '#fff',
+              stroke: null,
+              fontSize: 12,
+              textAlign: facet.columnIndex ? 'start' : 'end',
+              shadowBlur: 2,
+              shadowColor: 'rgba(0, 0, 0, .45)',
+            },
+            offsetX: facet.columnIndex ? 10 : -10,
+          })
+        }
+
+        return null
+      })
+    },
+  })
+  chart.interaction('element-active')
+  chart.removeInteraction('legend-filter')
+  chart.render()
+  return chart
+}

@@ -256,7 +256,8 @@
     "advanced-platform": "Advanced Income for Platforms",
     "balance": "Balance",
     "no-negative": "Negative amounts (e.g., tax, re-bill) are not included.",
-    "show-pending": "Also include pending balances"
+    "show-pending": "Also include pending balances",
+    "tax-deduction": "Tax and Deductions"
   },
   "credit": {
     "source": "Source",

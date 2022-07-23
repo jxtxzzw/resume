@@ -109,6 +109,22 @@
       {{ $t('income.no-negative') }}
     </Alert>
     <div id="advanced-platform"></div>
+
+    <Divider>{{ $t('income.tax-deduction') }}</Divider>
+    <Alert type="info">
+      {{ $t('income.currency') }}
+      <i-switch
+        v-model="currencyTaxDeduction"
+        size="large"
+        :true-value="true"
+        :false-value="false"
+        disabled
+      >
+        <span slot="open">{{ $t('income.open') }}</span>
+        <span slot="close">{{ $t('income.close') }}</span>
+      </i-switch>
+    </Alert>
+    <div id="tax-deduction"></div>
   </div>
 </template>
 
@@ -126,6 +142,7 @@ export default {
       currencyAdvancedPlatform: false,
       currencyAllAccumulated: true,
       currencyBalance: true,
+      currencyTaxDeduction: true,
       oldChart: {
         allAccumulated: undefined,
         incomeChartForYearAndType: undefined,
@@ -133,6 +150,7 @@ export default {
         advancedIncomeChartForYearAndType: undefined,
         advancedIncomeChartForAdvancedPlatform: undefined,
         balance: undefined,
+        taxDeduction: undefined,
       },
       showPendingCheckGroup: [],
     }
@@ -160,6 +178,7 @@ export default {
         'advanced-platform',
         'all-accumulated',
         'balance',
+        'tax-deduction',
       ]
     ) {
       if (charts.includes('basic-year')) {
@@ -219,6 +238,12 @@ export default {
           this,
           balance,
           this.showPendingCheckGroup.length > 0
+        )
+      }
+      if (charts.includes('tax-deduction')) {
+        this.oldChart.balance = incomeUtil.renderChartForTaxAndDeduction(
+          this,
+          income
         )
       }
 
