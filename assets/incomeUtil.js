@@ -1125,7 +1125,7 @@ function getTaxDeductionData(income) {
 
   const KKs = []
   for (const x of income) {
-    if (x.amount < 0 && !KKs.includes(x.category)) {
+    if (parseFloat(x.amount) < 0 && !KKs.includes(x.category)) {
       KKs.push(x.category)
     }
   }
@@ -1141,16 +1141,17 @@ function getTaxDeductionData(income) {
   }
 
   for (const x of income) {
-    if (x.amount > 0 && x.taxable) {
-      dict[TAXABLE][x.currency] += x.amount
+    const amount = parseFloat(x.amount)
+    if (amount > 0 && x.taxable) {
+      dict[TAXABLE][x.currency] += amount
       for (const k of KKs) {
-        dict[k][x.currency] += x.amount
+        dict[k][x.currency] += amount
       }
     } else if (KKs.includes(x.category)) {
       // 逐级递减，每个都要扣款
       const idx = KKs.indexOf(x.category)
       for (let i = idx; i < KKs.length; i++) {
-        dict[KKs[i]][x.currency] += x.amount
+        dict[KKs[i]][x.currency] += amount
       }
     }
   }
