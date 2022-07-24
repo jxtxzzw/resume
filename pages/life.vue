@@ -74,13 +74,14 @@ export default {
     renderChart() {
       if (this.oldChart.lifeTimeBar) {
         this.oldChart.lifeTimeBar.destroy()
-        this.oldChart.lifeTimeBar = undefined
       }
-      if (this.selecting) {
+      if (this.selecting && this.showData.length > 1) {
         this.oldChart.lifeTimeBar = lifeUtil.showLifeTimeBar(
           this,
           this.showData
         )
+      } else {
+        this.oldChart.lifeTimeBar = undefined
       }
     },
     dsu_init(xs) {
