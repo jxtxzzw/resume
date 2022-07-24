@@ -234,6 +234,9 @@ export default {
         )
       }
       if (charts.includes('balance')) {
+        if (this.oldChart.balance) {
+          this.oldChart.balance.destroy()
+        }
         this.oldChart.balance = incomeUtil.renderChartForBalance(
           this,
           balance,

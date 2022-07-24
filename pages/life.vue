@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div id="life-time-bar"></div>
     <Timeline>
       <TimelineItem v-for="item in showData" :key="item.event" color="green">
         <Icon slot="dot" type="ios-trophy"></Icon>
@@ -46,6 +47,8 @@
 
 <script>
 import { life } from 'assets/reader'
+import * as lifeUtil from 'assets/lifeUtil'
+
 export default {
   name: 'Life',
   data() {
@@ -56,14 +59,30 @@ export default {
       group: [],
       dsu: [],
       selecting: false,
+      oldChart: {
+        lifeTimeBar: undefined,
+      },
     }
   },
   mounted() {
     this.rawData = [...life]
     this.showData = [...life]
     this.grouping()
+    this.renderChart()
   },
   methods: {
+    renderChart() {
+      if (this.oldChart.lifeTimeBar) {
+        this.oldChart.lifeTimeBar.destroy()
+        this.oldChart.lifeTimeBar = undefined
+      }
+      if (this.selecting) {
+        this.oldChart.lifeTimeBar = lifeUtil.showLifeTimeBar(
+          this,
+          this.showData
+        )
+      }
+    },
     dsu_init(xs) {
       this.dsu = []
       for (const x of xs) {
@@ -96,11 +115,13 @@ export default {
       this.showData = this.rawData.filter((e) => {
         return this.dsu_same(x, e.event)
       })
+      this.renderChart()
     },
     unselect() {
       this.selecting = false
       this.showData = []
       this.showData = [...this.rawData]
+      this.renderChart()
     },
     getAnchor(href) {
       let anchorHref = `${document.location.origin}${document.location.pathname}`
