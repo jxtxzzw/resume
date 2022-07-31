@@ -1,11 +1,80 @@
 [
   {
+    "id": 1,
+    "parent": null,
     "company": "微软",
-    "position": "SWE INTERN",
-    "department": "C+AI",
-    "location": "上海紫竹",
+    "department": null,
+    "position": null,
+    "level": null,
     "date": "2019-07-01",
     "end": "2019-09-30",
-    "content": "暑假实习"
+    "content": "[微软] ms@microsoft.com",
+    "location": null,
+    "logo": "MS"
+  },
+  {
+    "id": 2,
+    "parent": 1,
+    "company": null,
+    "department": "Microsoft, AA, BB DevDiv, CCC, DDDD",
+    "position": "软件开发工程师暑期实习 (SWE INTERN)",
+    "level": "INTERN",
+    "date": "2019-07-01",
+    "end": "2019-09-30",
+    "content": "XXX",
+    "location": "上海",
+    "logo": "VSCODE"
+  },
+  {
+    "id": 3,
+    "parent": null,
+    "company": "Google",
+    "department": null,
+    "position": null,
+    "level": null,
+    "date": "2022-07-11",
+    "end": null,
+    "content": "[Google]",
+    "location": null,
+    "logo": "GG"
+  },
+  {
+    "id": 5,
+    "parent": 3,
+    "company": null,
+    "department": "Google, YouTube",
+    "position": "SWE/SRE/XXX/YYY",
+    "level": "L3",
+    "date": "2022-07-11",
+    "end": null,
+    "content": "SWE/SRE/XXX/YYY",
+    "location": "Google Bay Area",
+    "logo": "YTB"
+  },
+  {
+    "id": 6,
+    "parent": 3,
+    "company": null,
+    "department": "Google, YouTube",
+    "position": "SWE/SRE/XXX/YYY",
+    "level": "L10",
+    "date": "2023-07-11",
+    "end": null,
+    "content": "SWE/SRE/XXX/YYY",
+    "location": "Google Bay Area",
+    "logo": "YTB"
+  },
+  {
+    "id": 7,
+    "parent": 3,
+    "company": null,
+    "department": "Google, Core",
+    "position": "SWE/SRE/XXX/YYY",
+    "level": "L10",
+    "date": "2024-07-11",
+    "end": null,
+    "content": "SWE/SRE/XXX/YYY",
+    "location": "Google Bay Area",
+    "logo": null
   }
 ]
