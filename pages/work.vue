@@ -64,8 +64,8 @@ export default {
     preProcess() {
       // 按父记录排序，父记录小的在前，确保按序遍历时元素都存在
       work.sort((a, b) => {
-        const pa = a.parent ? a.parent : 0
-        const pb = b.parent ? b.parent : 0
+        const pa = a.parent ? parseInt(a.parent) : 0
+        const pb = b.parent ? parseInt(b.parent) : 0
         return pa - pb
       })
       // 开始处理嵌套关系
@@ -75,7 +75,7 @@ export default {
           this.items.push(x)
         } else {
           for (const y of this.items) {
-            if (y.id === x.parent) {
+            if (parseInt(y.id) === parseInt(x.parent)) {
               if (!y.children) {
                 y.children = []
               }
