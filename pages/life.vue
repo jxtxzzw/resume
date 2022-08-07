@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="life-time-bar"></div>
+    <div id="life-chart"></div>
     <Timeline>
       <TimelineItem v-for="item in showData" :key="item.event" color="green">
         <Icon slot="dot" type="ios-trophy"></Icon>
@@ -75,14 +75,9 @@ export default {
       if (this.oldChart.lifeTimeBar) {
         this.oldChart.lifeTimeBar.destroy()
       }
-      if (this.selecting && this.showData.length > 1) {
-        this.oldChart.lifeTimeBar = lifeUtil.showLifeTimeBar(
-          this,
-          this.showData
-        )
-      } else {
-        this.oldChart.lifeTimeBar = undefined
-      }
+      this.oldChart.lifeTimeBar = this.selecting
+        ? lifeUtil.showChart(this, this.showData)
+        : undefined
     },
     dsu_init(xs) {
       this.dsu = []

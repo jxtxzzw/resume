@@ -4,20 +4,23 @@
     "date": "2020-09-01",
     "content": "买了房子？拿了驾照？生活中的大事……",
     "till": "2020-09-01",
-    "previous": null
+    "previous": null,
+    "chart": "CALENDAR"
   },
   {
     "event": "取得驾照2",
     "date": "2020-09-01",
     "content": "买了房子？拿了驾照？生活中的大事……",
     "till": "2021-09-01",
-    "previous": "取得驾照2"
+    "previous": "取得驾照2",
+    "chart": null
   },
   {
     "event": "取得驾照3",
     "date": "2020-09-01",
     "content": "买了房子？拿了驾照？生活中的大事……",
     "till": null,
-    "previous": null
+    "previous": null,
+    "chart": "TIME_BAR"
   }
 ]
