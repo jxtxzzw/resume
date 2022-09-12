@@ -1186,9 +1186,9 @@ export function renderChartForBalance(
   return chart
 }
 
-function getTaxDeductionData(income) {
+function getTaxDeductionData(income, that) {
   // 以下部分为硬编码部分，暂时只处理 USD 和 CNY
-  const TAXABLE = '应税收入'
+  const TAXABLE = that.$t('income.taxable')
   const CURRENCIES = ['USD', 'CNY']
 
   const KKs = []
@@ -1230,7 +1230,7 @@ function getTaxDeductionData(income) {
   for (const t of TYPES.reverse()) {
     for (const c of CURRENCIES) {
       data.push({
-        type: t,
+        type: t === TAXABLE ? t : that.$t('income.after-what', { what: t }),
         currency: c,
         value: dict[t][c],
       })
@@ -1242,7 +1242,7 @@ function getTaxDeductionData(income) {
 
 export function renderChartForTaxAndDeduction(that, income) {
   // 硬编码部分
-  const [data, baseUSD, baseCNY] = getTaxDeductionData(income)
+  const [data, baseUSD, baseCNY] = getTaxDeductionData(income, that)
   const base = {
     USD: baseUSD,
     CNY: baseCNY,

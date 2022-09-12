@@ -257,7 +257,9 @@
     "balance": "Balance",
     "no-negative": "Negative amounts (e.g., tax, re-bill) are not included.",
     "show-pending": "Also include pending balances",
-    "tax-deduction": "Tax and Deductions"
+    "tax-deduction": "Tax and Deductions",
+    "taxable": "Taxable Income",
+    "after-what": "After {what}"
   },
   "credit": {
     "source": "Source",
