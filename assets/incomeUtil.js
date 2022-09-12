@@ -969,6 +969,8 @@ export function renderChartForBalance(
 `
 
   const { Chart } = that.$g2
+  const { DataView } = that.$dataset
+
   const chart = new Chart({
     container: 'g2-container-balance',
     autoFit: true,
@@ -1124,14 +1126,13 @@ export function renderChartForBalance(
   })
 
   // 计算并绘制预测线
-  const { DataView } = that.$dataset
 
-  const SCALE = 1000 * 86400 * 10 // 将时间戳除到以旬为单位，每月按 30 天计算（每旬为 10 天）：1000毫秒/秒 * 86400秒/天 * 10天/旬
+  const SCALE = 1000 * 86400 * 90 // 将时间戳除到以季度为单位（计 90 天）：1000毫秒/秒 * 86400秒/天 * 90天/季度
 
   const dataForPrediction = []
   for (const date in sumEach) {
     // 改为连续数值，因为字符串无法按 bandwidth 做 polynomial regression
-    // 同时做近似归一化（当前日期减去 minDate，再除到以月为单位的范围，每月按 30 天计算）
+    // 同时做近似归一化
     const convertedDate = (Date.parse(date) - Date.parse(minD)) / SCALE
     dataForPrediction.push({
       datum: convertedDate,
