@@ -1,5 +1,7 @@
 // nuxt 下不能用 import 引入整个依赖，只能用 plugin 的方式引入
 
+import { dateFormat } from './util'
+
 function getDataForYearAndType(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
@@ -1074,6 +1076,7 @@ export function renderChartForBalance(
   // 计算并绘制均值线
   let minD = '9999-12-31'
   let maxD = '0000-01-01'
+  const sumEach = []
   let sum = 0
   for (const d of data) {
     if (d.date > maxD) {
@@ -1082,7 +1085,13 @@ export function renderChartForBalance(
     if (d.date < minD) {
       minD = d.date
     }
-    sum += d.value
+    if (sumEach[d.date]) {
+      sumEach[d.date] += parseFloat(d.value)
+    } else {
+      sumEach[d.date] = parseFloat(d.value)
+    }
+
+    sum += parseFloat(d.value)
   }
 
   const uniqueCount = data
@@ -1112,6 +1121,64 @@ export function renderChartForBalance(
       content: `均值线：(${avg})`,
       offsetY: -5,
     },
+  })
+
+  // 计算并绘制预测线
+  const { DataView } = that.$dataset
+
+  const SCALE = 1000 * 86400 * 10 // 将时间戳除到以旬为单位，每月按 30 天计算（每旬为 10 天）：1000毫秒/秒 * 86400秒/天 * 10天/旬
+
+  const dataForPrediction = []
+  for (const date in sumEach) {
+    // 改为连续数值，因为字符串无法按 bandwidth 做 polynomial regression
+    // 同时做近似归一化（当前日期减去 minDate，再除到以月为单位的范围，每月按 30 天计算）
+    const convertedDate = (Date.parse(date) - Date.parse(minD)) / SCALE
+    dataForPrediction.push({
+      datum: convertedDate,
+      value: parseFloat(sumEach[date]),
+    })
+  }
+
+  const dv = new DataView().source(dataForPrediction)
+
+  dv.transform({
+    type: 'regression',
+    method: 'polynomial',
+    fields: ['datum', 'value'],
+    bandwidth: 1,
+    as: ['datum', 'value'],
+  })
+
+  dv.rows = dv.rows.map((row) => {
+    return {
+      date: dateFormat(
+        new Date(Date.parse(dateFormat(new Date(minD))) + row.datum * SCALE)
+      ), // 重新变化为日期
+      value: row.value,
+    }
+  })
+
+  const cv = chart.createView()
+  cv.axis(false)
+  cv.data(dv.rows)
+  cv.line()
+    .position('date*value')
+    .style({
+      stroke: '#ffbd49',
+      lineWidth: 1,
+      lineDash: [3, 3],
+    })
+    .tooltip(false)
+  cv.annotation().text({
+    content: '预测线',
+    top: true,
+    position: [dv.rows[0].date, dv.rows[0].value],
+    style: {
+      fill: '#ffbd49',
+      fontSize: 12,
+      fontWeight: 300,
+    },
+    offsetY: -5,
   })
 
   chart.render()
