@@ -1109,24 +1109,49 @@ export function renderChartForBalance(
     start: [minD, avg],
     end: [maxD, avg],
     style: {
-      stroke: '#595959',
+      stroke: '#c849ff',
       lineWidth: 1,
-      lineDash: [3, 3],
+      lineDash: [3, 5],
     },
     text: {
-      position: 'start',
+      position: 'end',
       style: {
-        fill: '#8c8c8c',
+        fill: '#c849ff',
         fontSize: 12,
         fontWeight: 300,
       },
-      content: `均值线：(${avg})`,
+      content: `均值线：(${parseFloat(avg).toFixed(2)})`,
+      offsetX: -20,
       offsetY: -5,
     },
   })
 
-  // 计算并绘制预测线
+  sum = 0
+  let count = 0
+  let prevD, prevAvg
+  for (const d in sumEach) {
+    sum += sumEach[d]
+    count += 1
+    const avg = sum / count
+    if (!prevD) {
+      prevD = d
+      prevAvg = avg
+    }
+    chart.annotation().line({
+      top: true,
+      start: [prevD, prevAvg],
+      end: [d, avg],
+      style: {
+        stroke: '#c849ff',
+        lineWidth: 1,
+        lineDash: [5, 5],
+      },
+    })
+    prevD = d
+    prevAvg = avg
+  }
 
+  // 计算并绘制预测线
   const SCALE = 1000 * 86400 * 90 // 将时间戳除到以季度为单位（计 90 天）：1000毫秒/秒 * 86400秒/天 * 90天/季度
 
   const dataForPrediction = []
@@ -1167,13 +1192,16 @@ export function renderChartForBalance(
     .style({
       stroke: '#ffbd49',
       lineWidth: 1,
-      lineDash: [3, 3],
+      lineDash: [5, 3],
     })
     .tooltip(false)
   cv.annotation().text({
     content: '预测线',
     top: true,
-    position: [dv.rows[0].date, dv.rows[0].value],
+    position: [
+      dv.rows[dv.rows.length - 1].date,
+      dv.rows[dv.rows.length - 1].value,
+    ],
     style: {
       fill: '#ffbd49',
       fontSize: 12,
