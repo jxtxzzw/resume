@@ -259,7 +259,9 @@
     "show-pending": "Also include pending balances",
     "tax-deduction": "Tax and Deductions",
     "taxable": "Taxable Income",
-    "after-what": "After {what}"
+    "after-what": "After {what}",
+    "prediction-line": "Prediction Line",
+    "average-line": "Average Line"
   },
   "credit": {
     "source": "Source",

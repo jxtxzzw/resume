@@ -259,7 +259,9 @@
     "show-pending": "包括未决款项",
     "tax-deduction": "税收和扣款项",
     "taxable": "应税收入",
-    "after-what": "{what} 后"
+    "after-what": "{what} 后",
+    "prediction-line": "预测线",
+    "average-line": "均值线"
   },
   "credit": {
     "source": "数据源",

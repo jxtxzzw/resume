@@ -1120,7 +1120,9 @@ export function renderChartForBalance(
         fontSize: 12,
         fontWeight: 300,
       },
-      content: `均值线：(${parseFloat(avg).toFixed(2)})`,
+      content: `${that.$t('income.average-line')}\n${parseFloat(avg).toFixed(
+        2
+      )}`,
       offsetX: -20,
       offsetY: -5,
     },
@@ -1175,7 +1177,7 @@ export function renderChartForBalance(
     as: ['datum', 'value'],
   })
 
-  dv.rows = dv.rows.map((row) => {
+  const predictions = dv.rows.map((row) => {
     return {
       date: dateFormat(
         new Date(Date.parse(dateFormat(new Date(minD))) + row.datum * SCALE)
@@ -1184,23 +1186,29 @@ export function renderChartForBalance(
     }
   })
 
-  const cv = chart.createView()
-  cv.axis(false)
-  cv.data(dv.rows)
-  cv.line()
-    .position('date*value')
-    .style({
-      stroke: '#ffbd49',
-      lineWidth: 1,
-      lineDash: [5, 3],
+  for (const idx in predictions) {
+    const r = predictions[idx]
+    const pr = parseInt(idx) === 0 ? r : predictions[idx - 1]
+    chart.annotation().line({
+      top: true,
+      start: [r.date, r.value],
+      end: [pr.date, pr.value],
+      style: {
+        stroke: '#ffbd49',
+        lineWidth: 1,
+        lineDash: [5, 3],
+      },
     })
-    .tooltip(false)
-  cv.annotation().text({
-    content: '预测线',
+  }
+
+  chart.annotation().text({
+    content: `${that.$t('income.prediction-line')}\n${
+      predictions[predictions.length - 1].value
+    }`,
     top: true,
     position: [
-      dv.rows[dv.rows.length - 1].date,
-      dv.rows[dv.rows.length - 1].value,
+      predictions[predictions.length - 1].date,
+      predictions[predictions.length - 1].value,
     ],
     style: {
       fill: '#ffbd49',
