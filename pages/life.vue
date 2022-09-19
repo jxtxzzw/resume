@@ -1,10 +1,10 @@
 <template>
   <div>
     <Modal
-      v-model="selecting"
+      v-model="modalVisible"
       footer-hide
       :width="75"
-      @on-visible-change="chartVisible"
+      @on-visible-change="modalVisibleOnChange"
     >
       <div id="life-chart" style="width: auto"></div>
     </Modal>
@@ -66,6 +66,7 @@ export default {
       group: [],
       dsu: [],
       selecting: false,
+      modalVisible: false,
       oldChart: {
         lifeTimeBar: undefined,
       },
@@ -114,6 +115,7 @@ export default {
     },
     select(x) {
       this.selecting = true
+      this.modalVisible = true
       this.showData = []
       this.showData = this.rawData.filter((e) => {
         return this.dsu_same(x, e.event)
@@ -122,12 +124,19 @@ export default {
     },
     unselect() {
       this.selecting = false
+      this.modalVisible = false
       this.showData = []
       this.showData = [...this.rawData]
       this.renderChart()
     },
-    chartVisible(status) {
-      if (!status) {
+    modalVisibleOnChange(status) {
+      if (status) {
+        if (!this.oldChart.lifeTimeBar) {
+          // 如果打开的时候没有特定图表，那么依然不显示（直接关掉）
+          this.modalVisible = false
+        }
+      } else if (this.oldChart.lifeTimeBar) {
+        // 只有是从图表中退出的才需要自动重置，如果本身没有显示图表的话就需要用户点击
         this.unselect()
       }
       window.dispatchEvent(new Event('resize'))
