@@ -52,7 +52,6 @@ export function showLifeTimeBar(that, showData) {
 
   chart.scale('range', {
     type: 'time',
-    nice: true,
   })
 
   chart.tooltip({

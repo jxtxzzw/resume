@@ -1,6 +1,13 @@
 <template>
   <div>
-    <div id="life-chart"></div>
+    <Modal
+      v-model="selecting"
+      footer-hide
+      :width="75"
+      @on-visible-change="chartVisible"
+    >
+      <div id="life-chart" style="width: auto"></div>
+    </Modal>
     <Timeline>
       <TimelineItem v-for="item in showData" :key="item.event" color="green">
         <Icon slot="dot" type="ios-trophy"></Icon>
@@ -118,6 +125,12 @@ export default {
       this.showData = []
       this.showData = [...this.rawData]
       this.renderChart()
+    },
+    chartVisible(status) {
+      if (!status) {
+        this.unselect()
+      }
+      window.dispatchEvent(new Event('resize'))
     },
     getAnchor(href) {
       let anchorHref = `${document.location.origin}${document.location.pathname}`
