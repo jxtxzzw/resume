@@ -36,7 +36,7 @@ export function randomLabelColor(str) {
   return color[r]
 }
 
-export function sortByDate(list, field = 'date') {
+export function sortByDate(list, field = 'date', breakingTie = undefined) {
   return list.sort((a, b) => {
     if (a[field] === null && b[field] === null) {
       return 0
@@ -45,7 +45,12 @@ export function sortByDate(list, field = 'date') {
     } else if (a[field] !== null && b[field] === null) {
       return -1
     } else {
-      return new Date(b[field]) - new Date(a[field])
+      const dDiff = new Date(b[field]) - new Date(a[field])
+      if (breakingTie && dDiff === 0) {
+        return breakingTie(a, b)
+      } else {
+        return dDiff
+      }
     }
   })
 }

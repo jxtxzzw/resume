@@ -18,7 +18,11 @@ export const honor = sortByDate(
   filenameToSrc(require('./data/honor.json'), setting.src.honor)
 )
 export const study = sortByDate(require('./data/study.json'))
-export const life = sortByDate(require('./data/life.json'))
+
+export const life = sortByDate(require('./data/life.json'), 'date', (a, b) => {
+  return b.event.localeCompare(a.event)
+})
+
 export const work = sortByDate(require('./data/work.json'))
 export const project = sortByDate(
   filenameToSrc(require('./data/project.json'), setting.src.project)
