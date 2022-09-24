@@ -110,6 +110,15 @@ export function showLifeCalendar(that, showData) {
   const today = new Date()
   let day = 0
 
+  // 避免太细的格子，所以如果按缺省 ROWS_PER_COL 会导致列数太多，就要调整
+  const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
+  const STEP = 7
+  const intervals = (today - cursor) / (86400 * 1000) // 计算有多少天
+  let rowsPerCol = ROWS_PER_COL // 从缺省值开始，应该可以解决大部分问题
+  while (intervals / rowsPerCol > RATIO * rowsPerCol) {
+    rowsPerCol += STEP
+  }
+
   while (cursor <= today) {
     const s = dateFormat(cursor)
     // day 是一周的第几天，针对当月来说
@@ -121,8 +130,8 @@ export function showLifeCalendar(that, showData) {
         date: dateFormat(cursor),
         commits: 0,
         month: cursor.getMonth(),
-        day: Math.floor(day % ROWS_PER_COL),
-        week: Math.floor(day / ROWS_PER_COL),
+        day: Math.floor(day % rowsPerCol),
+        week: Math.floor(day / rowsPerCol),
       })
       day++
       cursor = new Date(cursor.setDate(cursor.getDate() + 1))
@@ -133,8 +142,8 @@ export function showLifeCalendar(that, showData) {
       // 获取相同日期有多少个，就是当日打卡次数
       commits: s in commits ? commits[s] : 0,
       month: cursor.getMonth(),
-      day: Math.floor(day % ROWS_PER_COL),
-      week: Math.floor(day / ROWS_PER_COL),
+      day: Math.floor(day % rowsPerCol),
+      week: Math.floor(day / rowsPerCol),
     })
     // 加一天
     day++
