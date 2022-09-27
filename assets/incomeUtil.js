@@ -1223,24 +1223,27 @@ export function renderChartForBalance(
 }
 
 function getTaxDeductionData(income, that) {
-  // 以下部分为硬编码部分，暂时只处理 USD 和 CNY
   const TAXABLE = that.$t('income.taxable')
-  const CURRENCIES = ['USD', 'CNY']
 
-  const KKs = []
+  const currencies = []
+  const categories = []
+
   for (const x of income) {
-    if (parseFloat(x.amount) < 0 && !KKs.includes(x.category)) {
-      KKs.push(x.category)
+    if (!currencies.includes(x.currency)) {
+      currencies.push(x.currency)
+    }
+    if (parseFloat(x.amount) < 0 && !categories.includes(x.category)) {
+      categories.push(x.category)
     }
   }
 
-  const TYPES = [TAXABLE, ...KKs]
+  const types = [TAXABLE, ...categories]
 
   const dict = {}
-  for (const t of TYPES) {
-    dict[t] = {
-      USD: 0,
-      CNY: 0,
+  for (const t of types) {
+    dict[t] = {}
+    for (const c of currencies) {
+      dict[t][c] = 0
     }
   }
 
@@ -1248,14 +1251,14 @@ function getTaxDeductionData(income, that) {
     const amount = parseFloat(x.amount)
     if (amount > 0 && x.taxable) {
       dict[TAXABLE][x.currency] += amount
-      for (const k of KKs) {
+      for (const k of categories) {
         dict[k][x.currency] += amount
       }
-    } else if (KKs.includes(x.category)) {
+    } else if (categories.includes(x.category)) {
       // 逐级递减，每个都要扣款
-      const idx = KKs.indexOf(x.category)
-      for (let i = idx; i < KKs.length; i++) {
-        dict[KKs[i]][x.currency] += amount
+      const idx = categories.indexOf(x.category)
+      for (let i = idx; i < categories.length; i++) {
+        dict[categories[i]][x.currency] += amount
       }
     }
   }
@@ -1263,8 +1266,8 @@ function getTaxDeductionData(income, that) {
   const data = []
 
   // 按漏斗顺序排序，扣的最多的是最底部的，放在最前面
-  for (const t of TYPES.reverse()) {
-    for (const c of CURRENCIES) {
+  for (const t of types.reverse()) {
+    for (const c of currencies) {
       data.push({
         type: t === TAXABLE ? t : that.$t('income.after-what', { what: t }),
         currency: c,
@@ -1273,98 +1276,112 @@ function getTaxDeductionData(income, that) {
     }
   }
 
-  return [data, dict[TAXABLE].USD, dict[TAXABLE].CNY]
+  return [data, dict[TAXABLE]]
 }
 
 export function renderChartForTaxAndDeduction(that, income) {
-  // 硬编码部分
-  const [data, baseUSD, baseCNY] = getTaxDeductionData(income, that)
-  const base = {
-    USD: baseUSD,
-    CNY: baseCNY,
-  }
+  const [data, base] = getTaxDeductionData(income, that)
+
+  console.log(data)
+  console.log(base)
 
   const { Chart } = that.$g2
+
   const chart = new Chart({
     container: 'tax-deduction',
     autoFit: true,
     height: chartHeight(),
     padding: [30, 120, 95],
   })
-  chart.data(data)
-  chart.axis(false)
-  chart.tooltip({
-    showMarkers: false,
-    showTitle: false,
-    itemTpl:
-      '<li class="g2-tooltip-list-item" data-index={index} style="margin-bottom:4px;">' +
-      '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
-      '<span style="padding-left: 16px">{value} {name}</span>' +
-      '</li>',
-  })
 
-  chart.facet('mirror', {
-    fields: ['currency'],
-    transpose: true,
-    padding: 0,
-    eachView(view, facet) {
-      view
-        .interval()
-        .position('type*value')
-        .color('type', [
-          '#69C0FF',
-          '#40A9FF',
-          '#1890FF',
-          '#0050B3',
-          '#0C3967FF',
-        ])
-        .shape('funnel')
-        .tooltip('currency*type*value', (currency, type, value) => {
-          return {
-            name: currency,
-            value: type + ': ' + value,
-          }
-        })
-        .style({
-          lineWidth: 1,
-          stroke: '#fff',
-        })
-        .animate({
-          appear: {
-            animation: 'fade-in',
-          },
-          update: {
-            annotation: 'fade-in',
-          },
-        })
+  let dataViewsIdx = 0
+  const numOfCurrencies = Object.keys(base).length
+  for (const c in base) {
+    const dataView = chart.createView({
+      region: {
+        start: {
+          x: dataViewsIdx / numOfCurrencies,
+          y: 0,
+        },
+        end: {
+          x: (dataViewsIdx + 1) / numOfCurrencies,
+          y: 1,
+        },
+      },
+      padding: [0, 10, 40, 60],
+    })
+    dataViewsIdx++
+    const filteredData = data.filter((e) => {
+      return e.currency === c
+    })
+    dataView.data(filteredData)
+    dataView.axis(false)
+    dataView.tooltip({
+      showMarkers: false,
+      showTitle: false,
+      itemTpl:
+        '<li class="g2-tooltip-list-item" data-index={index} style="margin-bottom:4px;">' +
+        '<span style="background-color:{color};" class="g2-tooltip-marker"></span><br/>' +
+        '<span style="padding-left: 16px">{value}</span><br/>' +
+        '<span style="padding-left: 16px">{name}</span>' +
+        '</li>',
+    })
 
-      data.map((obj) => {
-        if (obj.currency === facet.columnValue) {
-          view.annotation().text({
-            top: true,
-            position: [obj.type, 'min'],
-            content: `${obj.type} ${parseFloat(obj.value).toFixed(2)} (${(
-              (parseFloat(obj.value) * 100) /
-              parseFloat(base[obj.currency])
-            ).toFixed(2)}%)`,
-            style: {
-              fill: '#fff',
-              stroke: null,
-              fontSize: 12,
-              textAlign: facet.columnIndex ? 'start' : 'end',
-              shadowBlur: 2,
-              shadowColor: 'rgba(0, 0, 0, .45)',
-            },
-            offsetX: facet.columnIndex ? 10 : -10,
-          })
+    dataView.coordinate('rect').transpose().scale(-1, 1)
+
+    dataView
+      .interval()
+      .adjust('symmetric')
+      .position('type*value')
+      .color('type', ['#69C0FF', '#40A9FF', '#1890FF', '#0050B3', '#0C3967FF'])
+      .shape('funnel')
+      .tooltip('currency*type*value', (currency, type, value) => {
+        return {
+          name: currency,
+          value: `${value.toFixed(2)} (${(
+            (parseFloat(value) * 100) /
+            parseFloat(base[currency])
+          ).toFixed(2)}%)`,
         }
-
-        return null
       })
-    },
-  })
-  chart.interaction('element-active')
+      .label('currency')
+      .style({
+        lineWidth: 1,
+        stroke: '#fff',
+      })
+      .animate({
+        appear: {
+          animation: 'fade-in',
+        },
+        update: {
+          annotation: 'fade-in',
+        },
+      })
+
+    dataView.removeInteraction('element-active')
+
+    for (const d of filteredData) {
+      dataView.annotation().text({
+        top: true,
+        position: [d.type, 'center'],
+        content: `${d.type}\n${parseFloat(d.value).toFixed(2)}\n(${(
+          (parseFloat(d.value) * 100) /
+          parseFloat(base[d.currency])
+        ).toFixed(2)}%)`,
+        style: {
+          fill: '#fff',
+          stroke: null,
+          fontSize: 12,
+          textAlign: 'center',
+          shadowBlur: 2,
+          shadowColor: 'rgba(0, 0, 0, .45)',
+        },
+      })
+    }
+  }
+
   chart.removeInteraction('legend-filter')
   chart.render()
+
   return chart
 }
