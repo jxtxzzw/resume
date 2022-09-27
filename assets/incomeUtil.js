@@ -12,46 +12,30 @@ function getDataForYearAndType(rawData, withCurrency = false) {
       dict[year] = {}
     }
     if (!(type in dict[year])) {
-      if (withCurrency) {
-        dict[year][type] = {}
-      } else {
-        dict[year][type] = 0
+      dict[year][type] = {}
+    }
+    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
+    const currency = x.currency
+    if (!(currency in dict[year][type])) {
+      dict[year][type][currency] = {
+        amount: 0.0,
+        weightedAmount: 0.0,
       }
     }
-    const currencyWeight = parseFloat(x.currency_weight)
-    if (withCurrency) {
-      const currency = x.currency
-      if (!(currency in dict[year][type])) {
-        dict[year][type][currency] = {
-          amount: 0.0,
-          weightedAmount: 0.0,
-        }
-      }
-      dict[year][type][currency].amount += amount
-      dict[year][type][currency].weightedAmount += amount * currencyWeight
-    } else {
-      dict[year][type] += amount * currencyWeight
-    }
+    dict[year][type][currency].amount += amount
+    dict[year][type][currency].weightedAmount += amount * currencyWeight
   }
 
   const data = []
   for (const year in dict) {
     for (const type in dict[year]) {
-      if (withCurrency) {
-        for (const currency in dict[year][type]) {
-          data.push({
-            year,
-            type,
-            currency,
-            amount: dict[year][type][currency].amount,
-            weightedAmount: dict[year][type][currency].weightedAmount,
-          })
-        }
-      } else {
+      for (const currency in dict[year][type]) {
         data.push({
           year,
           type,
-          amount: dict[year][type],
+          currency,
+          amount: dict[year][type][currency].amount,
+          weightedAmount: dict[year][type][currency].weightedAmount,
         })
       }
     }
@@ -113,7 +97,7 @@ export function renderChartForYearAndType(
     },
   })
 
-  chart.scale(withCurrency ? 'weightedAmount' : 'amount', {
+  chart.scale('weightedAmount', {
     alias: '金额',
     nice: true,
     formatter: (val) => {
@@ -122,7 +106,7 @@ export function renderChartForYearAndType(
     },
   })
 
-  chart.axis(withCurrency ? 'weightedAmount' : 'amount', {
+  chart.axis('weightedAmount', {
     title: {
       offset: 80,
       style: {
@@ -150,26 +134,21 @@ export function renderChartForYearAndType(
   chart.interaction('legend-highlight')
   chart.interaction('axis-label-highlight')
 
-  let adjustCfg
-  if (withCurrency) {
-    adjustCfg = [
-      {
-        type: 'dodge',
-        dodgeBy: 'currency',
-        marginRatio: 0,
-      },
-      {
-        type: 'stack',
-      },
-    ]
-  } else {
-    adjustCfg = 'stack'
-  }
+  const adjustCfg = [
+    {
+      type: 'dodge',
+      dodgeBy: 'currency',
+      marginRatio: 0,
+    },
+    {
+      type: 'stack',
+    },
+  ]
 
   chart
     .interval()
     .adjust(adjustCfg)
-    .position(`year*${withCurrency ? 'weightedAmount' : 'amount'}`)
+    .position('year*weightedAmount')
     .color('type', colors)
     .label('value', () => {
       return {
@@ -177,14 +156,10 @@ export function renderChartForYearAndType(
         offset: 0,
         content: (originData) => {
           const amount = parseFloat(parseFloat(originData.amount).toFixed(2))
-          if (withCurrency) {
-            const weightedAmount = parseFloat(
-              parseFloat(originData.weightedAmount).toFixed(2)
-            )
-            return `${originData.currency} ${amount} \n (${weightedAmount})`
-          } else {
-            return `(${amount})`
-          }
+          const weightedAmount = parseFloat(
+            parseFloat(originData.weightedAmount).toFixed(2)
+          )
+          return `${originData.currency} ${amount} \n (${weightedAmount})`
         },
         style: {
           stroke: '#fff',
@@ -203,119 +178,85 @@ function getDataForBasicCategory(
   withCurrency = false
 ) {
   const dict = {}
-  let total = 0
   for (const x of rawData) {
     const category = x.category
     const amount = parseFloat(x.amount)
     if (!(category in dict)) {
-      if (withCurrency) {
-        dict[category] = {}
-      } else {
-        dict[category] = 0
-      }
+      dict[category] = {}
     }
     if (amount <= 0) {
       continue
     }
-    const currencyWeight = parseFloat(x.currency_weight)
-    if (withCurrency) {
-      const currency = x.currency
-      if (!(currency in dict[category])) {
-        dict[category][currency] = {
-          amount: 0,
-          weightedAmount: 0,
-        }
+    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
+    const currency = x.currency
+    if (!(currency in dict[category])) {
+      dict[category][currency] = {
+        amount: 0,
+        weightedAmount: 0,
       }
-      dict[category][currency].amount += amount
-      dict[category][currency].weightedAmount += amount * currencyWeight
-    } else {
-      dict[category] += amount * currencyWeight
-      total += amount * currencyWeight
     }
+    dict[category][currency].amount += amount
+    dict[category][currency].weightedAmount += amount * currencyWeight
   }
 
   for (const x of rawAdvancedData) {
     const category = '被动收入' // TODO: HARD_CODED
     const amount = parseFloat(x.amount)
     if (!(category in dict)) {
-      if (withCurrency) {
-        dict[category] = {}
-      } else {
-        dict[category] = 0
-      }
+      dict[category] = {}
     }
     if (amount <= 0) {
       continue
     }
-    const currencyWeight = parseFloat(x.currency_weight)
-    if (withCurrency) {
-      const currency = x.currency
-      if (!(currency in dict[category])) {
-        dict[category][currency] = {
-          amount: 0,
-          weightedAmount: 0,
-        }
+    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
+    const currency = x.currency
+    if (!(currency in dict[category])) {
+      dict[category][currency] = {
+        amount: 0,
+        weightedAmount: 0,
       }
-      dict[category][currency].amount += amount
-      dict[category][currency].weightedAmount += amount * currencyWeight
-    } else {
-      dict[category] += amount * currencyWeight
-      total += amount * currencyWeight
     }
+    dict[category][currency].amount += amount
+    dict[category][currency].weightedAmount += amount * currencyWeight
   }
 
-  if (withCurrency) {
-    const currencies = []
-    const leftData = [] // 先分类再货币
-    const rightData = [] // 先货币再分类
+  const currencies = []
+  const leftData = [] // 先分类再货币
+  const rightData = [] // 先货币再分类
+  for (const category in dict) {
+    for (const currency in dict[category]) {
+      if (!currencies.includes(currency)) {
+        currencies.push(currency)
+      }
+      const amount = dict[category][currency].amount
+      const weightedAmount = dict[category][currency].weightedAmount
+      if (amount > 0) {
+        leftData.push({
+          category,
+          amount,
+          weightedAmount,
+          currency: `${category} - ${currency}`,
+        })
+      }
+    }
+  }
+  for (const currency of currencies) {
     for (const category in dict) {
-      for (const currency in dict[category]) {
-        if (!currencies.includes(currency)) {
-          currencies.push(currency)
-        }
+      if (dict[category][currency]) {
         const amount = dict[category][currency].amount
         const weightedAmount = dict[category][currency].weightedAmount
         if (amount > 0) {
-          leftData.push({
-            category,
+          rightData.push({
+            category: `${currency} - ${category}`,
             amount,
             weightedAmount,
-            currency: `${category} - ${currency}`,
+            currency,
           })
         }
       }
     }
-    for (const currency of currencies) {
-      for (const category in dict) {
-        if (dict[category][currency]) {
-          const amount = dict[category][currency].amount
-          const weightedAmount = dict[category][currency].weightedAmount
-          if (amount > 0) {
-            rightData.push({
-              category: `${currency} - ${category}`,
-              amount,
-              weightedAmount,
-              currency,
-            })
-          }
-        }
-      }
-    }
-    return [leftData, rightData]
-  } else {
-    const data = []
-    for (const category in dict) {
-      const amount = dict[category]
-      if (amount > 0) {
-        data.push({
-          category,
-          amount,
-          percent: amount / total,
-        })
-      }
-    }
-    return data
   }
+  return [leftData, rightData]
 }
 
 export function renderChartForBasicCategory(
@@ -333,311 +274,254 @@ export function renderChartForBasicCategory(
     height: chartHeight(),
   })
 
-  if (!withCurrency) {
-    // 不进行多币种处理，就只需要画一个图
-    // 获取数据
-    const data = getDataForBasicCategory(rawData, rawAdvancedData, withCurrency)
+  const OUTTER_COLOR = [
+    '#e57575',
+    '#96ef78',
+    '#ba75e8',
+    '#7af1e0',
+    '#ccec68',
+    '#768dea',
+    '#e573de',
+    '#626114',
+    '#b0adad',
+    '#f1c265',
+    '#20a0ff',
+    '#7e6767',
+  ]
 
-    // 通过 DataSet 计算百分比
-    const dv = new DataView()
-    dv.source(data).transform({
-      type: 'percent',
-      field: 'amount', // 只有 amount
-      dimension: 'category',
-      as: 'percent',
-    })
+  // 先计算出按类别分类的结果
+  const [leftData, rightData] = getDataForBasicCategory(
+    rawData,
+    rawAdvancedData,
+    withCurrency
+  )
 
-    chart.data(dv.rows)
-
-    chart
-      .interval()
-      .adjust('stack')
-      .position('percent')
-      .color('category')
-      .label('percent', function (val) {
-        const offset = val > 0.02 ? -30 : 30
-        return {
-          offset,
-          content: (data) => {
-            return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
-              2
-            )}%`
-          },
-        }
-      })
-
-    chart.scale({
-      percent: {
-        formatter: (val) => {
-          val = parseFloat(val * 100).toFixed(2) + '%'
-          return val
-        },
+  const leftView = chart.createView({
+    region: {
+      start: {
+        x: 0,
+        y: 0,
       },
-    })
-
-    chart.coordinate('theta', {
-      radius: 0.5,
-    })
-    chart.legend(false)
-
-    chart.tooltip({
-      showTitle: true,
-      showMarkers: true,
-    })
-
-    chart.interaction('element-active')
-  } else {
-    // 多币种处理
-
-    const OUTTER_COLOR = [
-      '#e57575',
-      '#96ef78',
-      '#ba75e8',
-      '#7af1e0',
-      '#ccec68',
-      '#768dea',
-      '#e573de',
-      '#626114',
-      '#b0adad',
-      '#f1c265',
-      '#20a0ff',
-      '#7e6767',
-    ]
-
-    // 先计算出按类别分类的结果
-    const [leftData, rightData] = getDataForBasicCategory(
-      rawData,
-      rawAdvancedData,
-      withCurrency
-    )
-
-    const leftView = chart.createView({
-      region: {
-        start: {
-          x: 0,
-          y: 0,
-        },
-        end: {
-          x: 0.5,
-          y: 1,
-        },
+      end: {
+        x: 0.5,
+        y: 1,
       },
-      padding: [0, 10, 40, 60],
-    })
+    },
+    padding: [0, 10, 40, 60],
+  })
 
-    const leftInnerDV = new DataView()
-    leftInnerDV.source(leftData).transform({
-      type: 'percent',
-      field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
-      dimension: 'category',
-      as: 'percent',
-    })
+  const leftInnerDV = new DataView()
+  leftInnerDV.source(leftData).transform({
+    type: 'percent',
+    field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
+    dimension: 'category',
+    as: 'percent',
+  })
 
-    leftView.data(leftInnerDV.rows)
+  leftView.data(leftInnerDV.rows)
 
-    leftView
-      .interval()
-      .adjust('stack')
-      .position('percent')
-      .color('category')
-      .label('percent', function (val) {
-        const offset = val > 0.02 ? -30 : 30
-        return {
-          offset,
-          content: (data) => {
-            return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
-              2
-            )}%`
-          },
-        }
-      })
-
-    leftView.scale({
-      percent: {
-        formatter: (val) => {
-          val = parseFloat(val * 100).toFixed(2) + '%'
-          return val
+  leftView
+    .interval()
+    .adjust('stack')
+    .position('percent')
+    .color('category')
+    .label('percent', function (val) {
+      const offset = val > 0.02 ? -30 : 30
+      return {
+        offset,
+        content: (data) => {
+          return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
+            2
+          )}%`
         },
+      }
+    })
+
+  leftView.scale({
+    percent: {
+      formatter: (val) => {
+        val = parseFloat(val * 100).toFixed(2) + '%'
+        return val
       },
-    })
+    },
+  })
 
-    leftView.coordinate('theta', {
-      radius: 0.5,
-    })
+  leftView.coordinate('theta', {
+    radius: 0.5,
+  })
 
-    leftView.tooltip({
-      showTitle: true,
-      showMarkers: true,
-    })
+  leftView.tooltip({
+    showTitle: true,
+    showMarkers: true,
+  })
 
-    leftView.interaction('element-active')
+  leftView.interaction('element-active')
 
-    const leftOutterView = chart.createView({
-      region: {
-        start: {
-          x: 0,
-          y: 0,
-        },
-        end: {
-          x: 0.5,
-          y: 1,
-        },
+  const leftOutterView = chart.createView({
+    region: {
+      start: {
+        x: 0,
+        y: 0,
       },
-      padding: [0, 10, 40, 60],
-    })
-    const leftOutterDV = new DataView()
-    leftOutterDV.source(leftData).transform({
-      type: 'percent',
-      field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
-      dimension: 'currency',
-      as: 'percent',
-    })
-
-    leftOutterView.data(leftOutterDV.rows)
-    leftOutterView.scale({
-      percent: {
-        formatter: (val) => {
-          val = parseFloat(val * 100).toFixed(2) + '%'
-          return val
-        },
+      end: {
+        x: 0.5,
+        y: 1,
       },
-    })
-    leftOutterView.coordinate('theta', {
-      innerRadius: 0.5 / 0.75,
-      radius: 0.75,
-    })
-    leftOutterView
-      .interval()
-      .adjust('stack')
-      .position('percent')
-      .color('currency', OUTTER_COLOR)
-      .label('currency')
-      .tooltip('currency*percent', (item, percent) => {
-        percent = (percent * 100).toFixed(2) + '%'
-        return {
-          name: item,
-          value: percent,
-        }
-      })
-      .style({
-        lineWidth: 1,
-        stroke: '#fff',
-      })
+    },
+    padding: [0, 10, 40, 60],
+  })
+  const leftOutterDV = new DataView()
+  leftOutterDV.source(leftData).transform({
+    type: 'percent',
+    field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
+    dimension: 'currency',
+    as: 'percent',
+  })
 
-    // 右边反过来，先计算币种，再计算分类
-    const rightView = chart.createView({
-      region: {
-        start: {
-          x: 0.5,
-          y: 0,
-        },
-        end: {
-          x: 1,
-          y: 1,
-        },
+  leftOutterView.data(leftOutterDV.rows)
+  leftOutterView.scale({
+    percent: {
+      formatter: (val) => {
+        val = parseFloat(val * 100).toFixed(2) + '%'
+        return val
       },
-      padding: [0, 10, 40, 60],
+    },
+  })
+  leftOutterView.coordinate('theta', {
+    innerRadius: 0.5 / 0.75,
+    radius: 0.75,
+  })
+  leftOutterView
+    .interval()
+    .adjust('stack')
+    .position('percent')
+    .color('currency', OUTTER_COLOR)
+    .label('currency')
+    .tooltip('currency*percent', (item, percent) => {
+      percent = (percent * 100).toFixed(2) + '%'
+      return {
+        name: item,
+        value: percent,
+      }
+    })
+    .style({
+      lineWidth: 1,
+      stroke: '#fff',
     })
 
-    const rightInnerDV = new DataView()
-    rightInnerDV.source(rightData).transform({
-      type: 'percent',
-      field: 'weightedAmount',
-      dimension: 'currency',
-      as: 'percent',
-    })
-
-    rightView.data(rightInnerDV.rows)
-
-    rightView
-      .interval()
-      .adjust('stack')
-      .position('percent')
-      .color('currency')
-      .label('percent', function (val) {
-        const offset = val > 0.02 ? -30 : 30
-        return {
-          offset,
-          content: (data) => {
-            return `${data.currency}: ${parseFloat(data.percent * 100).toFixed(
-              2
-            )}%`
-          },
-        }
-      })
-
-    rightView.scale({
-      percent: {
-        formatter: (val) => {
-          val = parseFloat(val * 100).toFixed(2) + '%'
-          return val
-        },
+  // 右边反过来，先计算币种，再计算分类
+  const rightView = chart.createView({
+    region: {
+      start: {
+        x: 0.5,
+        y: 0,
       },
-    })
-
-    rightView.coordinate('theta', {
-      radius: 0.5,
-    })
-
-    rightView.tooltip({
-      showTitle: true,
-      showMarkers: true,
-    })
-
-    rightView.interaction('element-active')
-
-    const rightOutterView = chart.createView({
-      region: {
-        start: {
-          x: 0.5,
-          y: 0,
-        },
-        end: {
-          x: 1,
-          y: 1,
-        },
+      end: {
+        x: 1,
+        y: 1,
       },
-      padding: [0, 10, 40, 60],
-    })
-    const rightOutterDV = new DataView()
-    rightOutterDV.source(rightData).transform({
-      type: 'percent',
-      field: 'weightedAmount',
-      dimension: 'category',
-      as: 'percent',
+    },
+    padding: [0, 10, 40, 60],
+  })
+
+  const rightInnerDV = new DataView()
+  rightInnerDV.source(rightData).transform({
+    type: 'percent',
+    field: 'weightedAmount',
+    dimension: 'currency',
+    as: 'percent',
+  })
+
+  rightView.data(rightInnerDV.rows)
+
+  rightView
+    .interval()
+    .adjust('stack')
+    .position('percent')
+    .color('currency')
+    .label('percent', function (val) {
+      const offset = val > 0.02 ? -30 : 30
+      return {
+        offset,
+        content: (data) => {
+          return `${data.currency}: ${parseFloat(data.percent * 100).toFixed(
+            2
+          )}%`
+        },
+      }
     })
 
-    rightOutterView.data(rightOutterDV.rows)
-    rightOutterView.scale({
-      percent: {
-        formatter: (val) => {
-          val = parseFloat(val * 100).toFixed(2) + '%'
-          return val
-        },
+  rightView.scale({
+    percent: {
+      formatter: (val) => {
+        val = parseFloat(val * 100).toFixed(2) + '%'
+        return val
       },
+    },
+  })
+
+  rightView.coordinate('theta', {
+    radius: 0.5,
+  })
+
+  rightView.tooltip({
+    showTitle: true,
+    showMarkers: true,
+  })
+
+  rightView.interaction('element-active')
+
+  const rightOutterView = chart.createView({
+    region: {
+      start: {
+        x: 0.5,
+        y: 0,
+      },
+      end: {
+        x: 1,
+        y: 1,
+      },
+    },
+    padding: [0, 10, 40, 60],
+  })
+  const rightOutterDV = new DataView()
+  rightOutterDV.source(rightData).transform({
+    type: 'percent',
+    field: 'weightedAmount',
+    dimension: 'category',
+    as: 'percent',
+  })
+
+  rightOutterView.data(rightOutterDV.rows)
+  rightOutterView.scale({
+    percent: {
+      formatter: (val) => {
+        val = parseFloat(val * 100).toFixed(2) + '%'
+        return val
+      },
+    },
+  })
+  rightOutterView.coordinate('theta', {
+    innerRadius: 0.5 / 0.75,
+    radius: 0.75,
+  })
+  rightOutterView
+    .interval()
+    .adjust('stack')
+    .position('percent')
+    .color('category', OUTTER_COLOR)
+    .label('category')
+    .tooltip('category*percent', (item, percent) => {
+      percent = (percent * 100).toFixed(2) + '%'
+      return {
+        name: item,
+        value: percent,
+      }
     })
-    rightOutterView.coordinate('theta', {
-      innerRadius: 0.5 / 0.75,
-      radius: 0.75,
+    .style({
+      lineWidth: 1,
+      stroke: '#fff',
     })
-    rightOutterView
-      .interval()
-      .adjust('stack')
-      .position('percent')
-      .color('category', OUTTER_COLOR)
-      .label('category')
-      .tooltip('category*percent', (item, percent) => {
-        percent = (percent * 100).toFixed(2) + '%'
-        return {
-          name: item,
-          value: percent,
-        }
-      })
-      .style({
-        lineWidth: 1,
-        stroke: '#fff',
-      })
-  }
 
   chart.legend(false)
 
@@ -646,7 +530,7 @@ export function renderChartForBasicCategory(
   return chart
 }
 
-function getDataForAllAccumulated(rawDataArray) {
+function getDataForAllAccumulated(rawDataArray, withCurrency = true) {
   const currencies = []
   const dict = {}
   let minYear = 9999 // 最大应该只能活到 9999 年了
@@ -664,7 +548,7 @@ function getDataForAllAccumulated(rawDataArray) {
       if (!(year in dict)) {
         dict[year] = {}
       }
-      const currencyWeight = parseFloat(x.currency_weight)
+      const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
       const currency = x.currency
       if (!currencies.includes(currency)) {
         currencies.push(currency)
@@ -690,15 +574,14 @@ function getDataForAllAccumulated(rawDataArray) {
     if (i in dict) {
       for (const c of currencies) {
         // 每年的各币种收入汇总，包括 income 和 advanced income，去除负值（税收和亏损）
-        let v = c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
+        let v = c in dict[i] ? parseFloat(dict[i][c].weightedAmount) : 0.0
         v = parseFloat(parseFloat(v).toFixed(2))
         data.push({
           year: i,
           currency: c,
           value: v,
         })
-        // 累计收入，不计权重，因为这是折线图，折线图可以只看数据值的趋势。可以不需要高度
-        sumTillNow[c] += c in dict[i] ? parseFloat(dict[i][c].amount) : 0.0
+        sumTillNow[c] += parseFloat(v)
         v = parseFloat(parseFloat(sumTillNow[c]).toFixed(2))
         data.push({
           year: i,
@@ -711,7 +594,11 @@ function getDataForAllAccumulated(rawDataArray) {
   return data
 }
 
-export function renderChartForAllAccumulated(that, rawDataArray) {
+export function renderChartForAllAccumulated(
+  that,
+  rawDataArray,
+  withCurrency = true
+) {
   const { Chart } = that.$g2
   const chart = new Chart({
     container: 'all-accumulated',
@@ -719,7 +606,7 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
     height: chartHeight(),
   })
 
-  const data = getDataForAllAccumulated(rawDataArray)
+  const data = getDataForAllAccumulated(rawDataArray, withCurrency)
   chart.data(data)
 
   chart.tooltip({
@@ -750,9 +637,6 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
     lineWidth: 1,
   }) // 收入一年一个数据点可以画点，信用分就只画线
 
-  // chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
-  // chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
-
   // 开启缩略轴组件
   chart.option('slider', {
     // 组件高度
@@ -770,7 +654,7 @@ export function renderChartForAllAccumulated(that, rawDataArray) {
   return chart
 }
 
-function getTreeData(rawData) {
+function getTreeData(rawData, withCurrency = true) {
   const dict = {}
   for (const x of rawData) {
     let amount = parseFloat(x.amount)
@@ -778,7 +662,7 @@ function getTreeData(rawData) {
       continue // 跳过负数金额，否则方块大小会错乱
     }
     if (x.currency_weight !== undefined && x.currency_weight !== null) {
-      amount *= parseFloat(x.currency_weight)
+      amount *= withCurrency ? parseFloat(x.currency_weight) : 1.0
     }
     const type = x.type
     const platform = x.platform
@@ -818,10 +702,14 @@ function getTreeData(rawData) {
   return data
 }
 
-export function renderChartForAdvancedPlatform(that, rawData) {
+export function renderChartForAdvancedPlatform(
+  that,
+  rawData,
+  withCurrency = true
+) {
   const { Chart } = that.$g2
   const { DataView } = that.$dataset
-  const treeData = getTreeData(rawData)
+  const treeData = getTreeData(rawData, withCurrency)
   // 会通过子节点累加 value 值，所以设置为 0
   treeData.forEach(function (td) {
     td.value = 0
@@ -1281,9 +1169,6 @@ function getTaxDeductionData(income, that) {
 
 export function renderChartForTaxAndDeduction(that, income) {
   const [data, base] = getTaxDeductionData(income, that)
-
-  console.log(data)
-  console.log(base)
 
   const { Chart } = that.$g2
 

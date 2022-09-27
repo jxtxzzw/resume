@@ -2,7 +2,7 @@
   <div>
     <Divider>{{ $t('income.balance') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyBalance"
         size="large"
@@ -13,6 +13,7 @@
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <Alert>
       <CheckboxGroup
@@ -29,23 +30,23 @@
 
     <Divider>{{ $t('income.all-accumulated') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyAllAccumulated"
         size="large"
         :true-value="true"
         :false-value="false"
-        disabled
       >
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <div id="all-accumulated"></div>
 
     <Divider>{{ $t('income.basic-year') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyBasicYear"
         size="large"
@@ -55,12 +56,13 @@
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <div id="basic-year"></div>
 
     <Divider>{{ $t('income.basic-category') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyBasicCategory"
         size="large"
@@ -70,6 +72,7 @@
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <Alert type="info">
       {{ $t('income.no-negative') }}
@@ -78,7 +81,7 @@
 
     <Divider>{{ $t('income.advanced-year') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyAdvancedYear"
         size="large"
@@ -88,22 +91,23 @@
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <div id="advanced-year"></div>
 
     <Divider>{{ $t('income.advanced-platform') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyAdvancedPlatform"
         size="large"
         :true-value="true"
         :false-value="false"
-        disabled
       >
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <Alert type="info">
       {{ $t('income.no-negative') }}
@@ -112,7 +116,7 @@
 
     <Divider>{{ $t('income.tax-deduction') }}</Divider>
     <Alert type="info">
-      {{ $t('income.currency') }}
+      {{ $t('income.show-original-amount') }}
       <i-switch
         v-model="currencyTaxDeduction"
         size="large"
@@ -123,6 +127,7 @@
         <span slot="open">{{ $t('income.open') }}</span>
         <span slot="close">{{ $t('income.close') }}</span>
       </i-switch>
+      {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <div id="tax-deduction"></div>
   </div>
@@ -139,10 +144,10 @@ export default {
       currencyBasicYear: true,
       currencyBasicCategory: true,
       currencyAdvancedYear: true,
-      currencyAdvancedPlatform: false,
+      currencyAdvancedPlatform: true,
       currencyAllAccumulated: true,
       currencyBalance: true,
-      currencyTaxDeduction: true,
+      currencyTaxDeduction: false,
       oldChart: {
         allAccumulated: undefined,
         incomeChartForYearAndType: undefined,
@@ -164,6 +169,18 @@ export default {
     },
     currencyAdvancedYear() {
       this.renderAllCharts(['advanced-year'])
+    },
+    currencyAdvancedPlatform() {
+      this.renderAllCharts(['advanced-platform'])
+    },
+    currencyAllAccumulated() {
+      this.renderAllCharts(['all-accumulated'])
+    },
+    currencyBalance() {
+      this.renderAllCharts(['balance'])
+    },
+    currencyTaxDeduction() {
+      this.renderAllCharts(['tax-deduction'])
     },
   },
   mounted() {
@@ -194,7 +211,6 @@ export default {
             this.currencyBasicYear
           )
       }
-
       if (charts.includes('basic-category')) {
         if (this.oldChart.incomeChartForBasicCategory) {
           this.oldChart.incomeChartForBasicCategory.destroy()
@@ -207,7 +223,6 @@ export default {
             this.currencyBasicCategory
           )
       }
-
       if (charts.includes('advanced-year')) {
         if (this.oldChart.advancedIncomeChartForYearAndType) {
           this.oldChart.advancedIncomeChartForYearAndType.destroy()
@@ -221,16 +236,25 @@ export default {
             this.currencyAdvancedYear
           )
       }
-
       if (charts.includes('advanced-platform')) {
+        if (this.oldChart.advancedIncomeChartForAdvancedPlatform) {
+          this.oldChart.advancedIncomeChartForAdvancedPlatform.destroy()
+        }
         this.oldChart.advancedIncomeChartForAdvancedPlatform =
-          incomeUtil.renderChartForAdvancedPlatform(this, advancedIncome)
+          incomeUtil.renderChartForAdvancedPlatform(
+            this,
+            advancedIncome,
+            this.currencyAdvancedPlatform
+          )
       }
-
       if (charts.includes('all-accumulated')) {
+        if (this.oldChart.allAccumulated) {
+          this.oldChart.allAccumulated.destroy()
+        }
         this.oldChart.allAccumulated = incomeUtil.renderChartForAllAccumulated(
           this,
-          [income, advancedIncome]
+          [income, advancedIncome],
+          this.currencyAllAccumulated
         )
       }
       if (charts.includes('balance')) {
@@ -244,12 +268,14 @@ export default {
         )
       }
       if (charts.includes('tax-deduction')) {
-        this.oldChart.balance = incomeUtil.renderChartForTaxAndDeduction(
+        if (this.oldChart.taxDeduction) {
+          this.oldChart.taxDeduction.destroy()
+        }
+        this.oldChart.taxDeduction = incomeUtil.renderChartForTaxAndDeduction(
           this,
           income
         )
       }
-
       // Chart 都是 autoFit 的，所以强制触发一次 resize 就可以了
       window.dispatchEvent(new Event('resize'))
     },

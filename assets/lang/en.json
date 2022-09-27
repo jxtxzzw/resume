@@ -245,9 +245,10 @@
     "related": "All-Related"
   },
   "income": {
-    "currency": "Show by Currency",
-    "open": "ON",
-    "close": "OFF",
+    "show-original-amount": "Show Original Amount",
+    "show-equivalent-cny": "Show Equivalent Amount in CNY",
+    "open": "TGL",
+    "close": "TGL",
     "basic-year": "Income for Each Year",
     "basic-category": "Income for Categories",
     "all-accumulated": "Accumulated Income",

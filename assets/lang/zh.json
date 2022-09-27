@@ -245,9 +245,10 @@
     "related": "全部相关事件"
   },
   "income": {
-    "currency": "按币种展示",
-    "open": "是",
-    "close": "否",
+    "show-original-amount": "按原始数值展示",
+    "show-equivalent-cny": "按等值人民币展示",
+    "open": "切换",
+    "close": "切换",
     "basic-year": "每年收入",
     "basic-category": "收入类型",
     "all-accumulated": "收入汇总",
