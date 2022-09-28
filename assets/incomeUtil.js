@@ -330,9 +330,7 @@ export function renderChartForBasicCategory(
       return {
         offset,
         content: (data) => {
-          return `${data.category}: ${parseFloat(data.percent * 100).toFixed(
-            2
-          )}%`
+          return `${data.category}: ${(data.percent * 100).toFixed(2)}%`
         },
       }
     })
@@ -340,7 +338,7 @@ export function renderChartForBasicCategory(
   leftView.scale({
     percent: {
       formatter: (val) => {
-        val = parseFloat(val * 100).toFixed(2) + '%'
+        val = (val * 100).toFixed(2) + '%'
         return val
       },
     },
@@ -382,7 +380,7 @@ export function renderChartForBasicCategory(
   leftOutterView.scale({
     percent: {
       formatter: (val) => {
-        val = parseFloat(val * 100).toFixed(2) + '%'
+        val = (val * 100).toFixed(2) + '%'
         return val
       },
     },
@@ -444,9 +442,7 @@ export function renderChartForBasicCategory(
       return {
         offset,
         content: (data) => {
-          return `${data.currency}: ${parseFloat(data.percent * 100).toFixed(
-            2
-          )}%`
+          return `${data.currency}: ${(data.percent * 100).toFixed(2)}%`
         },
       }
     })
@@ -454,7 +450,7 @@ export function renderChartForBasicCategory(
   rightView.scale({
     percent: {
       formatter: (val) => {
-        val = parseFloat(val * 100).toFixed(2) + '%'
+        val = (val * 100).toFixed(2) + '%'
         return val
       },
     },
@@ -496,7 +492,7 @@ export function renderChartForBasicCategory(
   rightOutterView.scale({
     percent: {
       formatter: (val) => {
-        val = parseFloat(val * 100).toFixed(2) + '%'
+        val = (val * 100).toFixed(2) + '%'
         return val
       },
     },
@@ -574,19 +570,17 @@ function getDataForAllAccumulated(rawDataArray, withCurrency = true) {
     if (i in dict) {
       for (const c of currencies) {
         // 每年的各币种收入汇总，包括 income 和 advanced income，去除负值（税收和亏损）
-        let v = c in dict[i] ? parseFloat(dict[i][c].weightedAmount) : 0.0
-        v = parseFloat(parseFloat(v).toFixed(2))
+        const v = c in dict[i] ? parseFloat(dict[i][c].weightedAmount) : 0.0
         data.push({
           year: i,
           currency: c,
-          value: v,
+          value: parseFloat(v.toFixed(2)),
         })
-        sumTillNow[c] += parseFloat(v)
-        v = parseFloat(parseFloat(sumTillNow[c]).toFixed(2))
+        sumTillNow[c] += v
         data.push({
           year: i,
           currency: `${c}_(ACCUMULATED)`,
-          value: v,
+          value: parseFloat(sumTillNow[c].toFixed(2)),
         })
       }
     }
@@ -825,9 +819,9 @@ function getBalanceData(rawData, includePendingBalance) {
   for (const d in dict) {
     for (const c of currencies) {
       let a = c in dict[d] ? parseFloat(dict[d][c].amount) : 0.0 // 没有的值补 0
-      a = parseFloat(parseFloat(a).toFixed(2))
+      a = parseFloat(a.toFixed(2))
       let wa = c in dict[d] ? parseFloat(dict[d][c].weightedAmount) : 0.0 // 没有的值补 0
-      wa = parseFloat(parseFloat(wa).toFixed(2))
+      wa = parseFloat(wa.toFixed(2))
       data.push({
         date: d,
         currency: c,
@@ -1008,9 +1002,7 @@ export function renderChartForBalance(
         fontSize: 12,
         fontWeight: 300,
       },
-      content: `${that.$t('income.average-line')}\n${parseFloat(avg).toFixed(
-        2
-      )}`,
+      content: `${that.$t('income.average-line')}\n${avg.toFixed(2)}`,
       offsetX: -20,
       offsetY: -5,
     },
