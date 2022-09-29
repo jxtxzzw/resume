@@ -526,7 +526,12 @@ export function renderChartForBasicCategory(
   return chart
 }
 
-function getDataForAllAccumulated(rawDataArray, withCurrency = true) {
+function getDataForAllAccumulated(
+  that,
+  rawDataArray,
+  withCurrency = true,
+  showAccumulated = true
+) {
   const currencies = []
   const dict = {}
   let minYear = 9999 // 最大应该只能活到 9999 年了
@@ -571,17 +576,20 @@ function getDataForAllAccumulated(rawDataArray, withCurrency = true) {
       for (const c of currencies) {
         // 每年的各币种收入汇总，包括 income 和 advanced income，去除负值（税收和亏损）
         const v = c in dict[i] ? parseFloat(dict[i][c].weightedAmount) : 0.0
-        data.push({
-          year: i,
-          currency: c,
-          value: parseFloat(v.toFixed(2)),
-        })
         sumTillNow[c] += v
-        data.push({
-          year: i,
-          currency: `${c}_(ACCUMULATED)`,
-          value: parseFloat(sumTillNow[c].toFixed(2)),
-        })
+        if (!showAccumulated) {
+          data.push({
+            year: i,
+            currency: c,
+            value: parseFloat(v.toFixed(2)),
+          })
+        } else {
+          data.push({
+            year: i,
+            currency: `${c}_${that.$t('income.accumulated')}`,
+            value: parseFloat(sumTillNow[c].toFixed(2)),
+          })
+        }
       }
     }
   }
@@ -591,7 +599,8 @@ function getDataForAllAccumulated(rawDataArray, withCurrency = true) {
 export function renderChartForAllAccumulated(
   that,
   rawDataArray,
-  withCurrency = true
+  withCurrency = true,
+  showAccumulated = true
 ) {
   const { Chart } = that.$g2
   const chart = new Chart({
@@ -600,7 +609,12 @@ export function renderChartForAllAccumulated(
     height: chartHeight(),
   })
 
-  const data = getDataForAllAccumulated(rawDataArray, withCurrency)
+  const data = getDataForAllAccumulated(
+    that,
+    rawDataArray,
+    withCurrency,
+    showAccumulated
+  )
   chart.data(data)
 
   chart.tooltip({

@@ -42,6 +42,17 @@
       </i-switch>
       {{ $t('income.show-equivalent-cny') }}
     </Alert>
+    <Alert>
+      <CheckboxGroup
+        v-model="showAccumulatedCheckGroup"
+        @on-change="renderAllCharts(['all-accumulated'])"
+      >
+        <Checkbox
+          :key="$t('income.show-accumulated')"
+          :label="$t('income.show-accumulated')"
+        ></Checkbox>
+      </CheckboxGroup>
+    </Alert>
     <div id="all-accumulated"></div>
 
     <Divider>{{ $t('income.basic-year') }}</Divider>
@@ -158,9 +169,13 @@ export default {
         taxDeduction: undefined,
       },
       showPendingCheckGroup: [],
+      showAccumulatedCheckGroup: [this.$t('income.show-accumulated')],
     }
   },
   watch: {
+    '$i18n.locale'() {
+      this.renderAllCharts()
+    },
     currencyBasicYear() {
       this.renderAllCharts(['basic-year'])
     },
@@ -254,7 +269,10 @@ export default {
         this.oldChart.allAccumulated = incomeUtil.renderChartForAllAccumulated(
           this,
           [income, advancedIncome],
-          this.currencyAllAccumulated
+          this.currencyAllAccumulated,
+          this.showAccumulatedCheckGroup.includes(
+            this.$t('income.show-accumulated')
+          )
         )
       }
       if (charts.includes('balance')) {
@@ -264,7 +282,7 @@ export default {
         this.oldChart.balance = incomeUtil.renderChartForBalance(
           this,
           balance,
-          this.showPendingCheckGroup.length > 0
+          this.showPendingCheckGroup.includes(this.$t('income.show-pending'))
         )
       }
       if (charts.includes('tax-deduction')) {
