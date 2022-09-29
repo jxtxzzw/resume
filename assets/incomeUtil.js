@@ -127,6 +127,26 @@ export function renderChartForYearAndType(
     shared: false,
     showMarkers: true,
     showTitle: true,
+    customItems: (originalItems) => {
+      for (const originalItem of originalItems) {
+        originalItem.parsedAmount = parseFloat(
+          originalItem.data.amount
+        ).toFixed(2)
+
+        originalItem.parsedWeightedAmount = parseFloat(
+          originalItem.data.weightedAmount
+        ).toFixed(2)
+
+        originalItem.currency = originalItem.data.currency
+      }
+      return originalItems
+    },
+    itemTpl:
+      '<li class="g2-tooltip-list-item" data-index={index} style="margin-bottom:4px;">' +
+      '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
+      '<span style="padding-left: 16px">{currency}</span><br/>' +
+      '<span style="padding-left: 16px">{parsedAmount} ({parsedWeightedAmount})</span>' +
+      '</li>',
   })
 
   chart.interaction('active-region')
@@ -150,22 +170,6 @@ export function renderChartForYearAndType(
     .adjust(adjustCfg)
     .position('year*weightedAmount')
     .color('type', colors)
-    .label('value', () => {
-      return {
-        position: 'middle',
-        offset: 0,
-        content: (originData) => {
-          const amount = parseFloat(parseFloat(originData.amount).toFixed(2))
-          const weightedAmount = parseFloat(
-            parseFloat(originData.weightedAmount).toFixed(2)
-          )
-          return `${originData.currency} ${amount} \n (${weightedAmount})`
-        },
-        style: {
-          stroke: '#fff',
-        },
-      }
-    })
 
   // Step 4: 渲染图表
   chart.render()
