@@ -138,18 +138,19 @@ export function renderChartForYearAndType(
         ).toFixed(2)
 
         originalItem.currency = originalItem.data.currency
+
+        originalItem.type = originalItem.data.type
       }
       return originalItems
     },
     itemTpl:
       '<li class="g2-tooltip-list-item" data-index={index} style="margin-bottom:4px;">' +
       '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
-      '<span style="padding-left: 16px">{currency}</span><br/>' +
+      '<span>{type} {currency}</span><br/>' +
       '<span style="padding-left: 16px">{parsedAmount} ({parsedWeightedAmount})</span>' +
       '</li>',
   })
 
-  chart.interaction('active-region')
   chart.interaction('element-highlight-by-color')
   chart.interaction('legend-highlight')
   chart.interaction('axis-label-highlight')
