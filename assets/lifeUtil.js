@@ -114,10 +114,17 @@ export function showLifeCalendar(that, showData) {
   const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
   const STEP = 7
   const intervals = (today - cursor) / (86400 * 1000) // 计算有多少天
+
+  /*
   let rowsPerCol = ROWS_PER_COL // 从缺省值开始，应该可以解决大部分问题
   while (intervals / rowsPerCol > RATIO * rowsPerCol) {
     rowsPerCol += STEP
   }
+   */
+  const rowsPerCol =
+    ROWS_PER_COL * ROWS_PER_COL * RATIO >= intervals
+      ? ROWS_PER_COL
+      : Math.ceil(Math.sqrt(intervals / RATIO) / STEP) * STEP
 
   while (cursor <= today) {
     const s = dateFormat(cursor)
