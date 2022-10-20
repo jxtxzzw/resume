@@ -95,6 +95,14 @@ export function showLifeCalendar(that, showData) {
 
   const intervals = dateInterval(minDate)
 
+  // 避免太细的格子，所以如果按缺省 ROWS_PER_COL 会导致列数太多，就要调整
+  const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
+  const STEP = 7
+  const rowsPerCol =
+    ROWS_PER_COL * ROWS_PER_COL * RATIO >= intervals
+      ? ROWS_PER_COL
+      : Math.ceil(Math.sqrt(intervals / RATIO) / STEP) * STEP
+
   // 初始化前缀和
   // 加 1 是因为 TODAY - TODAY == 0 但是数组长度是 1
   // 另一个 1 是因为最后要做 prefixSum[b + 1]--
@@ -115,13 +123,36 @@ export function showLifeCalendar(that, showData) {
     prefixSum[dateInterval(minDate, end) + 1]--
   })
 
-  // 避免太细的格子，所以如果按缺省 ROWS_PER_COL 会导致列数太多，就要调整
-  const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
-  const STEP = 7
-  const rowsPerCol =
-    ROWS_PER_COL * ROWS_PER_COL * RATIO >= intervals
-      ? ROWS_PER_COL
-      : Math.ceil(Math.sqrt(intervals / RATIO) / STEP) * STEP
+  // 处理分割线
+  const monthLineBottom = []
+  const monthLineRight = []
+  const yearLineBottom = []
+  const yearLineRight = []
+  for (let i = 0; i < intervals + 1; i++) {
+    const d = new Date(minDateS)
+    const d1 = new Date(d.setDate(d.getDate() + i))
+    const d2 = new Date(d.setDate(d.getDate() + 1))
+    const d3 = new Date(d.setDate(d.getDate() + (rowsPerCol - 1)))
+
+    monthLineBottom.push(i < intervals && d1.getMonth() !== d2.getMonth())
+    monthLineRight.push(
+      (i + rowsPerCol - 1 < intervals || d1.getMonth() !== d2.getMonth()) &&
+        d1.getMonth() !== d3.getMonth()
+    )
+    yearLineBottom.push(i < intervals && d1.getFullYear() !== d2.getFullYear())
+    yearLineRight.push(
+      (i + rowsPerCol - 1 < intervals || d1.getMonth() !== d2.getMonth()) &&
+        d1.getFullYear() !== d3.getFullYear()
+    )
+  }
+  // 如果跨年了就只画年的分界线，如果没有跨年就画月的分界线
+  const shouldDrawYearLine =
+    yearLineBottom.filter((e) => {
+      return e
+    }).length > 0 ||
+    yearLineRight.filter((e) => {
+      return e
+    }).length > 0
 
   const data = []
 
@@ -135,6 +166,18 @@ export function showLifeCalendar(that, showData) {
     month: cursor.getMonth(),
     day: 0,
     week: 0,
+    bottom: shouldDrawYearLine
+      ? cursor.getFullYear() !== new Date(minDateS).getFullYear()
+      : cursor.getMonth() !== new Date(minDateS).getMonth(),
+    right: shouldDrawYearLine
+      ? cursor.getFullYear() !==
+        new Date(
+          new Date(minDateS).setDate(new Date(minDateS).getDate() + rowsPerCol)
+        ).getFullYear()
+      : cursor.getMonth() !==
+        new Date(
+          new Date(minDateS).setDate(new Date(minDateS).getDate() + rowsPerCol)
+        ).getMonth(),
   })
 
   let sum = 0
@@ -149,6 +192,8 @@ export function showLifeCalendar(that, showData) {
       month: cursor.getMonth(),
       day: Math.floor(day % rowsPerCol),
       week: Math.floor(day / rowsPerCol),
+      bottom: shouldDrawYearLine ? yearLineBottom[i] : monthLineBottom[i],
+      right: shouldDrawYearLine ? yearLineRight[i] : monthLineRight[i],
     })
     day++
     cursor = new Date(cursor.setDate(cursor.getDate() + 1))
@@ -156,11 +201,16 @@ export function showLifeCalendar(that, showData) {
 
   registerShape('polygon', 'boundary-polygon', {
     draw(cfg, container) {
+      const DEFAULT_LINE_WIDTH = 1
+      const DEFAULT_FILL = cfg.color
+      const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
+      const BOARDER_STROKE = '#404040'
+
       const group = container.addGroup()
       const attrs = {
         stroke: '#fff',
-        lineWidth: 1,
-        fill: cfg.color,
+        lineWidth: DEFAULT_LINE_WIDTH,
+        fill: DEFAULT_FILL,
       }
       const points = cfg.points
       const path = [
@@ -174,6 +224,34 @@ export function showLifeCalendar(that, showData) {
       group.addShape('path', {
         attrs,
       })
+
+      // 多边形添加右侧边框
+      if (cfg.data.right) {
+        group.addShape('path', {
+          attrs: {
+            path: this.parsePath([
+              ['M', points[2].x, points[2].y],
+              ['L', points[3].x, points[3].y],
+            ]),
+            lineWidth: BOARDER_LINE_WIDTH * 2,
+            stroke: BOARDER_STROKE,
+          },
+        })
+      }
+      // 多边形添加底部边框
+      if (cfg.data.bottom) {
+        group.addShape('path', {
+          attrs: {
+            path: this.parsePath([
+              ['M', points[1].x, points[1].y],
+              ['L', points[2].x, points[2].y],
+            ]),
+            lineWidth: BOARDER_LINE_WIDTH * 2,
+            stroke: BOARDER_STROKE,
+          },
+        })
+      }
+
       return group
     },
   })
