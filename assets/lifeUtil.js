@@ -125,8 +125,9 @@ export function showLifeCalendar(that, showData) {
 
   const data = []
 
+  let cursor
   // 先强制记录一个 0，以避免所有天都是最小值的情况下，热力图都是最浅颜色的问题
-  let cursor = new Date(minDateS)
+  cursor = new Date(minDateS)
   cursor = new Date(cursor.setDate(cursor.getDate() - 1))
   data.push({
     date: dateFormat(cursor),
@@ -137,19 +138,20 @@ export function showLifeCalendar(that, showData) {
   })
 
   let sum = 0
+  let day = 1
+  cursor = new Date(minDateS)
   for (let i = 0; i < intervals; i++) {
-    const day = i + 1
-    let d = new Date(minDateS)
-    d = new Date(d.setDate(d.getDate() + i))
-    const s = dateFormat(d)
+    const s = dateFormat(cursor)
     sum += prefixSum[i]
     data.push({
       date: s,
       counts: sum,
-      month: d.getMonth(),
+      month: cursor.getMonth(),
       day: Math.floor(day % rowsPerCol),
       week: Math.floor(day / rowsPerCol),
     })
+    day++
+    cursor = new Date(cursor.setDate(cursor.getDate() + 1))
   }
 
   registerShape('polygon', 'boundary-polygon', {
@@ -172,34 +174,6 @@ export function showLifeCalendar(that, showData) {
       group.addShape('path', {
         attrs,
       })
-
-      if (cfg.data.lastWeek) {
-        const linePath = [
-          ['M', points[2].x, points[2].y],
-          ['L', points[3].x, points[3].y],
-        ]
-        // 最后一周的多边形添加右侧边框
-        group.addShape('path', {
-          attrs: {
-            path: this.parsePath(linePath),
-            lineWidth: 4,
-            stroke: '#404040',
-          },
-        })
-        if (cfg.data.lastDay) {
-          group.addShape('path', {
-            attrs: {
-              path: this.parsePath([
-                ['M', points[1].x, points[1].y],
-                ['L', points[2].x, points[2].y],
-              ]),
-              lineWidth: 4,
-              stroke: '#404040',
-            },
-          })
-        }
-      }
-
       return group
     },
   })
