@@ -2,19 +2,20 @@
 
 import { dateFormat } from './util'
 
+/** 通用常量 **/
 const CONTAINER = 'life-chart'
 
 const TIME_BAR = 'TIME_BAR'
 const CALENDAR = 'CALENDAR'
 
-const ROWS_PER_COL = 21
-
 const TODAY = new Date()
 
-export function chartHeight() {
+/** 通用辅助函数 **/
+function chartHeight() {
   return (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.75
 }
 
+/** 总入口 **/
 export function showChart(that, showData) {
   if (showData[0].chart) {
     if (showData[0].chart === TIME_BAR) {
@@ -26,6 +27,7 @@ export function showChart(that, showData) {
   return undefined
 }
 
+/** Time Bar 入口 **/
 export function showLifeTimeBar(that, showData) {
   const { Chart } = that.$g2
 
@@ -76,6 +78,22 @@ export function showLifeTimeBar(that, showData) {
   return chart
 }
 
+/** Calendar 辅助常量 **/
+// G2 着色
+const CALENDAR_COLOR_LIGHT = '#BAE7FF'
+const CALENDAR_COLOR_MID = '#1890FF'
+const CALENDAR_COLOR_DARK = '#0050B3'
+const CALENDAR_COLORS = `${CALENDAR_COLOR_LIGHT}-${CALENDAR_COLOR_MID}-${CALENDAR_COLOR_DARK}`
+const DEFAULT_LINE_WIDTH = 1
+const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
+const BOARDER_STROKE = '#404040'
+
+// 计算日历图布局
+const ROWS_PER_COL = 21
+const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
+const STEP = 7
+
+/** Calendar 辅助函数 **/
 function dateInterval(begin, end = TODAY) {
   return (end - begin) / (86400 * 1000) // 计算有多少天
 }
@@ -88,6 +106,7 @@ function sameMonth(a, b) {
   return a.substring(5, 7) === b.substring(5, 7)
 }
 
+/** Calendar 入口 **/
 export function showLifeCalendar(that, showData) {
   const { Chart } = that.$g2
   const registerShape = that.$g2.registerShape
@@ -107,8 +126,6 @@ export function showLifeCalendar(that, showData) {
   const intervals = dateInterval(minDate)
 
   // 避免太细的格子，所以如果按缺省 ROWS_PER_COL 会导致列数太多，就要调整
-  const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
-  const STEP = 7
   const rowsPerCol =
     ROWS_PER_COL * ROWS_PER_COL * RATIO >= intervals
       ? ROWS_PER_COL
@@ -211,16 +228,11 @@ export function showLifeCalendar(that, showData) {
 
   registerShape('polygon', 'boundary-polygon', {
     draw(cfg, container) {
-      const DEFAULT_LINE_WIDTH = 1
-      const DEFAULT_FILL = cfg.color
-      const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
-      const BOARDER_STROKE = '#404040'
-
       const group = container.addGroup()
       const attrs = {
         stroke: '#fff',
         lineWidth: DEFAULT_LINE_WIDTH,
-        fill: DEFAULT_FILL,
+        fill: cfg.color,
       }
       const points = cfg.points
       const path = [
@@ -267,13 +279,13 @@ export function showLifeCalendar(that, showData) {
   })
 
   // Step 1: 创建 Chart 对象
-  // Step 2: 载入数据源
   const chart = new Chart({
     container: CONTAINER,
     autoFit: true,
     height: chartHeight(),
   })
 
+  // Step 2: 载入数据源
   chart.data(data)
 
   // Step 3：创建图形语法，绘制柱状图
@@ -327,10 +339,11 @@ export function showLifeCalendar(that, showData) {
     showMarkers: false,
   })
   chart.coordinate().reflect('y')
+
   chart
     .polygon()
     .position('week*day*date')
-    .color('counts', '#BAE7FF-#1890FF-#0050B3')
+    .color('counts', CALENDAR_COLORS)
     .shape('boundary-polygon')
 
   // Step 4: 渲染图表
