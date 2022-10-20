@@ -80,15 +80,26 @@ function dateInterval(begin, end = TODAY) {
   return (end - begin) / (86400 * 1000) // 计算有多少天
 }
 
+function sameYear(a, b) {
+  return a.substring(0, 4) === b.substring(0, 4)
+}
+
+function sameMonth(a, b) {
+  return a.substring(5, 7) === b.substring(5, 7)
+}
+
 export function showLifeCalendar(that, showData) {
   const { Chart } = that.$g2
   const registerShape = that.$g2.registerShape
 
+  // 专门有一个日期对象可以随便修改，避免反复 new Date()
+  let mutableDate
+
+  // 找到最小日期
   let minDateS = '9999-12-31'
   showData.forEach((obj) => {
-    const s = dateFormat(new Date(obj.date))
-    if (s < minDateS) {
-      minDateS = s
+    if (obj.date < minDateS) {
+      minDateS = obj.date
     }
   })
   const minDate = new Date(minDateS)
@@ -103,24 +114,28 @@ export function showLifeCalendar(that, showData) {
       ? ROWS_PER_COL
       : Math.ceil(Math.sqrt(intervals / RATIO) / STEP) * STEP
 
-  // 初始化前缀和
+  // 初始化前缀和，同时缓存日期信息
   // 加 1 是因为 TODAY - TODAY == 0 但是数组长度是 1
   // 另一个 1 是因为最后要做 prefixSum[b + 1]--
   const prefixSum = []
+  const dateStringCache = []
+  const dateStringIndex = {}
+  mutableDate = new Date(minDateS)
   for (let i = 0; i < intervals + 2; i++) {
     prefixSum.push(0)
+    const dateString = dateFormat(mutableDate)
+    dateStringCache.push(dateString)
+    dateStringIndex[dateString] = i
+    mutableDate.setDate(mutableDate.getDate() + 1)
   }
   showData.forEach((obj) => {
-    const start = new Date(obj.date)
-    prefixSum[dateInterval(minDate, start)]++
+    prefixSum[dateStringIndex[obj.date] - dateStringIndex[minDateS]]++
 
     let end = obj.till
     if (end === null || end === undefined) {
-      end = TODAY
-    } else {
-      end = new Date(end)
+      end = dateFormat(TODAY)
     }
-    prefixSum[dateInterval(minDate, end) + 1]--
+    prefixSum[dateStringIndex[end] - dateStringIndex[minDateS] + 1]--
   })
 
   // 处理分割线
@@ -129,22 +144,25 @@ export function showLifeCalendar(that, showData) {
   const yearLineBottom = []
   const yearLineRight = []
   for (let i = 0; i < intervals + 1; i++) {
-    const d = new Date(minDateS)
-    const d1 = new Date(d.setDate(d.getDate() + i))
-    const d2 = new Date(d.setDate(d.getDate() + 1))
-    const d3 = new Date(d.setDate(d.getDate() + (rowsPerCol - 1)))
+    const thisDate = dateStringCache[i]
 
-    monthLineBottom.push(i < intervals && d1.getMonth() !== d2.getMonth())
-    monthLineRight.push(
-      (i + rowsPerCol - 1 < intervals || d1.getMonth() !== d2.getMonth()) &&
-        d1.getMonth() !== d3.getMonth()
-    )
-    yearLineBottom.push(i < intervals && d1.getFullYear() !== d2.getFullYear())
-    yearLineRight.push(
-      (i + rowsPerCol - 1 < intervals || d1.getMonth() !== d2.getMonth()) &&
-        d1.getFullYear() !== d3.getFullYear()
-    )
+    if (i < intervals) {
+      const bottomDate = dateStringCache[i + 1]
+      monthLineBottom.push(!sameMonth(thisDate, bottomDate))
+      yearLineBottom.push(!sameYear(thisDate, bottomDate))
+    }
+
+    if (i + rowsPerCol - 1 < intervals) {
+      const rightDate = dateStringCache[i + rowsPerCol]
+      monthLineRight.push(!sameMonth(thisDate, rightDate))
+      yearLineRight.push(!sameYear(thisDate, rightDate))
+    } else if (i < intervals) {
+      const bottomDate = dateStringCache[i + 1]
+      monthLineRight.push(!sameMonth(thisDate, bottomDate))
+      yearLineRight.push(!sameYear(thisDate, bottomDate))
+    }
   }
+
   // 如果跨年了就只画年的分界线，如果没有跨年就画月的分界线
   const shouldDrawYearLine =
     yearLineBottom.filter((e) => {
@@ -156,47 +174,39 @@ export function showLifeCalendar(that, showData) {
 
   const data = []
 
-  let cursor
   // 先强制记录一个 0，以避免所有天都是最小值的情况下，热力图都是最浅颜色的问题
-  cursor = new Date(minDateS)
-  cursor = new Date(cursor.setDate(cursor.getDate() - 1))
+  mutableDate = new Date(minDateS)
+  mutableDate = new Date(mutableDate.setDate(mutableDate.getDate() - 1))
+  const dummyDateS = dateFormat(mutableDate)
   data.push({
-    date: dateFormat(cursor),
+    date: dummyDateS,
     counts: 0,
-    month: cursor.getMonth(),
+    month: mutableDate.getMonth(),
     day: 0,
     week: 0,
     bottom: shouldDrawYearLine
-      ? cursor.getFullYear() !== new Date(minDateS).getFullYear()
-      : cursor.getMonth() !== new Date(minDateS).getMonth(),
+      ? !sameYear(dummyDateS, minDateS)
+      : !sameMonth(dummyDateS, minDateS),
     right: shouldDrawYearLine
-      ? cursor.getFullYear() !==
-        new Date(
-          new Date(minDateS).setDate(new Date(minDateS).getDate() + rowsPerCol)
-        ).getFullYear()
-      : cursor.getMonth() !==
-        new Date(
-          new Date(minDateS).setDate(new Date(minDateS).getDate() + rowsPerCol)
-        ).getMonth(),
+      ? !sameYear(dummyDateS, dateStringCache[rowsPerCol])
+      : !sameMonth(dummyDateS, dateStringCache[rowsPerCol]),
   })
 
   let sum = 0
   let day = 1
-  cursor = new Date(minDateS)
   for (let i = 0; i < intervals; i++) {
-    const s = dateFormat(cursor)
+    const s = dateStringCache[i]
     sum += prefixSum[i]
     data.push({
       date: s,
       counts: sum,
-      month: cursor.getMonth(),
+      month: parseInt(s.substring(5, 7)) - 1, // Date.getMonth() 返回 0 - 11，所以取出日期变成数值以后要减去 1
       day: Math.floor(day % rowsPerCol),
       week: Math.floor(day / rowsPerCol),
       bottom: shouldDrawYearLine ? yearLineBottom[i] : monthLineBottom[i],
       right: shouldDrawYearLine ? yearLineRight[i] : monthLineRight[i],
     })
     day++
-    cursor = new Date(cursor.setDate(cursor.getDate() + 1))
   }
 
   registerShape('polygon', 'boundary-polygon', {
