@@ -8,7 +8,12 @@
       <Divider size="small" class="ivu-m-0" />
       <p>{{ $t('credit.model') }}</p>
       <CheckboxGroup v-model="checkAllGroupModel" @on-change="renderAllCharts">
-        <Checkbox v-for="m in uniqueModel" :key="m" :label="m"></Checkbox>
+        <Checkbox
+          v-for="m in uniqueModel"
+          :key="m"
+          :label="m"
+          :disabled="forceCheckedModel.includes(m)"
+        ></Checkbox>
       </CheckboxGroup>
       <Divider size="small" class="ivu-m-0" />
       <p>{{ $t('credit.range') }}</p>
@@ -33,6 +38,7 @@ export default {
       checkAllGroupSource: [],
       checkAllGroupModel: [],
       checkAllGroupRange: [],
+      forceCheckedModel: [],
       oldChart: {
         creditScore: undefined,
       },
@@ -65,6 +71,12 @@ export default {
     renderAllCharts() {
       if (this.oldChart.creditScore) {
         this.oldChart.creditScore.destroy()
+      }
+      this.forceCheckedModel = this.checkAllGroupRange
+      for (const m of this.forceCheckedModel) {
+        if (!this.checkAllGroupModel.includes(m)) {
+          this.checkAllGroupModel.push(m)
+        }
       }
       this.oldChart.creditScore = creditUtil.renderChartForCredit(
         this,
