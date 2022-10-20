@@ -9,6 +9,8 @@ const CALENDAR = 'CALENDAR'
 
 const ROWS_PER_COL = 21
 
+const TODAY = new Date()
+
 export function chartHeight() {
   return (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.75
 }
@@ -31,7 +33,7 @@ export function showLifeTimeBar(that, showData) {
     let start = obj.date
     let end = obj.till
     if (end === null || end === undefined) {
-      end = new Date()
+      end = TODAY
     }
     if (start === end) {
       start = `${start} 00:00:00`
@@ -74,87 +76,80 @@ export function showLifeTimeBar(that, showData) {
   return chart
 }
 
+function dateInterval(begin, end = TODAY) {
+  return (end - begin) / (86400 * 1000) // 计算有多少天
+}
+
 export function showLifeCalendar(that, showData) {
   const { Chart } = that.$g2
   const registerShape = that.$g2.registerShape
 
-  const commits = {}
-  let minDate = '9999-12-31'
-
+  let minDateS = '9999-12-31'
   showData.forEach((obj) => {
-    const start = obj.date
+    const s = dateFormat(new Date(obj.date))
+    if (s < minDateS) {
+      minDateS = s
+    }
+  })
+  const minDate = new Date(minDateS)
+
+  const intervals = dateInterval(minDate)
+
+  // 初始化前缀和
+  // 加 1 是因为 TODAY - TODAY == 0 但是数组长度是 1
+  // 另一个 1 是因为最后要做 prefixSum[b + 1]--
+  const prefixSum = []
+  for (let i = 0; i < intervals + 2; i++) {
+    prefixSum.push(0)
+  }
+  showData.forEach((obj) => {
+    const start = new Date(obj.date)
+    prefixSum[dateInterval(minDate, start)]++
+
     let end = obj.till
     if (end === null || end === undefined) {
-      end = new Date()
+      end = TODAY
     } else {
       end = new Date(end)
     }
-    let cursor = new Date(start)
-    while (cursor <= end) {
-      const s = dateFormat(cursor)
-      if (s < minDate) {
-        minDate = s
-      }
-      if (!(s in commits)) {
-        commits[s] = 0
-      }
-      commits[s] += 1
-      // 加一天
-      cursor = new Date(cursor.setDate(cursor.getDate() + 1))
-    }
+    prefixSum[dateInterval(minDate, end) + 1]--
   })
-
-  const data = []
-  let first = true
-  let cursor = new Date(minDate)
-  const today = new Date()
-  let day = 0
 
   // 避免太细的格子，所以如果按缺省 ROWS_PER_COL 会导致列数太多，就要调整
   const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
   const STEP = 7
-  const intervals = (today - cursor) / (86400 * 1000) // 计算有多少天
-
-  /*
-  let rowsPerCol = ROWS_PER_COL // 从缺省值开始，应该可以解决大部分问题
-  while (intervals / rowsPerCol > RATIO * rowsPerCol) {
-    rowsPerCol += STEP
-  }
-   */
   const rowsPerCol =
     ROWS_PER_COL * ROWS_PER_COL * RATIO >= intervals
       ? ROWS_PER_COL
       : Math.ceil(Math.sqrt(intervals / RATIO) / STEP) * STEP
 
-  while (cursor <= today) {
-    const s = dateFormat(cursor)
-    // day 是一周的第几天，针对当月来说
-    // week 是第几周，针对所有数据来说，相当于图表的第几列
-    if (first) {
-      // 先强制 push 一个 0 次提交的，以避免所有天都有 commit 的情况下，热力图都是最浅颜色的问题
-      cursor = new Date(cursor.setDate(cursor.getDate() - 1))
-      data.push({
-        date: dateFormat(cursor),
-        commits: 0,
-        month: cursor.getMonth(),
-        day: Math.floor(day % rowsPerCol),
-        week: Math.floor(day / rowsPerCol),
-      })
-      day++
-      cursor = new Date(cursor.setDate(cursor.getDate() + 1))
-      first = false
-    }
+  const data = []
+
+  // 先强制记录一个 0，以避免所有天都是最小值的情况下，热力图都是最浅颜色的问题
+  let cursor = new Date(minDateS)
+  cursor = new Date(cursor.setDate(cursor.getDate() - 1))
+  data.push({
+    date: dateFormat(cursor),
+    counts: 0,
+    month: cursor.getMonth(),
+    day: 0,
+    week: 0,
+  })
+
+  let sum = 0
+  for (let i = 0; i < intervals; i++) {
+    const day = i + 1
+    let d = new Date(minDateS)
+    d = new Date(d.setDate(d.getDate() + i))
+    const s = dateFormat(d)
+    sum += prefixSum[i]
     data.push({
       date: s,
-      // 获取相同日期有多少个，就是当日打卡次数
-      commits: s in commits ? commits[s] : 0,
-      month: cursor.getMonth(),
+      counts: sum,
+      month: d.getMonth(),
       day: Math.floor(day % rowsPerCol),
       week: Math.floor(day / rowsPerCol),
     })
-    // 加一天
-    day++
-    cursor = new Date(cursor.setDate(cursor.getDate() + 1))
   }
 
   registerShape('polygon', 'boundary-polygon', {
@@ -273,7 +268,7 @@ export function showLifeCalendar(that, showData) {
   chart
     .polygon()
     .position('week*day*date')
-    .color('commits', '#BAE7FF-#1890FF-#0050B3')
+    .color('counts', '#BAE7FF-#1890FF-#0050B3')
     .shape('boundary-polygon')
 
   // Step 4: 渲染图表
