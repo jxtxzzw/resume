@@ -242,7 +242,14 @@
     "now": "now",
     "previous": "Previous-Related",
     "unselect": "Unfiltered",
-    "related": "All-Related"
+    "related": "All-Related",
+    "sun": "Sun",
+    "mon": "MON",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fir",
+    "sat": "Sat"
   },
   "income": {
     "show-original-amount": "Show Original Amount",

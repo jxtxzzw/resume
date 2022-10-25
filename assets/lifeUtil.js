@@ -85,21 +85,20 @@ const CALENDAR_COLOR_MID = '#1890FF'
 const CALENDAR_COLOR_DARK = '#0050B3'
 const CALENDAR_COLORS = `${CALENDAR_COLOR_LIGHT}-${CALENDAR_COLOR_MID}-${CALENDAR_COLOR_DARK}`
 const DEFAULT_LINE_WIDTH = 1
-const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
+const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
 const BOARDER_STROKE = '#404040'
 
 // 计算日历图布局
-const ROWS_PER_COL = 21
-const RATIO = 3 // 如果比例过于不协调，就每次加 7 个格子
-const STEP = 7
+const CALENDAR_HEIGHT = 128
+const ROWS_PER_COL = 7
+const VIEW_PADDING_FOR_YEAR_ANNOTATION = 10
+const VIEW_PADDING_FOR_WEEK_LABEL = 60
+const OFFSET_X_FOR_YEAR_ANNOTATION = 0
+const OFFSET_Y_FOR_YEAR_ANNOTATION = -(VIEW_PADDING_FOR_YEAR_ANNOTATION / 2)
 
 /** Calendar 辅助函数 **/
 function dateInterval(begin, end = TODAY) {
   return (end - begin) / (86400 * 1000) // 计算有多少天
-}
-
-function sameYear(a, b) {
-  return a.substring(0, 4) === b.substring(0, 4)
 }
 
 function sameMonth(a, b) {
@@ -111,9 +110,6 @@ export function showLifeCalendar(that, showData) {
   const { Chart } = that.$g2
   const registerShape = that.$g2.registerShape
 
-  // 专门有一个日期对象可以随便修改，避免反复 new Date()
-  let mutableDate
-
   // 找到最小日期
   let minDateS = '9999-12-31'
   showData.forEach((obj) => {
@@ -121,15 +117,14 @@ export function showLifeCalendar(that, showData) {
       minDateS = obj.date
     }
   })
+  const minYearS = minDateS.substring(0, 4)
+  minDateS = `${minYearS}-01-01`
   const minDate = new Date(minDateS)
 
-  const intervals = dateInterval(minDate)
+  const yearIntervals =
+    parseInt(dateFormat(TODAY)) - parseInt(minDateS.substring(0, 4)) + 1
 
-  // 避免太细的格子，所以如果按缺省 ROWS_PER_COL 会导致列数太多，就要调整
-  const rowsPerCol =
-    ROWS_PER_COL * ROWS_PER_COL * RATIO >= intervals
-      ? ROWS_PER_COL
-      : Math.ceil(Math.sqrt(intervals / RATIO) / STEP) * STEP
+  const intervals = dateInterval(minDate)
 
   // 初始化前缀和，同时缓存日期信息
   // 加 1 是因为 TODAY - TODAY == 0 但是数组长度是 1
@@ -137,7 +132,7 @@ export function showLifeCalendar(that, showData) {
   const prefixSum = []
   const dateStringCache = []
   const dateStringIndex = {}
-  mutableDate = new Date(minDateS)
+  const mutableDate = new Date(minDateS)
   for (let i = 0; i < intervals + 2; i++) {
     prefixSum.push(0)
     const dateString = dateFormat(mutableDate)
@@ -158,70 +153,51 @@ export function showLifeCalendar(that, showData) {
   // 处理分割线
   const monthLineBottom = []
   const monthLineRight = []
-  const yearLineBottom = []
-  const yearLineRight = []
   for (let i = 0; i < intervals + 1; i++) {
     const thisDate = dateStringCache[i]
 
-    if (i < intervals) {
-      const bottomDate = dateStringCache[i + 1]
-      monthLineBottom.push(!sameMonth(thisDate, bottomDate))
-      yearLineBottom.push(!sameYear(thisDate, bottomDate))
-    }
+    if (thisDate.substring(5, 7) === '12') {
+      // 跳过最后一个月
+      monthLineBottom.push(false)
+      monthLineRight.push(false)
+    } else {
+      if (i < intervals) {
+        const bottomDate = dateStringCache[i + 1]
+        monthLineBottom.push(!sameMonth(thisDate, bottomDate))
+      }
 
-    if (i + rowsPerCol - 1 < intervals) {
-      const rightDate = dateStringCache[i + rowsPerCol]
-      monthLineRight.push(!sameMonth(thisDate, rightDate))
-      yearLineRight.push(!sameYear(thisDate, rightDate))
-    } else if (i < intervals) {
-      const bottomDate = dateStringCache[i + 1]
-      monthLineRight.push(!sameMonth(thisDate, bottomDate))
-      yearLineRight.push(!sameYear(thisDate, bottomDate))
+      if (i + ROWS_PER_COL - 1 < intervals) {
+        const rightDate = dateStringCache[i + ROWS_PER_COL]
+        monthLineRight.push(!sameMonth(thisDate, rightDate))
+      } else if (i < intervals) {
+        const bottomDate = dateStringCache[i + 1]
+        monthLineRight.push(!sameMonth(thisDate, bottomDate))
+      }
     }
   }
 
-  // 如果跨年了就只画年的分界线，如果没有跨年就画月的分界线
-  const shouldDrawYearLine =
-    yearLineBottom.filter((e) => {
-      return e
-    }).length > 0 ||
-    yearLineRight.filter((e) => {
-      return e
-    }).length > 0
-
   const data = []
-
-  // 先强制记录一个 0，以避免所有天都是最小值的情况下，热力图都是最浅颜色的问题
-  mutableDate = new Date(minDateS)
-  mutableDate = new Date(mutableDate.setDate(mutableDate.getDate() - 1))
-  const dummyDateS = dateFormat(mutableDate)
-  data.push({
-    date: dummyDateS,
-    counts: 0,
-    month: mutableDate.getMonth(),
-    day: 0,
-    week: 0,
-    bottom: shouldDrawYearLine
-      ? !sameYear(dummyDateS, minDateS)
-      : !sameMonth(dummyDateS, minDateS),
-    right: shouldDrawYearLine
-      ? !sameYear(dummyDateS, dateStringCache[rowsPerCol])
-      : !sameMonth(dummyDateS, dateStringCache[rowsPerCol]),
-  })
+  for (let i = 0; i < yearIntervals; i++) {
+    data[i] = []
+  }
 
   let sum = 0
-  let day = 1
+  let day = minDate.getUTCDay() // 只需要算清楚第一天是星期几，后面就直接加 1 然后取余，避免 new Date() 对象
   for (let i = 0; i < intervals; i++) {
     const s = dateStringCache[i]
+    if (s.substring(5, 10) === '01-01') {
+      day = new Date(s).getUTCDay() // 每年刷新一次 day，避免 week 错乱
+    }
+    const idx = parseInt(s.substring(0, 4)) - parseInt(minYearS)
     sum += prefixSum[i]
-    data.push({
+    data[idx].push({
       date: s,
       counts: sum,
       month: parseInt(s.substring(5, 7)) - 1, // Date.getMonth() 返回 0 - 11，所以取出日期变成数值以后要减去 1
-      day: Math.floor(day % rowsPerCol),
-      week: Math.floor(day / rowsPerCol),
-      bottom: shouldDrawYearLine ? yearLineBottom[i] : monthLineBottom[i],
-      right: shouldDrawYearLine ? yearLineRight[i] : monthLineRight[i],
+      day: Math.floor(day % ROWS_PER_COL),
+      week: Math.floor(day / ROWS_PER_COL), // 经过测试，week 可以连续编号，不会影响 chart.render()
+      bottom: monthLineBottom[i],
+      right: monthLineRight[i],
     })
     day++
   }
@@ -255,7 +231,7 @@ export function showLifeCalendar(that, showData) {
               ['M', points[2].x, points[2].y],
               ['L', points[3].x, points[3].y],
             ]),
-            lineWidth: BOARDER_LINE_WIDTH * 2,
+            lineWidth: BOARDER_LINE_WIDTH,
             stroke: BOARDER_STROKE,
           },
         })
@@ -268,7 +244,7 @@ export function showLifeCalendar(that, showData) {
               ['M', points[1].x, points[1].y],
               ['L', points[2].x, points[2].y],
             ]),
-            lineWidth: BOARDER_LINE_WIDTH * 2,
+            lineWidth: BOARDER_LINE_WIDTH,
             stroke: BOARDER_STROKE,
           },
         })
@@ -282,69 +258,101 @@ export function showLifeCalendar(that, showData) {
   const chart = new Chart({
     container: CONTAINER,
     autoFit: true,
-    height: chartHeight(),
+    height: CALENDAR_HEIGHT * yearIntervals, // 这里不能用 chartHeight() 了不然图表会太小
   })
 
-  // Step 2: 载入数据源
-  chart.data(data)
+  for (let i = 0; i < yearIntervals; i++) {
+    const v = chart.createView({
+      region: {
+        start: {
+          x: 0,
+          y: i * (1 / yearIntervals),
+        },
+        end: {
+          x: 1,
+          y: (i + 1) * (1 / yearIntervals),
+        },
+      },
+      padding: [
+        VIEW_PADDING_FOR_YEAR_ANNOTATION,
+        0,
+        VIEW_PADDING_FOR_YEAR_ANNOTATION,
+        VIEW_PADDING_FOR_WEEK_LABEL,
+      ],
+    })
 
-  // Step 3：创建图形语法，绘制柱状图
-  chart.scale({
-    day: {
-      type: 'cat',
-    },
-    week: {
-      type: 'cat',
-    },
-    commits: {
-      sync: true,
-    },
-    date: {
-      type: 'cat',
-    },
-  })
-  chart.axis('week', {
-    position: 'top',
-    tickLine: null,
-    line: null,
-    label: {
-      offset: 12,
-      style: {
-        fontSize: 12,
-        fill: '#666',
-        textBaseline: 'top',
+    // Step 2: 载入数据源
+    v.data(data[i])
+
+    // Step 3：创建图形语法，绘制柱状图
+    v.scale({
+      day: {
+        type: 'cat',
+        values: [
+          that.$t('life.sun'),
+          that.$t('life.mon'),
+          that.$t('life.tue'),
+          that.$t('life.wed'),
+          that.$t('life.thu'),
+          that.$t('life.fri'),
+          that.$t('life.sat'),
+        ],
       },
-      formatter: (val) => {
-        return ''
+      week: {
+        type: 'cat',
       },
-    },
-  })
-  chart.axis('day', {
-    grid: null,
-    label: {
-      offset: 12,
-      style: {
-        fontSize: 12,
-        fill: '#666',
-        textBaseline: 'top',
+      counts: {
+        sync: true,
       },
-      formatter: (val) => {
-        return ''
+      date: {
+        type: 'cat',
       },
-    },
-  })
-  chart.legend(false)
+    })
+    v.axis('week', {
+      position: 'top',
+      tickLine: null,
+      line: null,
+      label: {
+        offset: 12,
+        style: {
+          fontSize: 12,
+          fill: '#666',
+          textBaseline: 'top',
+        },
+        formatter: (val) => {
+          return ''
+        },
+      },
+    })
+
+    v.annotation().text({
+      content: (parseInt(minYearS) + i).toString(10),
+      offsetX: OFFSET_X_FOR_YEAR_ANNOTATION,
+      offsetY: OFFSET_Y_FOR_YEAR_ANNOTATION,
+    })
+
+    v.axis('day', {
+      grid: null,
+    })
+
+    v.coordinate().reflect('y')
+
+    v.polygon()
+      .position('week*day*date')
+      .color('counts', CALENDAR_COLORS)
+      .shape('boundary-polygon')
+
+    // 经过测试，颜色的深浅会跨 view 计算（即会取整个 chart 的最小最大值来作为最浅最深的颜色）
+    // 例如 2021-04-16 有一个计数 1，2022-05-24 有一个计数 2
+    // 则所有图表中，2022-05-24 是最深的，2021-04-16 是中等的（尽管在 2021 年，2021-04-16 是唯一一个 1，最大）
+  }
+
+  // 这些是面对 chart 的，前面的都是面对 view 的
   chart.tooltip({
     title: 'date',
     showMarkers: false,
   })
-  chart.coordinate().reflect('y')
-
-  chart
-    .polygon()
-    .position('week*day*date')
-    .color('counts', CALENDAR_COLORS)
-    .shape('boundary-polygon')
+  chart.legend(false)
 
   // Step 4: 渲染图表
   chart.interaction('element-active')
