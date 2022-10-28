@@ -80,10 +80,14 @@ export function showLifeTimeBar(that, showData) {
 
 /** Calendar 辅助常量 **/
 // G2 着色
-const CALENDAR_COLOR_LIGHT = '#BAE7FF'
-const CALENDAR_COLOR_MID = '#1890FF'
-const CALENDAR_COLOR_DARK = '#0050B3'
-const CALENDAR_COLORS = `${CALENDAR_COLOR_LIGHT}-${CALENDAR_COLOR_MID}-${CALENDAR_COLOR_DARK}`
+const ALIVE_CALENDAR_COLOR_LIGHT = '#9bf89b'
+const ALIVE_CALENDAR_COLOR_MID = '#31f531'
+const ALIVE_CALENDAR_COLOR_DARK = '#007500'
+const ALIVE_CALENDAR_COLORS = `${ALIVE_CALENDAR_COLOR_LIGHT}-${ALIVE_CALENDAR_COLOR_MID}-${ALIVE_CALENDAR_COLOR_DARK}`
+const HISTORY_CALENDAR_COLOR_LIGHT = '#BAE7FF'
+const HISTORY_CALENDAR_COLOR_MID = '#1890FF'
+const HISTORY_CALENDAR_COLOR_DARK = '#0050B3'
+const HISTORY_CALENDAR_COLORS = `${HISTORY_CALENDAR_COLOR_LIGHT}-${HISTORY_CALENDAR_COLOR_MID}-${HISTORY_CALENDAR_COLOR_DARK}`
 const DEFAULT_LINE_WIDTH = 1
 const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
 const BOARDER_STROKE = '#404040'
@@ -339,7 +343,12 @@ export function showLifeCalendar(that, showData) {
 
     v.polygon()
       .position('week*day*date')
-      .color('counts', CALENDAR_COLORS)
+      .color(
+        'counts',
+        i === yearIntervals - 1
+          ? ALIVE_CALENDAR_COLORS
+          : HISTORY_CALENDAR_COLORS
+      )
       .shape('boundary-polygon')
 
     // 经过测试，颜色的深浅会跨 view 计算（即会取整个 chart 的最小最大值来作为最浅最深的颜色）
