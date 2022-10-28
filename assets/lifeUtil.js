@@ -16,12 +16,14 @@ function chartHeight() {
 }
 
 /** 总入口 **/
-export function showChart(that, showData) {
+export function showChart(that) {
+  const showData = that.showData
+  const selected = that.selected
   if (showData[0].chart) {
     if (showData[0].chart === TIME_BAR) {
       return showLifeTimeBar(that, showData)
     } else if (showData[0].chart === CALENDAR) {
-      return showLifeCalendar(that, showData)
+      return showLifeCalendar(that, showData, selected)
     }
   }
   return undefined
@@ -91,6 +93,8 @@ const HISTORY_CALENDAR_COLORS = `${HISTORY_CALENDAR_COLOR_LIGHT}-${HISTORY_CALEN
 const DEFAULT_LINE_WIDTH = 1
 const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
 const BOARDER_STROKE = '#404040'
+const SELECTED_BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
+const SELECTED_BOARDER_STROKE = '#FF0000'
 
 // 计算日历图布局
 const CALENDAR_HEIGHT = 128
@@ -110,20 +114,30 @@ function sameMonth(a, b) {
 }
 
 /** Calendar 入口 **/
-export function showLifeCalendar(that, showData) {
+export function showLifeCalendar(that, showData, selected) {
   const { Chart } = that.$g2
   const registerShape = that.$g2.registerShape
 
-  // 找到最小日期
+  // 找到最小日期，并记录选中事件的位置
+  let selectedObj
   let minDateS = '9999-12-31'
   showData.forEach((obj) => {
     if (obj.date < minDateS) {
       minDateS = obj.date
     }
+    if (obj.event === selected) {
+      selectedObj = obj
+    }
   })
   const minYearS = minDateS.substring(0, 4)
   minDateS = `${minYearS}-01-01`
   const minDate = new Date(minDateS)
+
+  const selectedDateStart = selectedObj.date // 选中范围第一天
+  const selectedDateEnd =
+    selectedObj.till !== null && selectedObj.till !== undefined
+      ? selectedObj.till
+      : dateFormat(TODAY) // 选中范围最后一天
 
   const yearIntervals =
     parseInt(dateFormat(TODAY)) - parseInt(minDateS.substring(0, 4)) + 1
@@ -155,10 +169,19 @@ export function showLifeCalendar(that, showData) {
   })
 
   // 处理分割线
+  let selectedDateStartI
+  let selectedDateEndI
   const monthLineBottom = []
   const monthLineRight = []
   for (let i = 0; i < intervals + 1; i++) {
     const thisDate = dateStringCache[i]
+
+    if (selectedDateStart === thisDate) {
+      selectedDateStartI = i // 选中范围开始日期的编号
+    }
+    if (selectedDateEnd === thisDate) {
+      selectedDateEndI = i // 选中范围结束日期的编号
+    }
 
     if (thisDate.substring(5, 7) === '12') {
       // 跳过最后一个月
@@ -187,21 +210,32 @@ export function showLifeCalendar(that, showData) {
 
   let sum = 0
   let day = minDate.getUTCDay() // 只需要算清楚第一天是星期几，后面就直接加 1 然后取余，避免 new Date() 对象
+
   for (let i = 0; i < intervals; i++) {
-    const s = dateStringCache[i]
+    // 准备通用信息
+    const s = dateStringCache[i] // 日期字符串
     if (s.substring(5, 10) === '01-01') {
       day = new Date(s).getUTCDay() // 每年刷新一次 day，避免 week 错乱
     }
-    const idx = parseInt(s.substring(0, 4)) - parseInt(minYearS)
-    sum += prefixSum[i]
+    const idx = parseInt(s.substring(0, 4)) - parseInt(minYearS) // 放在哪一组 data[year] 中
+    sum += prefixSum[i] // 通过前缀和计算出当前格子的计数，即颜色深浅
+    const dayValue = Math.floor(day % ROWS_PER_COL) // 星期几
+    const weekValue = Math.floor(day / ROWS_PER_COL) // 第几周
+
+    const inSelected = selectedDateStart <= s && s <= selectedDateEnd // 是否在选中范围内，由于都是 YYYY-MM-DD 的格式，可以直接字符串比较大小，等号取闭区间
+
     data[idx].push({
       date: s,
       counts: sum,
       month: parseInt(s.substring(5, 7)) - 1, // Date.getMonth() 返回 0 - 11，所以取出日期变成数值以后要减去 1
-      day: Math.floor(day % ROWS_PER_COL),
-      week: Math.floor(day / ROWS_PER_COL), // 经过测试，week 可以连续编号，不会影响 chart.render()
+      day: dayValue,
+      week: weekValue,
       bottom: monthLineBottom[i],
       right: monthLineRight[i],
+      selectedUp: inSelected && (s === selectedDateStart || dayValue === 0), // 选中范围中才有需要画线，第一个和每一个周日（顶部）需要画
+      selectedBottom: inSelected && (s === selectedDateEnd || dayValue === 6), // 选中范围中才有需要画线，最后一个和每一个周六（底部）需要画
+      selectedLeft: inSelected && i < selectedDateStartI + 7, // 从第一个开始画最多 7 个左侧线条，小于 7 的会被 inSelected 排除，大于 7 的都在内部不画
+      selectedRight: inSelected && i > selectedDateEndI - 7, // 同理，倒数画 7 个右侧线条
     })
     day++
   }
@@ -228,28 +262,63 @@ export function showLifeCalendar(that, showData) {
       })
 
       // 多边形添加右侧边框
-      if (cfg.data.right) {
+      if (cfg.data.right || cfg.data.selectedRight) {
         group.addShape('path', {
           attrs: {
             path: this.parsePath([
               ['M', points[2].x, points[2].y],
               ['L', points[3].x, points[3].y],
             ]),
-            lineWidth: BOARDER_LINE_WIDTH,
-            stroke: BOARDER_STROKE,
+            lineWidth: cfg.data.selectedRight
+              ? SELECTED_BOARDER_LINE_WIDTH
+              : BOARDER_LINE_WIDTH,
+            stroke: cfg.data.selectedRight
+              ? SELECTED_BOARDER_STROKE
+              : BOARDER_STROKE,
           },
         })
       }
       // 多边形添加底部边框
-      if (cfg.data.bottom) {
+      if (cfg.data.bottom || cfg.data.selectedBottom) {
         group.addShape('path', {
           attrs: {
             path: this.parsePath([
               ['M', points[1].x, points[1].y],
               ['L', points[2].x, points[2].y],
             ]),
-            lineWidth: BOARDER_LINE_WIDTH,
-            stroke: BOARDER_STROKE,
+            lineWidth: cfg.data.selectedBottom
+              ? SELECTED_BOARDER_LINE_WIDTH
+              : BOARDER_LINE_WIDTH,
+            stroke: cfg.data.selectedBottom
+              ? SELECTED_BOARDER_STROKE
+              : BOARDER_STROKE,
+          },
+        })
+      }
+
+      // 多边形添加左侧边框
+      if (cfg.data.selectedLeft) {
+        group.addShape('path', {
+          attrs: {
+            path: this.parsePath([
+              ['M', points[0].x, points[0].y],
+              ['L', points[1].x, points[1].y],
+            ]),
+            lineWidth: SELECTED_BOARDER_LINE_WIDTH,
+            stroke: SELECTED_BOARDER_STROKE,
+          },
+        })
+      }
+      // 多边形添加上侧边框
+      if (cfg.data.selectedUp) {
+        group.addShape('path', {
+          attrs: {
+            path: this.parsePath([
+              ['M', points[3].x, points[3].y],
+              ['L', points[0].x, points[0].y],
+            ]),
+            lineWidth: SELECTED_BOARDER_LINE_WIDTH,
+            stroke: SELECTED_BOARDER_STROKE,
           },
         })
       }

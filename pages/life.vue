@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       life,
+      selected: null,
       rawData: [],
       showData: [],
       group: [],
@@ -84,7 +85,7 @@ export default {
         this.oldChart.lifeTimeBar.destroy()
       }
       this.oldChart.lifeTimeBar = this.selecting
-        ? lifeUtil.showChart(this, this.showData)
+        ? lifeUtil.showChart(this)
         : undefined
     },
     dsu_init(xs) {
@@ -114,6 +115,7 @@ export default {
       }
     },
     select(x) {
+      this.selected = x
       this.selecting = true
       this.modalVisible = true
       this.showData = []
@@ -123,6 +125,7 @@ export default {
       this.renderChart()
     },
     unselect() {
+      this.selected = null
       this.selecting = false
       this.modalVisible = false
       this.showData = []
