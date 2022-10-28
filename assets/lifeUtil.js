@@ -91,9 +91,9 @@ const HISTORY_CALENDAR_COLOR_MID = '#1890FF'
 const HISTORY_CALENDAR_COLOR_DARK = '#0050B3'
 const HISTORY_CALENDAR_COLORS = `${HISTORY_CALENDAR_COLOR_LIGHT}-${HISTORY_CALENDAR_COLOR_MID}-${HISTORY_CALENDAR_COLOR_DARK}`
 const DEFAULT_LINE_WIDTH = 1
-const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
+const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
 const BOARDER_STROKE = '#404040'
-const SELECTED_BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
+const SELECTED_BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
 const SELECTED_BOARDER_STROKE = '#FF0000'
 
 // 计算日历图布局
@@ -111,6 +111,10 @@ function dateInterval(begin, end = TODAY) {
 
 function sameMonth(a, b) {
   return a.substring(5, 7) === b.substring(5, 7)
+}
+
+function inSelected(i, startI, endI) {
+  return startI <= i && i <= endI
 }
 
 /** Calendar 入口 **/
@@ -222,20 +226,29 @@ export function showLifeCalendar(that, showData, selected) {
     const dayValue = Math.floor(day % ROWS_PER_COL) // 星期几
     const weekValue = Math.floor(day / ROWS_PER_COL) // 第几周
 
-    const inSelected = selectedDateStart <= s && s <= selectedDateEnd // 是否在选中范围内，由于都是 YYYY-MM-DD 的格式，可以直接字符串比较大小，等号取闭区间
-
     data[idx].push({
       date: s,
       counts: sum,
       month: parseInt(s.substring(5, 7)) - 1, // Date.getMonth() 返回 0 - 11，所以取出日期变成数值以后要减去 1
       day: dayValue,
       week: weekValue,
-      bottom: monthLineBottom[i],
+      bottom: monthLineBottom[i] && dayValue !== 6, // 底部就不需要加线了
       right: monthLineRight[i],
-      selectedUp: inSelected && (s === selectedDateStart || dayValue === 0), // 选中范围中才有需要画线，第一个和每一个周日（顶部）需要画
-      selectedBottom: inSelected && (s === selectedDateEnd || dayValue === 6), // 选中范围中才有需要画线，最后一个和每一个周六（底部）需要画
-      selectedLeft: inSelected && i < selectedDateStartI + 7, // 从第一个开始画最多 7 个左侧线条，小于 7 的会被 inSelected 排除，大于 7 的都在内部不画
-      selectedRight: inSelected && i > selectedDateEndI - 7, // 同理，倒数画 7 个右侧线条
+      selectedUp:
+        (inSelected(i, selectedDateStartI, selectedDateEndI) &&
+          (s === selectedDateStart || dayValue === 0)) || // 选中范围中才有需要画线，第一个和每一个周日（顶部）需要画
+        (i === selectedDateEndI + 1 && dayValue !== 0), // 或者是由于绘图顺序的问题，如果 End 后面的一个格子不是顶部，那么要补一次那个格子的 top 即 End 的底部的线
+      selectedLeft:
+        (inSelected(i, selectedDateStartI, selectedDateEndI) &&
+          i < selectedDateStartI + 7) || // 从第一个开始画最多 7 个左侧线条，小于 7 的会被 inSelected 排除，大于 7 的都在内部不画
+        (inSelected(i - 7, selectedDateStartI, selectedDateEndI) &&
+          i > selectedDateEndI), // End - 7 ~ End 之间这一段有右侧线条（同时 inSelected），这些格子右边一列需要补左侧线条：即它（i）左侧的格子（i - 7）满足 selected 且在 End - 7 ~ End 之间
+      selectedBottom:
+        inSelected(i, selectedDateStartI, selectedDateEndI) &&
+        (s === selectedDateEnd || dayValue === 6), // 选中范围中才有需要画线，最后一个和每一个周六（底部）需要画
+      selectedRight:
+        inSelected(i, selectedDateStartI, selectedDateEndI) &&
+        i > selectedDateEndI - 7, // 同理，倒数画 7 个右侧线条
     })
     day++
   }
@@ -243,22 +256,21 @@ export function showLifeCalendar(that, showData, selected) {
   registerShape('polygon', 'boundary-polygon', {
     draw(cfg, container) {
       const group = container.addGroup()
-      const attrs = {
-        stroke: '#fff',
-        lineWidth: DEFAULT_LINE_WIDTH,
-        fill: cfg.color,
-      }
       const points = cfg.points
-      const path = [
-        ['M', points[0].x, points[0].y],
-        ['L', points[1].x, points[1].y],
-        ['L', points[2].x, points[2].y],
-        ['L', points[3].x, points[3].y],
-        ['Z'],
-      ]
-      attrs.path = this.parsePath(path)
+
       group.addShape('path', {
-        attrs,
+        attrs: {
+          path: this.parsePath([
+            ['M', points[0].x, points[0].y],
+            ['L', points[1].x, points[1].y],
+            ['L', points[2].x, points[2].y],
+            ['L', points[3].x, points[3].y],
+            ['Z'],
+          ]),
+          stroke: '#fff',
+          lineWidth: DEFAULT_LINE_WIDTH,
+          fill: cfg.color,
+        },
       })
 
       // 多边形添加右侧边框
