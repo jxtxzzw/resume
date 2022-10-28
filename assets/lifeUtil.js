@@ -93,7 +93,7 @@ const HISTORY_CALENDAR_COLORS = `${HISTORY_CALENDAR_COLOR_LIGHT}-${HISTORY_CALEN
 const DEFAULT_LINE_WIDTH = 1
 const BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
 const BOARDER_STROKE = '#404040'
-const SELECTED_BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 2
+const SELECTED_BOARDER_LINE_WIDTH = DEFAULT_LINE_WIDTH * 3
 const SELECTED_BOARDER_STROKE = '#FF0000'
 
 // 计算日历图布局
@@ -234,6 +234,8 @@ export function showLifeCalendar(that, showData, selected) {
       week: weekValue,
       bottom: monthLineBottom[i] && dayValue !== 6, // 底部就不需要加线了
       right: monthLineRight[i],
+      up: i - 1 >= 0 && monthLineBottom[i - 1] && dayValue !== 0, // 由于绘图顺序问题，如果上一个格子是底部线的，且这个格子不在顶部，也补一条
+      left: i - 7 >= 0 && monthLineRight[i - 7], // 由于绘图顺序的问题，如果左侧是有右侧线的，这边也补一条
       selectedUp:
         (inSelected(i, selectedDateStartI, selectedDateEndI) &&
           (s === selectedDateStart || dayValue === 0)) || // 选中范围中才有需要画线，第一个和每一个周日（顶部）需要画
@@ -244,11 +246,14 @@ export function showLifeCalendar(that, showData, selected) {
         (inSelected(i - 7, selectedDateStartI, selectedDateEndI) &&
           i > selectedDateEndI), // End - 7 ~ End 之间这一段有右侧线条（同时 inSelected），这些格子右边一列需要补左侧线条：即它（i）左侧的格子（i - 7）满足 selected 且在 End - 7 ~ End 之间
       selectedBottom:
-        inSelected(i, selectedDateStartI, selectedDateEndI) &&
-        (s === selectedDateEnd || dayValue === 6), // 选中范围中才有需要画线，最后一个和每一个周六（底部）需要画
+        (inSelected(i, selectedDateStartI, selectedDateEndI) &&
+          (s === selectedDateEnd || dayValue === 6)) || // 选中范围中才有需要画线，最后一个和每一个周六（底部）需要画
+        (i + 1 === selectedDateStartI && dayValue !== 6),
       selectedRight:
-        inSelected(i, selectedDateStartI, selectedDateEndI) &&
-        i > selectedDateEndI - 7, // 同理，倒数画 7 个右侧线条
+        (inSelected(i, selectedDateStartI, selectedDateEndI) &&
+          i > selectedDateEndI - 7) || // 同理，倒数画 7 个右侧线条
+        (inSelected(i + 7, selectedDateStartI, selectedDateEndI) &&
+          i < selectedDateStartI),
     })
     day++
   }
@@ -309,28 +314,36 @@ export function showLifeCalendar(that, showData, selected) {
       }
 
       // 多边形添加左侧边框
-      if (cfg.data.selectedLeft) {
+      if (cfg.data.left || cfg.data.selectedLeft) {
         group.addShape('path', {
           attrs: {
             path: this.parsePath([
               ['M', points[0].x, points[0].y],
               ['L', points[1].x, points[1].y],
             ]),
-            lineWidth: SELECTED_BOARDER_LINE_WIDTH,
-            stroke: SELECTED_BOARDER_STROKE,
+            lineWidth: cfg.data.selectedLeft
+              ? SELECTED_BOARDER_LINE_WIDTH
+              : BOARDER_LINE_WIDTH,
+            stroke: cfg.data.selectedLeft
+              ? SELECTED_BOARDER_STROKE
+              : BOARDER_STROKE,
           },
         })
       }
       // 多边形添加上侧边框
-      if (cfg.data.selectedUp) {
+      if (cfg.data.up || cfg.data.selectedUp) {
         group.addShape('path', {
           attrs: {
             path: this.parsePath([
               ['M', points[3].x, points[3].y],
               ['L', points[0].x, points[0].y],
             ]),
-            lineWidth: SELECTED_BOARDER_LINE_WIDTH,
-            stroke: SELECTED_BOARDER_STROKE,
+            lineWidth: cfg.data.selectedUp
+              ? SELECTED_BOARDER_LINE_WIDTH
+              : BOARDER_LINE_WIDTH,
+            stroke: cfg.data.selectedUp
+              ? SELECTED_BOARDER_STROKE
+              : BOARDER_STROKE,
           },
         })
       }
