@@ -84,3 +84,23 @@ export function dateFormat(date, fmt = 'YYYY-mm-dd') {
   }
   return fmt
 }
+
+export function normalizeDate(
+  arr,
+  dateField = 'date',
+  timeZoneField = 'timezone'
+) {
+  for (const x of arr) {
+    if (dateField && x[dateField]) {
+      const date = x[dateField]
+      let timezone = 'UTC'
+      if (timeZoneField && x[timeZoneField]) {
+        timezone = x[timeZoneField]
+      }
+      const normalizedDate = new Date(`${date} ${timezone}`) // 统一转换为 UTC 时区
+      x[dateField] = dateFormat(normalizedDate) // 将 date 字段赋值为 YYYY-mm-dd 的字符串，方便后续代码操作
+      x[timeZoneField] = timezone
+    }
+  }
+  return arr
+}

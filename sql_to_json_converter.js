@@ -2,6 +2,8 @@ const Converter = (function () {
   let _fs = null
   let _fileLines = null
   const _collections = []
+  const shouldHiddenFields = ['note', 'hidden', 'secret']
+  const HIDDEN = 'HIDDEN'
 
   const reportError = function (errorText) {
     console.log('ERROR: ' + errorText)
@@ -26,6 +28,9 @@ const Converter = (function () {
   }
 
   const convertData = function (data, type) {
+    if (type === HIDDEN) {
+      return HIDDEN
+    }
     // NULL should not be treated as a string "NULL", it should be null itself
     if (data === 'NULL') {
       return null
@@ -73,6 +78,9 @@ const Converter = (function () {
           if (fieldName === 'id') {
             // fieldName = '_id'; // optional, if the `id` is for other usage
             fieldType = 'text'
+          }
+          if (shouldHiddenFields.includes(fieldName)) {
+            fieldType = HIDDEN
           }
 
           fields.push({
