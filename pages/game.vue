@@ -75,6 +75,9 @@ export default {
   },
   computed: {
     getSummary() {
+      const gameWithTime = game.filter((e) => {
+        return e.time != null && parseFloat(e.time) > 0
+      })
       return {
         count_total: game.length,
         count_done: game.filter((e) => {
@@ -86,23 +89,10 @@ export default {
         count_todo: game.filter((e) => {
           return e.status === 'todo'
         }).length,
-        time_count: game.filter((e) => {
-          return e.time != null
-        }).length,
-        time_total: this.sum(
-          game.filter((e) => {
-            return e.time != null
-          })
-        ),
+        time_count: gameWithTime.length,
+        time_total: this.sum(gameWithTime),
         time_max: game.filter((e) => {
-          return (
-            e.name ===
-            this.max(
-              game.filter((e) => {
-                return e.time != null
-              })
-            )
-          )
+          return e.name === this.max(gameWithTime)
         })[0].time,
         time_max_name: this.max(
           game.filter((e) => {
@@ -110,7 +100,7 @@ export default {
           })
         ),
         rating_5: game.filter((e) => {
-          return e.rate === 5 || e.rate === '5'
+          return parseInt(e.rate) === 5
         }).length,
       }
     },
