@@ -97,7 +97,8 @@ export function normalizeDate(
       if (timeZoneField && x[timeZoneField]) {
         timezone = x[timeZoneField]
       }
-      const normalizedDate = new Date(`${date} ${timezone}`) // 统一转换为 UTC 时区
+      const dateInEn = new Date(`${date}`).toLocaleString('en-US') // 增加 Firefox 兼容性
+      const normalizedDate = new Date(`${dateInEn} ${timezone}`) // 统一转换为 UTC 时区
       x[dateField] = dateFormat(normalizedDate) // 将 date 字段赋值为 YYYY-mm-dd 的字符串，方便后续代码操作
       x[timeZoneField] = timezone
     }
