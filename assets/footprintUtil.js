@@ -75,14 +75,20 @@ export function constructMapAndScene(map, source, that) {
   const { showDate } = require('./util')
 
   const DA_DI_YUAN_DIAN = [108.5525, 34.3227] // 大地原点
-  const US_CENTRAL_RANDOM = [-97.512224, 38.162039]
+  // const US_CENTRAL_RANDOM = [-97.512224, 38.162039] // 美国中部随机地点
+  const WORLD_CENTRAL_RANDOM = [-35.353535, 35.353535] // 世界地图（大西洋）中部随机地点
+
+  const PITCH = 0
+  const MAX_ZOOM = 18
+  const CHINA_ZOOM_DEFAULT = 2.5
+  const WORLD_ZOOM_DEFAULT = 1
 
   // Step 1: 创建 Scene 对象
   const config = {
-    center: map === 'china' ? DA_DI_YUAN_DIAN : US_CENTRAL_RANDOM,
-    pitch: 0,
-    zoom: 4,
-    maxZoom: 18,
+    center: map === 'china' ? DA_DI_YUAN_DIAN : WORLD_CENTRAL_RANDOM,
+    pitch: PITCH,
+    zoom: map === 'china' ? CHINA_ZOOM_DEFAULT : WORLD_ZOOM_DEFAULT,
+    maxZoom: MAX_ZOOM,
     token: map === 'china' ? setting.token.gaode : setting.token.mapbox,
   }
   const scene = new Scene({
