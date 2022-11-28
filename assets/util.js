@@ -105,3 +105,17 @@ export function normalizeDate(
   }
   return arr
 }
+
+export function showDate(
+  item,
+  formattedField = 'formatted_date',
+  compatibleDateField = 'date'
+) {
+  if (item && item[formattedField]) {
+    return item[formattedField]
+  } else if (item && item[compatibleDateField]) {
+    return item[compatibleDateField]
+  } else {
+    return new Date()
+  }
+}

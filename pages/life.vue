@@ -32,10 +32,12 @@
           </template>
         </p>
         <p class="date">
-          <span>{{ item.date }}</span>
+          <span>{{ showDate(item) }}</span>
           <span v-if="item.till">
             <span v-if="item.date !== item.till">
-              {{ `${$t('life.till')} ${item.till}` }}
+              {{
+                `${$t('life.till')} ${showDate(item, 'formatted_till', 'till')}`
+              }}
             </span>
           </span>
           <span v-else>
@@ -54,12 +56,14 @@
 
 <script>
 import { life } from 'assets/reader'
+import { showDate } from 'assets/util'
 import * as lifeUtil from 'assets/lifeUtil'
 
 export default {
   name: 'Life',
   data() {
     return {
+      showDate,
       life,
       selected: null,
       rawData: [],

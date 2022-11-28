@@ -6,9 +6,13 @@
           <span class="company"> {{ item.company }} </span>
         </p>
         <p class="date">
-          <span>{{ item.date }}</span>
+          <span>{{ showDate(item) }}</span>
           <span>{{ $t('work.till') }}</span>
-          <span>{{ item.end == null ? $t('work.now') : item.end }}</span>
+          <span>{{
+            item.end == null
+              ? $t('work.now')
+              : showDate(item, 'formatted_end', 'end')
+          }}</span>
         </p>
         <div v-if="item.content">
           <p v-for="c in item.content.split('\n')" :key="c" class="content">
@@ -26,9 +30,13 @@
                 <span class="level"> {{ c.level }} </span>
               </p>
               <p class="date">
-                <span>{{ c.date }}</span>
+                <span>{{ showDate(c) }}</span>
                 <span>{{ $t('work.till') }}</span>
-                <span>{{ c.end == null ? $t('work.now') : c.end }}</span>
+                <span>{{
+                  c.end == null
+                    ? $t('work.now')
+                    : showDate(c, 'formatted_end', 'end')
+                }}</span>
               </p>
               <div v-if="c.content">
                 <p
@@ -49,10 +57,13 @@
 
 <script>
 import { work } from 'assets/reader'
+import { showDate } from 'assets/util'
+
 export default {
   name: 'Work',
   data() {
     return {
+      showDate,
       work,
       items: [],
     }

@@ -7,9 +7,13 @@
           {{ item.school }}
         </p>
         <p class="date">
-          <span>{{ item.date }}</span>
+          <span>{{ showDate(item) }}</span>
           <span>{{ $t('study.till') }}</span>
-          <span>{{ item.end == null ? $t('study.now') : item.end }}</span>
+          <span>{{
+            item.end == null
+              ? $t('study.now')
+              : showDate(item, 'formatted_end', 'end')
+          }}</span>
         </p>
         <div v-if="item.content">
           <p v-for="c in item.content.split('\n')" :key="c" class="content">
@@ -23,10 +27,13 @@
 
 <script>
 import { study } from 'assets/reader'
+import { showDate } from 'assets/util'
+
 export default {
   name: 'Study',
   data() {
     return {
+      showDate,
       study,
     }
   },

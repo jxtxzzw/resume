@@ -72,6 +72,7 @@ export function constructMapAndScene(map, source, that) {
   const { Scene, Popup } = that.$l7
   const { GaodeMap, Mapbox } = that.$l7maps
   const { setting } = require('./reader')
+  const { showDate } = require('./util')
 
   const DA_DI_YUAN_DIAN = [108.5525, 34.3227] // 大地原点
   const US_CENTRAL_RANDOM = [-97.512224, 38.162039]
@@ -123,7 +124,7 @@ export function constructMapAndScene(map, source, that) {
       const { date, name } = e.feature
       if (date) {
         popMessage += that.$t('footprint.date', {
-          date,
+          date: showDate(e.feature),
         })
       }
       popMessage += that.$t('footprint.name', {

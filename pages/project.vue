@@ -16,7 +16,7 @@
           <p>
             {{ item.description }}
           </p>
-          <em class="date"> {{ item.date }} </em>
+          <em class="date"> {{ showDate(item) }} </em>
           <ButtonGroup shape="circle">
             <Button
               v-if="item.repo"
@@ -77,10 +77,13 @@
 
 <script>
 import { project } from 'assets/reader'
+import { showDate } from 'assets/util'
+
 export default {
   name: 'Project',
   data() {
     return {
+      showDate,
       project,
     }
   },

@@ -10,12 +10,17 @@
         <template slot="action">
           <li>
             <Icon type="ios-calendar-outline" />
-            {{ $t('certificate.start') }} {{ item.start }}
+            {{ $t('certificate.start') }}
+            {{ showDate(item, 'formatted_start', 'start') }}
           </li>
           <li>
             <Icon type="ios-calendar-outline" />
             {{ $t('certificate.end') }}
-            {{ item.end ? item.end : $t('certificate.lifetime') }}
+            {{
+              item.end
+                ? showDate(item, 'formatted_end', 'end')
+                : $t('certificate.lifetime')
+            }}
           </li>
           <li>
             <Icon type="ios-barcode-outline" />
@@ -39,11 +44,13 @@
 
 <script>
 import { certificate, setting } from 'assets/reader'
+import { showDate } from 'assets/util'
 
 export default {
   name: 'Certification',
   data() {
     return {
+      showDate,
       certificate,
       setting,
     }
