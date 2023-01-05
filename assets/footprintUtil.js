@@ -34,11 +34,12 @@ function getDotIntensitySize(zoomSize = undefined) {
   const DEFAULT_DOT_SIZE = 2
   const MIN_DOT_SIZE = 2
   const MAX_DOT_SIZE = 10
+  const SCALE = 1.5
+  let dotSize = DEFAULT_DOT_SIZE
   if (zoomSize !== undefined) {
-    return Math.max(Math.min(zoomSize, MAX_DOT_SIZE), MIN_DOT_SIZE)
-  } else {
-    return DEFAULT_DOT_SIZE
+    dotSize = zoomSize / SCALE
   }
+  return Math.max(Math.min(dotSize, MAX_DOT_SIZE), MIN_DOT_SIZE)
 }
 function setDotIntensity(pointLayer, zoomSize = undefined) {
   const INTENSITY_COLOR = '#080298'
