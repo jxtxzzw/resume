@@ -29,12 +29,24 @@
 // }
 
 // 亮度图又称点密度图，单位面积的内点的个数越多，亮度会越亮，亮度图一般用来表达海量点数据分布情况
-function setDotIntensity(pointLayer) {
-  const DOT_SIZE = 5
+let globalPointLayer
+function getDotIntensitySize(zoomSize = undefined) {
+  const DEFAULT_DOT_SIZE = 2
+  const MIN_DOT_SIZE = 2
+  const MAX_DOT_SIZE = 10
+  if (zoomSize !== undefined) {
+    return Math.max(Math.min(zoomSize, MAX_DOT_SIZE), MIN_DOT_SIZE)
+  } else {
+    return DEFAULT_DOT_SIZE
+  }
+}
+function setDotIntensity(pointLayer, zoomSize = undefined) {
   const INTENSITY_COLOR = '#080298'
   const STYLE_OPACITY = 1
 
-  pointLayer.size(DOT_SIZE).shape('dot').color(INTENSITY_COLOR).style({
+  const dotSize = getDotIntensitySize(zoomSize)
+
+  pointLayer.size(dotSize).shape('dot').color(INTENSITY_COLOR).style({
     opacity: STYLE_OPACITY,
   })
 }
@@ -51,6 +63,7 @@ function getPointLayer(data, that) {
       y: 'lat',
     },
   })
+  globalPointLayer = pointLayer
 
   setDotIntensity(pointLayer)
 
@@ -106,6 +119,12 @@ export function constructMapAndScene(map, source, that) {
     that.screenWidth = that.$store.getters['size/getWidth']
     that.screenWidth -= 1
     that.screenHeight -= 1
+
+    // 这个 event 需要在 loaded 之后才能监听
+    scene.on('zoomchange', () => {
+      setDotIntensity(globalPointLayer, getDotIntensitySize(scene.getZoom()))
+      scene.render()
+    })
   })
 
   // Step 2: 载入数据源
