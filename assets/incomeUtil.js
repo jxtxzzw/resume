@@ -584,13 +584,13 @@ function getDataForAllAccumulated(
         sumTillNow[c] += v
         if (!showAccumulated) {
           data.push({
-            year: i,
+            year: i.toString(10),
             currency: c,
             value: parseFloat(v.toFixed(2)),
           })
         } else {
           data.push({
-            year: i,
+            year: i.toString(10),
             currency: `${c}_${that.$t('income.accumulated')}`,
             value: parseFloat(sumTillNow[c].toFixed(2)),
           })
@@ -633,6 +633,7 @@ export function renderChartForAllAccumulated(
 
   chart.scale('date', {
     nice: true,
+    type: 'time', // 连续的时间类型，是一种特殊的连续性数据，也是 linear 的子类
   })
 
   chart.axis('value', {
