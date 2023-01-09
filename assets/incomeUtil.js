@@ -279,6 +279,9 @@ export function renderChartForBasicCategory(
     height: chartHeight(),
   })
 
+  const ANNOTATION_OMIT_THRESHOLD = 0.02
+  const ANNOTATION_FORCE_INSIDE_OFFSET = -10
+
   const OUTTER_COLOR = [
     '#e57575',
     '#96ef78',
@@ -330,11 +333,13 @@ export function renderChartForBasicCategory(
     .adjust('stack')
     .position('percent')
     .color('category')
-    .label('percent', function (val) {
-      const offset = val > 0.02 ? -30 : 30
+    .label('percent', function () {
       return {
-        offset,
+        offset: ANNOTATION_FORCE_INSIDE_OFFSET,
         content: (data) => {
+          if (data.percent < ANNOTATION_OMIT_THRESHOLD) {
+            return `...`
+          }
           return `${data.category}: ${(data.percent * 100).toFixed(2)}%`
         },
       }
@@ -442,11 +447,13 @@ export function renderChartForBasicCategory(
     .adjust('stack')
     .position('percent')
     .color('currency')
-    .label('percent', function (val) {
-      const offset = val > 0.02 ? -30 : 30
+    .label('percent', function () {
       return {
-        offset,
+        offset: ANNOTATION_FORCE_INSIDE_OFFSET,
         content: (data) => {
+          if (data.percent < ANNOTATION_OMIT_THRESHOLD) {
+            return `...`
+          }
           return `${data.currency}: ${(data.percent * 100).toFixed(2)}%`
         },
       }
