@@ -21,6 +21,7 @@
               type_documentary: getSummary['type_documentary'],
               type_lecture: getSummary['type_lecture'],
               type_anime: getSummary['type_anime'],
+              type_show: getSummary['type_show'],
             })
           }}
         </p>
@@ -96,6 +97,9 @@ export default {
         }).length,
         type_lecture: media.filter((e) => {
           return e.type === 'lecture'
+        }).length,
+        type_show: media.filter((e) => {
+          return e.type === 'show'
         }).length,
       }
     },
