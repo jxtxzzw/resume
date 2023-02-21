@@ -155,9 +155,11 @@ export default {
           if (params.row.status === 'doing') {
             color = 'primary'
           } else if (params.row.status === 'todo') {
-            color = 'error'
+            color = 'warning'
           } else if (params.row.status === 'done') {
             color = 'success'
+          } else if (params.row.status === 'aborted') {
+            color = 'error'
           }
           let message = ''
           if (params.row.status === 'doing') {
@@ -170,6 +172,8 @@ export default {
             } else {
               message = this.$t('media.done_at', { date: params.row.date })
             }
+          } else if (params.row.status === 'aborted') {
+            message = this.$t('media.aborted')
           }
           return h(
             'Tag',

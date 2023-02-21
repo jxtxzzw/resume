@@ -130,6 +130,7 @@
     "done_at": "已于 {date} 欣赏",
     "doing": "欣赏中",
     "todo": "计划中",
+    "aborted": "已弃坑",
     "message": "评分和评价仅代表个人意见。",
     "warning": "本页面可能包含剧透内容。",
     "summary_count": "共计 {count_total} 条影音记录：{count_done} 条已欣赏，{count_doing} 条正在欣赏中，{count_todo} 条正在计划中，其余为其他状态。",

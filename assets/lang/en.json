@@ -130,6 +130,7 @@
     "done_at": "Watched/Listened on {date}",
     "doing": "Watching/Listening",
     "todo": "Scheduling",
+    "aborted": "Aborted",
     "message": "Ratings and reviews are personal.",
     "warning": "This page may contain information about the plot.",
     "summary_count": "{count_total} number(s) of media in total: {count_done} is(are) done, {count_doing} is(are) doing, {count_todo} is(are) todo, and the rest is(are) in other status.",
