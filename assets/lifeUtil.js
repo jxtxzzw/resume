@@ -136,6 +136,10 @@ export function showLifeCalendar(that, showData, selected) {
   const minYearS = minDateS.substring(0, 4)
   minDateS = `${minYearS}-01-01`
   const minDate = new Date(minDateS)
+  const maxDateS = `${(
+    parseInt(dateFormat(TODAY).substring(0, 4)) + 1
+  ).toString()}-01-01`
+  const maxDate = new Date(maxDateS)
 
   const selectedDateStart = selectedObj.date // 选中范围第一天
   const selectedDateEnd =
@@ -146,7 +150,7 @@ export function showLifeCalendar(that, showData, selected) {
   const yearIntervals =
     parseInt(dateFormat(TODAY)) - parseInt(minDateS.substring(0, 4)) + 1
 
-  const intervals = dateInterval(minDate)
+  const intervals = dateInterval(minDate, maxDate)
 
   // 初始化前缀和，同时缓存日期信息
   // 加 1 是因为 TODAY - TODAY == 0 但是数组长度是 1
