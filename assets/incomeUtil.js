@@ -2,6 +2,76 @@
 
 import { dateFormat } from './util'
 
+const COLORS = {
+  YEAR_AND_TYPE: [
+    '#74CBED',
+    '#FF6B3B',
+    '#247FEA',
+    '#F6C022',
+    '#585853',
+    '#7666F9',
+    '#62DAAB',
+    '#0C3967',
+    '#AE0025',
+    '#76523B',
+    '#FF9EC6',
+    '#6395F9',
+    '#9967BD',
+  ],
+  CATEGORY: {
+    OUTTER: [
+      '#FF6B3B',
+      '#247FEA',
+      '#DAD5B5',
+      '#1D9ED1',
+      '#2BCB95',
+      '#76523B',
+      '#FFC100',
+      '#255634',
+      '#8E283B',
+      '#626681',
+      '#791DC9',
+      '#D64BC0',
+      '#E19348',
+      '#8CDAE5',
+      '#0E8E89',
+      '#B1ABF4',
+      '#F383A2',
+      '#9FB40F',
+      '#8C8C47',
+      '#1D42C2',
+    ],
+    INNER: [
+      '#FFC328',
+      '#025DF4',
+      '#A0DC2C',
+      '#8D00A1',
+      '#1D42C2',
+      '#1D9ED1',
+      '#255634',
+      '#FF6B3B',
+      '#76523B',
+      '#D64BC0',
+      '#768DEA',
+    ],
+  },
+  ADVANCED_PLATFORM: [
+    '#22BAED',
+    '#9B9AEF',
+    '#8C8D05',
+    '#F3470D',
+    '#227BA2',
+    '#6968A3',
+    '#5E5E01',
+    '#A4300C',
+    '#8AD4FF',
+    '#C0C0FF',
+    '#B3B25A',
+    '#FF895D',
+  ],
+  BASE_CURRENCY: ['#FFC328', '#025DF4', '#A0DC2C'],
+}
+
 function getDataForYearAndType(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
@@ -51,21 +121,6 @@ export function renderChartForYearAndType(
   that,
   rawData,
   containerID = 'container',
-  colors = [
-    '#74CBED',
-    '#FF6B3B',
-    '#247FEA',
-    '#F6C022',
-    '#AE0025',
-    '#7666F9',
-    '#9967BD',
-    '#E19348',
-    '#FF9EC6',
-    '#76523B',
-    '#585853',
-    '#6395F9',
-    '#62DAAB',
-  ],
   withCurrency = false
 ) {
   const { Chart } = that.$g2
@@ -170,7 +225,7 @@ export function renderChartForYearAndType(
     .interval()
     .adjust(adjustCfg)
     .position('year*weightedAmount')
-    .color('type', colors)
+    .color('type', COLORS.YEAR_AND_TYPE)
 
   // Step 4: 渲染图表
   chart.render()
@@ -282,21 +337,6 @@ export function renderChartForBasicCategory(
   const ANNOTATION_OMIT_THRESHOLD = 0.02
   const ANNOTATION_FORCE_INSIDE_OFFSET = -10
 
-  const OUTTER_COLOR = [
-    '#e57575',
-    '#96ef78',
-    '#ba75e8',
-    '#7af1e0',
-    '#ccec68',
-    '#768dea',
-    '#e573de',
-    '#626114',
-    '#b0adad',
-    '#f1c265',
-    '#20a0ff',
-    '#7e6767',
-  ]
-
   // 先计算出按类别分类的结果
   const [leftData, rightData] = getDataForBasicCategory(
     rawData,
@@ -332,7 +372,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('category')
+    .color('category', COLORS.CATEGORY.INNER)
     .label('percent', function () {
       return {
         offset: ANNOTATION_FORCE_INSIDE_OFFSET,
@@ -403,7 +443,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('currency', OUTTER_COLOR)
+    .color('currency', COLORS.CATEGORY.OUTTER)
     .label('currency')
     .tooltip('currency*percent', (item, percent) => {
       percent = (percent * 100).toFixed(2) + '%'
@@ -446,7 +486,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('currency')
+    .color('currency', COLORS.CATEGORY.INNER)
     .label('percent', function () {
       return {
         offset: ANNOTATION_FORCE_INSIDE_OFFSET,
@@ -517,7 +557,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('category', OUTTER_COLOR)
+    .color('category', COLORS.CATEGORY.OUTTER)
     .label('category')
     .tooltip('category*percent', (item, percent) => {
       percent = (percent * 100).toFixed(2) + '%'
@@ -651,12 +691,21 @@ export function renderChartForAllAccumulated(
     },
   })
 
-  chart.line().position('year*value').color('currency').shape('smooth') // 收入可以平滑，信用分不平滑
+  chart
+    .line()
+    .position('year*value')
+    .color('currency', COLORS.BASE_CURRENCY)
+    .shape('smooth') // 收入可以平滑，信用分不平滑
 
-  chart.point().position('year*value').color('currency').shape('circle').style({
-    stroke: '#fff',
-    lineWidth: 1,
-  }) // 收入一年一个数据点可以画点，信用分就只画线
+  chart
+    .point()
+    .position('year*value')
+    .color('currency', COLORS.BASE_CURRENCY)
+    .shape('circle')
+    .style({
+      stroke: '#fff',
+      lineWidth: 1,
+    }) // 收入一年一个数据点可以画点，信用分就只画线
 
   // 开启缩略轴组件
   chart.option('slider', {
@@ -787,7 +836,7 @@ export function renderChartForAdvancedPlatform(
   chart
     .polygon()
     .position('x*y')
-    .color('brand')
+    .color('brand', COLORS.ADVANCED_PLATFORM)
     .tooltip('name*value', function (name, value) {
       return {
         name,
@@ -904,8 +953,16 @@ export function renderChartForBalance(
     shared: true, // true 表示合并当前点对应的所有数据并展示，false 表示只展示离当前点最逼近的数据内容
   })
 
-  chart.area().adjust('stack').position('date*value').color('currency')
-  chart.line().adjust('stack').position('date*value').color('currency')
+  chart
+    .area()
+    .adjust('stack')
+    .position('date*value')
+    .color('currency', COLORS.BASE_CURRENCY)
+  chart
+    .line()
+    .adjust('stack')
+    .position('date*value')
+    .color('currency', COLORS.BASE_CURRENCY)
 
   chart.interaction('element-highlight')
 

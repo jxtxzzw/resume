@@ -222,7 +222,6 @@ export default {
             this,
             income,
             'basic-year',
-            undefined,
             this.currencyBasicYear
           )
       }
@@ -247,7 +246,6 @@ export default {
             this,
             advancedIncome,
             'advanced-year',
-            undefined,
             this.currencyAdvancedYear
           )
       }
