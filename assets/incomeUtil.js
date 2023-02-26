@@ -992,24 +992,31 @@ export function renderChartForBalance(
 
   function getTooltipHTML(data) {
     const { title, items } = data
-    return `
-    <div class='tooltip-title'>${title}</div>
-    <div class='tooltip-items'>
-      ${items
-        .map((datum) => {
-          const color = datum.color
-          const name = datum.name
-          const value = datum.value // 是 datum 的 value，即 datum.data.value (weightedAmount)
-          const originalAmount = datum.data.originalAmount // 取出没有乘上汇率的值
+    let sum = 0
+    const tooltipsList = `${items
+      .map((datum) => {
+        const color = datum.color
+        const name = datum.name
+        const value = datum.value // 是 datum 的 value，即 datum.data.value (weightedAmount)
+        const originalAmount = datum.data.originalAmount // 取出没有乘上汇率的值
+        sum += parseFloat(value)
 
-          return `
+        return `
         <div class='tooltip-item' style='border-left: 2px solid ${color}'>
           <div class='tooltip-item-name'>${name} (Weighted ${name})</div>
           <div class='tooltip-item-value'>${originalAmount} (${value})</div>
         </div>
         `
-        })
-        .join('')}
+      })
+      .join('')}`
+    return `
+    <div class='tooltip-title'>${title}</div>
+    <div class='tooltip-items'>
+      <div class='tooltip-item' style='border-left: 2px solid #2B2B2B'>
+          <div class='tooltip-item-name'>(Weighted Sum)</div>
+          <div class='tooltip-item-value'>(${sum.toFixed(2)})</div>
+        </div>
+      ${tooltipsList}
     </div>
   `
   }
