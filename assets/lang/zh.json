@@ -254,7 +254,8 @@
     "wed": "星期三",
     "thu": "星期四",
     "fri": "星期五",
-    "sat": "星期六"
+    "sat": "星期六",
+    "search": "输入一些关键词以搜索..."
   },
   "income": {
     "show-original-amount": "按原始数值展示",

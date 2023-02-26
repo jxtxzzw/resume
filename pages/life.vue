@@ -1,5 +1,13 @@
 <template>
   <div>
+    <Input
+      v-model="keywords"
+      search
+      clearable
+      :placeholder="$t('life.search')"
+      :style="{ margin: '10px 0px 20px 0px' }"
+      @on-change="onSearchChange"
+    />
     <Modal
       v-model="modalVisible"
       footer-hide
@@ -65,6 +73,7 @@ export default {
     return {
       showDate,
       life,
+      keywords: '',
       selected: null,
       rawData: [],
       showData: [],
@@ -132,8 +141,7 @@ export default {
       this.selected = null
       this.selecting = false
       this.modalVisible = false
-      this.showData = []
-      this.showData = [...this.rawData]
+      this.onSearchChange()
       this.renderChart()
     },
     modalVisibleOnChange(status) {
@@ -155,6 +163,25 @@ export default {
       }
       anchorHref += `#${href}`
       return anchorHref
+    },
+    onSearchChange() {
+      this.showData = []
+      if (this.keywords) {
+        this.showData = this.rawData.filter((e) => {
+          if (e.event && e.event.includes(this.keywords)) {
+            return true
+          } else if (e.content && e.content.includes(this.keywords)) {
+            return true
+          } else if (e.date && e.date.includes(this.keywords)) {
+            return true
+          } else if (e.till && e.till.includes(this.keywords)) {
+            return true
+          }
+          return false
+        })
+      } else {
+        this.showData = [...this.rawData]
+      }
     },
   },
 }

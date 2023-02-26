@@ -254,7 +254,8 @@
     "wed": "Wed",
     "thu": "Thu",
     "fri": "Fir",
-    "sat": "Sat"
+    "sat": "Sat",
+    "search": "Enter something to search..."
   },
   "income": {
     "show-original-amount": "Show Original Amount",
