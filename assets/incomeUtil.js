@@ -239,75 +239,75 @@ function getDataForBasicCategory(
 ) {
   const dict = {}
   for (const x of rawData) {
-    const category = x.category
+    const type = x.type
     const amount = parseFloat(x.amount)
-    if (!(category in dict)) {
-      dict[category] = {}
+    if (!(type in dict)) {
+      dict[type] = {}
     }
     if (amount <= 0) {
       continue
     }
     const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
     const currency = x.currency
-    if (!(currency in dict[category])) {
-      dict[category][currency] = {
+    if (!(currency in dict[type])) {
+      dict[type][currency] = {
         amount: 0,
         weightedAmount: 0,
       }
     }
-    dict[category][currency].amount += amount
-    dict[category][currency].weightedAmount += amount * currencyWeight
+    dict[type][currency].amount += amount
+    dict[type][currency].weightedAmount += amount * currencyWeight
   }
 
   for (const x of rawAdvancedData) {
-    const category = '被动收入' // TODO: HARD_CODED
+    const type = '被动收入' // TODO: HARD_CODED
     const amount = parseFloat(x.amount)
-    if (!(category in dict)) {
-      dict[category] = {}
+    if (!(type in dict)) {
+      dict[type] = {}
     }
     if (amount <= 0) {
       continue
     }
     const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
     const currency = x.currency
-    if (!(currency in dict[category])) {
-      dict[category][currency] = {
+    if (!(currency in dict[type])) {
+      dict[type][currency] = {
         amount: 0,
         weightedAmount: 0,
       }
     }
-    dict[category][currency].amount += amount
-    dict[category][currency].weightedAmount += amount * currencyWeight
+    dict[type][currency].amount += amount
+    dict[type][currency].weightedAmount += amount * currencyWeight
   }
 
   const currencies = []
   const leftData = [] // 先分类再货币
   const rightData = [] // 先货币再分类
-  for (const category in dict) {
-    for (const currency in dict[category]) {
+  for (const type in dict) {
+    for (const currency in dict[type]) {
       if (!currencies.includes(currency)) {
         currencies.push(currency)
       }
-      const amount = dict[category][currency].amount
-      const weightedAmount = dict[category][currency].weightedAmount
+      const amount = dict[type][currency].amount
+      const weightedAmount = dict[type][currency].weightedAmount
       if (amount > 0) {
         leftData.push({
-          category,
+          type,
           amount,
           weightedAmount,
-          currency: `${category} - ${currency}`,
+          currency: `${type} - ${currency}`,
         })
       }
     }
   }
   for (const currency of currencies) {
-    for (const category in dict) {
-      if (dict[category][currency]) {
-        const amount = dict[category][currency].amount
-        const weightedAmount = dict[category][currency].weightedAmount
+    for (const type in dict) {
+      if (dict[type][currency]) {
+        const amount = dict[type][currency].amount
+        const weightedAmount = dict[type][currency].weightedAmount
         if (amount > 0) {
           rightData.push({
-            category: `${currency} - ${category}`,
+            type: `${currency} - ${type}`,
             amount,
             weightedAmount,
             currency,
@@ -362,7 +362,7 @@ export function renderChartForBasicCategory(
   leftInnerDV.source(leftData).transform({
     type: 'percent',
     field: 'weightedAmount', // 带权重的数值，确保饼图的大小是能反映币种的
-    dimension: 'category',
+    dimension: 'type',
     as: 'percent',
   })
 
@@ -372,7 +372,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('category', COLORS.CATEGORY.INNER)
+    .color('type', COLORS.CATEGORY.INNER)
     .label('percent', function () {
       return {
         offset: ANNOTATION_FORCE_INSIDE_OFFSET,
@@ -380,7 +380,7 @@ export function renderChartForBasicCategory(
           if (data.percent < ANNOTATION_OMIT_THRESHOLD) {
             return `...`
           }
-          return `${data.category}: ${(data.percent * 100).toFixed(2)}%`
+          return `${data.type}: ${(data.percent * 100).toFixed(2)}%`
         },
       }
     })
@@ -536,7 +536,7 @@ export function renderChartForBasicCategory(
   rightOutterDV.source(rightData).transform({
     type: 'percent',
     field: 'weightedAmount',
-    dimension: 'category',
+    dimension: 'type',
     as: 'percent',
   })
 
@@ -557,9 +557,9 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('category', COLORS.CATEGORY.OUTTER)
-    .label('category')
-    .tooltip('category*percent', (item, percent) => {
+    .color('type', COLORS.CATEGORY.OUTTER)
+    .label('type')
+    .tooltip('type*percent', (item, percent) => {
       percent = (percent * 100).toFixed(2) + '%'
       return {
         name: item,
