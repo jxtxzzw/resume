@@ -19,7 +19,7 @@ const COLORS = {
     '#9967BD',
   ],
   CATEGORY: {
-    OUTTER: [
+    G2_CLASSIC: [
       '#661900',
       '#B22C00',
       '#E6450F',
@@ -38,7 +38,7 @@ const COLORS = {
       '#002CB2',
       '#001F7F',
     ],
-    INNER: [
+    G2_GREEN_MAGIC: [
       '#EAACFF',
       '#DD78FF',
       '#C53FFF',
@@ -58,7 +58,7 @@ const COLORS = {
       '#c1e8c5',
     ],
   },
-  ADVANCED_PLATFORM: [
+  G2_YELLOW_CYAN: [
     '#795B16',
     '#A37B16',
     '#D09C10',
@@ -336,6 +336,11 @@ export function renderChartForBasicCategory(
   const { Chart } = that.$g2
   const { DataView } = that.$dataset
 
+  const leftInnerColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC]
+  const leftOutterColors = [...COLORS.CATEGORY.G2_CLASSIC]
+  const rightInnerColors = [...COLORS.CATEGORY.G2_CLASSIC.reverse()]
+  const rightOutterColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC.reverse()]
+
   const chart = new Chart({
     container: 'basic-category',
     autoFit: true,
@@ -380,7 +385,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('type', COLORS.CATEGORY.INNER)
+    .color('type', leftInnerColors)
     .label('percent', function () {
       return {
         offset: ANNOTATION_FORCE_INSIDE_OFFSET,
@@ -451,7 +456,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('currency', COLORS.CATEGORY.OUTTER)
+    .color('currency', leftOutterColors)
     .label('currency')
     .tooltip('currency*percent', (item, percent) => {
       percent = (percent * 100).toFixed(2) + '%'
@@ -494,7 +499,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('currency', COLORS.CATEGORY.INNER)
+    .color('currency', rightInnerColors)
     .label('percent', function () {
       return {
         offset: ANNOTATION_FORCE_INSIDE_OFFSET,
@@ -565,7 +570,7 @@ export function renderChartForBasicCategory(
     .interval()
     .adjust('stack')
     .position('percent')
-    .color('type', COLORS.CATEGORY.OUTTER)
+    .color('type', rightOutterColors)
     .label('type')
     .tooltip('type*percent', (item, percent) => {
       percent = (percent * 100).toFixed(2) + '%'
@@ -844,7 +849,7 @@ export function renderChartForAdvancedPlatform(
   chart
     .polygon()
     .position('x*y')
-    .color('brand', COLORS.ADVANCED_PLATFORM)
+    .color('brand', COLORS.G2_YELLOW_CYAN)
     .tooltip('name*value', function (name, value) {
       return {
         name,
