@@ -8,7 +8,9 @@ export const exam = require('./data/exam.json')
 export const activity = sortByDate(
   normalizeDate(require('./data/activity.json'))
 )
+export const income = require('./data/income.json')
 export const advancedIncome = require('./data/advanced_income.json')
+export const benefitsIncome = require('./data/benefits_income.json')
 export const balance = sortByDate(require('./data/balance.json')).reverse()
 export const certificate = sortByDate(
   filenameToSrc(
@@ -40,7 +42,6 @@ export const game = sortByDate(normalizeDate(require('./data/game.json')))
 export const honor = sortByDate(
   filenameToSrc(normalizeDate(require('./data/honor.json')), setting.src.honor)
 )
-export const income = require('./data/income.json')
 export const life = sortByDate(
   normalizeDate(
     normalizeDate(require('./data/life.json'), 'date', 'datezone'),

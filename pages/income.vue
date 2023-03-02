@@ -88,6 +88,7 @@
     <Alert type="info">
       {{ $t('income.no-negative') }}
     </Alert>
+    <div id="basic-category-overview"></div>
     <div id="basic-category"></div>
 
     <Divider>{{ $t('income.advanced-year') }}</Divider>
@@ -146,7 +147,7 @@
 
 <script>
 import * as incomeUtil from 'assets/incomeUtil'
-import { income, advancedIncome, balance } from 'assets/reader'
+import { income, advancedIncome, balance, benefitsIncome } from 'assets/reader'
 
 export default {
   name: 'Income',
@@ -163,6 +164,7 @@ export default {
         allAccumulated: undefined,
         incomeChartForYearAndType: undefined,
         incomeChartForBasicCategory: undefined,
+        incomeChartForBasicCategoryOverview: undefined,
         advancedIncomeChartForYearAndType: undefined,
         advancedIncomeChartForAdvancedPlatform: undefined,
         balance: undefined,
@@ -180,7 +182,7 @@ export default {
       this.renderAllCharts(['basic-year'])
     },
     currencyBasicCategory() {
-      this.renderAllCharts(['basic-category'])
+      this.renderAllCharts(['basic-category', 'basic-category-overview'])
     },
     currencyAdvancedYear() {
       this.renderAllCharts(['advanced-year'])
@@ -206,6 +208,7 @@ export default {
       charts = [
         'basic-year',
         'basic-category',
+        'basic-category-overview',
         'advanced-year',
         'advanced-platform',
         'all-accumulated',
@@ -233,6 +236,19 @@ export default {
           incomeUtil.renderChartForBasicCategory(
             this,
             income,
+            this.currencyBasicCategory
+          )
+      }
+      if (charts.includes('basic-category-overview')) {
+        if (this.oldChart.incomeChartForBasicCategoryOverview) {
+          this.oldChart.incomeChartForBasicCategoryOverview.destroy()
+        }
+        this.oldChart.incomeChartForBasicCategoryOverview =
+          incomeUtil.renderChartForBasicCategoryOverview(
+            this,
+            income,
+            advancedIncome,
+            benefitsIncome,
             this.currencyBasicCategory
           )
       }

@@ -240,29 +240,7 @@ export function renderChartForYearAndType(
   return chart
 }
 
-function getDataForBasicCategory(rawData, withCurrency = false) {
-  const dict = {}
-  for (const x of rawData) {
-    const type = x.type
-    const amount = parseFloat(x.amount)
-    if (!(type in dict)) {
-      dict[type] = {}
-    }
-    if (amount <= 0) {
-      continue
-    }
-    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
-    const currency = x.currency
-    if (!(currency in dict[type])) {
-      dict[type][currency] = {
-        amount: 0,
-        weightedAmount: 0,
-      }
-    }
-    dict[type][currency].amount += amount
-    dict[type][currency].weightedAmount += amount * currencyWeight
-  }
-
+function getLeftRightSlicesFromDict(dict) {
   const currencies = []
   const leftData = [] // 先分类再货币
   const rightData = [] // 先货币再分类
@@ -302,12 +280,69 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
   return [leftData, rightData]
 }
 
-export function renderChartForBasicCategory(
-  that,
-  rawData,
+function getDataForBasicCategory(rawData, withCurrency = false) {
+  const dict = {}
+  for (const x of rawData) {
+    const type = x.type
+    const amount = parseFloat(x.amount)
+    if (!(type in dict)) {
+      dict[type] = {}
+    }
+    if (amount <= 0) {
+      continue
+    }
+    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
+    const currency = x.currency
+    if (!(currency in dict[type])) {
+      dict[type][currency] = {
+        amount: 0,
+        weightedAmount: 0,
+      }
+    }
+    dict[type][currency].amount += amount
+    dict[type][currency].weightedAmount += amount * currencyWeight
+  }
+
+  return getLeftRightSlicesFromDict(dict)
+}
+
+function getDataForBasicCategoryOverview(
+  income,
+  advancedIncome,
+  benefitsIncome,
   withCurrency = false
 ) {
-  const { Chart } = that.$g2
+  const dict = {}
+  const incomesRawData = [income, advancedIncome, benefitsIncome]
+  const incomesType = ['薪金收入', '被动收入', '福利收入']
+
+  for (let i = 0; i < incomesRawData.length; i++) {
+    for (const x of incomesRawData[i]) {
+      const type = incomesType[i]
+      const amount = parseFloat(x.amount)
+      if (!(type in dict)) {
+        dict[type] = {}
+      }
+      if (amount <= 0) {
+        continue
+      }
+      const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
+      const currency = x.currency
+      if (!(currency in dict[type])) {
+        dict[type][currency] = {
+          amount: 0,
+          weightedAmount: 0,
+        }
+      }
+      dict[type][currency].amount += amount
+      dict[type][currency].weightedAmount += amount * currencyWeight
+    }
+  }
+
+  return getLeftRightSlicesFromDict(dict)
+}
+
+function renderChartWithLeftRightData(that, chart, leftData, rightData) {
   const { DataView } = that.$dataset
 
   const leftInnerColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC]
@@ -315,17 +350,8 @@ export function renderChartForBasicCategory(
   const rightInnerColors = [...COLORS.CATEGORY.G2_CLASSIC.reverse()]
   const rightOutterColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC.reverse()]
 
-  const chart = new Chart({
-    container: 'basic-category',
-    autoFit: true,
-    height: chartHeight(),
-  })
-
   const ANNOTATION_OMIT_THRESHOLD = 0.02
   const ANNOTATION_FORCE_INSIDE_OFFSET = -10
-
-  // 先计算出按类别分类的结果
-  const [leftData, rightData] = getDataForBasicCategory(rawData, withCurrency)
 
   const leftView = chart.createView({
     region: {
@@ -557,6 +583,53 @@ export function renderChartForBasicCategory(
   chart.legend(false)
 
   chart.render()
+}
+
+export function renderChartForBasicCategory(
+  that,
+  rawData,
+  withCurrency = false
+) {
+  const { Chart } = that.$g2
+
+  const chart = new Chart({
+    container: 'basic-category',
+    autoFit: true,
+    height: chartHeight(),
+  })
+
+  // 先计算出按类别分类的结果
+  const [leftData, rightData] = getDataForBasicCategory(rawData, withCurrency)
+
+  renderChartWithLeftRightData(that, chart, leftData, rightData)
+
+  return chart
+}
+
+export function renderChartForBasicCategoryOverview(
+  that,
+  income,
+  advancedIncome,
+  benefitsIncome,
+  withCurrency = false
+) {
+  const { Chart } = that.$g2
+
+  const chart = new Chart({
+    container: 'basic-category-overview',
+    autoFit: true,
+    height: chartHeight(),
+  })
+
+  // 先计算出按类别分类的结果
+  const [leftData, rightData] = getDataForBasicCategoryOverview(
+    income,
+    advancedIncome,
+    benefitsIncome,
+    withCurrency
+  )
+
+  renderChartWithLeftRightData(that, chart, leftData, rightData)
 
   return chart
 }
