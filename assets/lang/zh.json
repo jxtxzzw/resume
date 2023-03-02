@@ -260,6 +260,7 @@
   "income": {
     "show-original-amount": "按原始数值展示",
     "show-equivalent-cny": "按等值人民币展示",
+    "show-category-details": "显示类目明细",
     "open": "切换",
     "close": "切换",
     "basic-year": "每年收入",

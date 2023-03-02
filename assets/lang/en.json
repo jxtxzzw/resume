@@ -260,6 +260,7 @@
   "income": {
     "show-original-amount": "Show Original Amount",
     "show-equivalent-cny": "Show Equivalent Amount in CNY",
+    "show-category-details": "Show Category Details",
     "open": "TGL",
     "close": "TGL",
     "basic-year": "Income for Each Year",
