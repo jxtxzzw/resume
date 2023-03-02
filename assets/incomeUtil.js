@@ -347,8 +347,8 @@ function renderChartWithLeftRightData(that, chart, leftData, rightData) {
 
   const leftInnerColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC]
   const leftOutterColors = [...COLORS.CATEGORY.G2_CLASSIC]
-  const rightInnerColors = [...COLORS.CATEGORY.G2_CLASSIC.reverse()]
-  const rightOutterColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC.reverse()]
+  const rightInnerColors = [...COLORS.CATEGORY.G2_CLASSIC].reverse()
+  const rightOutterColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC].reverse()
 
   const ANNOTATION_OMIT_THRESHOLD = 0.02
   const ANNOTATION_FORCE_INSIDE_OFFSET = -10
