@@ -782,7 +782,28 @@ function getTreeData(rawData, withCurrency = true) {
     return b.value - a.value
   })
 
-  return data
+  if (data.length <= COLORS.G2_YELLOW_CYAN.length) {
+    return data
+  } else {
+    const collapsedData = []
+    for (let i = 0; i < COLORS.G2_YELLOW_CYAN.length; i++) {
+      collapsedData.push(data[i])
+    }
+    const collapsing = {
+      name: '其他',
+      brand: '其他',
+      value: 0,
+      children: [],
+    }
+    for (let i = COLORS.G2_YELLOW_CYAN.length; i < data.length; i++) {
+      collapsing.children.push({
+        name: `其他 - ${data[i].name}`,
+        value: data[i].value,
+      })
+    }
+    collapsedData.push(collapsing)
+    return collapsedData
+  }
 }
 
 export function renderChartForAdvancedPlatform(
