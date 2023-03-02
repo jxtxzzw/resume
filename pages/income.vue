@@ -233,7 +233,6 @@ export default {
           incomeUtil.renderChartForBasicCategory(
             this,
             income,
-            advancedIncome,
             this.currencyBasicCategory
           )
       }

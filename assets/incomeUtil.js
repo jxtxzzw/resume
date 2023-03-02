@@ -240,35 +240,10 @@ export function renderChartForYearAndType(
   return chart
 }
 
-function getDataForBasicCategory(
-  rawData,
-  rawAdvancedData,
-  withCurrency = false
-) {
+function getDataForBasicCategory(rawData, withCurrency = false) {
   const dict = {}
   for (const x of rawData) {
     const type = x.type
-    const amount = parseFloat(x.amount)
-    if (!(type in dict)) {
-      dict[type] = {}
-    }
-    if (amount <= 0) {
-      continue
-    }
-    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
-    const currency = x.currency
-    if (!(currency in dict[type])) {
-      dict[type][currency] = {
-        amount: 0,
-        weightedAmount: 0,
-      }
-    }
-    dict[type][currency].amount += amount
-    dict[type][currency].weightedAmount += amount * currencyWeight
-  }
-
-  for (const x of rawAdvancedData) {
-    const type = '被动收入' // TODO: HARD_CODED
     const amount = parseFloat(x.amount)
     if (!(type in dict)) {
       dict[type] = {}
@@ -330,7 +305,6 @@ function getDataForBasicCategory(
 export function renderChartForBasicCategory(
   that,
   rawData,
-  rawAdvancedData,
   withCurrency = false
 ) {
   const { Chart } = that.$g2
@@ -351,11 +325,7 @@ export function renderChartForBasicCategory(
   const ANNOTATION_FORCE_INSIDE_OFFSET = -10
 
   // 先计算出按类别分类的结果
-  const [leftData, rightData] = getDataForBasicCategory(
-    rawData,
-    rawAdvancedData,
-    withCurrency
-  )
+  const [leftData, rightData] = getDataForBasicCategory(rawData, withCurrency)
 
   const leftView = chart.createView({
     region: {
