@@ -272,6 +272,7 @@
     "balance": "可用资产",
     "no-negative": "负数金额（例如税收、再分配）没有被统计。",
     "show-pending": "包括未决款项",
+    "show-annotation": "显示辅助线",
     "show-accumulated": "显示累积收入",
     "tax-deduction": "税收和扣款项",
     "taxable": "应税收入",

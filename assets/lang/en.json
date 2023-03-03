@@ -272,6 +272,7 @@
     "balance": "Balance",
     "no-negative": "Negative amounts (e.g., tax, re-bill) are not included.",
     "show-pending": "Also include pending balances",
+    "show-annotation": "Show Annotation Lines",
     "show-accumulated": "Show accumulated incomes",
     "tax-deduction": "Tax and Deductions",
     "taxable": "Taxable Income",

@@ -26,6 +26,17 @@
         ></Checkbox>
       </CheckboxGroup>
     </Alert>
+    <Alert>
+      <CheckboxGroup
+        v-model="showAnnotationCheckGroup"
+        @on-change="renderAllCharts(['balance'])"
+      >
+        <Checkbox
+          :key="$t('income.show-annotation')"
+          :label="$t('income.show-annotation')"
+        ></Checkbox>
+      </CheckboxGroup>
+    </Alert>
     <div id="balance"></div>
 
     <Divider>{{ $t('income.all-accumulated') }}</Divider>
@@ -180,6 +191,7 @@ export default {
       },
       showPendingCheckGroup: [],
       showAccumulatedCheckGroup: [this.$t('income.show-accumulated')],
+      showAnnotationCheckGroup: [this.$t('income.show-annotation')],
       selectedIncomeCategory: '薪金收入',
     }
   },

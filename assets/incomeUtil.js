@@ -1125,203 +1125,205 @@ export function renderChartForBalance(
     $tooltip.innerHTML = getTooltipHTML(e.data)
   })
 
-  // 计算并绘制均值线、加权均值线
-  let minD = '9999-12-31'
-  let maxD = '0000-01-01'
-  const sumEach = []
-  const weightedSumEach = []
-  const weights = [1]
-  let sum = 0
-  let weightsIndex = -1
-  for (const d of data) {
-    if (d.date > maxD) {
-      maxD = d.date
-    }
-    if (d.date < minD) {
-      minD = d.date
-    }
-    if (sumEach[d.date]) {
-      sumEach[d.date] += parseFloat(d.value)
-    } else {
-      sumEach[d.date] = parseFloat(d.value)
-    }
-    if (!weightedSumEach[d.date]) {
-      weightsIndex++
-      if (weightsIndex === weights.length) {
-        // 越新的数据权重越大
-        // 斐波那契数列，变化太快，几乎贴着最新数据走
-        // 1, 2, 3, 4... 变化太慢，几乎不上涨
-        const newWeight = weights[weightsIndex - 1] * 1.1
-        weights.push(newWeight)
+  if (that.showAnnotationCheckGroup.length > 0) {
+    // 计算并绘制均值线、加权均值线
+    let minD = '9999-12-31'
+    let maxD = '0000-01-01'
+    const sumEach = []
+    const weightedSumEach = []
+    const weights = [1]
+    let sum = 0
+    let weightsIndex = -1
+    for (const d of data) {
+      if (d.date > maxD) {
+        maxD = d.date
       }
-      weightedSumEach[d.date] = parseFloat(d.value) * weights[weightsIndex]
-    } else {
-      weightedSumEach[d.date] += parseFloat(d.value) * weights[weightsIndex]
+      if (d.date < minD) {
+        minD = d.date
+      }
+      if (sumEach[d.date]) {
+        sumEach[d.date] += parseFloat(d.value)
+      } else {
+        sumEach[d.date] = parseFloat(d.value)
+      }
+      if (!weightedSumEach[d.date]) {
+        weightsIndex++
+        if (weightsIndex === weights.length) {
+          // 越新的数据权重越大
+          // 斐波那契数列，变化太快，几乎贴着最新数据走
+          // 1, 2, 3, 4... 变化太慢，几乎不上涨
+          const newWeight = weights[weightsIndex - 1] * 1.1
+          weights.push(newWeight)
+        }
+        weightedSumEach[d.date] = parseFloat(d.value) * weights[weightsIndex]
+      } else {
+        weightedSumEach[d.date] += parseFloat(d.value) * weights[weightsIndex]
+      }
+
+      sum += parseFloat(d.value)
     }
 
-    sum += parseFloat(d.value)
-  }
+    const uniqueCount = data
+      .map((e) => {
+        return e.date
+      })
+      .filter(onlyUnique).length
 
-  const uniqueCount = data
-    .map((e) => {
-      return e.date
-    })
-    .filter(onlyUnique).length
+    const avg = sum / uniqueCount
 
-  const avg = sum / uniqueCount
-
-  chart.annotation().line({
-    top: true,
-    start: [minD, avg],
-    end: [maxD, avg],
-    style: {
-      stroke: '#c849ff',
-      lineWidth: 1,
-      lineDash: [2, 6],
-    },
-    text: {
-      position: 'end',
+    chart.annotation().line({
+      top: true,
+      start: [minD, avg],
+      end: [maxD, avg],
       style: {
-        fill: '#c849ff',
-        fontSize: 12,
-        fontWeight: 300,
+        stroke: '#c849ff',
+        lineWidth: 1,
+        lineDash: [2, 6],
       },
-      content: `${that.$t('income.average-line')}\n${avg.toFixed(2)}`,
-      offsetX: -20,
-      offsetY: -5,
-    },
-  })
+      text: {
+        position: 'end',
+        style: {
+          fill: '#c849ff',
+          fontSize: 12,
+          fontWeight: 300,
+        },
+        content: `${that.$t('income.average-line')}\n${avg.toFixed(2)}`,
+        offsetX: -20,
+        offsetY: -5,
+      },
+    })
 
-  sum = 0
-  let weightedSum = 0
-  let count = 0
-  let prevD, prevAvg, prevWeightedAvg
-  let weight = 0
-  for (const d in sumEach) {
-    sum += sumEach[d]
-    weightedSum += weightedSumEach[d]
-    weight += weights[count]
-    count += 1
-    const avg = sum / count
-    const weightedAvg = weightedSum / weight
-    if (!prevD) {
+    sum = 0
+    let weightedSum = 0
+    let count = 0
+    let prevD, prevAvg, prevWeightedAvg
+    let weight = 0
+    for (const d in sumEach) {
+      sum += sumEach[d]
+      weightedSum += weightedSumEach[d]
+      weight += weights[count]
+      count += 1
+      const avg = sum / count
+      const weightedAvg = weightedSum / weight
+      if (!prevD) {
+        prevD = d
+        prevAvg = avg
+        prevWeightedAvg = weightedAvg
+      }
+      chart.annotation().line({
+        top: true,
+        start: [prevD, prevAvg],
+        end: [d, avg],
+        style: {
+          stroke: '#c849ff',
+          lineWidth: 1,
+          lineDash: [5, 5],
+        },
+      })
+      chart.annotation().line({
+        top: true,
+        start: [prevD, prevWeightedAvg],
+        end: [d, weightedAvg],
+        style: {
+          stroke: '#01376e',
+          lineWidth: 1,
+          lineDash: [8, 5],
+        },
+      })
       prevD = d
       prevAvg = avg
       prevWeightedAvg = weightedAvg
     }
-    chart.annotation().line({
-      top: true,
-      start: [prevD, prevAvg],
-      end: [d, avg],
-      style: {
-        stroke: '#c849ff',
-        lineWidth: 1,
-        lineDash: [5, 5],
-      },
-    })
+
     chart.annotation().line({
       top: true,
       start: [prevD, prevWeightedAvg],
-      end: [d, weightedAvg],
+      end: [prevD, prevWeightedAvg],
       style: {
-        stroke: '#01376e',
+        stroke: '',
         lineWidth: 1,
         lineDash: [8, 5],
       },
+      text: {
+        position: 'end',
+        style: {
+          fill: '#01376e',
+          fontSize: 12,
+          fontWeight: 300,
+        },
+        content: `${that.$t(
+          'income.weighted-average-line'
+        )}\n${prevWeightedAvg.toFixed(2)}`,
+        offsetX: -20,
+        offsetY: -5,
+      },
     })
-    prevD = d
-    prevAvg = avg
-    prevWeightedAvg = weightedAvg
-  }
 
-  chart.annotation().line({
-    top: true,
-    start: [prevD, prevWeightedAvg],
-    end: [prevD, prevWeightedAvg],
-    style: {
-      stroke: '',
-      lineWidth: 1,
-      lineDash: [8, 5],
-    },
-    text: {
-      position: 'end',
+    // 计算并绘制预测线
+    const SCALE = 1000 * 86400 // 将毫秒时间戳除到以天为单位
+
+    const dataForPrediction = []
+    for (const date in sumEach) {
+      // 改为连续数值，因为字符串无法按 bandwidth 做 polynomial regression
+      // 同时做近似归一化
+      const convertedDate = (Date.parse(date) - Date.parse(minD)) / SCALE
+      dataForPrediction.push({
+        datum: convertedDate,
+        value: parseFloat(sumEach[date]),
+      })
+    }
+
+    const dv = new DataView().source(dataForPrediction)
+
+    dv.transform({
+      type: 'regression',
+      method: 'polynomial',
+      fields: ['datum', 'value'],
+      bandwidth: 30, // 每月更新一次预测转折
+      as: ['datum', 'value'],
+    })
+
+    const predictions = dv.rows.map((row) => {
+      return {
+        date: dateFormat(
+          new Date(Date.parse(dateFormat(new Date(minD))) + row.datum * SCALE)
+        ), // 重新变化为日期
+        value: row.value,
+      }
+    })
+
+    for (const idx in predictions) {
+      const r = predictions[idx]
+      const pr = parseInt(idx) === 0 ? r : predictions[idx - 1]
+      chart.annotation().line({
+        top: true,
+        start: [r.date, r.value],
+        end: [pr.date, pr.value],
+        style: {
+          stroke: '#ffbd49',
+          lineWidth: 1,
+          lineDash: [5, 3],
+        },
+      })
+    }
+
+    chart.annotation().text({
+      content: `${that.$t('income.prediction-line')}\n${
+        predictions[predictions.length - 1].value
+      }`,
+      top: true,
+      position: [
+        predictions[predictions.length - 1].date,
+        predictions[predictions.length - 1].value,
+      ],
       style: {
-        fill: '#01376e',
+        fill: '#ffbd49',
         fontSize: 12,
         fontWeight: 300,
       },
-      content: `${that.$t(
-        'income.weighted-average-line'
-      )}\n${prevWeightedAvg.toFixed(2)}`,
-      offsetX: -20,
       offsetY: -5,
-    },
-  })
-
-  // 计算并绘制预测线
-  const SCALE = 1000 * 86400 // 将毫秒时间戳除到以天为单位
-
-  const dataForPrediction = []
-  for (const date in sumEach) {
-    // 改为连续数值，因为字符串无法按 bandwidth 做 polynomial regression
-    // 同时做近似归一化
-    const convertedDate = (Date.parse(date) - Date.parse(minD)) / SCALE
-    dataForPrediction.push({
-      datum: convertedDate,
-      value: parseFloat(sumEach[date]),
     })
   }
-
-  const dv = new DataView().source(dataForPrediction)
-
-  dv.transform({
-    type: 'regression',
-    method: 'polynomial',
-    fields: ['datum', 'value'],
-    bandwidth: 30, // 每月更新一次预测转折
-    as: ['datum', 'value'],
-  })
-
-  const predictions = dv.rows.map((row) => {
-    return {
-      date: dateFormat(
-        new Date(Date.parse(dateFormat(new Date(minD))) + row.datum * SCALE)
-      ), // 重新变化为日期
-      value: row.value,
-    }
-  })
-
-  for (const idx in predictions) {
-    const r = predictions[idx]
-    const pr = parseInt(idx) === 0 ? r : predictions[idx - 1]
-    chart.annotation().line({
-      top: true,
-      start: [r.date, r.value],
-      end: [pr.date, pr.value],
-      style: {
-        stroke: '#ffbd49',
-        lineWidth: 1,
-        lineDash: [5, 3],
-      },
-    })
-  }
-
-  chart.annotation().text({
-    content: `${that.$t('income.prediction-line')}\n${
-      predictions[predictions.length - 1].value
-    }`,
-    top: true,
-    position: [
-      predictions[predictions.length - 1].date,
-      predictions[predictions.length - 1].value,
-    ],
-    style: {
-      fill: '#ffbd49',
-      fontSize: 12,
-      fontWeight: 300,
-    },
-    offsetY: -5,
-  })
 
   chart.render()
   return chart
