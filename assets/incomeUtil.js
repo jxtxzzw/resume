@@ -1125,10 +1125,11 @@ export function renderChartForBalance(
     $tooltip.innerHTML = getTooltipHTML(e.data)
   })
 
-  // 计算并绘制均值线
+  // 计算并绘制均值线、加权均值线
   let minD = '9999-12-31'
   let maxD = '0000-01-01'
   const sumEach = []
+  const weightedSumEach = []
   let sum = 0
   for (const d of data) {
     if (d.date > maxD) {
@@ -1141,6 +1142,12 @@ export function renderChartForBalance(
       sumEach[d.date] += parseFloat(d.value)
     } else {
       sumEach[d.date] = parseFloat(d.value)
+    }
+    const weight = Object.keys(weightedSumEach).length + 1
+    if (weightedSumEach[d.date]) {
+      weightedSumEach[d.date] += parseFloat(d.value) * weight
+    } else {
+      weightedSumEach[d.date] = parseFloat(d.value) * weight
     }
 
     sum += parseFloat(d.value)
@@ -1161,7 +1168,7 @@ export function renderChartForBalance(
     style: {
       stroke: '#c849ff',
       lineWidth: 1,
-      lineDash: [3, 5],
+      lineDash: [2, 6],
     },
     text: {
       position: 'end',
@@ -1177,15 +1184,19 @@ export function renderChartForBalance(
   })
 
   sum = 0
+  let weightedSum = 0
   let count = 0
-  let prevD, prevAvg
+  let prevD, prevAvg, prevWeightedAvg
   for (const d in sumEach) {
     sum += sumEach[d]
+    weightedSum += weightedSumEach[d]
     count += 1
     const avg = sum / count
+    const weightedAvg = weightedSum / (((1 + count) * count) / 2)
     if (!prevD) {
       prevD = d
       prevAvg = avg
+      prevWeightedAvg = weightedAvg
     }
     chart.annotation().line({
       top: true,
@@ -1197,9 +1208,42 @@ export function renderChartForBalance(
         lineDash: [5, 5],
       },
     })
+    chart.annotation().line({
+      top: true,
+      start: [prevD, prevWeightedAvg],
+      end: [d, weightedAvg],
+      style: {
+        stroke: '#01376e',
+        lineWidth: 1,
+        lineDash: [8, 5],
+      },
+    })
     prevD = d
     prevAvg = avg
+    prevWeightedAvg = weightedAvg
   }
+
+  chart.annotation().line({
+    top: true,
+    start: [prevD, prevWeightedAvg],
+    end: [prevD, prevWeightedAvg],
+    style: {
+      stroke: '',
+      lineWidth: 1,
+      lineDash: [8, 5],
+    },
+    text: {
+      position: 'end',
+      style: {
+        fill: '#01376e',
+        fontSize: 12,
+        fontWeight: 300,
+      },
+      content: `${that.$t('income.weighted-average-line')}`,
+      offsetX: -20,
+      offsetY: -5,
+    },
+  })
 
   // 计算并绘制预测线
   const SCALE = 1000 * 86400 // 将毫秒时间戳除到以天为单位

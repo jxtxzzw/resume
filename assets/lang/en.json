@@ -278,6 +278,7 @@
     "after-what": "After {what}",
     "prediction-line": "Prediction Line",
     "average-line": "Average Line",
+    "weighted-average-line": "Weighted Average Line",
     "accumulated": "(ACCUMULATED)"
   },
   "credit": {

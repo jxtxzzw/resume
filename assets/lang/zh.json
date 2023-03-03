@@ -278,6 +278,7 @@
     "after-what": "{what} 后",
     "prediction-line": "预测线",
     "average-line": "均值线",
+    "weighted-average-line": "加权均值线",
     "accumulated": "(累积)"
   },
   "credit": {
