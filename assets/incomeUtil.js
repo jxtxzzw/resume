@@ -1130,7 +1130,9 @@ export function renderChartForBalance(
   let maxD = '0000-01-01'
   const sumEach = []
   const weightedSumEach = []
+  const weights = [1]
   let sum = 0
+  let weightsIndex = -1
   for (const d of data) {
     if (d.date > maxD) {
       maxD = d.date
@@ -1143,11 +1145,18 @@ export function renderChartForBalance(
     } else {
       sumEach[d.date] = parseFloat(d.value)
     }
-    const weight = Object.keys(weightedSumEach).length + 1
-    if (weightedSumEach[d.date]) {
-      weightedSumEach[d.date] += parseFloat(d.value) * weight
+    if (!weightedSumEach[d.date]) {
+      weightsIndex++
+      if (weightsIndex === weights.length) {
+        // 越新的数据权重越大
+        // 斐波那契数列，变化太快，几乎贴着最新数据走
+        // 1, 2, 3, 4... 变化太慢，几乎不上涨
+        const newWeight = weights[weightsIndex - 1] * 1.1
+        weights.push(newWeight)
+      }
+      weightedSumEach[d.date] = parseFloat(d.value) * weights[weightsIndex]
     } else {
-      weightedSumEach[d.date] = parseFloat(d.value) * weight
+      weightedSumEach[d.date] += parseFloat(d.value) * weights[weightsIndex]
     }
 
     sum += parseFloat(d.value)
@@ -1187,12 +1196,14 @@ export function renderChartForBalance(
   let weightedSum = 0
   let count = 0
   let prevD, prevAvg, prevWeightedAvg
+  let weight = 0
   for (const d in sumEach) {
     sum += sumEach[d]
     weightedSum += weightedSumEach[d]
+    weight += weights[count]
     count += 1
     const avg = sum / count
-    const weightedAvg = weightedSum / (((1 + count) * count) / 2)
+    const weightedAvg = weightedSum / weight
     if (!prevD) {
       prevD = d
       prevAvg = avg
@@ -1239,7 +1250,9 @@ export function renderChartForBalance(
         fontSize: 12,
         fontWeight: 300,
       },
-      content: `${that.$t('income.weighted-average-line')}`,
+      content: `${that.$t(
+        'income.weighted-average-line'
+      )}\n${prevWeightedAvg.toFixed(2)}`,
       offsetX: -20,
       offsetY: -5,
     },
