@@ -1202,7 +1202,7 @@ export function renderChartForBalance(
   }
 
   // 计算并绘制预测线
-  const SCALE = 1000 * 86400 * 90 // 将时间戳除到以季度为单位（计 90 天）：1000毫秒/秒 * 86400秒/天 * 90天/季度
+  const SCALE = 1000 * 86400 // 将毫秒时间戳除到以天为单位
 
   const dataForPrediction = []
   for (const date in sumEach) {
@@ -1221,7 +1221,7 @@ export function renderChartForBalance(
     type: 'regression',
     method: 'polynomial',
     fields: ['datum', 'value'],
-    bandwidth: 1,
+    bandwidth: 30, // 每月更新一次预测转折
     as: ['datum', 'value'],
   })
 
