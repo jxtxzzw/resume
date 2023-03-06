@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div id="coding-chart" style="width: auto"></div>
     <Table
       :border="showBorder"
       :stripe="showStripe"
@@ -28,6 +29,7 @@
 
 <script>
 import { coding } from 'assets/reader'
+import * as codingUtil from '../assets/codingUtil'
 
 export default {
   name: 'Coding',
@@ -45,9 +47,20 @@ export default {
       pagedData: [],
       filteredData: [],
       coding,
+      oldChart: {
+        codingChart: undefined,
+      },
     }
   },
   computed: {
+    total() {
+      return this.coding.length
+    },
+    defined() {
+      return this.coding.filter((e) => {
+        return !!e.language && e.language !== 'UNKNOWN'
+      }).length
+    },
     codingColumns() {
       const columns = []
       if (this.showIndex) {
@@ -288,11 +301,18 @@ export default {
   },
   async mounted() {
     this.$Message.info(this.$t('coding.message'))
-    this.filteredData = this.coding
+    this.filteredData = [...this.coding]
     this.pageNumber = 1
     await this.changePage(this.pageNumber)
+    this.renderChart()
   },
   methods: {
+    renderChart() {
+      if (this.oldChart.codingChart) {
+        this.oldChart.codingChart.destroy()
+      }
+      this.oldChart.codingChart = codingUtil.showChart(this)
+    },
     async changePage(pageNumber) {
       this.loading = true
       this.pageNumber = pageNumber
@@ -301,7 +321,7 @@ export default {
     },
     async prepareFilteredData(value, row) {
       if (value.length === 0) {
-        this.filteredData = this.coding
+        this.filteredData = [...this.coding]
       } else {
         this.filteredData = this.coding.filter((e) => value.includes(e[row]))
       }
