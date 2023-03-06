@@ -1148,7 +1148,7 @@ export function renderChartForBalance(
     $tooltip.innerHTML = getTooltipHTML(e.data)
   })
 
-  if (that.showAnnotationCheckGroup.length > 0) {
+  if (that.showAnnotationCheck) {
     // 计算并绘制均值线、加权均值线
     let minD = '9999-12-31'
     let maxD = '0000-01-01'

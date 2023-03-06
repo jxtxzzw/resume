@@ -16,26 +16,12 @@
       {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <Alert>
-      <CheckboxGroup
-        v-model="showPendingCheckGroup"
-        @on-change="renderAllCharts(['balance'])"
-      >
-        <Checkbox
-          :key="$t('income.show-pending')"
-          :label="$t('income.show-pending')"
-        ></Checkbox>
-      </CheckboxGroup>
-    </Alert>
-    <Alert>
-      <CheckboxGroup
-        v-model="showAnnotationCheckGroup"
-        @on-change="renderAllCharts(['balance'])"
-      >
-        <Checkbox
-          :key="$t('income.show-annotation')"
-          :label="$t('income.show-annotation')"
-        ></Checkbox>
-      </CheckboxGroup>
+      <Checkbox v-model="showPendingCheck">
+        {{ $t('income.show-pending') }}
+      </Checkbox>
+      <Checkbox v-model="showAnnotationCheck">
+        {{ $t('income.show-annotation') }}
+      </Checkbox>
     </Alert>
     <div id="balance"></div>
 
@@ -54,15 +40,9 @@
       {{ $t('income.show-equivalent-cny') }}
     </Alert>
     <Alert>
-      <CheckboxGroup
-        v-model="showAccumulatedCheckGroup"
-        @on-change="renderAllCharts(['all-accumulated'])"
+      <Checkbox v-model="showAccumulatedCheck">
+        {{ $t('income.show-accumulated') }}</Checkbox
       >
-        <Checkbox
-          :key="$t('income.show-accumulated')"
-          :label="$t('income.show-accumulated')"
-        ></Checkbox>
-      </CheckboxGroup>
     </Alert>
     <div id="all-accumulated"></div>
 
@@ -181,9 +161,9 @@ export default {
         balance: undefined,
         taxDeduction: undefined,
       },
-      showPendingCheckGroup: [],
-      showAccumulatedCheckGroup: [this.$t('income.show-accumulated')],
-      showAnnotationCheckGroup: [this.$t('income.show-annotation')],
+      showPendingCheck: false,
+      showAccumulatedCheck: true,
+      showAnnotationCheck: true,
     }
   },
   watch: {
@@ -210,6 +190,15 @@ export default {
     },
     currencyTaxDeduction() {
       this.renderAllCharts(['tax-deduction'])
+    },
+    showAccumulatedCheck() {
+      this.renderAllCharts(['all-accumulated'])
+    },
+    showPendingCheck() {
+      this.renderAllCharts(['balance'])
+    },
+    showAnnotationCheck() {
+      this.renderAllCharts(['balance'])
     },
   },
   mounted() {
@@ -295,9 +284,7 @@ export default {
           this,
           [income, advancedIncome],
           this.currencyAllAccumulated,
-          this.showAccumulatedCheckGroup.includes(
-            this.$t('income.show-accumulated')
-          )
+          this.showAccumulatedCheck
         )
       }
       if (charts.includes('balance')) {
@@ -307,7 +294,7 @@ export default {
         this.oldChart.balance = incomeUtil.renderChartForBalance(
           this,
           balance,
-          this.showPendingCheckGroup.includes(this.$t('income.show-pending'))
+          this.showPendingCheck
         )
       }
       if (charts.includes('tax-deduction')) {
