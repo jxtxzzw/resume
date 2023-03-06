@@ -620,7 +620,6 @@ export function renderChartForBasicCategory(
     renderChartWithLeftRightData(that, cx, leftData, rightData, true)
     cx.annotation().text({
       content: INCOMES_TYPE[i],
-      position: ['medium', 'end'],
     })
   }
 

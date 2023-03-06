@@ -269,7 +269,7 @@
     "advanced-year": "每年被动收入",
     "advanced-platform": "被动收入平台",
     "balance": "可用资产",
-    "no-negative": "负数金额（例如税收、再分配）没有被统计。",
+    "no-negative": "负数金额（例如税收）没有被统计。",
     "show-pending": "包括未决款项",
     "show-annotation": "显示辅助线",
     "show-accumulated": "显示累积收入",
@@ -283,7 +283,7 @@
   },
   "credit": {
     "source": "数据源",
-    "model": "模型",
+    "model": "信用分模型",
     "range": "显示得分范围和说明"
   }
 }

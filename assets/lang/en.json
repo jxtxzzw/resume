@@ -269,7 +269,7 @@
     "advanced-year": "Advanced Income for Each Year",
     "advanced-platform": "Advanced Income for Platforms",
     "balance": "Balance",
-    "no-negative": "Negative amounts (e.g., tax, re-bill) are not included.",
+    "no-negative": "Negative amounts (e.g., tax) are not included.",
     "show-pending": "Also include pending balances",
     "show-annotation": "Show Annotation Lines",
     "show-accumulated": "Show accumulated incomes",
@@ -282,8 +282,8 @@
     "accumulated": "(ACCUMULATED)"
   },
   "credit": {
-    "source": "Source",
-    "model": "Model",
+    "source": "Data Source",
+    "model": "Credit Model",
     "range": "Show Range and Annotations"
   }
 }
