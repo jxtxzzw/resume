@@ -100,14 +100,6 @@
       {{ $t('income.no-negative') }}
     </Alert>
     <div id="basic-category-overview"></div>
-    <Alert type="info">
-      {{ $t('income.show-category-details') }}
-      <RadioGroup v-model="selectedIncomeCategory">
-        <Radio label="薪金收入"></Radio>
-        <Radio label="被动收入"></Radio>
-        <Radio label="福利收入"></Radio>
-      </RadioGroup>
-    </Alert>
     <div id="basic-category"></div>
 
     <Divider>{{ $t('income.advanced-year') }}</Divider>
@@ -192,7 +184,6 @@ export default {
       showPendingCheckGroup: [],
       showAccumulatedCheckGroup: [this.$t('income.show-accumulated')],
       showAnnotationCheckGroup: [this.$t('income.show-annotation')],
-      selectedIncomeCategory: '薪金收入',
     }
   },
   watch: {
@@ -219,9 +210,6 @@ export default {
     },
     currencyTaxDeduction() {
       this.renderAllCharts(['tax-deduction'])
-    },
-    selectedIncomeCategory() {
-      this.renderAllCharts(['basic-category'])
     },
   },
   mounted() {
@@ -256,18 +244,10 @@ export default {
         if (this.oldChart.incomeChartForBasicCategory) {
           this.oldChart.incomeChartForBasicCategory.destroy()
         }
-        let selectedIncome = income
-        if (this.selectedIncomeCategory === '薪金收入') {
-          selectedIncome = income
-        } else if (this.selectedIncomeCategory === '被动收入') {
-          selectedIncome = advancedIncome
-        } else if (this.selectedIncomeCategory === '福利收入') {
-          selectedIncome = benefitsIncome
-        }
         this.oldChart.incomeChartForBasicCategory =
           incomeUtil.renderChartForBasicCategory(
             this,
-            selectedIncome,
+            [income, advancedIncome, benefitsIncome],
             this.currencyBasicCategory
           )
       }

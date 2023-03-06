@@ -306,6 +306,8 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
   return getLeftRightSlicesFromDict(dict)
 }
 
+const INCOMES_TYPE = ['薪金收入', '被动收入', '福利收入']
+
 function getDataForBasicCategoryOverview(
   income,
   advancedIncome,
@@ -314,11 +316,10 @@ function getDataForBasicCategoryOverview(
 ) {
   const dict = {}
   const incomesRawData = [income, advancedIncome, benefitsIncome]
-  const incomesType = ['薪金收入', '被动收入', '福利收入']
 
   for (let i = 0; i < incomesRawData.length; i++) {
     for (const x of incomesRawData[i]) {
-      const type = incomesType[i]
+      const type = INCOMES_TYPE[i]
       const amount = parseFloat(x.amount)
       if (!(type in dict)) {
         dict[type] = {}
@@ -342,7 +343,13 @@ function getDataForBasicCategoryOverview(
   return getLeftRightSlicesFromDict(dict)
 }
 
-function renderChartWithLeftRightData(that, chart, leftData, rightData) {
+function renderChartWithLeftRightData(
+  that,
+  chart,
+  leftData,
+  rightData,
+  vertical = false
+) {
   const { DataView } = that.$dataset
 
   const leftInnerColors = [...COLORS.CATEGORY.G2_GREEN_MAGIC]
@@ -352,19 +359,40 @@ function renderChartWithLeftRightData(that, chart, leftData, rightData) {
 
   const ANNOTATION_OMIT_THRESHOLD = 0.02
   const ANNOTATION_FORCE_INSIDE_OFFSET = -10
+  const DEFAULT_PADDING = [0, 10, 40, 60]
+
+  const leftRigon = {
+    start: {
+      x: 0,
+      y: 0,
+    },
+    end: vertical
+      ? {
+          x: 1,
+          y: 0.5,
+        }
+      : {
+          x: 0.5,
+          y: 1,
+        },
+  }
+
+  const rightRigon = {
+    start: vertical
+      ? { x: 0, y: 0.5 }
+      : {
+          x: 0.5,
+          y: 0,
+        },
+    end: {
+      x: 1,
+      y: 1,
+    },
+  }
 
   const leftView = chart.createView({
-    region: {
-      start: {
-        x: 0,
-        y: 0,
-      },
-      end: {
-        x: 0.5,
-        y: 1,
-      },
-    },
-    padding: [0, 10, 40, 60],
+    region: leftRigon,
+    padding: DEFAULT_PADDING,
   })
 
   const leftInnerDV = new DataView()
@@ -415,17 +443,8 @@ function renderChartWithLeftRightData(that, chart, leftData, rightData) {
   leftView.interaction('element-active')
 
   const leftOutterView = chart.createView({
-    region: {
-      start: {
-        x: 0,
-        y: 0,
-      },
-      end: {
-        x: 0.5,
-        y: 1,
-      },
-    },
-    padding: [0, 10, 40, 60],
+    region: leftRigon,
+    padding: DEFAULT_PADDING,
   })
   const leftOutterDV = new DataView()
   leftOutterDV.source(leftData).transform({
@@ -468,17 +487,8 @@ function renderChartWithLeftRightData(that, chart, leftData, rightData) {
 
   // 右边反过来，先计算币种，再计算分类
   const rightView = chart.createView({
-    region: {
-      start: {
-        x: 0.5,
-        y: 0,
-      },
-      end: {
-        x: 1,
-        y: 1,
-      },
-    },
-    padding: [0, 10, 40, 60],
+    region: rightRigon,
+    padding: DEFAULT_PADDING,
   })
 
   const rightInnerDV = new DataView()
@@ -529,17 +539,8 @@ function renderChartWithLeftRightData(that, chart, leftData, rightData) {
   rightView.interaction('element-active')
 
   const rightOutterView = chart.createView({
-    region: {
-      start: {
-        x: 0.5,
-        y: 0,
-      },
-      end: {
-        x: 1,
-        y: 1,
-      },
-    },
-    padding: [0, 10, 40, 60],
+    region: rightRigon,
+    padding: DEFAULT_PADDING,
   })
   const rightOutterDV = new DataView()
   rightOutterDV.source(rightData).transform({
@@ -598,10 +599,32 @@ export function renderChartForBasicCategory(
     height: chartHeight(),
   })
 
-  // 先计算出按类别分类的结果
-  const [leftData, rightData] = getDataForBasicCategory(rawData, withCurrency)
+  for (let i = 0; i < rawData.length; i++) {
+    const [leftData, rightData] = getDataForBasicCategory(
+      rawData[i],
+      withCurrency
+    )
+    const cx = chart.createView({
+      region: {
+        start: {
+          x: i / rawData.length,
+          y: 0,
+        },
+        end: {
+          x: (i + 1) / rawData.length,
+          y: 1,
+        },
+      },
+      padding: [0, 10, 40, 60],
+    })
+    renderChartWithLeftRightData(that, cx, leftData, rightData, true)
+    cx.annotation().text({
+      content: INCOMES_TYPE[i],
+      position: ['medium', 'end'],
+    })
+  }
 
-  renderChartWithLeftRightData(that, chart, leftData, rightData)
+  chart.legend(false)
 
   return chart
 }
