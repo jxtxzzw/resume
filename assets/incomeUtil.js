@@ -70,7 +70,7 @@ const COLORS = {
     '#EFF3DE',
     '#C9E9FF',
     '#ABDFFF',
-    '#8AD4FF',
+
     '#61C9FF',
     '#22BAED',
     '#1B9CD0',

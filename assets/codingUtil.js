@@ -3,6 +3,26 @@
 /** 通用常量 **/
 const CONTAINER = 'coding-chart'
 
+const LANGUAGE_COLORS = [
+  '#247FEA',
+  '#FF6B3B',
+  '#0BC286',
+  '#A700FF',
+  '#F6C022',
+  '#AE0025',
+  '#A0DC2C',
+  '#001F7F',
+  '#76523B',
+  '#FF9EC6',
+  '#007FFF',
+  '#585853',
+  '#620BE1',
+  '#014c63',
+  '#B22C00',
+  '#96DCB0',
+  '#8AD4FF',
+]
+
 export function showChart(that) {
   const { Chart } = that.$g2
 
@@ -47,7 +67,7 @@ export function showChart(that) {
     .point()
     .adjust('jitter')
     .position('platform*rnd') // 按 platform 切分圆形，按 rnd 铺
-    .color('language') // 按 language 涂色
+    .color('language', LANGUAGE_COLORS) // 按 language 涂色
     .shape('circle')
     .style({
       fillOpacity: 0.85,
