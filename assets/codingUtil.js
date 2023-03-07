@@ -23,6 +23,29 @@ const LANGUAGE_COLORS = [
   '#8AD4FF',
 ]
 
+function randomNormalDistribution() {
+  let u = 0.0
+  let v = 0.0
+  let w = 0.0
+  let c = 0.0
+  do {
+    // 获得两个（-1,1）的独立随机变量
+    u = Math.random() * 2 - 1.0
+    v = Math.random() * 2 - 1.0
+    w = u * u + v * v
+  } while (w === 0.0 || w >= 1.0)
+  // 这里就是 Box-Muller转换
+  c = Math.sqrt((-2 * Math.log(w)) / w)
+  // 返回2个标准正态分布的随机数，封装进一个数组返回
+  // 当然，因为这个函数运行较快，也可以扔掉一个
+  // return [u*c,v*c];
+  return u * c
+}
+
+function getNumberInNormalDistribution(mean, stdDev) {
+  return mean + randomNormalDistribution() * stdDev
+}
+
 export function showChart(that) {
   const { Chart } = that.$g2
 
@@ -35,12 +58,25 @@ export function showChart(that) {
   const data = that.coding
   chart.data(data)
 
+  const NORM_DIST_MEAN = 0.75
+  const NORM_DIST_STD_DEV = 0.25
   // 对所有数据平均分配随机值，铺满整个图形
   data.forEach((obj) => {
-    obj.rnd = Math.random()
+    // 0 ~ 1完全平均的话，因为靠近圆心的部分空间小，看上去会更拥挤
+    // 所以尽量外面的（靠近 1 的地方）生成更多的点
+    const normDist = getNumberInNormalDistribution(
+      NORM_DIST_MEAN,
+      NORM_DIST_STD_DEV
+    )
+    // 超过 1 的部分以 1 为对称轴叠过去，这样越靠近 1 的地方点越多
+    if (normDist > 1) {
+      obj.rnd = 2 - normDist
+    } else {
+      obj.rnd = normDist
+    }
   })
   chart.scale('rnd', {
-    range: [0.1, 1],
+    range: [0, 1],
   })
   data.forEach((obj) => {
     if (
