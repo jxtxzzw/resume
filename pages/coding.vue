@@ -35,6 +35,7 @@ export default {
   name: 'Coding',
   data() {
     return {
+      showData: undefined,
       pageNumber: 1,
       pageSize: 20,
       loading: true,

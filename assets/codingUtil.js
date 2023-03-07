@@ -107,6 +107,7 @@ export function showChart(that) {
       fillOpacity: 0.85,
     })
   chart.axis('rnd', false)
+  chart.tooltip(false)
   chart.render()
 
   return chart
