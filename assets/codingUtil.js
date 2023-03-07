@@ -55,9 +55,7 @@ export function showChart(that) {
     height: (document.body.clientHeight - 64 - 24 - 24 - 24 - 24 - 24) * 0.5,
   })
 
-  const data = that.coding
-  chart.data(data)
-
+  const data = [...that.coding]
   const NORM_DIST_MEAN = 0.75
   const NORM_DIST_STD_DEV = 0.25
   // 对所有数据平均分配随机值，铺满整个图形
@@ -78,15 +76,15 @@ export function showChart(that) {
   chart.scale('rnd', {
     range: [0, 1],
   })
-  data.forEach((obj) => {
-    if (
+  const showData = data.filter((obj) => {
+    return !(
       obj.language === undefined ||
       obj.language === null ||
       obj.language === ''
-    ) {
-      obj.language = 'UNKNOWN'
-    }
+    )
   })
+
+  chart.data(showData)
 
   chart.coordinate('polar')
   chart.axis('platform', {
