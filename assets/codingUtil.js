@@ -74,7 +74,7 @@ export function showChart(that) {
     }
   })
   chart.scale('rnd', {
-    range: [0, 1],
+    range: [0.05, 0.95],
   })
   const showData = data.filter((obj) => {
     return !(
@@ -106,8 +106,11 @@ export function showChart(that) {
     .style({
       fillOpacity: 0.85,
     })
+
   chart.axis('rnd', false)
   chart.tooltip(false)
+  chart.removeInteraction('legend-filter')
+
   chart.render()
 
   return chart
