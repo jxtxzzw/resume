@@ -60,7 +60,7 @@ export function showChart(that) {
   const NORM_DIST_STD_DEV = 0.25
   // 对所有数据平均分配随机值，铺满整个图形
   data.forEach((obj) => {
-    // 0 ~ 1完全平均的话，因为靠近圆心的部分空间小，看上去会更拥挤
+    // 0 ~ 1 完全平均的话，因为靠近圆心的部分空间小，看上去会更拥挤
     // 所以尽量外面的（靠近 1 的地方）生成更多的点
     const normDist = getNumberInNormalDistribution(
       NORM_DIST_MEAN,

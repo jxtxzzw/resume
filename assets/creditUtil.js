@@ -21,144 +21,83 @@ function showRangeAndAnnotations(credit, checkAllGroupRange, chart) {
     }
   }
 
-  if (checkAllGroupRange.includes('芝麻信用')) {
-    chartMin = Math.min(chartMin, 350)
-    chartMax = Math.max(chartMax, 950)
-    shouldFixScale = true
+  // 硬编码信息
+  const HARD_CODED_INFO = {
+    芝麻信用: {
+      boarder: [350, 950],
+      score: [350, 550, 600, 650, 700],
+      text: ['较差', '中等', '良好', '优秀', '极好'],
+      color: '#1574F7',
+    },
+    微信支付分: {
+      boarder: [350, 950],
+      score: [350, 550, 600, 650, 700],
+      text: ['较差', '中等', '良好', '优秀', '极好'],
+      color: '#1AAD19',
+    },
+    'VantageScore 3.0': {
+      boarder: [300, 850],
+      score: [300, 500, 601, 661, 781],
+      text: ['Very Poor', 'Poor', 'Fair', 'Good', 'Excellent'],
+      color: '#F15F22',
+    },
+    'FICO Score 8': {
+      boarder: [300, 850],
+      score: [300, 580, 670, 740, 800],
+      text: ['Poor', 'Fair', 'Good', 'Very Good', 'Exceptional'],
+      color: '#b520ff',
+    },
+  }
+  const MODELS = ['芝麻信用', '微信支付分', 'VantageScore 3.0', 'FICO Score 8']
 
-    const score = [350, 550, 600, 650, 700]
-    const text = ['较差', '中等', '良好', '优秀', '极好']
+  for (const m of MODELS) {
+    if (checkAllGroupRange.includes(m)) {
+      chartMin = Math.min(chartMin, HARD_CODED_INFO[m].boarder[0])
+      chartMax = Math.max(chartMax, HARD_CODED_INFO[m].boarder[1])
+      shouldFixScale = true
 
-    for (let i = 0; i < 5; i++) {
-      chart.annotation().line({
-        top: true,
-        start: [minD, score[i]],
-        end: [maxD, score[i]],
-        style: {
-          stroke: '#1574F7',
-          lineWidth: 1,
-          lineDash: [3, 3],
-        },
-        text: {
-          position: 'start',
+      for (let i = 0; i < HARD_CODED_INFO[m].score.length; i++) {
+        chart.annotation().line({
+          top: true,
+          start: [minD, HARD_CODED_INFO[m].score[i]],
+          end: [maxD, HARD_CODED_INFO[m].score[i]],
           style: {
-            fill: '#1574F7',
-            fontSize: 12,
-            fontWeight: 300,
+            stroke: HARD_CODED_INFO[m].color,
+            lineWidth: 1,
+            lineDash: [3, 3],
           },
-          content: `${text[i]} - 芝麻信用`,
-          offsetY: -5,
-        },
-      })
+          text: {
+            position: 'start',
+            style: {
+              fill: HARD_CODED_INFO[m].color,
+              fontSize: 12,
+              fontWeight: 300,
+            },
+            content: `${HARD_CODED_INFO[m].text[i]} -${m}`,
+            offsetY: -5,
+          },
+        })
+      }
     }
   }
 
-  if (checkAllGroupRange.includes('微信支付分')) {
-    chartMin = Math.min(chartMin, 350)
-    chartMax = Math.max(chartMax, 950)
-    shouldFixScale = true
+  // 硬编码信息
+  const DEPRECATED_HARD_CODED_INFO = {
+    'FICO BankCard Score 8': {
+      boarder: [250, 900],
+    },
+    'FICO Auto Score 8': {
+      boarder: [350, 950],
+    },
+  }
+  const DEPRECATED_MODELS = ['FICO BankCard Score 8', 'FICO Auto Score 8']
 
-    const score = [350, 550, 600, 650, 700]
-    const text = ['较差', '中等', '良好', '优秀', '极好']
-
-    for (let i = 0; i < 5; i++) {
-      chart.annotation().line({
-        top: true,
-        start: [minD, score[i]],
-        end: [maxD, score[i]],
-        style: {
-          stroke: '#1AAD19',
-          lineWidth: 1,
-          lineDash: [3, 3],
-        },
-        text: {
-          position: 'end',
-          style: {
-            fill: '#1AAD19',
-            fontSize: 12,
-            fontWeight: 300,
-          },
-          content: `${text[i]} - 微信支付分`,
-          offsetY: -5,
-        },
-      })
+  for (const dm of DEPRECATED_MODELS) {
+    if (checkAllGroupRange.includes(dm)) {
+      chartMin = Math.min(chartMin, DEPRECATED_HARD_CODED_INFO[dm].boarder[0])
+      chartMax = Math.max(chartMax, DEPRECATED_HARD_CODED_INFO[dm].boarder[1])
+      shouldFixScale = true
     }
-  }
-
-  if (checkAllGroupRange.includes('VantageScore 3.0')) {
-    chartMin = Math.min(chartMin, 300)
-    chartMax = Math.max(chartMax, 850)
-    shouldFixScale = true
-
-    const score = [300, 500, 601, 661, 781]
-    const text = ['Very Poor', 'Poor', 'Fair', 'Good', 'Excellent']
-
-    for (let i = 0; i < 5; i++) {
-      chart.annotation().line({
-        top: true,
-        start: [minD, score[i]],
-        end: [maxD, score[i]],
-        style: {
-          stroke: '#F15F22',
-          lineWidth: 1,
-          lineDash: [3, 3],
-        },
-        text: {
-          position: 'end',
-          style: {
-            fill: '#F15F22',
-            fontSize: 12,
-            fontWeight: 300,
-          },
-          content: `${text[i]} - VantageScore 3.0`,
-          offsetY: -5,
-        },
-      })
-    }
-  }
-
-  if (checkAllGroupRange.includes('FICO Score 8')) {
-    chartMin = Math.min(chartMin, 300)
-    chartMax = Math.max(chartMax, 850)
-    shouldFixScale = true
-
-    const score = [300, 580, 670, 740, 800]
-    const text = ['Poor', 'Fair', 'Good', 'Very Good', 'Exceptional']
-
-    for (let i = 0; i < 5; i++) {
-      chart.annotation().line({
-        top: true,
-        start: [minD, score[i]],
-        end: [maxD, score[i]],
-        style: {
-          stroke: '#00609C',
-          lineWidth: 1,
-          lineDash: [3, 3],
-        },
-        text: {
-          position: 'start',
-          style: {
-            fill: '#00609C',
-            fontSize: 12,
-            fontWeight: 300,
-          },
-          content: `${text[i]} - FICO Score 8`,
-          offsetY: -5,
-        },
-      })
-    }
-  }
-
-  if (checkAllGroupRange.includes('FICO BankCard Score 8')) {
-    chartMin = Math.min(chartMin, 250)
-    chartMax = Math.max(chartMax, 900)
-    shouldFixScale = true
-  }
-
-  if (checkAllGroupRange.includes('FICO Auto Score 8')) {
-    chartMin = Math.min(chartMin, 250)
-    chartMax = Math.max(chartMax, 900)
-    shouldFixScale = true
   }
 
   // 调整画布范围
@@ -208,7 +147,7 @@ export function renderChartForCredit(that, credit, checkboxes) {
   })
 
   chart.scale('date', {
-    nice: true,
+    // nice: true,
     type: 'time', // 连续的时间类型，是一种特殊的连续性数据，也是 linear 的子类
   })
 
@@ -230,9 +169,6 @@ export function renderChartForCredit(that, credit, checkboxes) {
   //   stroke: '#fff',
   //   lineWidth: 1,
   // }) // 收入一年一个数据点可以画点，信用分就只画线，因为日期密度高
-
-  // chart.removeInteraction('legend-filter') // 移除默认的 legend-filter 数据过滤交互
-  // chart.interaction('legend-visible-filter') // 使用分类图例的图形过滤
 
   // 开启缩略轴组件
   chart.option('slider', {

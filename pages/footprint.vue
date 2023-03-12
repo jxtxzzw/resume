@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       setting,
-      map: 'china',
+      map: 'china', // 默认不能是 world，否则大小会很奇怪，所以默认是 china，如果默认需要 world，那么 mount 之后要强制刷大小
       chinaScene: null,
       worldScene: null,
       pictureModal: false,

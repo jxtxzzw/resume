@@ -226,7 +226,15 @@
               </span>
             </a-descriptions-item>
             <a-descriptions-item :label="$t('introduction.youtube')">
-              {{ maskedContent(introduction.youtube) }}
+              <a
+                v-if="introduction.youtube"
+                :href="'https://www.youtube.com/' + introduction.youtube"
+              >
+                {{ introduction.youtube }}
+              </a>
+              <span v-else>
+                {{ $t('introduction.secret') }}
+              </span>
             </a-descriptions-item>
           </a-descriptions>
         </div>

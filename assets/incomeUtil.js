@@ -596,7 +596,7 @@ export function renderChartForBasicCategory(
   const chart = new Chart({
     container: 'basic-category',
     autoFit: true,
-    height: chartHeight(),
+    height: chartHeight() * 1.5,
   })
 
   for (let i = 0; i < rawData.length; i++) {
@@ -615,7 +615,7 @@ export function renderChartForBasicCategory(
           y: 1,
         },
       },
-      padding: [0, 10, 40, 60],
+      padding: [10, 5, 5, 20],
     })
     renderChartWithLeftRightData(that, cx, leftData, rightData, true)
     cx.annotation().text({
@@ -1043,7 +1043,7 @@ export function renderChartForBalance(
   })
 
   chart.scale('date', {
-    nice: true,
+    // nice: true,
     type: 'time', // 连续的时间类型，是一种特殊的连续性数据，也是 linear 的子类
   })
 

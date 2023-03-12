@@ -91,24 +91,6 @@ export default {
       columns.push({
         title: this.$t('coding.status'),
         key: 'status',
-        // filters: [
-        //   {
-        //     label: this.$t('coding.attempted'),
-        //     value: 'attempted',
-        //   },
-        //   {
-        //     label: this.$t('coding.todo'),
-        //     value: 'todo',
-        //   },
-        //   {
-        //     label: this.$t('coding.accepted'),
-        //     value: 'accepted',
-        //   },
-        // ],
-        // filterMultiple: true,
-        // filterMethod(value, row) {
-        //   return value === row.status
-        // },
         render: (h, params) => {
           let color = ''
           if (params.row.status === 'todo') {
@@ -379,16 +361,23 @@ export default {
       switch (language.toLowerCase()) {
         case 'c':
         case 'c++':
+        case 'cc':
+        case 'cpp':
           mode = 'text/x-c++src'
           break
         case 'java':
         case 'kotlin':
+        case 'kt':
           mode = 'text/x-java'
           break
         case 'python':
+        case 'py':
           mode = 'text/x-python'
           break
         case 'javascript':
+        case 'js':
+        case 'typescript':
+        case 'ts':
           mode = 'text/javascript'
           break
         case 'sql':
@@ -401,6 +390,17 @@ export default {
           break
         case 'go':
           mode = 'text/x-go'
+          break
+        case 'ruby':
+        case 'rb':
+          mode = 'text/x-ruby'
+          break
+        case 'racket':
+        case 'rkt':
+          mode = 'text/x-clojure'
+          break
+        case 'vue':
+          mode = 'text/x-vue'
           break
         default:
           break
