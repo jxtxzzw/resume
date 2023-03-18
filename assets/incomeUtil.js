@@ -279,34 +279,73 @@ function getLeftRightSlicesFromDict(dict) {
   }
   return [leftData, rightData]
 }
+const INCOMES_TYPE = ['薪金收入', '被动收入', '福利收入']
 
 function getDataForBasicCategory(rawData, withCurrency = false) {
-  const dict = {}
-  for (const x of rawData) {
-    const type = x.type
-    const amount = parseFloat(x.amount)
-    if (!(type in dict)) {
-      dict[type] = {}
-    }
-    if (amount <= 0) {
-      continue
-    }
-    const currencyWeight = withCurrency ? parseFloat(x.currency_weight) : 1.0
-    const currency = x.currency
-    if (!(currency in dict[type])) {
-      dict[type][currency] = {
-        amount: 0,
-        weightedAmount: 0,
+  const _entry = '收入'
+  const name2idx = {}
+  const linksTmp = {}
+  const links = []
+  const nodes = [
+    {
+      name: _entry,
+    },
+  ]
+  name2idx[_entry] = 0
+  linksTmp[name2idx[_entry]] = {}
+  for (const name of INCOMES_TYPE) {
+    name2idx[name] = Object.keys(name2idx).length
+    nodes.push({
+      name,
+    })
+    linksTmp[name2idx[_entry]][name2idx[name]] = {}
+  }
+  for (const i in rawData) {
+    for (const x of rawData[i]) {
+      let weightedValue = parseFloat(x.amount)
+      if (withCurrency) {
+        weightedValue *= parseFloat(x.currency_weight)
+      }
+      if (weightedValue > 0) {
+        if (!name2idx[x.type]) {
+          name2idx[x.type] = Object.keys(name2idx).length
+          nodes.push({
+            name: x.type,
+          })
+          linksTmp[name2idx[_entry]][name2idx[INCOMES_TYPE[i]]][
+            name2idx[x.type]
+          ] = 0
+        }
+        linksTmp[name2idx[_entry]][name2idx[INCOMES_TYPE[i]]][
+          name2idx[x.type]
+        ] += weightedValue
       }
     }
-    dict[type][currency].amount += amount
-    dict[type][currency].weightedAmount += amount * currencyWeight
   }
-
-  return getLeftRightSlicesFromDict(dict)
+  for (const i in rawData) {
+    const link = {
+      source: name2idx[_entry],
+      target: name2idx[INCOMES_TYPE[i]],
+      value: 0,
+    }
+    for (const typeIdx in linksTmp[name2idx[_entry]][
+      name2idx[INCOMES_TYPE[i]]
+    ]) {
+      links.push({
+        source: name2idx[INCOMES_TYPE[i]],
+        target: parseInt(typeIdx),
+        value: linksTmp[name2idx[_entry]][name2idx[INCOMES_TYPE[i]]][typeIdx],
+      })
+      link.value +=
+        linksTmp[name2idx[_entry]][name2idx[INCOMES_TYPE[i]]][typeIdx]
+    }
+    links.push(link)
+  }
+  return {
+    nodes,
+    links,
+  }
 }
-
-const INCOMES_TYPE = ['薪金收入', '被动收入', '福利收入']
 
 function getDataForBasicCategoryOverview(
   income,
@@ -592,38 +631,125 @@ export function renderChartForBasicCategory(
   withCurrency = false
 ) {
   const { Chart } = that.$g2
+  const { DataSet } = that.$dataset
 
   const chart = new Chart({
     container: 'basic-category',
     autoFit: true,
-    height: chartHeight() * 1.5,
+    height: chartHeight(),
+    appendPadding: 16,
+    syncViewPadding: true,
   })
 
-  for (let i = 0; i < rawData.length; i++) {
-    const [leftData, rightData] = getDataForBasicCategory(
-      rawData[i],
-      withCurrency
-    )
-    const cx = chart.createView({
-      region: {
-        start: {
-          x: i / rawData.length,
-          y: 0,
-        },
-        end: {
-          x: (i + 1) / rawData.length,
-          y: 1,
-        },
-      },
-      padding: [10, 5, 5, 20],
-    })
-    renderChartWithLeftRightData(that, cx, leftData, rightData, true)
-    cx.annotation().text({
-      content: INCOMES_TYPE[i],
-    })
-  }
+  const data = getDataForBasicCategory(rawData, withCurrency)
+
+  // arc diagram layout
+  const ds = new DataSet()
+  const dv = ds.createView().source(data, {
+    type: 'graph',
+    edges: (d) => d.links,
+  })
+  dv.transform({
+    type: 'diagram.sankey',
+    nodeWidth: 0.02,
+    nodePadding: 0.03,
+    sort: (a, b) => {
+      if (a.value > b.value) {
+        return 0
+      } else if (a.value < b.value) {
+        return -1
+      }
+      return 0
+    },
+  })
+
+  const edges = dv.edges.map((edge) => {
+    return {
+      source: edge.source.name,
+      target: edge.target.name,
+      name: edge.target.name,
+      x: edge.x,
+      y: edge.y,
+      value: edge.value,
+    }
+  })
+  const nodes = dv.nodes.map((node) => {
+    return {
+      x: node.x,
+      y: node.y,
+      name: node.name,
+    }
+  })
 
   chart.legend(false)
+
+  chart.tooltip({
+    showTitle: false,
+    showMarkers: false,
+  })
+
+  chart.axis(false)
+
+  chart.scale({
+    x: { sync: true, nice: true },
+    y: { sync: true, nice: true },
+    source: { sync: 'color' },
+    name: { sync: 'color' },
+  })
+
+  // node view
+  const nodeView = chart.createView()
+  nodeView.data(nodes)
+  nodeView
+    .polygon()
+    .position('x*y') // nodes数据的x、y由layout方法计算得出
+    .color('name')
+    .label('x*name', (x, name) => {
+      const isLast = x[1] === 1
+      return {
+        style: {
+          fill: '#545454',
+          textAlign: isLast ? 'end' : 'start',
+        },
+        offsetX: isLast ? -8 : 8,
+        content: name,
+      }
+    })
+    .tooltip(false)
+
+  // edge view
+  const edgeView = chart.createView()
+  edgeView.data(edges)
+
+  edgeView
+    .edge()
+    .position('x*y')
+    .shape('arc')
+    .color('name')
+    .tooltip('target*source*value', (target, source, value) => {
+      return {
+        name: source + ' → ' + target,
+        value: parseFloat(value).toFixed(2),
+      }
+    })
+    .style('source*target', (source, target) => {
+      return {
+        opacity: 0.4,
+        lineWidth: 0,
+      }
+    })
+    .state({
+      active: {
+        style: {
+          opacity: 0.8,
+          lineWidth: 0,
+        },
+      },
+    })
+
+  chart.interaction('element-active')
+
+  chart.render()
 
   return chart
 }
@@ -1043,7 +1169,7 @@ export function renderChartForBalance(
   })
 
   chart.scale('date', {
-    // nice: true,
+    nice: true,
     type: 'time', // 连续的时间类型，是一种特殊的连续性数据，也是 linear 的子类
   })
 
