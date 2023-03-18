@@ -324,16 +324,16 @@ function getDataForBasicCategory(rawData, withCurrency = false) {
   }
   for (const i in rawData) {
     const link = {
-      source: name2idx[_entry],
-      target: name2idx[INCOMES_TYPE[i]],
+      source: name2idx[INCOMES_TYPE[i]],
+      target: name2idx[_entry],
       value: 0,
     }
     for (const typeIdx in linksTmp[name2idx[_entry]][
       name2idx[INCOMES_TYPE[i]]
     ]) {
       links.push({
-        source: name2idx[INCOMES_TYPE[i]],
-        target: parseInt(typeIdx),
+        source: parseInt(typeIdx),
+        target: name2idx[INCOMES_TYPE[i]],
         value: linksTmp[name2idx[_entry]][name2idx[INCOMES_TYPE[i]]][typeIdx],
       })
       link.value +=
@@ -667,7 +667,7 @@ export function renderChartForBasicCategory(
     return {
       source: edge.source.name,
       target: edge.target.name,
-      name: edge.target.name,
+      name: edge.source.name,
       x: edge.x,
       y: edge.y,
       value: edge.value,
